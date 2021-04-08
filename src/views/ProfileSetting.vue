@@ -122,6 +122,7 @@
                     <div id="select-photo-section" class="section">
                       <img
                         id="addphoto"
+                        slot="activator"
                         @click="goMainpage()"
                         src="@/assets/icon/icons8-add-image-96.png"
                       />

@@ -3,7 +3,7 @@ import decode from "decode";
 
 const URL = "localhost:8080/api/auth"
 
-class Authservice { 
+class AuthService { 
     login(user) { 
         return axios 
             .post(URL + "signin", {

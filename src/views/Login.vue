@@ -81,7 +81,8 @@
 </template>
 
 <script>
-import $ from "jquery";
+// import $ from "jquery";
+// import User from "../models/user";
 export default {
   name: "login",
   data() {
@@ -91,18 +92,23 @@ export default {
       username: "",
       email: "",
       password: "",
-      day: "",
-      month: "",
-      year: "",
       invalidUsername: false,
       alertUsername: "",
       invalidEmail: false,
       alertEmail: "",
       invalidPassword: false,
       alertPassword: "",
-      invalidDate: false,
-      alertDate: "",
     };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    }
+  },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push("/");
+    }
   },
   methods: {
     goMainpage() {
@@ -116,79 +122,30 @@ export default {
         this.passwordFieldType === "password" ? "text" : "password";
     },
     checkLogin() {
-      window.location.href = "/mainpage";
-    },
-    validUsername: function (username) {
-      const name = /^[a-zA-Z0-9]+$/;
-      return name.test(username);
-    },
-    validEmail: function (email) {
-      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
-    },
-    validPassword: function (password) {
-      this.password_length = password.length;
-      const format = /[^A-Za-z0-9]/;
-      if (this.password_length > 8) {
-        this.contains_eight_characters = true;
-      } else {
-        this.contains_eight_characters = false;
+        if (this.email && this.password) {
+        this.$store.dispatch("auth/login", this.user).then(
+          () => {
+            this.$router.push("/");
+            alert("Login Success");
+          },
+          error => {
+            this.loading = false;
+            this.message =
+              (error.response && error.response.data) ||
+              error.message ||
+              error.toString();
+            alert("Email or password not correct");
+          }
+        );
       }
-      this.contains_number = /\d/.test(password);
-      this.contains_uppercase = /[A-Z]/.test(password);
-      this.contains_special_character = format.test(password);
-
-      if (
-        this.contains_eight_characters === true &&
-        this.contains_special_character === true &&
-        this.contains_uppercase === true &&
-        this.contains_number === true
-      ) {
-        return (this.valid_password = true);
-      } else {
-        if (this.contains_eight_characters === false) {
-          this.alertPassword = "Password must have more than 8 characters";
-        } else if (this.contains_uppercase === false) {
-          this.alertPassword = "Password must have at least 1 uppercase";
-        } else if (this.contains_number === false) {
-          this.alertPassword = "Password must have at least 1 number";
-        } else if (this.contains_special_character === false) {
-          this.alertPassword =
-            "Password must have at least 1 special characters";
-        }
-        return (this.valid_password = false);
-      }
-    },
-    validDate: function (date) {
-      const num = /^[0-9]+$/;
-      return num.test(date);
-    },
-  },
-  mounted() {
-    if ($(window).width() > 600) {
-      $("input[id='day']").attr("placeholder", "enter day");
-      $("input[id='month']").attr("placeholder", "enter month");
-      $("input[id='year']").attr("placeholder", "enter year");
-    } else {
-      $("input[id='day']").attr("placeholder", "dd");
-      $("input[id='month']").attr("placeholder", "mm");
-      $("input[id='year']").attr("placeholder", "yyyy");
     }
-    $(document).ready(function () {
-      $("input").keyup(function () {
-        if ($(this).val().length == $(this).attr("maxlength")) {
-          const i = $("input").index(this);
-          $("input")
-            .eq(i + 1)
-            .focus();
-        }
-      });
-    });
-  },
-};
+  }
+}
+
 </script>
 
 <style scoped>
+
 #login {
   background-color: #f8f3ec;
   /* background-image: url("../assets/harryfer-background.jpg"); */
