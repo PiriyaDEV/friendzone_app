@@ -108,12 +108,12 @@
                     Profile Picture<span class="orange-color"> *</span>
                   </h2>
 
-                  <div>
+                  <div>                  
                     <div style="position: relative">
                       <div v-if="!avatar" id="photo-circle">
                         <img
                           id="photo-circle-default"
-                          @click="goMainpage()"
+                          slot="activator"
                           src="@/assets/icon/icons8-picture-96.png"
                         />
                       </div>
@@ -170,7 +170,10 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import Backup2 from '@/views/Backup2.vue'
+=======
+>>>>>>> 29bfb1c6c348a9f79760abe5bc6b67f26a6b6b71
 
 export default {
   name: "profile",
