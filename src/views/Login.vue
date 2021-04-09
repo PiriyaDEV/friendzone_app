@@ -157,7 +157,6 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
 .icon {
   width: 24px;
   margin-top: -10px;
@@ -180,7 +179,6 @@ export default {
   margin: 0;
   padding-bottom: 3px;
 }
-
 .input_box {
   font-size: 1.75em;
   font-weight: 600;
@@ -267,7 +265,6 @@ export default {
   color: #ffbb62;
   transition: 0.3s;
 }
-
 .invalid {
   margin: -3px 0 0 0;
   padding: 0;
@@ -275,7 +272,6 @@ export default {
   color: #ff8864;
   font-weight: 300;
 }
-
 @media screen and (max-width: 768px) {
   input {
     /* Remove First */
@@ -283,13 +279,11 @@ export default {
     -moz-appearance: none;
     appearance: none;
   }
-
   #login {
     display: flex;
     justify-content: center;
     align-items: center;
   }
-
   #whitelogo {
     width: 200px;
     margin-top: 45px;
@@ -305,7 +299,6 @@ export default {
   #login_account {
     width: 300px;
   }
-
   #login_suggest {
     width: 373px;
     margin-top: 20px;
@@ -316,7 +309,6 @@ export default {
     background-position: center;
   }
 }
-
 @media screen and (max-width: 414px) {
   .input_box {
     width: 228px;
@@ -324,13 +316,11 @@ export default {
   #login_account {
     width: 260px;
   }
-
   #login_suggest {
     width: 333px;
     margin-top: 20px;
   }
 }
-
 @media screen and (max-width: 360px) {
   .input_box {
     width: 208px;
@@ -338,7 +328,6 @@ export default {
   #login_account {
     width: 240px;
   }
-
   #login_suggest {
     width: 313px;
     margin-top: 20px;

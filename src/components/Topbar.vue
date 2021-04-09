@@ -12,17 +12,31 @@
         />
       </div>
       <!-- Input -->
-    </div>
 
-    <div id="right-bar" class="section">
-      <div id="coin" class="section">
+      <div class="section">
         <img id="coin-logo" src="@/assets/icon/coin.png" />
         <h1 id="bar-value">2500</h1>
       </div>
 
-      <div @click="detailReturn()" id="profile-box" class="section" style ="cursor: pointer;">
-        <img id="profile-logo" src="@/assets/profile/pfpic.jpg" />
-        <h1 id="bar-value">pd.piriya</h1>
+      <div>
+        <div id="mail-circle">
+          <img
+            id="mail-logo"
+            src="@/assets/icon/icons8-important-mail-96@2x.png"
+          />
+        </div>
+      </div>
+
+      <div>
+        <div
+          @click="detailReturn()"
+          id="profile-box"
+          class="section"
+          style="cursor: pointer"
+        >
+          <img id="profile-logo" src="@/assets/profile/pfpic.jpg" />
+          <h1 id="bar-value">pd.piriya</h1>
+        </div>
       </div>
     </div>
   </div>
@@ -31,10 +45,10 @@
 
 <script>
 export default {
-    methods: {
+  methods: {
     detailReturn() {
-      this.$emit("clickDetail",true);
-      },
+      this.$emit("clickDetail", true);
+    },
   },
 };
 </script>
@@ -42,13 +56,19 @@ export default {
 <style scoped>
 #topbar {
   background-color: #f8f3ec;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; */
   padding-top: 25px;
   padding-bottom: 15px;
   z-index: 999;
   position: fixed;
+}
+
+#search-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .input-container {
@@ -82,7 +102,7 @@ input {
 }
 
 .search-input {
-  width: 700px;
+  width: 650px;
   font-size: 1.75em;
   font-weight: 400;
   background-color: #ffffff;
@@ -101,8 +121,22 @@ i {
   font-size: initial;
 }
 
+.left-top {
+  margin-left: 30px;
+}
+
 #coin-logo {
   width: 30px;
+}
+
+#mail-logo {
+  width: 29px;
+}
+
+#mail-circle {
+  border-radius: 50%;
+  background-color: #ffffff;
+  padding: 11px;
 }
 
 #bar-value {
@@ -120,6 +154,6 @@ i {
   background-color: #ffffff;
   border-radius: 27px;
   padding: 7px 20px 7px 7px;
-  margin-left: 57px;
+  /* margin-left: 57px; */
 }
 </style>
