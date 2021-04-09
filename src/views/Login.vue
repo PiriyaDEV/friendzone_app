@@ -141,9 +141,11 @@ export default {
     }
   }
 }
+
 </script>
 
 <style scoped>
+
 #login {
   background-color: #f8f3ec;
   /* background-image: url("../assets/harryfer-background.jpg"); */

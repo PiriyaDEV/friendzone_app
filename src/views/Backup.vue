@@ -17,7 +17,7 @@
         </div>
       </Backup2>
         <div id="select-photo-section" class="section" v-if="avatar && saved == false">
-          <div class="upload" @click="uploadImage" :loading="saving">Save Avatar</div>
+          <div class="upload" @click="uploadImage" >Save Avatar</div>
         </div>
   </div>
 </template>

@@ -3,20 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --port 8081",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "bootstrap": "^4.6.0",
+    "cors": "^2.8.5",
+    "decode": "^0.3.0",
     "jquery": "^3.5.1",
+    "js-cookie": "^2.2.1",
     "jwt-decode": "^3.1.2",
-    "vue": "^2.6.11",
+    "vue": "^2.6.12",
+    "vue-cli": "^2.9.6",
+    "vue-cookie": "^1.1.4",
+    "vue-cookies": "^1.7.4",
     "vue-horizontal-scroll": "^0.2.4",
     "vue-router": "^3.2.0",
     "vue-slick-carousel": "^1.0.6",
     "vue2-smooth-scroll": "^1.5.0",
     "vuetify": "^2.4.8",
-    "vuex": "^3.4.0"
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-eslint": "~4.5.0",
