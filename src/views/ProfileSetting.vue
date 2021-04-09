@@ -110,23 +110,28 @@
 
                   <div>
                     <div style="position: relative">
-                      <div id="photo-circle">
+                      <div v-if="!avatar" id="photo-circle">
                         <img
                           id="photo-circle-default"
                           @click="goMainpage()"
                           src="@/assets/icon/icons8-picture-96.png"
                         />
                       </div>
+                      <div id="photo-circle" style="position: relative" v-else >
+                      <img class="pictureUpload" style="position: relative" :src="avatar.imageURL" alt="avatar">
+                      </div>
                     </div>
-
-                    <div id="select-photo-section" class="section">
-                      <img
-                        id="addphoto"
-                        slot="activator"
-                        @click="goMainpage()"
-                        src="@/assets/icon/icons8-add-image-96.png"
-                      />
-                      <h1 class="upload">upload photo</h1>
+                    <Backup2 v-model="avatar">
+                      <div v-if="!avatar" slot="activator" id="select-photo-section" class="section">
+                          <img 
+                            id="addphoto"
+                            src="@/assets/icon/icons8-add-image-96.png"
+                          />
+                          <h1 class="upload">upload photo</h1>
+                      </div>
+                    </Backup2>
+                    <div id="select-photo-section" class="section" v-if="avatar && saved == false">
+                    <div id="addphoto" @click="uploadImage" >Save Avatar</div>
                     </div>
                   </div>
                 </div>
@@ -165,12 +170,28 @@
 </template>
 
 <script>
+import Backup2 from '@/views/Backup2.vue'
+
 export default {
   name: "profile",
   data() {
     return {
       selected: "",
+       avatar: null,
+      saving: false,
+      saved: false
     };
+  },
+  components: {
+    Backup2: Backup2
+  },
+  watch:{
+    avatar: {
+      handler: function() {
+        this.saved = false
+      },
+      deep: true
+    }
   },
   methods: {
     ClickBack() {
@@ -178,6 +199,14 @@ export default {
     },
     ClickCreate() {
       window.location.href = "/interestSelect";
+    },
+    uploadImage() {
+      this.saving = true
+      setTimeout(() => this.savedAvatar(), 1000)
+    },
+    savedAvatar() {
+      this.saving = false
+      this.saved = true
     },
   },
 };
@@ -266,6 +295,17 @@ export default {
   font-size: 1.75em;
   font-weight: 600;
   margin: 0px 0px 0px 6px;
+}
+
+.pictureUpload {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    max-width: 100%;
+    height: auto;
 }
 
 select {

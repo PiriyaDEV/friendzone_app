@@ -1,14 +1,15 @@
 <template>
   <div>
-      <Backup2 v-model="avatar">
-        <div id="photo-circle" slot="activator">
-          <div v-if="!avatar">
+      
+        <div slot="activator">
+          <div id="photo-circle" v-if="!avatar">
             <img id="photo-circle-default" src="@/assets/icon/icons8-picture-96.png"/>
           </div>
           <div id="photo-circle" style="position: relative" v-else >
             <img :src="avatar.imageURL" alt="avatar">
           </div>
         </div>
+      <Backup2 v-model="avatar">
         <div slot="activator">
           <div  v-if="!avatar" id="select-photo-section" class="section">
             <img id="addphoto" src="@/assets/icon/icons8-add-image-96.png"/>

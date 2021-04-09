@@ -16,18 +16,18 @@
 
             <!-- Input -->
             <div>
-              <h2 class="input_title">Username</h2>
+              <h2 class="input_title">Username or Email</h2>
               <input
-                v-model="username"
+                v-model="identification"
                 class="input_box"
                 type="text"
                 maxlength="30"
                 size="30"
-                placeholder="enter a unique username"
+                placeholder="enter your username or email"
               />
-              <h3 v-if="invalidUsername === true" class="invalid">
+              <!-- <h3 v-if="invalidUsername === true" class="invalid">
                 * {{ alertUsername }}
-              </h3>
+              </h3> -->
             </div>
             <!-- Input -->
 
@@ -56,9 +56,9 @@
                   />
                 </div>
               </div>
-              <h3 v-if="invalidPassword === true" class="invalid">
+              <!-- <h3 v-if="invalidPassword === true" class="invalid">
                 * {{ alertPassword }}
-              </h3>
+              </h3> -->
             </div>
             <!-- Input -->
 
@@ -89,15 +89,8 @@ export default {
     return {
       eye: true,
       passwordFieldType: "password",
-      username: "",
-      email: "",
-      password: "",
-      invalidUsername: false,
-      alertUsername: "",
-      invalidEmail: false,
-      alertEmail: "",
-      invalidPassword: false,
-      alertPassword: "",
+      identification: "",
+      password: ""
     };
   },
   computed: {
@@ -122,13 +115,14 @@ export default {
         this.passwordFieldType === "password" ? "text" : "password";
     },
     checkLogin() {
-        if (this.email && this.password) {
-        this.$store.dispatch("auth/login", this.user).then(
+        if (this.identification && this.password) {
+        this.$store.dispatch("auth/login", {identification : this.identification, password : this.password}).then(
           () => {
-            this.$router.push("/");
+            this.$router.push("/mainpage");
             alert("Login Success");
           },
           error => {
+            console.log(error)
             this.loading = false;
             this.message =
               (error.response && error.response.data) ||
