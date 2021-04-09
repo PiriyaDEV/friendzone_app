@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       User:[
-        {Category: "FOOD" , Icon: "@/assets/icon/icons8-event-96-o.png" , Status: false},
+        {Category: "FOOD" , Icon: "@/assets/icon/icons8-event-96-b.png" , Status: false},
         {Category: "GAME" , Icon: "@/assets/icon/icons8-event-96-o.png" , Status: false},
         {Category: "SPORT" , Icon: "@/assets/icon/icons8-event-96-o.png" , Status: false},
         {Category: "TRAVEL" , Icon: "@/assets/icon/icons8-event-96-o.png" , Status: false},

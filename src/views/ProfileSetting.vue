@@ -108,12 +108,12 @@
                     Profile Picture<span class="orange-color"> *</span>
                   </h2>
 
-                  <div>
+                  <div>                  
                     <div style="position: relative">
                       <div id="photo-circle">
                         <img
                           id="photo-circle-default"
-                          @click="goMainpage()"
+                          slot="activator"
                           src="@/assets/icon/icons8-picture-96.png"
                         />
                       </div>
@@ -164,6 +164,7 @@
 </template>
 
 <script>
+
 export default {
   name: "profile",
   data() {
