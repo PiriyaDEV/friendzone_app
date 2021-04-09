@@ -1,5 +1,4 @@
 import axios from "axios";
-import decode from "decode";
 
 const URL = "http://localhost:8080/api/auth/"
 
@@ -13,15 +12,12 @@ class AuthService {
             .then((response) => {
                 if(response.data.token) {
                     localStorage.setItem("user", response.data.token, {expires: 1});
-                    let payload = decode(response.data.token);
-                    // localStorage.setItem("username", payload.username);
                 }
                 return response.data;
             });
     }
     logout() {
         localStorage.removeItem("user");
-        localStorage.removeItem("username");
     }
     register(user) {
         return axios.post(URL + "signup", {

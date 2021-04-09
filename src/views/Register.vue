@@ -24,9 +24,14 @@
                 maxlength="30"
                 size="30"
                 placeholder="enter a unique username"
+                @focus="textCheckUser = true"
+                @blur="checkUniqueUsername()"
               />
-              <h3 v-if="invalidUsername === true" class="invalid">
+              <h3 v-show="invalidUsername === true" class="invalid">
                 * {{ alertUsername }}
+              </h3>
+              <h3 v-show="textCheckUser === true">
+                User
               </h3>
             </div>
             <!-- Input -->
@@ -39,9 +44,14 @@
                 class="input_box"
                 type="text"
                 placeholder="enter your email address"
+                @focus="textCheckEmail = true"
+                @blur="checkUniqueEmail()"
               />
-              <h3 v-if="invalidEmail === true" class="invalid">
+              <h3 v-show="invalidEmail === true" class="invalid">
                 * {{ alertEmail }}
+              </h3>
+              <h3 v-show="textCheckEmail === true">
+                Email
               </h3>
             </div>
             <!-- Input -->
@@ -82,7 +92,7 @@
               <h2 class="input_title">Confirm Password</h2>
               <div id="password_box">
                 <input
-                  v-model="password"
+                  v-model="confirmPassword"
                   class="input_box"
                   :type="passwordFieldType"
                   placeholder="enter your password"
@@ -190,19 +200,25 @@
 
 <script>
 import $ from "jquery";
+//import AuthService from "../services/auth.service";
+
 export default {
   name: "register",
   component: {},
   data() {
     return {
-      eye: true,
-      passwordFieldType: "password",
       username: "",
       email: "",
       password: "",
+      passwordConfirm: "",
       day: "",
       month: "",
       year: "",
+      birthdate: "",
+      eye: true,
+      textCheckUser: false,
+      textCheckEmail: false,
+      passwordFieldType: "password",
       invalidUsername: false,
       alertUsername: "",
       invalidEmail: false,
@@ -211,6 +227,13 @@ export default {
       alertPassword: "",
       invalidDate: false,
       alertDate: "",
+      message: "",
+      password_length: 0,
+      contains_eight_characters: false,
+      contains_number: false,
+      contains_uppercase: false,
+      contains_special_character: false,
+      valid_password: false,
     };
   },
   methods: {
@@ -281,10 +304,18 @@ export default {
         this.alertDate = "year is not yet valid";
         this.invalidDate = true;
       } else {
-        alert("Pass");
-        console.log("Pass");
-        window.location.href = "/profilesetting";
+        this.day.padStart(2, "0");
+        this.month.padStart(2, "0");
+        this.year.padStart(4, "0");
+        this.birthdate = this.day + this.month + this.year;
+        this.$router.push("/ProfileSetting");
       }
+    },
+    checkUniqueUsername() {
+
+    },
+    checkUniqueEmail() {
+      
     },
     validUsername: function (username) {
       const name = /^[a-zA-Z0-9]+$/;
@@ -367,6 +398,14 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.colorRed {
+  color: #bd6887;
+}
+
+.colorGreen {
+  color: #3caf6c;
 }
 
 .icon {

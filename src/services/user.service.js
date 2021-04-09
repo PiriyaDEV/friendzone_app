@@ -22,7 +22,7 @@ class UserService {
       .post(
         API_URL + "profile",
         {
-          id: user.id,
+          user_id: user.user_id,
         },
         { headers: authHeader() }
       )
@@ -80,6 +80,21 @@ class UserService {
       .catch(() => {
         // console.log("err" + err)
         return "err";
+      });
+  }
+
+  getPicAndName() {
+    let userData = decode(localStorage.getItem("user"));
+    return axios
+      .get(
+        API_URL + "getPicAndName/?user_id=",
+        {
+          user_id: userData.user_id,
+        },
+        { headers: authHeader() }
+      )
+      .then((response) => {
+        return response.data;
       });
   }
 }

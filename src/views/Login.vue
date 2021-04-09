@@ -100,12 +100,12 @@ export default {
   },
   created() {
     if (this.loggedIn) {
-      this.$router.push("/");
+      this.$router.push("/mainpage");
     }
   },
   methods: {
     goMainpage() {
-      window.location.href = "/";
+      window.location.href = "/mainpage";
     },
     goRegister() {
       window.location.href = "/register";
