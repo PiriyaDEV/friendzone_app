@@ -144,13 +144,13 @@ export default {
 
 </script>
 
-<style scoped>
-
+<<style scoped>
 #login {
   background-color: #f8f3ec;
   /* background-image: url("../assets/harryfer-background.jpg"); */
-  overflow: scroll;
-  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* height: auto; */
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -165,23 +165,23 @@ export default {
   cursor: pointer;
 }
 #whitelogo {
-  width: 200px;
-  margin-top: 30px;
-  margin-bottom: 25px;
+  width: 160px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   cursor: pointer;
 }
 #header_title {
   color: #444444;
-  font-size: 3em;
+  font-size: 2.5em;
   font-weight: 800;
-  padding-top: 25px;
+  padding-top: 20px;
   text-align: center;
   margin: 0;
   padding-bottom: 3px;
 }
 .input_box {
-  font-size: 1.75em;
-  font-weight: 600;
+  font-size: 1.6em;
+  font-weight: 450;
   color: #444444;
   width: 400px;
   padding: 12px 12px 9px 15px;
@@ -190,17 +190,7 @@ export default {
   margin-bottom: 11px;
   box-shadow: none;
 }
-.date_box {
-  font-size: 1.75em;
-  font-weight: 450;
-  color: #444444;
-  width: 100%;
-  padding: 12px 12px 9px 15px;
-  border: 2px solid #e3e3e3;
-  border-radius: 10px;
-  margin-bottom: 11px;
-  box-shadow: none;
-}
+
 #login_account {
   padding: 0px 38px;
 }
@@ -210,7 +200,7 @@ export default {
 }
 #signin_button {
   color: #ffffff;
-  font-size: 2.5em;
+  font-size: 2.25em;
   font-family: "Atten-Round-New";
   text-align: center;
   width: 100%;
@@ -219,16 +209,16 @@ export default {
   box-shadow: 0px 3px 20px #00000029;
   border-radius: 35px;
   border: none;
-  margin-top: 10px;
+  margin-top: 20px;
   transition: 0.3s;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 #signin_button:hover {
   background-color: #ffbb62;
   transition: 0.3s;
 }
 #term {
-  font-size: 1.75em;
+  font-size: 1.6em;
   text-align: left;
   line-height: 20px;
   letter-spacing: 0.2px;
@@ -238,6 +228,12 @@ export default {
   justify-content: center;
   margin: 8px 0px;
 }
+
+#term > p {
+  margin: 10px 0px;
+  text-align: center;
+}
+
 #login_suggest {
   margin: 25px 0px 50px 0px;
   display: flex;
@@ -247,13 +243,13 @@ export default {
   width: 507px;
 }
 #alreadyhave {
-  font-size: 2em;
+  font-size: 1.75em;
   font-weight: 500;
   color: #444444;
   margin: 0;
 }
 #signin {
-  font-size: 2em;
+  font-size: 1.75em;
   font-weight: 550;
   color: #ff8864;
   padding-left: 6px;
@@ -279,13 +275,22 @@ export default {
     -moz-appearance: none;
     appearance: none;
   }
+
+  #header_title{
+    font-size: 2.25em;
+  }
+
+  #signin_button{
+    padding: 10px 0px;
+  }
+
   #login {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
   }
   #whitelogo {
-    width: 200px;
+    /* width: 200px; */
     margin-top: 45px;
   }
 }
