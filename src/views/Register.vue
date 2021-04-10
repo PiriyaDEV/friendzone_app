@@ -18,6 +18,7 @@
             <div>
               <h2 class="input_title">Username</h2>
               <input
+                autocomplete="off"
                 v-model="username"
                 class="input_box"
                 type="text"
@@ -35,9 +36,10 @@
             <div>
               <h2 class="input_title">Email Address</h2>
               <input
+                autocomplete="off"
                 v-model="email"
                 class="input_box"
-                type="text"
+                type="email"
                 placeholder="enter your email address"
               />
               <h3 v-if="invalidEmail === true" class="invalid">
@@ -51,6 +53,7 @@
               <h2 class="input_title">Password</h2>
               <div id="password_box">
                 <input
+                  autocomplete="new-password"
                   v-model="password"
                   class="input_box"
                   :type="passwordFieldType"
@@ -82,6 +85,7 @@
               <h2 class="input_title">Confirm Password</h2>
               <div id="password_box">
                 <input
+                  autocomplete="new-password"
                   v-model="password"
                   class="input_box"
                   :type="passwordFieldType"
@@ -119,6 +123,7 @@
                 "
               >
                 <input
+                  autocomplete="off"
                   id="day"
                   class="date_box"
                   type="text"
@@ -130,6 +135,7 @@
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
                 <input
+                  autocomplete="off"
                   id="month"
                   style="margin-left: 10px"
                   class="date_box"
@@ -142,6 +148,7 @@
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
                 <input
+                  autocomplete="off"
                   id="year"
                   style="margin-left: 10px"
                   class="date_box"
@@ -496,11 +503,11 @@ export default {
     appearance: none;
   }
 
-  #header_title{
+  #header_title {
     font-size: 2.25em;
   }
 
-  #signup_button{
+  #signup_button {
     padding: 10px 0px;
   }
 
