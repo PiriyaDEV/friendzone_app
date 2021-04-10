@@ -108,8 +108,8 @@
                     Profile Picture<span class="orange-color"> *</span>
                   </h2>
 
-                  <div>                  
-                    <div style="position: relative">
+                  <div id="photo-mobile">
+                    <div id="photo-box" style="position: relative">
                       <div id="photo-circle">
                         <img
                           id="photo-circle-default"
@@ -122,7 +122,6 @@
                     <div id="select-photo-section" class="section">
                       <img
                         id="addphoto"
-                        slot="activator"
                         @click="goMainpage()"
                         src="@/assets/icon/icons8-add-image-96.png"
                       />
@@ -165,7 +164,6 @@
 </template>
 
 <script>
-
 export default {
   name: "profile",
   data() {
@@ -188,13 +186,18 @@ export default {
 #profile {
   background-color: #f8f3ec;
   /* background-image: url("../assets/harryfer-background.jpg"); */
-  overflow: scroll;
-  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* height: auto; */
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#photo-mobile{
+  display: block;
 }
 
 #profile-section {
@@ -218,8 +221,8 @@ export default {
   cursor: pointer;
 }
 #whitelogo {
-  width: 200px;
-  margin-bottom: 25px;
+  width: 160px;
+  margin-bottom: 20px;
   cursor: pointer;
 }
 
@@ -231,8 +234,8 @@ export default {
 }
 
 .input_box_bio {
-  font-size: 1.75em;
-  font-weight: 600;
+  font-size: 1.6em;
+  font-weight: 450;
   color: #444444;
   width: 400px;
   padding: 12px 12px 9px 15px;
@@ -251,8 +254,8 @@ export default {
 }
 
 .input_select {
-  font-size: 1.75em;
-  font-weight: 600;
+  font-size: 1.6em;
+  font-weight: 450;
   width: 100%;
   padding: 9px 12px 9px 15px;
   border: 2px solid #e3e3e3;
@@ -264,8 +267,8 @@ export default {
 
 .upload {
   color: #cccccc;
-  font-size: 1.75em;
-  font-weight: 600;
+  font-size: 1.6em;
+  font-weight: 450;
   margin: 0px 0px 0px 6px;
 }
 
@@ -322,17 +325,7 @@ option {
   color: #444444;
 }
 
-.date_box {
-  font-size: 1.75em;
-  font-weight: 450;
-  color: #444444;
-  width: 100%;
-  padding: 12px 12px 9px 15px;
-  border: 2px solid #e3e3e3;
-  border-radius: 10px;
-  margin-bottom: 11px;
-  box-shadow: none;
-}
+
 #profile_account {
   padding: 0px 38px;
 }
@@ -380,8 +373,8 @@ option {
 #photo-circle {
   border-radius: 50%;
   border: 2px solid #e3e3e3;
-  width: 140px;
-  height: 140px;
+  width: 120px;
+  height: 120px;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -404,8 +397,8 @@ option {
 }
 
 .input_textarea_box {
-  font-size: 1.75em;
-  font-weight: 600;
+  font-size: 1.6em;
+  font-weight: 450;
   color: #a0a0a0;
   padding: 7px 12px 7px 15px;
   border: 2px solid #e3e3e3;
@@ -417,10 +410,60 @@ option {
 }
 
 .bio {
-  padding-bottom: 35px;
+  padding-bottom: 23px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1080px) {
+  #profile-section{
+    display: block;
+  }
+
+  #profile{
+    height: 100%;
+    padding: 20px 0px;
+  }
+
+  .input_select{
+    width: 430px;
+  }
+
+  #select-photo-section{
+    width: calc(100% - 20px);
+  }
+  
+  .input_textarea_box{
+    width: calc(100% - 30px);
+  }
+
+  #right-section{
+    margin-left: 0px;
+    margin-top:5px;
+  }
+
+  #left-section{
+    margin-right: 0px;
+  }
+
+  #photo-section{
+    display: block;
+  }
+
+  #photo-circle{
+    margin-top: 0px;
+  }
+
+  #photo-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #photo-header{
+    margin-right: 0px;
+  }
+}
+
+@media screen and (max-width: 600px) {
   input {
     /* Remove First */
     -webkit-appearance: none;
@@ -434,10 +477,15 @@ option {
     align-items: center;
   }
 
-  #whitelogo {
-    width: 200px;
-    margin-top: 45px;
+  .input_select{
+    width: 100%;
   }
+
+  #photo-circle{
+    width: 100px;
+    height: 100px;
+  }
+
 }
 @media screen and (max-width: 600px) {
   br {
@@ -462,22 +510,29 @@ option {
 @media screen and (max-width: 414px) {
   #profile_account {
     width: 260px;
+    padding: 0px 30px;
   }
 
   #profile_suggest {
     width: 333px;
     margin-top: 20px;
   }
+
 }
 
 @media screen and (max-width: 360px) {
   #profile_account {
     width: 240px;
+    padding: 0px 26px;
   }
 
   #profile_suggest {
     width: 313px;
     margin-top: 20px;
+  }
+
+  .header_title{
+    font-size: 2.25em;
   }
 }
 </style>
