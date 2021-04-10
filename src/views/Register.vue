@@ -360,8 +360,9 @@ export default {
 #register {
   background-color: #f8f3ec;
   /* background-image: url("../assets/harryfer-background.jpg"); */
-  overflow: scroll;
-  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* height: auto; */
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -377,23 +378,23 @@ export default {
   cursor: pointer;
 }
 #whitelogo {
-  width: 200px;
-  margin-top: 30px;
-  margin-bottom: 25px;
+  width: 160px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   cursor: pointer;
 }
 #header_title {
   color: #444444;
-  font-size: 3em;
+  font-size: 2.5em;
   font-weight: 800;
-  padding-top: 25px;
+  padding-top: 20px;
   text-align: center;
   margin: 0;
   padding-bottom: 3px;
 }
 
 .input_box {
-  font-size: 1.75em;
+  font-size: 1.6em;
   font-weight: 450;
   color: #444444;
   width: 400px;
@@ -413,7 +414,7 @@ export default {
 }
 #signup_button {
   color: #ffffff;
-  font-size: 2.5em;
+  font-size: 2.25em;
   font-family: "Atten-Round-New";
   text-align: center;
   width: 100%;
@@ -430,7 +431,7 @@ export default {
   transition: 0.3s;
 }
 #term {
-  font-size: 1.75em;
+  font-size: 1.6em;
   text-align: left;
   line-height: 20px;
   letter-spacing: 0.2px;
@@ -440,8 +441,14 @@ export default {
   justify-content: center;
   margin: 8px 0px;
 }
+
+#term > p {
+  margin: 10px 0px;
+  text-align: center;
+}
+
 #login_suggest {
-  margin: 25px 0px 50px 0px;
+  margin: 15px 0px 30px 0px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -449,13 +456,13 @@ export default {
   width: 507px;
 }
 #alreadyhave {
-  font-size: 2em;
+  font-size: 1.75em;
   font-weight: 500;
   color: #444444;
   margin: 0;
 }
 #signin {
-  font-size: 2em;
+  font-size: 1.75em;
   font-weight: 550;
   color: #ff8864;
   padding-left: 6px;
@@ -480,12 +487,21 @@ export default {
     height: 100%;
   }
 }
+
 @media screen and (max-width: 768px) {
   input {
     /* Remove First */
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+  }
+
+  #header_title{
+    font-size: 2.25em;
+  }
+
+  #signup_button{
+    padding: 10px 0px;
   }
 
   #register {
@@ -495,7 +511,7 @@ export default {
   }
 
   #whitelogo {
-    width: 200px;
+    /* width: 200px; */
     margin-top: 45px;
   }
 }
