@@ -5,12 +5,12 @@
         <div id="profile-section" class="section">
           <div id="left">
             <div id="profile-frame">
-              <img id="profile-pic" src="@/assets/profile/pfpic.jpg" />
+              <img id="profile-pic" :src="user.profile_pic" />
             </div>
           </div>
 
           <div id="right">
-            <h1 id="name_title">pd.piriya</h1>
+            <h1 id="name_title">{{user.username}}</h1>
 
             <!-- Rating -->
             <div id="rating">
@@ -79,8 +79,7 @@
             <!-- Follower -->
 
             <h1 id="bio">
-              My name is Harryfer and I’m the best boyscout alive. I’m Thailand
-              representative to attend World Boyscout 2077 in Finland.
+              {{user.bio}}
             </h1>
 
             <div id="profile-button">
@@ -96,15 +95,15 @@
             <h1 class="info-title">Name</h1>
             <h1 class="info-title">Birthdate</h1>
             <h1 class="info-title">Email</h1>
-            <h1 class="info-title">Phonenumber</h1>
+            <h1 class="info-title">Phone</h1>
             <h1 class="info-title">Gender</h1>
           </div>
 
           <div id="right" class="black-color">
-            <h1 class="info-text">Piriya Chaigul</h1>
-            <h1 class="info-text">08 April 2001</h1>
-            <h1 class="info-text">piriya.cg@mail.kmutt.ac.th</h1>
-            <h1 class="info-text">089-683-2465</h1>
+            <h1 class="info-text">{{fullname}}</h1>
+            <h1 class="info-text">{{user.birthdate}}</h1>
+            <h1 class="info-text">{{user.email}}</h1>
+            <h1 class="info-text">{{user.phone}}</h1>
             <h1 class="info-text">Male</h1>
           </div>
           <img
@@ -120,7 +119,38 @@
 </template>
 
 <script>
+
+import User from './../../models/user';
+import UserService from "./../../services/user.service"
+
 export default {
+    data() {
+     return {
+       user: new User({
+         username: "",
+         email: "",
+         firstname: "",
+         lastname: "",
+         phone: "",
+         gender: "",
+         profile_pic: "",
+         birthdate: "",
+         bio: ""
+         }),
+       fullname : ""
+     }
+   },
+   created() {
+     UserService.getUserDetail().then(
+       res => {
+         if(res) {
+           this.user = res;
+           console.log(this.user)
+           this.fullname = this.user.firstname + " " + this.user.lastname
+         }
+       }
+     )
+   },
   methods: {
     detailReturn() {
       this.$emit("clickDetail", false);
@@ -136,7 +166,7 @@ export default {
 
 <style scoped>
 #left {
-  margin-right: 20px;
+  margin-right: 50px;
 }
 
 #right {

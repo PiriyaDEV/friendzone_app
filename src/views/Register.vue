@@ -21,17 +21,14 @@
                 v-model="username"
                 class="input_box"
                 type="text"
-                maxlength="30"
-                size="30"
+                maxlength="16"
+                size="16"
                 placeholder="enter a unique username"
-                @focus="textCheckUser = true"
+                autocomplete="off"
                 @blur="checkUniqueUsername()"
               />
               <h3 v-show="invalidUsername === true" class="invalid">
                 * {{ alertUsername }}
-              </h3>
-              <h3 v-show="textCheckUser === true">
-                User
               </h3>
             </div>
             <!-- Input -->
@@ -42,16 +39,15 @@
               <input
                 v-model="email"
                 class="input_box"
-                type="text"
+                type="email"
+                maxlength="64"
+                size="64"
                 placeholder="enter your email address"
-                @focus="textCheckEmail = true"
+                autocomplete="off"
                 @blur="checkUniqueEmail()"
               />
               <h3 v-show="invalidEmail === true" class="invalid">
                 * {{ alertEmail }}
-              </h3>
-              <h3 v-show="textCheckEmail === true">
-                Email
               </h3>
             </div>
             <!-- Input -->
@@ -65,6 +61,7 @@
                   class="input_box"
                   :type="passwordFieldType"
                   placeholder="enter your password"
+                  autocomplete="new-password"
                 />
                 <div>
                   <img
@@ -92,10 +89,11 @@
               <h2 class="input_title">Confirm Password</h2>
               <div id="password_box">
                 <input
-                  v-model="confirmPassword"
+                  v-model="passwordConfirm"
                   class="input_box"
                   :type="passwordFieldType"
                   placeholder="enter your password"
+                  autocomplete="new-password"
                 />
                 <div>
                   <img
@@ -200,7 +198,7 @@
 
 <script>
 import $ from "jquery";
-//import AuthService from "../services/auth.service";
+import AuthService from "../services/auth.service";
 
 export default {
   name: "register",
@@ -216,8 +214,6 @@ export default {
       year: "",
       birthdate: "",
       eye: true,
-      textCheckUser: false,
-      textCheckEmail: false,
       passwordFieldType: "password",
       invalidUsername: false,
       alertUsername: "",
@@ -235,6 +231,27 @@ export default {
       contains_special_character: false,
       valid_password: false,
     };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    }
+  },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push("/mainpage");
+    }
+  },
+  watch: {
+    username: function () {
+      this.invalidUsername = false;
+    },
+    email: function () {
+      this.invalidEmail = false;
+    },
+    password: function () {
+
+    }
   },
   methods: {
     goMainpage() {
@@ -312,10 +329,26 @@ export default {
       }
     },
     checkUniqueUsername() {
-
+      if (this.username) {
+        AuthService.checkUniqueExists({ username: this.username }).then(
+          (res) => {
+            if (res.exist) {
+              this.invalidUsername = res.exist;
+              this.alertUsername = "this username has been used";
+            } else this.invalidUsername = res.exist;
+          }
+        );
+      }
     },
     checkUniqueEmail() {
-      
+      if (this.email) {
+        AuthService.checkUniqueExists({ email: this.email }).then((res) => {
+          if (res.exist) {
+            this.invalidEmail = res.exist;
+            this.alertEmail = "this email has been used";
+          } else this.invalidEmail = res.exist;
+        });
+      }
     },
     validUsername: function (username) {
       const name = /^[a-zA-Z0-9]+$/;
@@ -391,21 +424,14 @@ export default {
 #register {
   background-color: #f8f3ec;
   /* background-image: url("../assets/harryfer-background.jpg"); */
-  overflow: scroll;
-  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* height: auto; */
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.colorRed {
-  color: #bd6887;
-}
-
-.colorGreen {
-  color: #3caf6c;
 }
 
 .icon {
@@ -416,23 +442,23 @@ export default {
   cursor: pointer;
 }
 #whitelogo {
-  width: 200px;
-  margin-top: 30px;
-  margin-bottom: 25px;
+  width: 160px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   cursor: pointer;
 }
 #header_title {
   color: #444444;
-  font-size: 3em;
+  font-size: 2.5em;
   font-weight: 800;
-  padding-top: 25px;
+  padding-top: 20px;
   text-align: center;
   margin: 0;
   padding-bottom: 3px;
 }
 
 .input_box {
-  font-size: 1.75em;
+  font-size: 1.6em;
   font-weight: 450;
   color: #444444;
   width: 400px;
@@ -452,7 +478,7 @@ export default {
 }
 #signup_button {
   color: #ffffff;
-  font-size: 2.5em;
+  font-size: 2.25em;
   font-family: "Atten-Round-New";
   text-align: center;
   width: 100%;
@@ -469,7 +495,7 @@ export default {
   transition: 0.3s;
 }
 #term {
-  font-size: 1.75em;
+  font-size: 1.6em;
   text-align: left;
   line-height: 20px;
   letter-spacing: 0.2px;
@@ -479,8 +505,14 @@ export default {
   justify-content: center;
   margin: 8px 0px;
 }
+
+#term > p {
+  margin: 10px 0px;
+  text-align: center;
+}
+
 #login_suggest {
-  margin: 25px 0px 50px 0px;
+  margin: 15px 0px 30px 0px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -488,13 +520,13 @@ export default {
   width: 507px;
 }
 #alreadyhave {
-  font-size: 2em;
+  font-size: 1.75em;
   font-weight: 500;
   color: #444444;
   margin: 0;
 }
 #signin {
-  font-size: 2em;
+  font-size: 1.75em;
   font-weight: 550;
   color: #ff8864;
   padding-left: 6px;
@@ -514,11 +546,7 @@ export default {
   color: #ff8864;
   font-weight: 300;
 }
-@media screen and (max-width: 1440px) {
-  #register {
-    height: 100%;
-  }
-}
+
 @media screen and (max-width: 768px) {
   input {
     /* Remove First */
@@ -527,14 +555,22 @@ export default {
     appearance: none;
   }
 
+  #header_title {
+    font-size: 2.25em;
+  }
+
+  #signup_button {
+    padding: 10px 0px;
+  }
+
   #register {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
   }
 
   #whitelogo {
-    width: 200px;
+    /* width: 200px; */
     margin-top: 45px;
   }
 }
@@ -557,7 +593,6 @@ export default {
     /* background-image: url("../assets/harryfer-tablet-background.jpg"); */
     background-repeat: no-repeat;
     background-position: center;
-    height: auto;
   }
 }
 

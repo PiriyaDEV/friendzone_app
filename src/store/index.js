@@ -4,6 +4,7 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 import { auth } from "./auth.module";
 import { profile } from "./user.module";
+// import User from "../models/user";
 
 export default new Vuex.Store({
   state: {
@@ -24,7 +25,6 @@ export default new Vuex.Store({
         status_id: null
       },
     ],
-
   },
   mutations: {},
   actions: {},

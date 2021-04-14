@@ -259,6 +259,7 @@ export default {
       this.historyselect = false;
       this.reportselect = false,
       this.signoutselect = true;
+      localStorage.removeItem("user");
       window.location.href = "/";
     },
   },

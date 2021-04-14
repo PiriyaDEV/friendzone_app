@@ -72,6 +72,16 @@ export default {
       reportShow: false,
     };
   },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    }
+  },
+  created() {
+    if (!this.loggedIn) {
+      this.$router.push("/");
+    }
+  },
   methods: {
     pageReturn(value) {
       this.select = value;

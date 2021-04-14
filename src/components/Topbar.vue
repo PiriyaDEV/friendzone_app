@@ -34,8 +34,8 @@
           class="section"
           style="cursor: pointer"
         >
-          <img id="profile-logo" :src="{profile_pic}" />
-          <h1 id="bar-value">{{username}}</h1>
+          <img id="profile-logo" :src= user.profile_pic />
+          <h1 id="bar-value">{{user.username}}</h1>
         </div>
       </div>
     </div>
@@ -44,22 +44,24 @@
 </template>
 
 <script>
-// import User from "../models/user";
+import User from "../models/user";
 import UserService from "../services/user.service"
 
 export default {
-  created() {
-    UserService.getPicAndName().then(
-      response => {
-        if(response) {
-           this.username = response.username
-           this.profile_pic = response.profile_pic
-           console.log(this.username);
-           console.log(this.profile_pic);
-        }
-      }
-    )
-  },
+   data() {
+     return {
+       user: new User({username: "", profile_pic: ""})
+     }
+   },
+   created() {
+     UserService.getTopBarInfo().then(
+       res => {
+         if(res) {
+          this.user = res;
+         }
+       }
+     )
+   },
   methods: {
     detailReturn() {
       this.$emit("clickDetail", true);

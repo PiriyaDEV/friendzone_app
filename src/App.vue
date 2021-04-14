@@ -26,15 +26,7 @@ input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {
   display: none;
 }
-/* input[type=password]::-webkit-contacts-auto-fill-button,
-input[type=password]::-webkit-credentials-auto-fill-button {
-   visibility: hidden;
-   display: none !important;
-   pointer-events: none;
-   height: 0;
-   width: 0;
-   margin: 0;
-} */
+
 .popup {
   background-color: rgb(162, 129, 76, 0.25);
   backdrop-filter: blur(15px);
@@ -73,7 +65,7 @@ input[type=password]::-webkit-credentials-auto-fill-button {
 
 .back_button {
   color: #ff8864;
-  font-size: 2.5em;
+  font-size: 2.25em;
   font-family: "Atten-Round-New";
   text-align: center;
   width: 250px;
@@ -84,12 +76,12 @@ input[type=password]::-webkit-credentials-auto-fill-button {
   margin-top: 30px;
   transition: 0.3s;
   margin-bottom: 30px;
-  font-weight: 500;
+  font-weight: 450;
 }
 
 .create_button {
   color: #ffffff;
-  font-size: 2.5em;
+  font-size: 2.25em;
   font-family: "Atten-Round-New";
   text-align: center;
   width: 250px;
@@ -100,7 +92,7 @@ input[type=password]::-webkit-credentials-auto-fill-button {
   margin-top: 30px;
   transition: 0.3s;
   margin-bottom: 30px;
-  font-weight: 500;
+  font-weight: 450;
 }
 
 .date-section {
@@ -132,7 +124,7 @@ input:-webkit-autofill:active {
 
 .header_title {
   color: #444444;
-  font-size: 3em;
+  font-size: 2.5em;
   font-weight: 800;
   padding-top: 25px;
   margin: 0;
@@ -152,13 +144,14 @@ input:-webkit-autofill:active {
 
 .input_title {
   font-size: 1.6em;
+  margin: 6px 0px;
 }
 
 .input_box,
 .input_participant,
 .input_age {
-  font-size: 1.75em;
-  font-weight: 600;
+  font-size: 1.6em;
+  font-weight: 450;
   color: #444444;
   padding: 12px 12px 9px 15px;
   border: 2px solid #e3e3e3;
@@ -244,7 +237,7 @@ button {
   border-radius: 10px;
   margin-bottom: 11px;
   box-shadow: none;
-  font-size: 1.75em;
+  font-size: 1.6em;
   font-weight: 450;
   color: #444444;
   width: 100%;
@@ -256,6 +249,15 @@ button {
 
 .safari.keyboard .app-container {
   bottom: 270px;
+}
+
+@media screen and (max-width: 1080px) {
+  .back_button,.create_button{
+    width: 200px;
+    margin: 20px 0px;
+    font-size: 1.75em;
+  }
+
 }
 
 @media screen and (max-width: 1920px) {
@@ -316,6 +318,12 @@ button {
   .input_box {
     width: 268px;
   }
+
+  .back_button,.create_button{
+    margin: 15px 0px;
+    font-size: 1.6em;
+    width: 140px;
+  }
 }
 
 @media screen and (max-width: 414px) {
@@ -329,6 +337,13 @@ button {
   .input_box {
     width: 228px;
   }
+
+  .back_button,.create_button{
+    margin: 15px 0px;
+    font-size: 1.5em;
+    width: 120px;
+  }
+
 }
 @media screen and (max-width: 375px) {
   .page-container,
@@ -348,6 +363,10 @@ button {
 
   .input_box {
     width: 208px;
+  }
+
+  .back_button,.create_button{
+    width: 115px;
   }
 }
 </style>

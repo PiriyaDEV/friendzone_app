@@ -3,18 +3,16 @@ import axios from "axios";
 const URL = "http://localhost:8080/api/auth/"
 
 class AuthService { 
-    login(user) { 
-        return axios 
+    async login(user) { 
+        const response = await axios
             .post(URL + "signin", {
                 identification: user.identification,
                 password: user.password,
-            })
-            .then((response) => {
-                if(response.data.token) {
-                    localStorage.setItem("user", response.data.token, {expires: 1});
-                }
-                return response.data;
             });
+        if (response.data.token) {
+            localStorage.setItem("user", response.data.token, { expires: 1 });
+        }
+        return response.data;
     }
     logout() {
         localStorage.removeItem("user");
@@ -32,19 +30,14 @@ class AuthService {
         });     
     }
 
-    checkUniqueExists(user) {
-        return axios
-            .post(URL + "checkUniqueExists", {
-                username : user.username,
-                email : user.email,
-            })
-            .then((response) => {
-                console.log("response " + response);
-                return response.data;
-            })
-            .catch(() => { 
-                return "err";
-            });
+    async checkUniqueExists(user) {
+        const res = await axios.post(URL + "checkUniqueExists", {
+            username: user.username,
+            email: user.email,
+        });
+        if (res) {
+            return res.data;
+        }
     }
 }
 
