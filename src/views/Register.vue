@@ -18,15 +18,16 @@
             <div>
               <h2 class="input_title">Username</h2>
               <input
-                autocomplete="off"
                 v-model="username"
                 class="input_box"
                 type="text"
-                maxlength="30"
-                size="30"
+                maxlength="16"
+                size="16"
                 placeholder="enter a unique username"
+                autocomplete="off"
+                @blur="checkUniqueUsername()"
               />
-              <h3 v-if="invalidUsername === true" class="invalid">
+              <h3 v-show="invalidUsername === true" class="invalid">
                 * {{ alertUsername }}
               </h3>
             </div>
@@ -36,13 +37,16 @@
             <div>
               <h2 class="input_title">Email Address</h2>
               <input
-                autocomplete="off"
                 v-model="email"
                 class="input_box"
                 type="email"
+                maxlength="64"
+                size="64"
                 placeholder="enter your email address"
+                autocomplete="off"
+                @blur="checkUniqueEmail()"
               />
-              <h3 v-if="invalidEmail === true" class="invalid">
+              <h3 v-show="invalidEmail === true" class="invalid">
                 * {{ alertEmail }}
               </h3>
             </div>
@@ -53,11 +57,11 @@
               <h2 class="input_title">Password</h2>
               <div id="password_box">
                 <input
-                  autocomplete="new-password"
                   v-model="password"
                   class="input_box"
                   :type="passwordFieldType"
                   placeholder="enter your password"
+                  autocomplete="new-password"
                 />
                 <div>
                   <img
@@ -85,11 +89,11 @@
               <h2 class="input_title">Confirm Password</h2>
               <div id="password_box">
                 <input
-                  autocomplete="new-password"
-                  v-model="password"
+                  v-model="passwordConfirm"
                   class="input_box"
                   :type="passwordFieldType"
                   placeholder="enter your password"
+                  autocomplete="new-password"
                 />
                 <div>
                   <img
@@ -123,7 +127,6 @@
                 "
               >
                 <input
-                  autocomplete="off"
                   id="day"
                   class="date_box"
                   type="text"
@@ -135,7 +138,6 @@
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
                 <input
-                  autocomplete="off"
                   id="month"
                   style="margin-left: 10px"
                   class="date_box"
@@ -148,7 +150,6 @@
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
                 <input
-                  autocomplete="off"
                   id="year"
                   style="margin-left: 10px"
                   class="date_box"
@@ -197,19 +198,23 @@
 
 <script>
 import $ from "jquery";
+import AuthService from "../services/auth.service";
+
 export default {
   name: "register",
   component: {},
   data() {
     return {
-      eye: true,
-      passwordFieldType: "password",
       username: "",
       email: "",
       password: "",
+      passwordConfirm: "",
       day: "",
       month: "",
       year: "",
+      birthdate: "",
+      eye: true,
+      passwordFieldType: "password",
       invalidUsername: false,
       alertUsername: "",
       invalidEmail: false,
@@ -218,7 +223,35 @@ export default {
       alertPassword: "",
       invalidDate: false,
       alertDate: "",
+      message: "",
+      password_length: 0,
+      contains_eight_characters: false,
+      contains_number: false,
+      contains_uppercase: false,
+      contains_special_character: false,
+      valid_password: false,
     };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    }
+  },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push("/mainpage");
+    }
+  },
+  watch: {
+    username: function () {
+      this.invalidUsername = false;
+    },
+    email: function () {
+      this.invalidEmail = false;
+    },
+    password: function () {
+
+    }
   },
   methods: {
     goMainpage() {
@@ -288,9 +321,33 @@ export default {
         this.alertDate = "year is not yet valid";
         this.invalidDate = true;
       } else {
-        alert("Pass");
-        console.log("Pass");
-        window.location.href = "/profilesetting";
+        this.day.padStart(2, "0");
+        this.month.padStart(2, "0");
+        this.year.padStart(4, "0");
+        this.birthdate = this.day + this.month + this.year;
+        this.$router.push("/ProfileSetting");
+      }
+    },
+    checkUniqueUsername() {
+      if (this.username) {
+        AuthService.checkUniqueExists({ username: this.username }).then(
+          (res) => {
+            if (res.exist) {
+              this.invalidUsername = res.exist;
+              this.alertUsername = "this username has been used";
+            } else this.invalidUsername = res.exist;
+          }
+        );
+      }
+    },
+    checkUniqueEmail() {
+      if (this.email) {
+        AuthService.checkUniqueExists({ email: this.email }).then((res) => {
+          if (res.exist) {
+            this.invalidEmail = res.exist;
+            this.alertEmail = "this email has been used";
+          } else this.invalidEmail = res.exist;
+        });
       }
     },
     validUsername: function (username) {
@@ -489,11 +546,6 @@ export default {
   color: #ff8864;
   font-weight: 300;
 }
-@media screen and (max-width: 1440px) {
-  #register {
-    height: 100%;
-  }
-}
 
 @media screen and (max-width: 768px) {
   input {
@@ -514,7 +566,7 @@ export default {
   #register {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
   }
 
   #whitelogo {
@@ -541,7 +593,6 @@ export default {
     /* background-image: url("../assets/harryfer-tablet-background.jpg"); */
     background-repeat: no-repeat;
     background-position: center;
-    height: auto;
   }
 }
 

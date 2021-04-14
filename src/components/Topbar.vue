@@ -34,8 +34,8 @@
           class="section"
           style="cursor: pointer"
         >
-          <img id="profile-logo" src="@/assets/profile/pfpic.jpg" />
-          <h1 id="bar-value">pd.piriya</h1>
+          <img id="profile-logo" :src= user.profile_pic />
+          <h1 id="bar-value">{{user.username}}</h1>
         </div>
       </div>
     </div>
@@ -44,7 +44,24 @@
 </template>
 
 <script>
+import User from "../models/user";
+import UserService from "../services/user.service"
+
 export default {
+   data() {
+     return {
+       user: new User({username: "", profile_pic: ""})
+     }
+   },
+   created() {
+     UserService.getTopBarInfo().then(
+       res => {
+         if(res) {
+          this.user = res;
+         }
+       }
+     )
+   },
   methods: {
     detailReturn() {
       this.$emit("clickDetail", true);

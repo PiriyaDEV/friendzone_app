@@ -26,15 +26,7 @@ input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {
   display: none;
 }
-/* input[type=password]::-webkit-contacts-auto-fill-button,
-input[type=password]::-webkit-credentials-auto-fill-button {
-   visibility: hidden;
-   display: none !important;
-   pointer-events: none;
-   height: 0;
-   width: 0;
-   margin: 0;
-} */
+
 .popup {
   background-color: rgb(162, 129, 76, 0.25);
   backdrop-filter: blur(15px);

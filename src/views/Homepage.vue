@@ -37,6 +37,16 @@ export default {
   components: {
     Navbar,
   },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    }
+  },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push("/mainpage");
+    }
+  },
   methods: {
     goRegister() {
       window.location.href = "/register";
@@ -189,4 +199,4 @@ export default {
     font-size: 1.75em;
   }
 }
-</style>
+</style>r

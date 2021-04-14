@@ -22,7 +22,7 @@ class UserService {
       .post(
         API_URL + "profile",
         {
-          id: user.id,
+          user_id: user.user_id,
         },
         { headers: authHeader() }
       )
@@ -81,6 +81,24 @@ class UserService {
         // console.log("err" + err)
         return "err";
       });
+  }
+
+  async getTopBarInfo() {
+    let user = decode(localStorage.getItem("user"));
+    let profile_pic = "http://localhost:8080/api/displayPic/";
+    const res = await axios.get(API_URL + "getUsername/" + user.user_id,
+      { headers: authHeader() });
+    res.data.profile_pic = profile_pic + user.user_id;
+    return res.data;
+  }
+
+  async getUserDetail() {
+    let user = decode(localStorage.getItem("user"));
+    let profile_pic = "http://localhost:8080/api/displayPic/";
+    const res = await axios.get(API_URL + "getUserDetail/" + user.user_id,
+      { headers: authHeader() });
+    res.data.profile_pic = profile_pic + user.user_id;
+    return res.data;
   }
 }
 

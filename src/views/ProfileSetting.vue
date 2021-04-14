@@ -108,25 +108,28 @@
                     Profile Picture<span class="orange-color"> *</span>
                   </h2>
 
-                  <div id="photo-mobile">
-                    <div id="photo-box" style="position: relative">
-                      <div id="photo-circle">
+                  <div>
+                    <div class="section" style="position: relative">
+                      <div v-if="!avatar" id="photo-circle">
                         <img
                           id="photo-circle-default"
-                          slot="activator"
+                          @click="goMainpage()"
                           src="@/assets/icon/icons8-picture-96.png"
                         />
                       </div>
+                      <div id="photo-circle" style="position: relative" v-else >
+                      <img class="pictureUpload" style="position: relative" :src="avatar.imageURL" alt="avatar">
+                      </div>
                     </div>
-
-                    <div id="select-photo-section" class="section">
-                      <img
-                        id="addphoto"
-                        @click="goMainpage()"
-                        src="@/assets/icon/icons8-add-image-96.png"
-                      />
-                      <h1 class="upload">upload photo</h1>
-                    </div>
+                    <Backup2 v-model="avatar">
+                      <div slot="activator" id="select-photo-section" class="section">
+                          <img 
+                            id="addphoto"
+                            src="@/assets/icon/icons8-add-image-96.png"
+                          />
+                          <h1 class="upload">upload photo</h1>
+                      </div>
+                    </Backup2>
                   </div>
                 </div>
                 <!-- Input -->
@@ -164,12 +167,38 @@
 </template>
 
 <script>
+import Backup2 from '@/views/Backup2.vue'
+
 export default {
   name: "profile",
   data() {
     return {
       selected: "",
+      avatar: null,
+      saving: false,
+      saved: false
     };
+  },
+  components: {
+    Backup2: Backup2
+  },
+  watch:{
+    avatar: {
+      handler: function() {
+        this.saved = false
+      },
+      deep: true
+    }
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    }
+  },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push("/mainpage");
+    }
   },
   methods: {
     ClickBack() {
@@ -177,6 +206,15 @@ export default {
     },
     ClickCreate() {
       window.location.href = "/interestSelect";
+    },
+    uploadImage() {
+      this.saving = true
+      setTimeout(() => this.savedAvatar(), 1000)
+    },
+    savedAvatar() {
+      this.saving = false
+      this.saved = true
+      alert(this.avatar.imageURL)
     },
   },
 };
@@ -196,7 +234,7 @@ export default {
   align-items: center;
 }
 
-#photo-mobile{
+#photo-mobile {
   display: block;
 }
 
@@ -231,6 +269,7 @@ export default {
   border-radius: 6px;
   padding: 3px 8px;
   margin-top: 12px;
+  cursor: pointer;
 }
 
 .input_box_bio {
@@ -325,7 +364,6 @@ option {
   color: #444444;
 }
 
-
 #profile_account {
   padding: 0px 38px;
 }
@@ -383,6 +421,17 @@ option {
   margin-top: 10px;
 }
 
+.pictureUpload {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 #photo-circle-default {
   width: 50px;
   margin: 0px;
@@ -414,52 +463,58 @@ option {
 }
 
 @media screen and (max-width: 1080px) {
-  #profile-section{
+  #profile-section {
     display: block;
   }
 
-  #profile{
-    height: 100%;
+  #profile {
     padding: 20px 0px;
   }
 
-  .input_select{
+  .input_select {
     width: 430px;
   }
 
-  #select-photo-section{
+  #select-photo-section {
     width: calc(100% - 20px);
   }
-  
-  .input_textarea_box{
+
+  .input_textarea_box {
     width: calc(100% - 30px);
   }
 
-  #right-section{
+  #right-section {
     margin-left: 0px;
-    margin-top:5px;
+    margin-top: 5px;
   }
 
-  #left-section{
+  #left-section {
     margin-right: 0px;
   }
 
-  #photo-section{
+  #photo-section {
     display: block;
   }
 
-  #photo-circle{
+  #photo-circle {
     margin-top: 0px;
   }
 
-  #photo-box{
+  #photo-box {
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  #photo-header{
+  #photo-header {
     margin-right: 0px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #profile {
+    justify-content: center;
+    align-items: flex-start;
   }
 }
 
@@ -474,18 +529,16 @@ option {
   #profile {
     display: flex;
     justify-content: center;
-    align-items: center;
   }
 
-  .input_select{
+  .input_select {
     width: 100%;
   }
 
-  #photo-circle{
+  #photo-circle {
     width: 100px;
     height: 100px;
   }
-
 }
 @media screen and (max-width: 600px) {
   br {
@@ -517,7 +570,6 @@ option {
     width: 333px;
     margin-top: 20px;
   }
-
 }
 
 @media screen and (max-width: 360px) {
@@ -531,7 +583,7 @@ option {
     margin-top: 20px;
   }
 
-  .header_title{
+  .header_title {
     font-size: 2.25em;
   }
 }

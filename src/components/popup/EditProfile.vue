@@ -7,7 +7,7 @@
         <div class="edit-section">
           <div id="left">
             <div id="profile-frame">
-              <img id="profile-pic" src="@/assets/profile/pfpic.jpg" />
+              <img id="profile-pic" :src= "user.profile_pic" />
             </div>
             <div id="select-photo-section" class="section">
               <img
@@ -28,7 +28,7 @@
                 maxlength="30"
                 size="30"
                 name="name"
-                value="pd.piriya"
+                :value="user.username"
               />
             </div>
             <!-- Information -->
@@ -41,8 +41,8 @@
                 maxlength="256"
                 size="256"
                 name="bio"
+                :value="user.bio"
               >
-              My name is Harryfer and I’m the best boyscout alive. I’m Thailand representative to attend World Boyscout 2077 in Finland.
               </textarea>
             </div>
             <!-- Information -->
@@ -55,7 +55,7 @@
                 type="text"
                 maxlength="30"
                 size="30"
-                value="Piriya"
+                :value= user.firstname
               />
             </div>
             <!-- Information -->
@@ -68,7 +68,7 @@
                 type="text"
                 maxlength="30"
                 size="30"
-                value="Chaigul"
+                :value= user.lastname
               />
             </div>
             <!-- Information -->
@@ -76,7 +76,7 @@
             <!-- Information -->
             <div class="static-info">
               <h1 class="info-title">Birthdate</h1>
-              <h1 id="date">08 April 2001</h1>
+              <h1 id="date">{{user.birthdate}}</h1>
             </div>
             <!-- Information -->
 
@@ -88,7 +88,7 @@
                 type="text"
                 maxlength="30"
                 size="30"
-                value="piriya.cg@mail.kmutt.ac.th"
+                :value= user.email
               />
             </div>
             <!-- Information -->
@@ -101,7 +101,7 @@
                 type="text"
                 maxlength="30"
                 size="30"
-                value="089-683-2465"
+                :value= user.phone
               />
             </div>
             <!-- Information -->
@@ -134,7 +134,36 @@
 </template>
 
 <script>
+
+import User from './../../models/user';
+import UserService from "./../../services/user.service"
+
 export default {
+  data() {
+     return {
+       user: new User({
+         username: "",
+         email: "",
+         firstname: "",
+         lastname: "",
+         phone: "",
+         gender: "",
+         profile_pic: "",
+         birthdate: "",
+         bio: ""
+         }),
+     }
+   },
+   created() {
+     UserService.getUserDetail().then(
+       res => {
+         if(res) {
+           this.user = res;
+           console.log(this.user)
+         }
+       }
+     )
+   },
   methods: {
     editReturn() {
       this.$emit("clickEdit", false);

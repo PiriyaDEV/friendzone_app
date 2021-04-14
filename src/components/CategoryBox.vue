@@ -1,29 +1,23 @@
 <template>
   <div>
     <div v-if="status == false" id="category-box">
-      <img class="category-icon" @click="goMainpage()" :src="{icon}" />
-      <h1 class="category-text">{{nameCategory}}</h1>
+      <img class="category-icon" @click="goMainpage()" :src="{ icon }" />
+      <h1 class="category-text">{{ nameCategory }}</h1>
     </div>
     <div v-if="status == true" id="category-boxtest">
-      <img class="category-icon" @click="goMainpage()" :src="{icon}" />
-      <h1 class="category-text">{{nameCategory}}</h1>
+      <img class="category-icon" @click="goMainpage()" :src="{ icon }" />
+      <h1 class="category-text">{{ nameCategory }}</h1>
     </div>
   </div>
-  
 </template>
 
 <script>
 export default {
-  props:[
-    "nameCategory",
-    "icon",
-    "status"
-  ],
+  props: ["nameCategory", "icon", "status"],
 };
 </script>
 
 <style scoped>
-
 #category-box {
   border: 2px solid #e3e3e3;
   border-radius: 10px;
@@ -44,15 +38,20 @@ export default {
   width: 420px;
 }
 
-
-.category-icon{
-    width: 25px;
+.category-icon {
+  width: 25px;
 }
 
-.category-text{
+.category-text {
   color: #cccccc;
   font-size: 1.75em;
   font-weight: 600;
   margin: 0px 0px 0px 25px;
+}
+
+@media screen and (max-width: 768px) {
+  #category-box {
+    width: inherit;
+  }
 }
 </style>

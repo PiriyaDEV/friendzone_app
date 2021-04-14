@@ -16,17 +16,17 @@
 
             <!-- Input -->
             <div>
-              <h2 class="input_title">Username</h2>
+              <h2 class="input_title">Username or email</h2>
               <input
-                v-model="username"
+                v-model="identification"
                 class="input_box"
                 type="text"
                 maxlength="30"
                 size="30"
-                placeholder="enter a unique username"
+                placeholder="enter your username or email"
               />
-              <h3 v-if="invalidUsername === true" class="invalid">
-                * {{ alertUsername }}
+              <h3 v-if="invalidIdentification === true" class="invalid">
+                * {{ alertIdentification }}
               </h3>
             </div>
             <!-- Input -->
@@ -56,9 +56,9 @@
                   />
                 </div>
               </div>
-              <h3 v-if="invalidPassword === true" class="invalid">
+              <!-- <h3 v-if="invalidPassword === true" class="invalid">
                 * {{ alertPassword }}
-              </h3>
+              </h3> -->
             </div>
             <!-- Input -->
 
@@ -81,21 +81,16 @@
 </template>
 
 <script>
-// import $ from "jquery";
-// import User from "../models/user";
 export default {
   name: "login",
   data() {
     return {
       eye: true,
       passwordFieldType: "password",
-      username: "",
-      email: "",
+      identification: "",
       password: "",
-      invalidUsername: false,
-      alertUsername: "",
-      invalidEmail: false,
-      alertEmail: "",
+      invalidIdentification: false,
+      alertIdentification: "",
       invalidPassword: false,
       alertPassword: "",
     };
@@ -103,11 +98,11 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    }
+    },
   },
   created() {
     if (this.loggedIn) {
-      this.$router.push("/");
+      this.$router.push("/mainpage");
     }
   },
   methods: {
@@ -122,26 +117,28 @@ export default {
         this.passwordFieldType === "password" ? "text" : "password";
     },
     checkLogin() {
-        if (this.email && this.password) {
-        this.$store.dispatch("auth/login", this.user).then(
-          () => {
-            this.$router.push("/");
-            alert("Login Success");
-          },
-          error => {
-            this.loading = false;
-            this.message =
-              (error.response && error.response.data) ||
-              error.message ||
-              error.toString();
-            alert("Email or password not correct");
-          }
-        );
+      if (this.identification && this.password) {
+        this.$store
+          .dispatch("auth/login", {
+            identification: this.identification,
+            password: this.password,
+          })
+          .then(
+            () => {
+              this.$router.push("/mainpage");
+            },
+            (error) => {
+              console.log(error.message);
+              if (error) {
+                this.invalidIdentification = true;
+                this.alertIdentification = "Incorrect username or email";
+              }
+            }
+          );
       }
-    }
-  }
-}
-
+    },
+  },
+};
 </script>
 
 <style scoped>

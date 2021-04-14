@@ -23,7 +23,12 @@
             </div>
 
             <div id="category-list" v-for="(item, i) in User" :key="i">
-              <CategoryBox @click.native="clicktest($event, i)" :nameCategory="User[i].Category" :icon="User[i].Icon" :status="User[i].Status"/>
+              <CategoryBox
+                @click.native="clicktest($event, i)"
+                :nameCategory="User[i].Category"
+                :icon="User[i].Icon"
+                :status="User[i].Status"
+              />
             </div>
 
             <button id="signin_button" @click="ClickStart()">
@@ -43,14 +48,42 @@ export default {
   name: "interest",
   data() {
     return {
-      User:[
-        {Category: "FOOD" , Icon: "@/assets/icon/icons8-event-96-b.png" , Status: false},
-        {Category: "GAME" , Icon: "@/assets/icon/icons8-event-96-o.png" , Status: false},
-        {Category: "SPORT" , Icon: "@/assets/icon/icons8-event-96-o.png" , Status: false},
-        {Category: "TRAVEL" , Icon: "@/assets/icon/icons8-event-96-o.png" , Status: false},
-        {Category: "CAMPING" , Icon: "@/assets/icon/icons8-event-96-o.png" , Status: false},
-        {Category: "STUDY" , Icon: "@/assets/icon/icons8-event-96-o.png" , Status: false},
-        {Category: "MAIRUU" , Icon: "@/assets/icon/icons8-event-96-o.png" , Status: false},
+      User: [
+        {
+          Category: "FOOD",
+          Icon: "@/assets/icon/icons8-event-96-b.png",
+          Status: false,
+        },
+        {
+          Category: "GAME",
+          Icon: "@/assets/icon/icons8-event-96-o.png",
+          Status: false,
+        },
+        {
+          Category: "SPORT",
+          Icon: "@/assets/icon/icons8-event-96-o.png",
+          Status: false,
+        },
+        {
+          Category: "TRAVEL",
+          Icon: "@/assets/icon/icons8-event-96-o.png",
+          Status: false,
+        },
+        {
+          Category: "CAMPING",
+          Icon: "@/assets/icon/icons8-event-96-o.png",
+          Status: false,
+        },
+        {
+          Category: "STUDY",
+          Icon: "@/assets/icon/icons8-event-96-o.png",
+          Status: false,
+        },
+        {
+          Category: "MAIRUU",
+          Icon: "@/assets/icon/icons8-event-96-o.png",
+          Status: false,
+        },
       ],
     };
   },
@@ -61,20 +94,19 @@ export default {
     ClickStart() {
       window.location.href = "/mainpage";
     },
-    clicktest(ev,i) {
-      console.log(i+1)
+    clicktest(ev, i) {
+      console.log(i + 1);
       this.User[i].Status = !this.User[i].Status;
-      console.log(this.User[0].Status)
-      console.log(this.User[1].Status)
-      console.log(this.User[2].Status)
-      console.log(this.User[3].Status)
-      console.log(this.User[4].Status)
-      console.log(this.User[5].Status)
-      console.log(this.User[6].Status)
+      console.log(this.User[0].Status);
+      console.log(this.User[1].Status);
+      console.log(this.User[2].Status);
+      console.log(this.User[3].Status);
+      console.log(this.User[4].Status);
+      console.log(this.User[5].Status);
+      console.log(this.User[6].Status);
     },
   },
-  computed: {
-  },
+  computed: {},
 };
 </script>
 
@@ -82,24 +114,13 @@ export default {
 #interest {
   background-color: #f8f3ec;
   /* background-image: url("../assets/harryfer-background.jpg"); */
-  overflow: scroll;
-  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-
-#category-boxtest {
-  border: 2px solid #ff8864;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  padding: 10px 0px 10px 28px;
-  margin: 10px 0px;
-  width: 420px;
 }
 
 .icon {
@@ -125,7 +146,7 @@ export default {
   padding-bottom: 3px;
 }
 .date_box {
-  font-size: 1.75em;
+  font-size: 1.6em;
   font-weight: 450;
   color: #444444;
   width: 100%;
@@ -137,7 +158,7 @@ export default {
 }
 #interest_account {
   padding: 0px 38px;
-  margin-bottom:40px;
+  margin-bottom: 40px;
 }
 #password_box {
   display: flex;
@@ -145,7 +166,7 @@ export default {
 }
 #signin_button {
   color: #ffffff;
-  font-size: 2.5em;
+  font-size: 2.25em;
   font-family: "Atten-Round-New";
   text-align: center;
   width: 100%;
@@ -163,7 +184,7 @@ export default {
   transition: 0.3s;
 }
 #term {
-  font-size: 1.75em;
+  font-size: 1.6em;
   line-height: 20px;
   letter-spacing: 0.2px;
   font-weight: 100;
@@ -214,17 +235,25 @@ export default {
 }
 
 @media screen and (max-width: 768px) {
+  #interest {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  #header_title {
+    font-size: 2.5em;
+  }
+
+  #category-box {
+    width: 100%;
+  }
+
   input {
     /* Remove First */
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-  }
-
-  #interest {
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   #whitelogo {
@@ -279,6 +308,10 @@ export default {
   #interest_suggest {
     width: 313px;
     margin-top: 20px;
+  }
+
+  #header_title {
+    font-size: 2.25em;
   }
 }
 </style>
