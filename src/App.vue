@@ -251,6 +251,28 @@ button {
   bottom: 270px;
 }
 
+.list {
+  background: transparent;
+  min-width: 1400px;
+  float: left;
+}
+
+.event-flex-section {
+  display: flex;
+  align-items: center;
+  /* overflow-x: scroll; */
+  overflow-y: hidden;
+  margin-bottom: 20px;
+  /* justify-content: space-around; */
+}
+
+#list-container {
+  overflow: auto;
+  float: left;
+  /* position: relative; */
+  margin-bottom: 30px;
+}
+
 @media screen and (max-width: 1080px) {
   .back_button,.create_button{
     width: 200px;

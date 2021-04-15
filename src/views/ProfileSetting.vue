@@ -113,7 +113,6 @@
                       <div v-if="!avatar" id="photo-circle">
                         <img
                           id="photo-circle-default"
-                          @click="goMainpage()"
                           src="@/assets/icon/icons8-picture-96.png"
                         />
                       </div>
@@ -121,7 +120,7 @@
                       <img class="pictureUpload" style="position: relative" :src="avatar.imageURL" alt="avatar">
                       </div>
                     </div>
-                    <Backup2 v-model="avatar">
+                    <Upload v-model="avatar">
                       <div slot="activator" id="select-photo-section" class="section">
                           <img 
                             id="addphoto"
@@ -129,7 +128,7 @@
                           />
                           <h1 class="upload">upload photo</h1>
                       </div>
-                    </Backup2>
+                    </Upload>
                   </div>
                 </div>
                 <!-- Input -->
@@ -167,7 +166,7 @@
 </template>
 
 <script>
-import Backup2 from '@/views/Backup2.vue'
+import Upload from '@/components/UploadPic.vue'
 
 export default {
   name: "profile",
@@ -180,14 +179,13 @@ export default {
     };
   },
   components: {
-    Backup2: Backup2
+    Upload: Upload
   },
   watch:{
     avatar: {
       handler: function() {
         this.saved = false
       },
-      deep: true
     }
   },
   computed: {
@@ -199,6 +197,7 @@ export default {
     if (this.loggedIn) {
       this.$router.push("/mainpage");
     }
+    console.log(this.$store.state.user)
   },
   methods: {
     ClickBack() {

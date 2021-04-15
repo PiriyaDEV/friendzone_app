@@ -110,8 +110,8 @@
                   />
                 </div>
               </div>
-              <h3 v-if="invalidPassword === true" class="invalid">
-                * {{ alertPassword }}
+              <h3 v-if="invalidPasswordConfirm === true" class="invalid">
+                * {{ alertPasswordConfirm }}
               </h3>
             </div>
             <!-- Input -->
@@ -163,9 +163,6 @@
               </div>
               <h3 v-if="invalidDate === true" class="invalid">
                 * {{ alertDate }}
-              </h3>
-              <h3 class="invalid" style="display: none">
-                * your password is too short (minimum 8 characters)
               </h3>
             </div>
             <!-- Input -->
@@ -221,37 +218,131 @@ export default {
       alertEmail: "",
       invalidPassword: false,
       alertPassword: "",
+      invalidPasswordConfirm: false,
+      alertPasswordConfirm: "",
       invalidDate: false,
       alertDate: "",
-      message: "",
-      password_length: 0,
-      contains_eight_characters: false,
-      contains_number: false,
-      contains_uppercase: false,
-      contains_special_character: false,
-      valid_password: false,
     };
   },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    }
+    },
   },
   created() {
     if (this.loggedIn) {
       this.$router.push("/mainpage");
     }
+    let user = this.$store.state.user;
+    this.username = user.username;
+    this.email = user.email;
+    this.password = user.password;
+    this.passwordConfirm = user.password;
+    this.day = user.birthday.day;
+    this.month = user.birthday.month;
+    this.birthday = user.birthday.year;
   },
   watch: {
     username: function () {
       this.invalidUsername = false;
+      if (this.username.length < 3) {
+        this.invalidUsername = true;
+        this.alertUsername = "username is too short";
+      } else if (/[^A-Za-z0-9_.]/.test(this.username)) {
+        this.invalidUsername = true;
+        this.alertUsername =
+          "username can only use letters, numbers, underscores and periods";
+      } else if (this.username[0] == ".") {
+        this.invalidUsername = true;
+        this.alertUsername = "username can't start with period";
+      } else if (this.username[this.username.length - 1] == ".") {
+        this.invalidUsername = true;
+        this.alertUsername = "username can't end with period";
+      }
+      if (this.username.length == 0) this.invalidUsername = false;
     },
     email: function () {
       this.invalidEmail = false;
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!re.test(this.email) && (this.email.length > 0)) {
+        this.invalidEmail = true;
+        this.alertEmail = "email is invalid";
+      }
+      if (this.email.length == 0) this.invalidEmail = false;
     },
     password: function () {
-
-    }
+      this.invalidPassword = false;
+      if (this.password.length < 8) {
+        this.invalidPassword = true;
+        this.alertPassword = "password must have at least 8 characters";
+      } else if (!/\d/.test(this.password)) {
+        this.invalidPassword = true;
+        this.alertPassword = "password must have at least 1 number";
+      } else if (!/[a-z]/.test(this.password)) {
+        this.invalidPassword = true;
+        this.alertPassword = "password must have at least 1 lowercase";
+      } else if (!/[A-Z]/.test(this.password)) {
+        this.invalidPassword = true;
+        this.alertPassword = "password must have at least 1 uppercase";
+      } else if (!/[^A-Za-z0-9]/.test(this.password)) {
+        this.invalidPassword = true;
+        this.alertPassword = "password must have at least 1 special characters";
+      }
+      if (this.password.length == 0) this.invalidPassword = false;
+    },
+    passwordConfirm: function () {
+      this.invalidPasswordConfirm = false;
+      if (this.password != this.passwordConfirm) {
+        this.invalidPasswordConfirm = true;
+        this.alertPasswordConfirm = "password does not match";
+      }
+      if (this.passwordConfirm.length == 0) this.invalidPasswordConfirm = false;
+    },
+    // Leap year is incompleted
+    day: function () {
+      this.invalidDate = false;
+      if (!/[0-9]/.test(this.day)) {
+        this.invalidDate = true;
+        this.alertDate = "date must be only numbers";
+      } else if (this.day < 1 || this.day > 31) {
+        this.invalidDate = true;
+        this.alertDate = "day must be only 1-31";
+      } else if (
+        (this.month == 4 && this.day > 30) ||
+        (this.month == 6 && this.day > 30) ||
+        (this.month == 9 && this.day > 30) ||
+        (this.month == 11 && this.day > 30)
+      ) {
+        this.invalidDate = true;
+        this.alertDate = "day or month is invalid";
+      }
+      if (this.day.length == 0) this.invalidDate = false;
+    },
+    month: function () {
+      this.invalidDate = false;
+      if (!/[0-9]/.test(this.month)) {
+        this.invalidDate = true;
+        this.alertDate = "date must be only numbers";
+      } else if (this.month < 1 || this.month > 12) {
+        this.invalidDate = true;
+        this.alertDate = "month must be only 1-12";
+      }
+      if (this.month.length == 0) this.invalidDate = false;
+    },
+    year: function () {
+      this.invalidDate = false;
+      if (!/[0-9]/.test(this.year)) {
+        this.invalidDate = true;
+        this.alertDate = "date must be only numbers";
+      } else if (this.year < 1921) {
+        this.invalidDate = true;
+        this.alertDate = "you are too old";
+      } else if (this.year > 2002) {
+        this.invalidDate = true;
+        this.alertDate = "you must be 18 years or older";
+      }
+      if (this.year.length == 0) this.invalidDate = false;
+    },
   },
   methods: {
     goMainpage() {
@@ -265,66 +356,44 @@ export default {
         this.passwordFieldType === "password" ? "text" : "password";
     },
     checkRegister() {
-      this.invalidUsername = false;
-      this.invalidEmail = false;
-      this.invalidPassword = false;
-      this.invalidDate = false;
-      if (!this.username) {
+      if (this.username.length == 0) {
         this.invalidUsername = true;
         this.alertUsername = "username required";
-      } else if (!this.email) {
+      }
+      if (this.email.length == 0) {
         this.invalidEmail = true;
         this.alertEmail = "email required";
-      } else if (!this.validUsername(this.username)) {
-        this.invalidUsername = true;
-        this.alertUsername = "username is not yet valid";
-      } else if (!this.validEmail(this.email)) {
-        this.invalidEmail = true;
-        this.alertEmail = "email is not yet valid";
-      } else if (!this.validPassword(this.password)) {
+      }
+      if (this.password.length == 0) {
         this.invalidPassword = true;
-      } else if (!this.validDate(this.day)) {
-        this.alertDate = "day is not yet valid";
-        this.invalidDate = true;
-      } else if (!this.validDate(this.month)) {
-        this.alertDate = "month is not yet valid";
-        this.invalidDate = true;
-      } else if (!this.validDate(this.year)) {
-        this.alertDate = "year is not yet valid";
-        this.invalidDate = true;
-      } else if (this.day < 1) {
-        this.alertDate = "day is not yet valid";
-        this.invalidDate = true;
-      } else if (
-        (this.month == 4 && this.day > 30) ||
-        (this.month == 6 && this.day > 30) ||
-        (this.month == 9 && this.day > 30) ||
-        (this.month == 11 && this.day > 30)
+        this.alertPassword = "password required";
+      }
+      if (
+        (this.day.length == 0) ||
+        (this.month.length == 0) ||
+        (this.year.length == 0)
       ) {
-        this.alertDate = "day is not yet valid";
         this.invalidDate = true;
-      } else if (
-        (this.month == 1 && this.day > 31) ||
-        (this.month == 3 && this.day > 31) ||
-        (this.month == 5 && this.day > 31) ||
-        (this.month == 7 && this.day > 31) ||
-        (this.month == 8 && this.day > 31) ||
-        (this.month == 10 && this.day > 31) ||
-        (this.month == 12 && this.day > 31)
+        this.alertDate = "birthday required";
+      }
+      if (
+        !this.invalidUsername &&
+        !this.invalidEmail &&
+        !this.invalidPassword &&
+        !this.invalidPasswordConfirm &&
+        !this.invalidDate
       ) {
-        this.alertDate = "day is not yet valid";
-        this.invalidDate = true;
-      } else if (this.month < 1 || this.month > 12) {
-        this.alertDate = "month is not yet valid";
-        this.invalidDate = true;
-      } else if (this.year > 2021 || this.year < 1921) {
-        this.alertDate = "year is not yet valid";
-        this.invalidDate = true;
-      } else {
-        this.day.padStart(2, "0");
-        this.month.padStart(2, "0");
-        this.year.padStart(4, "0");
-        this.birthdate = this.day + this.month + this.year;
+        this.birthdate = {
+          day: this.day,
+          month: this.month,
+          year: this.year,
+        };
+        this.$store.state.user = {
+          username: this.username,
+          email: this.email,
+          password: this.password,
+          birthdate: this.birthdate,
+        };
         this.$router.push("/ProfileSetting");
       }
     },
@@ -349,51 +418,6 @@ export default {
           } else this.invalidEmail = res.exist;
         });
       }
-    },
-    validUsername: function (username) {
-      const name = /^[a-zA-Z0-9]+$/;
-      return name.test(username);
-    },
-    validEmail: function (email) {
-      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
-    },
-    validPassword: function (password) {
-      this.password_length = password.length;
-      const format = /[^A-Za-z0-9]/;
-      if (this.password_length > 8) {
-        this.contains_eight_characters = true;
-      } else {
-        this.contains_eight_characters = false;
-      }
-      this.contains_number = /\d/.test(password);
-      this.contains_uppercase = /[A-Z]/.test(password);
-      this.contains_special_character = format.test(password);
-
-      if (
-        this.contains_eight_characters === true &&
-        this.contains_special_character === true &&
-        this.contains_uppercase === true &&
-        this.contains_number === true
-      ) {
-        return (this.valid_password = true);
-      } else {
-        if (this.contains_eight_characters === false) {
-          this.alertPassword = "Password must have more than 8 characters";
-        } else if (this.contains_uppercase === false) {
-          this.alertPassword = "Password must have at least 1 uppercase";
-        } else if (this.contains_number === false) {
-          this.alertPassword = "Password must have at least 1 number";
-        } else if (this.contains_special_character === false) {
-          this.alertPassword =
-            "Password must have at least 1 special characters";
-        }
-        return (this.valid_password = false);
-      }
-    },
-    validDate: function (date) {
-      const num = /^[0-9]+$/;
-      return num.test(date);
     },
   },
   mounted() {

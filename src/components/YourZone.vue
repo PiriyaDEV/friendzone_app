@@ -164,6 +164,7 @@ export default {
   margin-top: 110px;
   margin-bottom: 100px;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 #follow-box {
@@ -230,15 +231,6 @@ option {
   color: #444444;
 }
 
-.event-flex-section {
-  display: flex;
-  align-items: center;
-  /* overflow-x: scroll; */
-  overflow-y: hidden;
-  margin-bottom: 20px;
-  /* justify-content: space-around; */
-}
-
 .fade-in {
   animation: fadeIn ease 1s;
   -webkit-animation: fadeIn ease 1s;
@@ -297,15 +289,6 @@ option {
   height: 50px;
 }
 
-#list-container {
-  overflow: auto;
-  /* width: 1024px; */
-  width: 1440px;
-  float: left;
-  /* position: relative; */
-  margin-bottom: 30px;
-}
-
 div::-webkit-scrollbar {
   height: 10px;
   padding-bottom: 30px;
@@ -324,12 +307,6 @@ div::-webkit-scrollbar-thumb {
 
 div::-webkit-scrollbar:vertical {
   display: none;
-}
-
-.list {
-  background: transparent;
-  min-width: 1400px;
-  float: left;
 }
 
 .arrow {
