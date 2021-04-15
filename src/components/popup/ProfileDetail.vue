@@ -10,7 +10,7 @@
           </div>
 
           <div id="right">
-            <h1 id="name_title">{{user.username}}</h1>
+            <h1 id="name_title">{{ user.username }}</h1>
 
             <!-- Rating -->
             <div id="rating">
@@ -79,7 +79,7 @@
             <!-- Follower -->
 
             <h1 id="bio">
-              {{user.bio}}
+              {{ user.bio }}
             </h1>
 
             <div id="profile-button">
@@ -100,10 +100,10 @@
           </div>
 
           <div id="right" class="black-color">
-            <h1 class="info-text">{{fullname}}</h1>
-            <h1 class="info-text">{{user.birthdate}}</h1>
-            <h1 class="info-text">{{user.email}}</h1>
-            <h1 class="info-text">{{user.phone}}</h1>
+            <h1 class="info-text">{{ fullname }}</h1>
+            <h1 class="info-text">{{ user.birthdate }}</h1>
+            <h1 class="info-text">{{ user.email }}</h1>
+            <h1 class="info-text">{{ user.phone }}</h1>
             <h1 class="info-text">Male</h1>
           </div>
           <img
@@ -119,38 +119,35 @@
 </template>
 
 <script>
-
-import User from './../../models/user';
-import UserService from "./../../services/user.service"
+import User from "./../../models/user";
+import UserService from "./../../services/user.service";
 
 export default {
-    data() {
-     return {
-       user: new User({
-         username: "",
-         email: "",
-         firstname: "",
-         lastname: "",
-         phone: "",
-         gender: "",
-         profile_pic: "",
-         birthdate: "",
-         bio: ""
-         }),
-       fullname : ""
-     }
-   },
-   created() {
-     UserService.getUserDetail().then(
-       res => {
-         if(res) {
-           this.user = res;
-           console.log(this.user)
-           this.fullname = this.user.firstname + " " + this.user.lastname
-         }
-       }
-     )
-   },
+  data() {
+    return {
+      user: new User({
+        username: "",
+        email: "",
+        firstname: "",
+        lastname: "",
+        phone: "",
+        gender: "",
+        profile_pic: "",
+        birthdate: "",
+        bio: "",
+      }),
+      fullname: "",
+    };
+  },
+  created() {
+    UserService.getUserDetail().then((res) => {
+      if (res) {
+        this.user = res;
+        console.log(this.user.bio);
+        this.fullname = this.user.firstname + " " + this.user.lastname;
+      }
+    });
+  },
   methods: {
     detailReturn() {
       this.$emit("clickDetail", false);
@@ -218,6 +215,8 @@ export default {
 
 #profile-pic {
   width: 140px;
+  height: 140px;
+  object-fit: cover;
   border-radius: 50%;
   border: 2px solid #444444;
 }

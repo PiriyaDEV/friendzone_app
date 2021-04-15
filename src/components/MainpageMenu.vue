@@ -212,6 +212,7 @@ export default {
       this.historyselect = false;
       this.reportselect = false,
       this.signoutselect = false;
+      this.$emit("pageReturn",4);
     },
     discountClick() {
       this.zoneselect = false;
@@ -221,6 +222,7 @@ export default {
       this.historyselect = false;
       this.reportselect = false,
       this.signoutselect = false;
+      this.$emit("pageReturn",5);
     },
     chatClick() {
       this.zoneselect = false;

@@ -1,17 +1,37 @@
 <template>
   <div id="mainpage">
-    <CreateEvent v-show="createShow==true" @clickCreate="clickCreate"/>
-    <RatePopup v-show="rateShow==true" @clickShowed="clickShowed" v-bind:checkParticipants="selectRateShow" />
-    <ProfileDetail v-show="detailShow==true" @clickDetail="clickDetail" @clickEdit="clickEdit"/>
-    <EditProfile v-show="editShow==true" @clickDetail="clickDetail" @clickEdit="clickEdit"/>
-    <ReportPopup v-show="reportShow==true" @clickReport="clickReport" v-bind:categoryReport="selectReportShow" />
+    <CreateEvent v-show="createShow == true" @clickCreate="clickCreate" />
+    <RatePopup
+      v-show="rateShow == true"
+      @clickShowed="clickShowed"
+      v-bind:checkParticipants="selectRateShow"
+    />
+    <ProfileDetail
+      v-if="detailShow == true"
+      @clickDetail="clickDetail"
+      @clickEdit="clickEdit"
+    />
+    <EditProfile
+      v-if="editShow == true"
+      @clickDetail="clickDetail"
+      @clickEdit="clickEdit"
+    />
+    <ReportPopup
+      v-show="reportShow == true"
+      @clickReport="clickReport"
+      v-bind:categoryReport="selectReportShow"
+    />
     <link
       rel="stylesheet"
       type="text/css"
       href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
     />
     <div id="mainpage-background" class="section">
-      <MainpageMenu id="menubar" @pageReturn="pageReturn" @clickCreate="clickCreate" />
+      <MainpageMenu
+        id="menubar"
+        @pageReturn="pageReturn"
+        @clickCreate="clickCreate"
+      />
 
       <!-- Page -->
       <div id="timeline">
@@ -19,17 +39,24 @@
         <Topbar @clickDetail="clickDetail" />
         <!-- Top Bar -->
         <div v-if="select == 1">
-          <Yourzone @clickShowed="clickShowed" @checkShow="checkShow"/>
+          <Yourzone @clickShowed="clickShowed" @checkShow="checkShow" />
         </div>
 
         <div v-if="select == 2">
-          <Chat/>
+          <Chat />
         </div>
 
         <div v-if="select == 3">
           <ReportPage @clickReport="clickReport" @checkReport="checkReport" />
         </div>
 
+        <div v-if="select == 4">
+          <Eventpage />
+        </div>
+
+        <div v-if="select == 5">
+          <Discountpage />
+        </div>
       </div>
     </div>
   </div>
@@ -39,13 +66,15 @@
 import MainpageMenu from "@/components/MainpageMenu.vue";
 import Topbar from "@/components/Topbar.vue";
 import Yourzone from "@/components/YourZone.vue";
+import Eventpage from "@/components/Eventpage.vue";
+import Discountpage from "@/components/Discountpage.vue";
 import Chat from "@/components/Chat.vue";
 import CreateEvent from "@/components/popup/CreateEvent.vue";
 import RatePopup from "@/components/popup/RatePopup.vue";
-import ReportPage from "@/components/ReportPage.vue"
-import EditProfile from "@/components/popup/EditProfile.vue"
-import ProfileDetail from "@/components/popup/ProfileDetail.vue"
-import ReportPopup from "@/components/popup/ReportPopup.vue"
+import ReportPage from "@/components/ReportPage.vue";
+import EditProfile from "@/components/popup/EditProfile.vue";
+import ProfileDetail from "@/components/popup/ProfileDetail.vue";
+import ReportPopup from "@/components/popup/ReportPopup.vue";
 
 export default {
   name: "mainpage",
@@ -53,13 +82,15 @@ export default {
     MainpageMenu,
     Topbar,
     Yourzone,
+    Eventpage,
+    Discountpage,
     Chat,
     CreateEvent,
     RatePopup,
     ReportPage,
     EditProfile,
     ProfileDetail,
-    ReportPopup
+    ReportPopup,
   },
   data() {
     return {
@@ -75,7 +106,7 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    }
+    },
   },
   created() {
     if (!this.loggedIn) {
@@ -115,7 +146,7 @@ export default {
 #mainpage {
   background-color: #f8f3ec;
   /* background-image: url("../assets/harryfer-background.jpg"); */
-  overflow: scroll;
+  overflow-y: scroll;
   height: auto;
   width: 100vw;
   height: 100vh;

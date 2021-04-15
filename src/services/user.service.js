@@ -47,17 +47,19 @@ class UserService {
       });
   }
 
-  editData(user) {
+  editUser(user) {
+  let userLocal = decode(localStorage.getItem("user"));
+  console.log(userLocal)
     return axios
       .post(
-        API_URL + "edit",
+        API_URL + "editUser",
         {
+          user_id : userLocal.user_id,
           username : user.username,
           email : user.email,
           firstname : user.firstname,
           lastname : user.lastname,
           phone : user.phone,
-          profile_pic : user.profile_pic,
           bio : user.bio
         },
         { headers: authHeader() }

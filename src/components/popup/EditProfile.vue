@@ -6,18 +6,23 @@
 
         <div class="edit-section">
           <div id="left">
-            <div id="profile-frame">
-              <img id="profile-pic" :src= "user.profile_pic" />
+            <div v-if="!avatar" id="profile-frame">
+              <img id="profile-pic" :src="profile_pic" />
             </div>
-            <div id="select-photo-section" class="section">
-              <img
-                id="addphoto"
-                @click="goMainpage()"
-                src="@/assets/icon/icons8-add-image-96.png"
-              />
-              <h1 class="upload">upload photo</h1>
+            <div id="profile-frame" style="position: relative" v-else>
+              <img id="profile-pic" :src="avatar.imageURL" alt="avatar" />
             </div>
+            <Upload v-model="avatar">
+              <div slot="activator" id="select-photo-section" class="section">
+                <img
+                  id="addphoto"
+                  src="@/assets/icon/icons8-add-image-96.png"
+                />
+                <h1 class="upload">upload photo</h1>
+              </div>
+            </Upload>
           </div>
+
           <div id="right">
             <!-- Information -->
             <div class="info">
@@ -28,7 +33,7 @@
                 maxlength="30"
                 size="30"
                 name="name"
-                :value="user.username"
+                v-model="username"
               />
             </div>
             <!-- Information -->
@@ -41,7 +46,7 @@
                 maxlength="256"
                 size="256"
                 name="bio"
-                :value="user.bio"
+                v-model="bio"
               >
               </textarea>
             </div>
@@ -55,7 +60,7 @@
                 type="text"
                 maxlength="30"
                 size="30"
-                :value= user.firstname
+                v-model="firstname"
               />
             </div>
             <!-- Information -->
@@ -68,7 +73,7 @@
                 type="text"
                 maxlength="30"
                 size="30"
-                :value= user.lastname
+                v-model="lastname"
               />
             </div>
             <!-- Information -->
@@ -76,7 +81,7 @@
             <!-- Information -->
             <div class="static-info">
               <h1 class="info-title">Birthdate</h1>
-              <h1 id="date">{{user.birthdate}}</h1>
+              <h1 id="date">{{ user.birthdate }}</h1>
             </div>
             <!-- Information -->
 
@@ -88,7 +93,7 @@
                 type="text"
                 maxlength="30"
                 size="30"
-                :value= user.email
+                v-model="email"
               />
             </div>
             <!-- Information -->
@@ -101,7 +106,7 @@
                 type="text"
                 maxlength="30"
                 size="30"
-                :value= user.phone
+                v-model="phone"
               />
             </div>
             <!-- Information -->
@@ -117,7 +122,7 @@
 
         <div class="button-section">
           <button class="back_button" @click="editReturn()">Cancel</button>
-          <button class="create_button" @click="ClickCreate()">
+          <button class="create_button" @click="editCreate()">
             Save Change
           </button>
         </div>
@@ -134,38 +139,105 @@
 </template>
 
 <script>
-
-import User from './../../models/user';
-import UserService from "./../../services/user.service"
+import Upload from "./../../components/UploadPic.vue";
+import User from "./../../models/user";
+import UserService from "./../../services/user.service";
 
 export default {
   data() {
-     return {
-       user: new User({
-         username: "",
-         email: "",
-         firstname: "",
-         lastname: "",
-         phone: "",
-         gender: "",
-         profile_pic: "",
-         birthdate: "",
-         bio: ""
-         }),
-     }
-   },
-   created() {
-     UserService.getUserDetail().then(
-       res => {
-         if(res) {
-           this.user = res;
-           console.log(this.user)
-         }
-       }
-     )
-   },
+    return {
+      username: "",
+      email: "",
+      firstname: "",
+      lastname: "",
+      phone: "",
+      profile_pic: "",
+      bio: "",
+      selected: "",
+      avatar: null,
+      saving: false,
+      saved: false,
+
+      user: new User({
+        username: "",
+        email: "",
+        firstname: "",
+        lastname: "",
+        phone: "",
+        gender: "",
+        profile_pic: "",
+        birthdate: "",
+        bio: "",
+      }),
+    };
+  },
+  components: {
+    Upload: Upload,
+  },
+  computed: {
+  },
+  created() {
+    UserService.getUserDetail().then((res) => {
+      if (res) {
+        this.user = res;
+        this.username = this.user.username;
+        this.email = this.user.email;
+        this.firstname = this.user.firstname;
+        this.lastname = this.user.lastname;
+        this.phone = this.user.phone;
+        this.profile_pic = this.user.profile_pic;
+        this.bio = this.user.bio;
+        console.log(this.user);
+      }
+    });
+  },
+  mounted() {
+    if (!this.loggedIn) {
+      this.$router("/");
+    }
+  },
+  watch: {
+    avatar: {
+      handler: function () {
+        this.saved = false;
+      },
+    },
+  },
   methods: {
+    uploadImage() {
+      this.saving = true;
+      setTimeout(() => this.savedAvatar(), 1000);
+    },
+    savedAvatar() {
+      this.saving = false;
+      this.saved = true;
+      alert(this.avatar.imageURL);
+    },
     editReturn() {
+      this.username = this.user.username;
+      this.email = this.user.email;
+      this.firstname = this.user.firstname;
+      this.lastname = this.user.lastname;
+      this.phone = this.user.phone;
+      this.profile_pic = this.user.profile_pic;
+      this.bio = this.user.bio;
+      this.$emit("clickEdit", false);
+      this.$emit("clickDetail", true);
+    },
+    editCreate() {
+      this.user.username = this.username;
+      this.user.email = this.email;
+      this.user.firstname = this.firstname;
+      this.user.lastname = this.lastname;
+      this.user.phone = this.phone;
+      this.user.profile_pic = this.profile_pic;
+      this.user.bio = this.bio;
+
+      UserService.editUser(this.user).then((res) => {
+        if (res) {
+          console.log(res);
+        } else console.log(res);
+      });
       this.$emit("clickEdit", false);
       this.$emit("clickDetail", true);
     },
@@ -204,6 +276,8 @@ export default {
 
 #profile-pic {
   width: 140px;
+  height: 140px;
+  object-fit: cover;
   border-radius: 50%;
   border: 2px solid #444444;
 }

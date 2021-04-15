@@ -34,8 +34,8 @@
           class="section"
           style="cursor: pointer"
         >
-          <img id="profile-logo" :src= user.profile_pic />
-          <h1 id="bar-value">{{user.username}}</h1>
+          <img id="profile-logo" :src="user.profile_pic" />
+          <h1 id="bar-value">{{ user.username }}</h1>
         </div>
       </div>
     </div>
@@ -45,23 +45,21 @@
 
 <script>
 import User from "../models/user";
-import UserService from "../services/user.service"
+import UserService from "../services/user.service";
 
 export default {
-   data() {
-     return {
-       user: new User({username: "", profile_pic: ""})
-     }
-   },
-   created() {
-     UserService.getTopBarInfo().then(
-       res => {
-         if(res) {
-          this.user = res;
-         }
-       }
-     )
-   },
+  data() {
+    return {
+      user: new User({ username: "", profile_pic: "" }),
+    };
+  },
+  created() {
+    UserService.getTopBarInfo().then((res) => {
+      if (res) {
+        this.user = res;
+      }
+    });
+  },
   methods: {
     detailReturn() {
       this.$emit("clickDetail", true);
@@ -163,8 +161,10 @@ i {
 
 #profile-logo {
   width: 40px;
+  height: 40px;
   border-radius: 50%;
   margin-right: 10px;
+  object-fit: cover;
 }
 
 #profile-box {
