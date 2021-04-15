@@ -163,7 +163,4 @@ export default {
   width: 260px;
   z-index: 1000;
 }
-</style>  this.invalidUsername = false;
-      this.invalidEmail = false;
-      this.invalidPassword = false;
-      this.invalidDate = false;
+</style>
