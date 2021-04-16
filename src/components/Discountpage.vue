@@ -1,7 +1,10 @@
 <template>
   <div id="discount-page" class="event-container">
     <div id="banner">
-        <img src="https://assets.grab.com/wp-content/uploads/sites/10/2020/03/31121328/27.03-GRABPAY-CITI-WEEKDAY-PROMO-Blog.jpg" alt="">
+      <img
+        src="https://assets.grab.com/wp-content/uploads/sites/10/2020/03/31121328/27.03-GRABPAY-CITI-WEEKDAY-PROMO-Blog.jpg"
+        alt=""
+      />
     </div>
 
     <h1 id="discount-title" class="event-header">HOT DISCOUNT</h1>
@@ -27,63 +30,93 @@
       <!-- Event -->
     </div>
 
-    <h1 id="discount-title" class="event-header">ALL DISCOUNT</h1>
-
-    <div id="discount-page-section">
-      <!-- Event -->
+    <div v-if="host == true" id="host-menu">
       <div class="event-section">
-        <div id="container">
-          <div
-            id="list-container"
-            @mouseover="hovered = true"
-            @mouseleave="hovered = false"
-            class="event-container"
-          >
-            <div class="list event-flex-section">
-              <div v-for="(item, i) in eventList" :key="i">
-                <DiscountFlex></DiscountFlex>
+        <h1 class="event-header">YOUR EVENT</h1>
+        <select id="select-event" v-model="selected">
+          <option value="all">All Event</option>
+          <option value="host">Hosted</option>
+          <option value="interest">Interested</option>
+        </select>
+      </div>
+      <!-- YOUR EVENT -->
+
+      <div class="section">
+        <div>
+          <!-- Event -->
+          <div id="container">
+            <div
+              @mouseover="hovered = true"
+              @mouseleave="hovered = false"
+              class="event-container"
+            >
+              <div class="list event-flex-wrap-section">
+                <div v-for="(item, i) in eventList" :key="i">
+                  <EventFlex
+                    :user="dataUser[i]"
+                    :date="dataDate"
+                    :title="dataTitle"
+                    :location="dataLocation"
+                    :host="dataHost"
+                    @clickRate="clickRate"
+                    @checkRate="checkRate"
+                  />
+                </div>
               </div>
             </div>
           </div>
+          <!-- Event -->
         </div>
       </div>
-      <!-- Event -->
+
+      <!-- YOUR EVENT -->
     </div>
 
-
+    <div>
+      <div id="joined-menu">
+        <h1 class="event-header">BROWSE</h1>
+        <div>
+          <div>
+            <!-- Event -->
+            <div id="container">
+              <div
+                @mouseover="hovered = true"
+                @mouseleave="hovered = false"
+                class="event-container"
+              >
+                <div class="list event-flex-wrap-section">
+                  <div v-for="(item, i) in eventList" :key="i">
+                    <DiscountLongFlex />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Event -->
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import EventFlex from "@/components/EventFlex.vue";
 import DiscountFlex from "@/components/DiscountFlex.vue";
+import DiscountLongFlex from "@/components/DiscountLongFlex.vue";
 export default {
   name: "discount-page",
   data() {
     return {
       hovered: false,
       selected: "all",
-      eventList: 20,
+      eventList: 5,
       joinList: 10,
-      dataUser: [
-        "05/20",
-        "06/20",
-        "07/20",
-        "08/20",
-        "09/20",
-        "10/20",
-        "11/20",
-        "12/20",
-        "13/20",
-        "14/20",
-      ],
-      dataDate: "14 Oct 2021 - 15 Oct 2021",
-      dataTitle: "Chai Miang Chiang Mai Camp with Aj.Harryfer",
-      dataLocation: "Localhost Resort Chiang Mai, Thailand",
-      dataHost: "pd.piriya",
     };
   },
   components: {
     DiscountFlex,
+    EventFlex,
+    DiscountLongFlex,
   },
 };
 </script>
@@ -100,35 +133,20 @@ export default {
   margin-top: 0px;
 }
 
-div::-webkit-scrollbar {
-  height: 10px;
-  padding-bottom: 30px;
+#banner {
+  box-shadow: 0px 3px 30px #0000000d;
+  margin-bottom: 25px;
 }
 
-div::-webkit-scrollbar-track {
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.2);
+#container {
+  width: 340px;
+  height: 50px;
 }
 
-div::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 1px rgba(255, 255, 255, 1);
-}
-
-div::-webkit-scrollbar:vertical {
-  display: none;
-}
-
-#banner{
-  box-shadow: 0px 3px 30px #0000000D;
-  margin-bottom:25px;
-}
-
-#banner > img{
-  width:100%;
-  height:180px;
-  border-radius: 10px;  
+#banner > img {
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
   object-fit: cover;
 }
 

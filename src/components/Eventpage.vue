@@ -1,46 +1,52 @@
 <template>
   <div id="event-page" class="event-container">
-    <h1 id="event-title" class="event-header">NEW EVENTS</h1>
+    <div  v-if="categorySelected == false">
+      <h1 id="event-title" class="event-header">NEW EVENTS</h1>
 
-    <div id="event-page-section">
-      <!-- Event -->
-      <div class="event-section">
-        <div id="container">
-          <div
-            id="list-container"
-            @mouseover="hovered = true"
-            @mouseleave="hovered = false"
-            class="event-container"
-          >
-            <div class="list event-flex-section">
-              <div v-for="(item, i) in eventList" :key="i">
-                <EventFlex
-                  :user="dataUser[i]"
-                  :date="dataDate"
-                  :title="dataTitle"
-                  :location="dataLocation"
-                  :host="dataHost"
-                  @clickRate="clickRate"
-                  @checkRate="checkRate"
-                />
+      <div id="event-page-section">
+        <!-- Event -->
+        <div class="event-section">
+          <div id="container">
+            <div
+              id="list-container"
+              @mouseover="hovered = true"
+              @mouseleave="hovered = false"
+              class="event-container"
+            >
+              <div class="list event-flex-section">
+                <div v-for="(item, i) in eventList" :key="i">
+                  <EventFlex
+                    :user="dataUser[i]"
+                    :date="dataDate"
+                    :title="dataTitle"
+                    :location="dataLocation"
+                    :host="dataHost"
+                    @clickRate="clickRate"
+                    @checkRate="checkRate"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Event -->
+        <!-- Event -->
 
-      <!-- Category -->
-      <div>
-        <CategorySelect></CategorySelect>
+        <!-- Category -->
+        <div>
+          <CategorySelect @categoryClick="categoryClick"></CategorySelect>
+        </div>
+        <!-- Category -->
       </div>
-      <!-- Category -->
+    </div>
+    <div v-if="categorySelected == true">
+          <EventCategory></EventCategory>
     </div>
   </div>
 </template>
 
 <script>
 import EventFlex from "@/components/EventFlex.vue";
+import EventCategory from "@/components/EventCategory.vue";
 import CategorySelect from "@/components/category/CategorySelect.vue";
 export default {
   name: "event-page",
@@ -50,6 +56,7 @@ export default {
       selected: "all",
       eventList: 20,
       joinList: 10,
+      categorySelected: false,
       dataUser: [
         "05/20",
         "06/20",
@@ -70,7 +77,13 @@ export default {
   },
   components: {
     EventFlex,
+    EventCategory,
     CategorySelect,
+  },
+  methods: {
+    categoryClick(value) {
+      this.categorySelected = value;
+    },
   },
 };
 </script>
@@ -86,7 +99,7 @@ export default {
   margin-top: 0px;
 }
 
-div::-webkit-scrollbar {
+/* div::-webkit-scrollbar {
   height: 10px;
   padding-bottom: 30px;
 }
@@ -104,5 +117,5 @@ div::-webkit-scrollbar-thumb {
 
 div::-webkit-scrollbar:vertical {
   display: none;
-}
+} */
 </style>

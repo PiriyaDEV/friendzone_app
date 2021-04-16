@@ -78,13 +78,13 @@ export default {
   props: ["user", "date", "title", "location", "host"],
   methods: {
     rateEventReturn() {
-      this.$emit("clickRate",true);
-      this.$emit("checkRate",false);
-      },
+      this.$emit("clickRate", true);
+      this.$emit("checkRate", false);
+    },
     ratePartReturn() {
-      this.$emit("clickRate",true);
-      this.$emit("checkRate",true);
-      },
+      this.$emit("clickRate", true);
+      this.$emit("checkRate", true);
+    },
   },
 };
 </script>
@@ -94,11 +94,12 @@ export default {
   background-color: white;
   border-radius: 17px;
   position: relative;
-  margin-right: 15px;
+  margin-right: 20px;
+  margin-bottom: 20px;
 }
 
 .event-pic {
-  width: 300px;
+  width: 315px;
   height: 200px;
   border-top-left-radius: 17px;
   border-top-right-radius: 17px;
@@ -143,6 +144,7 @@ export default {
   margin-bottom: 0px;
   font-size: 1.75em;
   font-weight: 450;
+  color: #444444;
 }
 
 #title-section {
@@ -261,5 +263,11 @@ export default {
   padding: 7px 15px;
   margin: 0;
   border-radius: 16px;
+}
+
+@media screen and (max-width: 1440px) {
+  /* #event-box {
+    margin-right: 40px;
+  } */
 }
 </style>

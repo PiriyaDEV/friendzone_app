@@ -233,14 +233,14 @@ export default {
     if (this.loggedIn) {
       this.$router.push("/mainpage");
     }
-    let user = this.$store.state.user;
+    var user = this.$store.state.user;
     this.username = user.username;
     this.email = user.email;
     this.password = user.password;
     this.passwordConfirm = user.password;
-    this.day = user.birthday.day;
-    this.month = user.birthday.month;
-    this.birthday = user.birthday.year;
+    this.day = user.birthdate.day;
+    this.month = user.birthdate.month;
+    this.year = user.birthdate.year;
   },
   watch: {
     username: function () {
@@ -264,7 +264,7 @@ export default {
     email: function () {
       this.invalidEmail = false;
       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if (!re.test(this.email) && (this.email.length > 0)) {
+      if (!re.test(this.email) && this.email.length > 0) {
         this.invalidEmail = true;
         this.alertEmail = "email is invalid";
       }
@@ -356,23 +356,19 @@ export default {
         this.passwordFieldType === "password" ? "text" : "password";
     },
     checkRegister() {
-      if (this.username.length == 0) {
+      if (!this.username) {
         this.invalidUsername = true;
         this.alertUsername = "username required";
       }
-      if (this.email.length == 0) {
+      if (!this.email) {
         this.invalidEmail = true;
         this.alertEmail = "email required";
       }
-      if (this.password.length == 0) {
+      if (!this.password) {
         this.invalidPassword = true;
         this.alertPassword = "password required";
       }
-      if (
-        (this.day.length == 0) ||
-        (this.month.length == 0) ||
-        (this.year.length == 0)
-      ) {
+      if (!this.day.length || !this.month.length || !this.year.length) {
         this.invalidDate = true;
         this.alertDate = "birthday required";
       }
@@ -388,12 +384,10 @@ export default {
           month: this.month,
           year: this.year,
         };
-        this.$store.state.user = {
-          username: this.username,
-          email: this.email,
-          password: this.password,
-          birthdate: this.birthdate,
-        };
+        this.$store.state.user.username = this.username;
+        this.$store.state.user.email = this.email;
+        this.$store.state.user.password = this.password;
+        this.$store.state.user.birthdate = this.birthdate;
         this.$router.push("/ProfileSetting");
       }
     },

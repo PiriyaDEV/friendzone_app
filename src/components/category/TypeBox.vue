@@ -1,5 +1,5 @@
 <template>
-  <div id="typebox">
+  <div @click="Onclick()" id="typebox">
     <div>
       <img
         class="category-icon"
@@ -13,7 +13,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    Onclick() {
+      this.$emit("clickReturn", true);
+      console.log("test")
+    }
+  },
+};
 </script>
 
 <style scoped>
@@ -25,6 +32,8 @@ export default {};
   background-color: #fe6464;
   border-radius: 10px;
   margin-bottom: 20px;
+  cursor: pointer;
+  margin-right: 15px;
 }
 
 .category-icon {

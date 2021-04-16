@@ -2,15 +2,15 @@
   <div>
     <h1 id="event-title" class="event-header">CATEGORIES</h1>
     <div id="select-section">
-      <TypeBox></TypeBox>
-      <TypeBox></TypeBox>
-      <TypeBox></TypeBox>
-      <TypeBox></TypeBox>
-      <TypeBox></TypeBox>
-      <TypeBox></TypeBox>
-      <TypeBox></TypeBox>
-      <TypeBox></TypeBox>
-      <TypeBox></TypeBox>
+      <TypeBox @clickReturn="clickReturn"></TypeBox>
+      <TypeBox @clickReturn="clickReturn"></TypeBox>
+      <TypeBox @clickReturn="clickReturn"></TypeBox>
+      <TypeBox @clickReturn="clickReturn"></TypeBox>
+      <TypeBox @clickReturn="clickReturn"></TypeBox>
+      <TypeBox @clickReturn="clickReturn"></TypeBox>
+      <TypeBox @clickReturn="clickReturn"></TypeBox>
+      <TypeBox @clickReturn="clickReturn"></TypeBox>
+      <TypeBox @clickReturn="clickReturn"></TypeBox>
     </div>
   </div>
 </template>
@@ -22,13 +22,18 @@ export default {
   components: {
     TypeBox,
   },
+  methods: {
+    clickReturn(value) {
+      this.$emit("categoryClick", value);
+    },
+  },
 };
 </script>
 
 <style scoped>
 #select-section{
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 </style>

@@ -25,8 +25,9 @@ export default {
     display:flex;
     background-color:#FFFFFF;
     border-radius:14px;
-    margin-right:15px;
+    margin-right:20px;
     height:150px;
+    margin-bottom:20px;
 }
 
 .cover{

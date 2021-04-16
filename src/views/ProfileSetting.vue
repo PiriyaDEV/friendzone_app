@@ -26,15 +26,15 @@
                     Firstname<span class="orange-color"> *</span>
                   </h2>
                   <input
-                    v-model="username"
+                    v-model="firstname"
                     class="input_box"
                     type="text"
-                    maxlength="30"
-                    size="30"
+                    maxlength="64"
+                    size="64"
                     placeholder="enter your first name"
                   />
-                  <h3 v-if="invalidUsername === true" class="invalid">
-                    * {{ alertUsername }}
+                  <h3 v-if="invalidFirstname === true" class="invalid">
+                    * {{ alertFirstname }}
                   </h3>
                 </div>
                 <!-- Input -->
@@ -45,15 +45,15 @@
                     Lastname<span class="orange-color"> *</span>
                   </h2>
                   <input
-                    v-model="username"
+                    v-model="lastname"
                     class="input_box"
                     type="text"
-                    maxlength="30"
-                    size="30"
+                    maxlength="64"
+                    size="64"
                     placeholder="enter your last name"
                   />
-                  <h3 v-if="invalidUsername === true" class="invalid">
-                    * {{ alertUsername }}
+                  <h3 v-if="invalidLastname === true" class="invalid">
+                    * {{ alertLastname }}
                   </h3>
                 </div>
                 <!-- Input -->
@@ -64,15 +64,15 @@
                     Phone Number<span class="orange-color"> *</span>
                   </h2>
                   <input
-                    v-model="username"
+                    v-model="phone"
                     class="input_box"
                     type="text"
-                    maxlength="30"
-                    size="30"
+                    maxlength="10"
+                    size="10"
                     placeholder="enter your phone number"
                   />
-                  <h3 v-if="invalidUsername === true" class="invalid">
-                    * {{ alertUsername }}
+                  <h3 v-if="invalidPhone === true" class="invalid">
+                    * {{ alertPhone }}
                   </h3>
                 </div>
                 <!-- Input -->
@@ -91,10 +91,17 @@
                     <option value="" disabled selected hidden>
                       select your gender
                     </option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="lgbt">LBGTQ</option>
+                    <option
+                      v-for="(gender, index) in genderList"
+                      :key="index"
+                      :value="gender.gender_id"
+                    >
+                      {{ gender.gender_name }}
+                    </option>
                   </select>
+                  <h3 v-if="invalidGender === true" class="invalid">
+                    * {{ alertGender }}
+                  </h3>
                 </div>
                 <!-- Input -->
               </div>
@@ -116,30 +123,43 @@
                           src="@/assets/icon/icons8-picture-96.png"
                         />
                       </div>
-                      <div id="photo-circle" style="position: relative" v-else >
-                      <img class="pictureUpload" style="position: relative" :src="avatar.imageURL" alt="avatar">
+                      <div id="photo-circle" style="position: relative" v-else>
+                        <img
+                          class="pictureUpload"
+                          style="position: relative"
+                          :src="avatar.imageURL"
+                          alt="avatar"
+                        />
                       </div>
                     </div>
                     <Upload v-model="avatar">
-                      <div slot="activator" id="select-photo-section" class="section">
-                          <img 
-                            id="addphoto"
-                            src="@/assets/icon/icons8-add-image-96.png"
-                          />
-                          <h1 class="upload">upload photo</h1>
+                      <div
+                        slot="activator"
+                        id="select-photo-section"
+                        class="section"
+                      >
+                        <img
+                          id="addphoto"
+                          src="@/assets/icon/icons8-add-image-96.png"
+                        />
+                        <h1 class="upload">upload photo</h1>
                       </div>
                     </Upload>
                   </div>
                 </div>
+                <h3 v-if="invalidProfilePic === true" class="invalid">
+                  * {{ alertProfilePic }}
+                </h3>
                 <!-- Input -->
 
                 <!-- Input -->
                 <div>
                   <h2 class="input_title">Bio</h2>
                   <textarea
+                    v-model="bio"
                     class="input_textarea_box bio"
-                    maxlength="256"
-                    size="256"
+                    maxlength="150"
+                    size="150"
                     name="bio"
                     placeholder="add your bio"
                   >
@@ -166,54 +186,128 @@
 </template>
 
 <script>
-import Upload from '@/components/UploadPic.vue'
+import Upload from "@/components/UploadPic.vue";
+import GenderService from "../services/gender.service";
 
 export default {
   name: "profile",
   data() {
     return {
-      selected: "",
+      firstname: "",
+      lastname: "",
+      phone: "",
+      bio: "",
       avatar: null,
+      selected: "",
       saving: false,
-      saved: false
+      saved: false,
+      genderList: null,
+      invalidFirstname: false,
+      alertFirstname: "",
+      invalidLastname: false,
+      alertLastname: "",
+      invalidPhone: false,
+      alertPhone: "",
+      invalidGender: false,
+      alertGender: "",
+      invalidProfilePic: false,
+      alertProfilePic: "",
     };
   },
   components: {
-    Upload: Upload
+    Upload: Upload,
   },
-  watch:{
+  watch: {
+    phone: function () {
+      this.invalidPhone = false;
+      if (!/[0-9]/.test(this.phone)) {
+        this.invalidPhone = true;
+        this.alertPhone = "phone number must be only numbers";
+      }
+      if (this.phone.length == 0) this.invalidPhone = false;
+    },
     avatar: {
-      handler: function() {
-        this.saved = false
+      handler: function () {
+        this.saved = false;
       },
-    }
+    },
   },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    }
+    },
   },
   created() {
     if (this.loggedIn) {
       this.$router.push("/mainpage");
     }
-    console.log(this.$store.state.user)
+    var user = this.$store.state.user;
+    if (!user.username || !user.email || !user.password) {
+      window.location.href = "/register";
+    } else {
+      this.firstname = user.firstname;
+      this.lastname = user.lastname;
+      this.phone = user.phone;
+      this.selected = user.gender_id;
+      this.avatar = user.profile_pic;
+      this.bio = user.bio;
+    }
+    GenderService.getGenderList().then((res) => {
+      if (res) {
+        this.genderList = res;
+      }
+    });
   },
   methods: {
     ClickBack() {
-      window.location.href = "/register";
+      this.$store.state.user.firstname = this.firstname;
+      this.$store.state.user.lastname = this.lastname;
+      this.$store.state.user.phone = this.phone;
+      this.$store.state.user.gender_id = this.selected;
+      this.$store.state.user.profile_pic = this.avatar;
+      this.$store.state.user.bio = this.bio;
+      this.$router.push("/register");
     },
     ClickCreate() {
-      window.location.href = "/interestSelect";
+      if (!this.firstname) {
+        this.invalidFirstname = true;
+        this.alertFirstname = "firstname required";
+      }
+      if (!this.lastname) {
+        this.invalidLastname = true;
+        this.alertLastname = "lastname required";
+      }
+      if (!this.phone) {
+        this.invalidPhone = true;
+        this.alertPhone = "phone required";
+      }
+      if (!this.selected) {
+        this.invalidGender = true;
+        this.alertGender = "gender required";
+      }
+      if (!this.avatar) {
+        this.invalidProfilePic = true;
+        this.alertProfilePic = "profile picture required";
+      }
+      if (!this.invalidFirstname &&
+      !this.invalidLastname &&
+      !this.invalidPhone &&
+      !this.invalidGender &&
+      !this.invalidProfilePic) {
+        this.$store.dispatch("auth/signin", {
+
+        })
+        this.$router.push("/interestSelect");
+      }
     },
     uploadImage() {
-      this.saving = true
-      setTimeout(() => this.savedAvatar(), 1000)
+      this.saving = true;
+      setTimeout(() => this.savedAvatar(), 1000);
     },
     savedAvatar() {
-      this.saving = false
-      this.saved = true
-      alert(this.avatar.imageURL)
+      this.saving = false;
+      this.saved = true;
+      alert(this.avatar.imageURL);
     },
   },
 };
@@ -421,14 +515,14 @@ option {
 }
 
 .pictureUpload {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 #photo-circle-default {
