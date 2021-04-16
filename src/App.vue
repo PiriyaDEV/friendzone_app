@@ -27,6 +27,23 @@ input[type="password"]::-ms-clear {
   display: none;
 }
 
+div::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+  padding-bottom: 30px;
+}
+
+div::-webkit-scrollbar-track {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+div::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, 1);
+}
+
 .popup {
   background-color: rgb(162, 129, 76, 0.25);
   backdrop-filter: blur(15px);
@@ -189,12 +206,18 @@ button {
   align-items: center;
   z-index: 2;
 }
-.page-container,
+.page-container {
+  width: 1440px;
+  max-width: 1440px;
+  padding: 0;
+}
+
 .event-container {
   width: 1440px;
   max-width: 1440px;
   padding: 0;
 }
+
 .navbar-container {
   width: 1440px;
   max-width: 1440px;
@@ -253,17 +276,24 @@ button {
 
 .list {
   background: transparent;
-  min-width: 1400px;
   float: left;
 }
 
 .event-flex-section {
   display: flex;
   align-items: center;
-  /* overflow-x: scroll; */
+  overflow-y: hidden;
+  /* margin-bottom: 20px; */
+}
+
+.event-flex-wrap-section {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  align-items: center;
   overflow-y: hidden;
   margin-bottom: 20px;
-  /* justify-content: space-around; */
+  justify-content: flex-start;
 }
 
 #list-container {
@@ -274,12 +304,12 @@ button {
 }
 
 @media screen and (max-width: 1080px) {
-  .back_button,.create_button{
+  .back_button,
+  .create_button {
     width: 200px;
     margin: 20px 0px;
     font-size: 1.75em;
   }
-
 }
 
 @media screen and (max-width: 1920px) {
@@ -288,7 +318,6 @@ button {
     width: 1280px;
     max-width: 1280px;
   }
-
   .event-container {
     width: 1284px;
     max-width: 1284px;
@@ -341,7 +370,8 @@ button {
     width: 268px;
   }
 
-  .back_button,.create_button{
+  .back_button,
+  .create_button {
     margin: 15px 0px;
     font-size: 1.6em;
     width: 140px;
@@ -360,12 +390,12 @@ button {
     width: 228px;
   }
 
-  .back_button,.create_button{
+  .back_button,
+  .create_button {
     margin: 15px 0px;
     font-size: 1.5em;
     width: 120px;
   }
-
 }
 @media screen and (max-width: 375px) {
   .page-container,
@@ -387,7 +417,8 @@ button {
     width: 208px;
   }
 
-  .back_button,.create_button{
+  .back_button,
+  .create_button {
     width: 115px;
   }
 }

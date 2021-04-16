@@ -34,11 +34,27 @@
     </div>
     <!-- Follow Box -->
 
+    <!-- Menubar -->
+    <div id="menubar">
+      <div @click="host = true" :class="selectHost">
+        <h1>HOST</h1>
+      </div>
+      <div @click="join = true" :class="selectJoin">
+        <h1>JOINED</h1>
+      </div>
+      <div @click="request = true" :class="selectRequest">
+        <h1>REQUEST</h1>
+      </div>
+      <div @click="discount = true" :class="selectDiscount">
+        <h1>DISCOUNT</h1>
+      </div>
+    </div>
+    <!-- Menubar -->
+
     <div id="event-display">
       <!-- YOUR EVENT -->
 
-
-      <div id="event">
+      <div v-if="host == true" id="host-menu">
         <div class="event-section">
           <h1 class="event-header">YOUR EVENT</h1>
           <select id="select-event" v-model="selected">
@@ -53,12 +69,51 @@
           <!-- Event -->
           <div id="container">
             <div
-              id="list-container"
               @mouseover="hovered = true"
               @mouseleave="hovered = false"
               class="event-container"
             >
-              <div class="list event-flex-section">
+              <div class="list event-flex-wrap-section">
+                <div v-for="(item, i) in eventList" :key="i">
+                  <EventFlex
+                    :user="dataUser[i]"
+                    :date="dataDate"
+                    :title="dataTitle"
+                    :location="dataLocation"
+                    :host="dataHost"
+                    @clickRate="clickRate"
+                    @checkRate="checkRate"
+                  />
+                </div>
+              </div>
+            </div>
+            <!-- Event -->
+          </div>
+        </div>
+
+        <!-- YOUR EVENT -->
+      </div>
+
+      <div v-if="join == true" id="joined-menu">
+        <div class="event-section">
+          <h1 class="event-header">JOINED</h1>
+          <select id="select-event" v-model="selected">
+            <option value="all">All Event</option>
+            <option value="host">Hosted</option>
+            <option value="interest">Interested</option>
+          </select>
+        </div>
+        <!-- YOUR EVENT -->
+
+        <div>
+          <!-- Event -->
+          <div id="container">
+            <div
+              @mouseover="hovered = true"
+              @mouseleave="hovered = false"
+              class="event-container"
+            >
+              <div class="list event-flex-wrap-section">
                 <div v-for="(item, i) in eventList" :key="i">
                   <EventFlex
                     :user="dataUser[i]"
@@ -78,52 +133,109 @@
         <!-- YOUR EVENT -->
       </div>
 
-      <div id="join">
-        <div class="join-section">
-          <h1 class="event-header">JOIN PENDING</h1>
+      <div v-if="request == true" id="request-menu">
+        <div class="event-section">
+          <h1 class="event-header">REQUEST</h1>
+          <select id="select-event" v-model="selected">
+            <option value="all">All Event</option>
+            <option value="host">Hosted</option>
+            <option value="interest">Interested</option>
+          </select>
         </div>
+        <!-- YOUR EVENT -->
 
-        <!-- Event -->
-        <div id="container">
-          <div
-            id="list-container"
-            @mouseover="hovered = true"
-            @mouseleave="hovered = false"
-            class="event-container"
-          >
-            <div class="list event-flex-section">
-              <div v-for="(item, i) in joinList" :key="i">
-                <EventFlex 
-                  :user="dataUser[i]"
-                  :date="dataDate"
-                  :title="dataTitle"
-                  :location="dataLocation"
-                  :host="dataHost"
-                  @clickRate="clickRate"
-                  @checkRate="checkRate"
-                />
+        <div>
+          <!-- Event -->
+          <div id="container">
+            <div
+              @mouseover="hovered = true"
+              @mouseleave="hovered = false"
+              class="event-container"
+            >
+              <div class="list event-flex-wrap-section">
+                <div v-for="(item, i) in eventList" :key="i">
+                  <EventFlex
+                    :user="dataUser[i]"
+                    :date="dataDate"
+                    :title="dataTitle"
+                    :location="dataLocation"
+                    :host="dataHost"
+                    @clickRate="clickRate"
+                    @checkRate="checkRate"
+                  />
+                </div>
               </div>
             </div>
+
+            <!-- Event -->
           </div>
         </div>
-        <!-- Event -->
+
+        <!-- YOUR EVENT -->
       </div>
 
+      <div v-if="discount == true" id="discount-menu">
+        <div class="event-section">
+          <h1 class="event-header">DISCOUNT</h1>
+          <select id="select-event" v-model="selected">
+            <option value="all">All Event</option>
+            <option value="host">Hosted</option>
+            <option value="interest">Interested</option>
+          </select>
+        </div>
+        <!-- YOUR EVENT -->
 
+        <div>
+          <!-- Event -->
+          <div id="container">
+            <div
+              @mouseover="hovered = true"
+              @mouseleave="hovered = false"
+              class="event-container"
+            >
+              <div class="list event-flex-wrap-section">
+                <div v-for="(item, i) in eventList" :key="i">
+                  <DiscountLongFlex
+                    :user="dataUser[i]"
+                    :date="dataDate"
+                    :title="dataTitle"
+                    :location="dataLocation"
+                    :host="dataHost"
+                    @clickRate="clickRate"
+                    @checkRate="checkRate"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Event -->
+          </div>
+        </div>
+        <!-- YOUR EVENT -->
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import EventFlex from "@/components/EventFlex.vue";
+import DiscountLongFlex from "@/components/DiscountLongFlex.vue";
 
 export default {
   name: "Yourzone",
   data() {
     return {
+      host: true,
+      join: false,
+      request: false,
+      discount: false,
       hovered: false,
+      selectHost: "menu-box-orange",
+      selectJoin: "menu-box-white",
+      selectRequest: "menu-box-white",
+      selectDiscount: "menu-box-white",
       selected: "all",
-      eventList: 200,
+      eventList: 5,
       joinList: 10,
       dataUser: [
         "05/20",
@@ -143,18 +255,51 @@ export default {
       dataHost: "pd.piriya",
     };
   },
+  watch: {
+    host: function () {
+      if (this.host == true) {
+        this.selectHost = "menu-box-orange";
+        this.join = false;
+        this.request = false;
+        this.discount = false;
+      } else this.selectHost = "menu-box-white";
+    },
+    join: function () {
+      if (this.join == true) {
+        this.selectJoin = "menu-box-orange";
+        this.host = false;
+        this.request = false;
+        this.discount = false;
+      } else this.selectJoin = "menu-box-white";
+    },
+    request: function () {
+      if (this.request == true) {
+        this.selectRequest = "menu-box-orange";
+        this.host = false;
+        this.join = false;
+        this.discount = false;
+      } else this.selectRequest = "menu-box-white";
+    },
+    discount: function () {
+      if (this.discount == true) {
+        this.selectDiscount = "menu-box-orange";
+        this.host = false;
+        this.join = false;
+        this.request = false;
+      } else this.selectDiscount = "menu-box-white";
+    },
+  },
   components: {
     EventFlex,
+    DiscountLongFlex,
   },
   methods: {
     clickRate(value) {
-      this.$emit("clickShowed",value);
+      this.$emit("clickShowed", value);
     },
     checkRate(value) {
-      this.$emit("checkShow",value);
+      this.$emit("checkShow", value);
     },
-  },
-  mounted() {
   },
 };
 </script>
@@ -162,7 +307,7 @@ export default {
 <style scoped>
 #detail {
   margin-top: 110px;
-  margin-bottom: 100px;
+  margin-bottom: 30px;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -175,7 +320,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 .verticle-box {
   text-align: center;
@@ -187,6 +332,40 @@ export default {
   bottom: -27px;
   right: -25px;
 }
+
+/* menubar css  */
+
+#menubar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 20px;
+  margin: 0px 100px 10px 100px;
+  padding: 3px;
+}
+
+.menu-box-orange,
+.menu-box-white {
+  padding: 8px 50px;
+  border-radius: 20px;
+  color: #444444;
+  cursor: pointer;
+}
+
+.menu-box-orange {
+  background-color: #fe8864;
+  color: #ffffff;
+}
+
+.menu-box-orange > h1,
+.menu-box-white > h1 {
+  font-size: 2em;
+  font-weight: 600;
+  margin: 0px;
+}
+
+/* menubar css  */
 
 #event-display {
   width: 400px;
@@ -289,7 +468,7 @@ option {
   height: 50px;
 }
 
-div::-webkit-scrollbar {
+/* div::-webkit-scrollbar {
   height: 10px;
   padding-bottom: 30px;
 }
@@ -307,7 +486,7 @@ div::-webkit-scrollbar-thumb {
 
 div::-webkit-scrollbar:vertical {
   display: none;
-}
+} */
 
 .arrow {
   width: 30px;

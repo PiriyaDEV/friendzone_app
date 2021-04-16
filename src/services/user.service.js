@@ -2,21 +2,9 @@ import axios from "axios";
 import authHeader from "./auth-header";
 import decode from "jwt-decode";
 
-const API_URL = "http://localhost:8080/api/";
+const API_URL = "http://localhost:8080/api/user/";
 
 class UserService {
-  getPublicContent() {
-    return axios.get(API_URL + "all");
-  }
-
-  getModeratorBoard() {
-    return axios.get(API_URL + "mod", { headers: authHeader() });
-  }
-
-  getAdminBoard() {
-    return axios.get(API_URL + "admin", { headers: authHeader() });
-  }
-
   getUserData(user) {
     return axios
       .post(
@@ -87,7 +75,7 @@ class UserService {
 
   async getTopBarInfo() {
     let user = decode(localStorage.getItem("user"));
-    let profile_pic = "http://localhost:8080/api/displayPic/";
+    let profile_pic = "http://localhost:8080/api/user/displayPic/";
     const res = await axios.get(API_URL + "getUsername/" + user.user_id,
       { headers: authHeader() });
     res.data.profile_pic = profile_pic + user.user_id;
@@ -96,7 +84,7 @@ class UserService {
 
   async getUserDetail() {
     let user = decode(localStorage.getItem("user"));
-    let profile_pic = "http://localhost:8080/api/displayPic/";
+    let profile_pic = "http://localhost:8080/api/user/displayPic/";
     const res = await axios.get(API_URL + "getUserDetail/" + user.user_id,
       { headers: authHeader() });
     res.data.profile_pic = profile_pic + user.user_id;
