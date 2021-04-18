@@ -30,48 +30,6 @@
       <!-- Event -->
     </div>
 
-    <div v-if="host == true" id="host-menu">
-      <div class="event-section">
-        <h1 class="event-header">YOUR EVENT</h1>
-        <select id="select-event" v-model="selected">
-          <option value="all">All Event</option>
-          <option value="host">Hosted</option>
-          <option value="interest">Interested</option>
-        </select>
-      </div>
-      <!-- YOUR EVENT -->
-
-      <div class="section">
-        <div>
-          <!-- Event -->
-          <div id="container">
-            <div
-              @mouseover="hovered = true"
-              @mouseleave="hovered = false"
-              class="event-container"
-            >
-              <div class="list event-flex-wrap-section">
-                <div v-for="(item, i) in eventList" :key="i">
-                  <EventFlex
-                    :user="dataUser[i]"
-                    :date="dataDate"
-                    :title="dataTitle"
-                    :location="dataLocation"
-                    :host="dataHost"
-                    @clickRate="clickRate"
-                    @checkRate="checkRate"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Event -->
-        </div>
-      </div>
-
-      <!-- YOUR EVENT -->
-    </div>
-
     <div>
       <div id="joined-menu">
         <h1 class="event-header">BROWSE</h1>
@@ -100,7 +58,6 @@
 </template>
 
 <script>
-import EventFlex from "@/components/EventFlex.vue";
 import DiscountFlex from "@/components/DiscountFlex.vue";
 import DiscountLongFlex from "@/components/DiscountLongFlex.vue";
 export default {
@@ -115,7 +72,6 @@ export default {
   },
   components: {
     DiscountFlex,
-    EventFlex,
     DiscountLongFlex,
   },
 };
