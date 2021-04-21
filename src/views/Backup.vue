@@ -1,98 +1,46 @@
 <template>
   <div>
-      
-        <div slot="activator">
-          <div id="photo-circle" v-if="!avatar">
-            <img id="photo-circle-default" src="@/assets/icon/icons8-picture-96.png"/>
-          </div>
-          <div id="photo-circle" style="position: relative" v-else >
-            <img :src="avatar.imageURL" alt="avatar">
-          </div>
-        </div>
-      <Backup2 v-model="avatar">
-        <div slot="activator">
-          <div  v-if="!avatar" id="select-photo-section" class="section">
-            <img id="addphoto" src="@/assets/icon/icons8-add-image-96.png"/>
-               <h1 class="upload">upload photo</h1>
-        </div>
-        </div>
-      </Backup2>
-        <div id="select-photo-section" class="section" v-if="avatar && saved == false">
-          <div class="upload" @click="uploadImage" >Save Avatar</div>
-        </div>
+    <div>
+      <label class="typo__label">Tagging</label>
+      <multiselect v-model="value" tag-placeholder="Add this as new tag" placeholder="Search or add a tag" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+      <pre class="language-json"><code>{{ value  }}</code></pre>
+    </div>
   </div>
 </template>
 
 <script>
-import Backup2 from '@/views/Backup2.vue'
+import Multiselect from 'vue-multiselect'
 
 export default {
-  name: 'app',
+  components: {
+    Multiselect
+  },
   data () {
     return {
-      avatar: null,
-      saving: false,
-      saved: false
-    }
-  },
-  components: {
-    Backup2: Backup2
-  },
-  watch:{
-    avatar: {
-      handler: function() {
-        this.saved = false
-      },
-      deep: true
+      value: [
+        { name: 'Javascript', code: 'js' }
+      ],
+      options: [
+        { name: 'Vue.js', code: 'vu' },
+        { name: 'Javascript', code: 'js' },
+        { name: 'Open Source', code: 'os' }
+      ]
     }
   },
   methods: {
-    uploadImage() {
-      this.saving = true
-      setTimeout(() => this.savedAvatar(), 1000)
-    },
-    savedAvatar() {
-      this.saving = false
-      this.saved = true
+    addTag (newTag) {
+      const tag = {
+        name: newTag,
+        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+      }
+      this.options.push(tag)
+      this.value.push(tag)
     }
   }
 }
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
 <style scoped>
-#photo-circle {
-  border-radius: 50%;
-  border: 2px solid #e3e3e3;
-  width: 140px;
-  height: 140px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-#photo-circle-default {
-  width: 50px;
-  margin: 0px;
-}
-
-#select-photo-section {
-  border: 2px solid #e3e3e3;
-  border-radius: 6px;
-  padding: 3px 8px;
-  margin-top: 12px;
-}
-
-#addphoto {
-  width: 25px;
-}
-
-.upload {
-  color: #cccccc;
-  font-size: 1.75em;
-  font-weight: 600;
-  margin: 0px 0px 0px 6px;
-}
 </style>

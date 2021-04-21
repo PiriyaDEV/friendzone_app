@@ -10,12 +10,9 @@
       ref="file"
       :name="uploadFieldName"
       accept="image/png,image/jpeg"
-      @change="onFileChange($event.target.name, $event.target.files)"
+      @change="onFileChange($event.target.files)"
       style="display: none"
     />
-
-    
-
   </div>
 </template>
 
@@ -36,7 +33,7 @@ export default {
     launchFilePicker() {
       this.$refs.file.click();
     },
-    onFileChange(fieldName, file) {
+    onFileChange(file) {
       const { maxSize } = this;
       let imageFile = file[0];
 
@@ -55,7 +52,7 @@ export default {
           // Append file into FormData and turn file into image URL
           let formData = new FormData();
           let imageURL = URL.createObjectURL(imageFile);
-          formData.append(fieldName, imageFile);
+          formData.append("uploadedImages", imageFile);
           // Emit the FormData and image URL to the parent component
           this.$emit("input", { formData, imageURL });
         }

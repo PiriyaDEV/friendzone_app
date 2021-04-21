@@ -18,7 +18,12 @@
       <!-- Middle Menu-->
       <div>
         <!-- Your Zone -->
-        <div @click="zoneClick()" class="section" :class="zonebox" style ="cursor: pointer;">
+        <div
+          @click="zoneClick()"
+          class="section"
+          :class="zonebox"
+          style="cursor: pointer;"
+        >
           <div>
             <img
               v-show="zoneselect == false"
@@ -38,7 +43,12 @@
         <!-- Your Zone -->
 
         <!-- Event -->
-        <div @click="eventClick()" class="section" :class="eventbox" style ="cursor: pointer;">
+        <div
+          @click="eventClick()"
+          class="section"
+          :class="eventbox"
+          style="cursor: pointer;"
+        >
           <div>
             <img
               v-show="eventselect == false"
@@ -58,7 +68,12 @@
         <!-- Event -->
 
         <!-- Discount -->
-        <div @click="discountClick()" class="section" :class="discountbox" style ="cursor: pointer;">
+        <div
+          @click="discountClick()"
+          class="section"
+          :class="discountbox"
+          style="cursor: pointer;"
+        >
           <div>
             <img
               v-show="discountselect == false"
@@ -103,7 +118,12 @@
         <!-- Chat -->
 
         <!-- History -->
-        <div @click="historyClick()" class="section" :class="historybox" style ="cursor: pointer;">
+        <div
+          @click="historyClick()"
+          class="section"
+          :class="historybox"
+          style="cursor: pointer;"
+        >
           <div>
             <img
               v-show="historyselect == false"
@@ -124,7 +144,7 @@
 
         <!-- Report -->
         <div
-           @click="reportClick()"
+          @click="reportClick()"
           style="margin-top: 135px; cursor: pointer;"
           class="section"
           :class="reportbox"
@@ -152,7 +172,7 @@
           @click="signoutClick()"
           class="section"
           :class="signoutbox"
-          style ="cursor: pointer;"
+          style="cursor: pointer;"
         >
           <div>
             <img
@@ -177,6 +197,8 @@
 </template>
 
 <script>
+import AuthService from "../services/auth.service";
+
 export default {
   name: "Mainpage",
   data() {
@@ -192,17 +214,17 @@ export default {
   },
   methods: {
     createdReturn() {
-      this.$emit("clickCreate",true);
-      },
+      this.$emit("clickCreate", true);
+    },
     zoneClick() {
       this.zoneselect = true;
       this.eventselect = false;
       this.discountselect = false;
       this.chatselect = false;
       this.historyselect = false;
-      this.reportselect = false,
-      this.signoutselect = false;
-      this.$emit("pageReturn",1);
+      (this.reportselect = false), (this.signoutselect = false);
+      this.$emit("clickClearSearch", true);
+      this.$emit("pageReturn", 1);
     },
     eventClick() {
       this.zoneselect = false;
@@ -210,9 +232,9 @@ export default {
       this.discountselect = false;
       this.chatselect = false;
       this.historyselect = false;
-      this.reportselect = false,
-      this.signoutselect = false;
-      this.$emit("pageReturn",4);
+      (this.reportselect = false), (this.signoutselect = false);
+      this.$emit("clickClearSearch", true);
+      this.$emit("pageReturn", 4);
     },
     discountClick() {
       this.zoneselect = false;
@@ -220,9 +242,9 @@ export default {
       this.discountselect = true;
       this.chatselect = false;
       this.historyselect = false;
-      this.reportselect = false,
-      this.signoutselect = false;
-      this.$emit("pageReturn",5);
+      (this.reportselect = false), (this.signoutselect = false);
+      this.$emit("clickClearSearch", true);
+      this.$emit("pageReturn", 5);
     },
     chatClick() {
       this.zoneselect = false;
@@ -230,9 +252,9 @@ export default {
       this.discountselect = false;
       this.chatselect = true;
       this.historyselect = false;
-      this.reportselect = false,
-      this.signoutselect = false;
-      this.$emit("pageReturn",2);
+      (this.reportselect = false), (this.signoutselect = false);
+      this.$emit("clickClearSearch", true);
+      this.$emit("pageReturn", 2);
     },
     historyClick() {
       this.zoneselect = false;
@@ -240,8 +262,9 @@ export default {
       this.discountselect = false;
       this.chatselect = false;
       this.historyselect = true;
-      this.reportselect = false,
-      this.signoutselect = false;
+      (this.reportselect = false), (this.signoutselect = false);
+      this.$emit("clickClearSearch", true);
+      this.$emit("pageReturn", 6);
     },
     reportClick() {
       this.zoneselect = false;
@@ -249,9 +272,9 @@ export default {
       this.discountselect = false;
       this.chatselect = false;
       this.historyselect = false;
-      this.reportselect = true,
-      this.signoutselect = false;
-      this.$emit("pageReturn",3);
+      (this.reportselect = true), (this.signoutselect = false);
+      this.$emit("clickClearSearch", true);
+      this.$emit("pageReturn", 3);
     },
     signoutClick() {
       this.zoneselect = false;
@@ -259,10 +282,8 @@ export default {
       this.discountselect = false;
       this.chatselect = false;
       this.historyselect = false;
-      this.reportselect = false,
-      this.signoutselect = true;
-      localStorage.removeItem("user");
-      window.location.href = "/";
+      (this.reportselect = false), (this.signoutselect = true);
+      AuthService.logout();
     },
   },
   computed: {
@@ -432,7 +453,7 @@ export default {
   background-color: #ffffff;
   /* overflow-x: hidden; */
   display: flex;
-  padding-top:30px;
+  padding-top: 30px;
   justify-content: center;
 }
 

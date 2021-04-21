@@ -12,9 +12,6 @@
       @change="onFileChange($event.target.name, $event.target.files)"
       style="display: none"
     />
-
-    
-
   </div>
 </template>
 

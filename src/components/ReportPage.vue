@@ -28,17 +28,17 @@
 export default {
   methods: {
     reportUserReturn() {
-      this.$emit("clickReport",true);
-      this.$emit("checkReport",1);
-      },
+      this.$emit("clickReport", true);
+      this.$emit("checkReport", 1);
+    },
     reportEventReturn() {
-      this.$emit("clickReport",true);
-      this.$emit("checkReport",2);
-      },
+      this.$emit("clickReport", true);
+      this.$emit("checkReport", 2);
+    },
     reportWebReturn() {
-      this.$emit("clickReport",true);
-      this.$emit("checkReport",3);
-      },  
+      this.$emit("clickReport", true);
+      this.$emit("checkReport", 3);
+    },
   },
 };
 </script>
@@ -71,11 +71,11 @@ export default {
   width: 80px;
 }
 
-.choice-text{
-    text-align: center;
-    font-size: 3em;
-    font-weight: 500;
-    color: #A0A0A0;
-    margin: 0;
+.choice-text {
+  text-align: center;
+  font-size: 3em;
+  font-weight: 500;
+  color: #a0a0a0;
+  margin: 0;
 }
 </style>

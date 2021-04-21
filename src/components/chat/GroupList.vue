@@ -13,10 +13,10 @@
 <script>
 import EventList from "@/components/chat/message/EventList.vue";
 export default {
-    name: "grouplist",
-    components:{
-        EventList
-    }
+  name: "grouplist",
+  components: {
+    EventList,
+  },
 };
 </script>
 
@@ -31,6 +31,5 @@ export default {
   padding: 12px 17px;
   border-radius: 10px;
   height: 505px;
-
 }
 </style>

@@ -7,7 +7,9 @@
           <div id="left">
             <!-- Input -->
             <div>
-              <h2 class="input_title">Event Picture<span class="orange-color"> *</span></h2>
+              <h2 class="input_title">
+                Event Picture<span class="orange-color"> *</span>
+              </h2>
               <div id="select-photo-section" class="section">
                 <div id="select-photo-inside" class="section">
                   <img
@@ -23,9 +25,11 @@
 
             <!-- Input -->
             <div>
-              <h2 class="input_title">Title<span class="orange-color"> *</span></h2>
+              <h2 class="input_title">
+                Title<span class="orange-color"> *</span>
+              </h2>
               <input
-                v-model="username"
+                v-model="event.title"
                 class="input_box"
                 type="text"
                 maxlength="30"
@@ -37,13 +41,16 @@
 
             <!-- Input -->
             <div>
-              <h2 class="input_title">Description<span class="orange-color"> *</span></h2>
+              <h2 class="input_title">
+                Description<span class="orange-color"> *</span>
+              </h2>
               <textarea
                 class="input_textarea_box bio"
                 maxlength="256"
                 size="256"
                 name="bio"
                 placeholder="enter your event description"
+                v-model="event.description"
               >
               </textarea>
             </div>
@@ -53,7 +60,7 @@
             <div>
               <h2 class="input_title">Location</h2>
               <input
-                v-model="username"
+                v-model="event.location"
                 class="input_box"
                 type="text"
                 maxlength="30"
@@ -66,7 +73,9 @@
           <div id="right">
             <!-- Input -->
             <div>
-              <h2 class="input_title">Start On<span class="orange-color"> *</span></h2>
+              <h2 class="input_title">
+                Start On<span class="orange-color"> *</span>
+              </h2>
               <div class="date-section">
                 <input
                   id="day"
@@ -75,7 +84,7 @@
                   pattern="[0-9]*"
                   maxlength="2"
                   size="2"
-                  v-model="day"
+                  v-model="date_start.day"
                   placeholder="day"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
@@ -87,7 +96,7 @@
                   pattern="[0-9]*"
                   maxlength="2"
                   size="2"
-                  v-model="month"
+                  v-model="date_start.month"
                   placeholder="month"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
@@ -99,7 +108,7 @@
                   pattern="[0-9]*"
                   maxlength="4"
                   size="4"
-                  v-model="year"
+                  v-model="date_start.year"
                   placeholder="year"
                 />
               </div>
@@ -111,7 +120,7 @@
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="h1"
+                  v-model="date_start.h1"
                   placeholder="0"
                 />
                 <input
@@ -122,7 +131,7 @@
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="h2"
+                  v-model="date_start.h2"
                   placeholder="0"
                 />
                 <h1
@@ -143,7 +152,7 @@
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="m1"
+                  v-model="date_start.m1"
                   placeholder="0"
                 />
                 <input
@@ -154,7 +163,7 @@
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="m2"
+                  v-model="date_start.m2"
                   placeholder="0"
                 />
               </div>
@@ -172,7 +181,7 @@
                   pattern="[0-9]*"
                   maxlength="2"
                   size="2"
-                  v-model="day"
+                  v-model="date_end.day"
                   placeholder="day"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
@@ -184,7 +193,7 @@
                   pattern="[0-9]*"
                   maxlength="2"
                   size="2"
-                  v-model="month"
+                  v-model="date_end.month"
                   placeholder="month"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
@@ -196,7 +205,7 @@
                   pattern="[0-9]*"
                   maxlength="4"
                   size="4"
-                  v-model="year"
+                  v-model="date_end.year"
                   placeholder="year"
                 />
               </div>
@@ -208,7 +217,7 @@
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="h1"
+                  v-model="date_end.h1"
                   placeholder="0"
                 />
                 <input
@@ -219,7 +228,7 @@
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="h2"
+                  v-model="date_end.h2"
                   placeholder="0"
                 />
                 <h1
@@ -240,7 +249,7 @@
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="m1"
+                  v-model="date_end.m1"
                   placeholder="0"
                 />
                 <input
@@ -251,7 +260,7 @@
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="m2"
+                  v-model="date_end.m2"
                   placeholder="0"
                 />
               </div>
@@ -260,39 +269,19 @@
 
             <!-- Input -->
             <div>
-              <h2 class="input_title">Preferred Participant Gender<span class="orange-color"> *</span></h2>
-              <select
-                name="gender"
-                class="input_select minimal"
-                v-model="gender_selected"
-                required
-              >
-                <option value="" disabled selected hidden>
-                  select your preferred gender
-                </option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="lgbt">LBGTQ</option>
-              </select>
+              <h2 class="input_title">
+                Preferred Participant Gender<span class="orange-color"> *</span>
+              </h2>
+              <multiselect v-model="gender_value" placeholder="select your preferred gender" label="name" track-by="code" :options="gender_options" :multiple="true"></multiselect>
             </div>
             <!-- Input -->
 
             <!-- Input -->
             <div>
-              <h2 class="input_title">Event Category<span class="orange-color"> *</span></h2>
-              <select
-                name="gender"
-                class="input_select minimal"
-                v-model="category_selected"
-                required
-              >
-                <option value="" disabled selected hidden>
-                  select event category
-                </option>
-                <option value="eiei">Sport</option>
-                <option value="eiei">Eating</option>
-                <option value="eiei">Something</option>
-              </select>
+              <h2 class="input_title">
+                Event Category<span class="orange-color"> *</span>
+              </h2>
+              <multiselect v-model="category_value" placeholder="select event category" label="name" track-by="code" :options="category_options" :multiple="true"></multiselect>
             </div>
             <!-- Input -->
 
@@ -300,9 +289,11 @@
               <div id="participant-section">
                 <!-- Input -->
                 <div>
-                  <h2 class="input_title">Max Participants<span class="orange-color"> *</span></h2>
+                  <h2 class="input_title">
+                    Max Participants<span class="orange-color"> *</span>
+                  </h2>
                   <input
-                    v-model="maxamount"
+                    v-model="event.max_participant"
                     class="input_participant"
                     type="text"
                     maxlength="2"
@@ -314,10 +305,12 @@
 
                 <!-- Input -->
                 <div>
-                  <h2 class="input_title">Age Limits<span class="orange-color"> *</span></h2>
+                  <h2 class="input_title">
+                    Age Limits<span class="orange-color"> *</span>
+                  </h2>
                   <div class="section">
                     <input
-                      v-model="agefrom"
+                      v-model="event.min_age"
                       class="input_age"
                       type="text"
                       maxlength="2"
@@ -326,7 +319,7 @@
                     />
                     <h1 class="input_title" id="to">to</h1>
                     <input
-                      v-model="ageto"
+                      v-model="event.max_age"
                       class="input_age"
                       type="text"
                       maxlength="2"
@@ -359,23 +352,118 @@
   </div>
 </template>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
 <script>
 import $ from "jquery";
+import Multiselect from 'vue-multiselect'
+import Event from "./../../models/event";
+import GenderService from "../../services/gender.service";
+
+
+class constructDate {
+  constructor(date) {
+    this.day = date.day;
+    this.month = date.month;
+    this.year = date.year;
+    this.h1 = date.h1;
+    this.h2 = date.h2;
+    this.m1 = date.m1;
+    this.m2 = date.m2;
+  }
+}
+
+
+
 export default {
   data() {
     return {
       gender_selected: "",
       category_selected: "",
+      genderList: null,
+      date_start: new constructDate(""),
+      date_end: new constructDate(""),
+      hs: "",
+      ms: "",
+      he: "",
+      me: "",
+      event: new Event({
+        host_id: "",
+        title: "",
+        description: "",
+        location: "",
+        event_pic: "",
+        start_at: "",
+        end_at: "",
+        max_participant: "",
+        min_age: "",
+        max_age: "",
+      }),
+      gender_value: [
+        { name: 'Male', code: 'male' },
+        { name: 'Female', code: 'female' },
+        { name: 'LGBTQ+', code: 'lgbt' }
+      ],
+      gender_options: [
+        { name: 'Male', code: 'male' },
+        { name: 'Female', code: 'female' },
+        { name: 'LGBTQ+', code: 'lgbt' }
+      ],
+      category_value: [
+        { name: 'Sport', code: 'sport' },
+        { name: 'Eating', code: 'Eating' }
+      ],
+      category_options: [
+        { name: 'Sport', code: 'sport' },
+        { name: 'Eating', code: 'Eating' },
+        { name: 'Something', code: 'Something' }
+      ]
     };
   },
+  components:{
+    Multiselect
+  },
   methods: {
+    addTag (newTag) {
+      const tag = {
+        name: newTag,
+        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+      }
+      this.options.push(tag)
+      this.value.push(tag)
+    },
     createdReturn() {
       this.$emit("clickCreate", false);
     },
+    ClickCreate() {
+      this.hs = this.date_start.h1 + this.date_start.h2;
+      this.ms = this.date_start.m1 + this.date_start.m2;
+      this.he = this.date_end.h1 + this.date_end.h2;
+      this.me = this.date_end.m1 + this.date_end.m2;
+
+      this.event.start_at = new Date(this.date_start.year + '-' + 
+                            this.date_start.month + '-' +
+                            this.date_start.day + ' ' +
+                            this.hs + ':' + this.ms +':00 UTC').getTime();
+
+      this.event.end_at = new Date(this.date_end.year + '-' + 
+                            this.date_end.month + '-' +
+                            this.date_end.day + ' ' +
+                            this.he + ':' + this.me +':00 UTC').getTime();    
+                            
+      console.log(this.event)
+
+      //  EventService.create({ phone: this.phone }).then((res) => {
+      //     if (res.exist) {
+      //       this.invalidPhone = res.exist;
+      //       this.alertPhone = "this phone number has been used";
+      //     } else this.invalidPhone = res.exist;
+      //   });
+    },
   },
   mounted() {
-    $(document).ready(function () {
-      $("input").keyup(function () {
+    $(document).ready(function() {
+      $("input").keyup(function() {
         if ($(this).val().length == $(this).attr("maxlength")) {
           const i = $("input").index(this);
           $("input")
@@ -385,6 +473,13 @@ export default {
       });
     });
   },
+  created() {
+     GenderService.getGenderList().then((res) => {
+      if (res) {
+        this.genderList = res;
+      }
+    });
+  }
 };
 </script>
 

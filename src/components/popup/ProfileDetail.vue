@@ -143,7 +143,6 @@ export default {
     UserService.getUserDetail().then((res) => {
       if (res) {
         this.user = res;
-        console.log(this.user.bio);
         this.fullname = this.user.firstname + " " + this.user.lastname;
       }
     });

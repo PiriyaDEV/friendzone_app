@@ -1,6 +1,6 @@
 <template>
   <div @click="Onclick()" id="typebox">
-    <div>
+    <div class="icon-box">
       <img
         class="category-icon"
         src="../../assets/category/white/icons8-airport-64@2x.png"
@@ -17,8 +17,8 @@ export default {
   methods: {
     Onclick() {
       this.$emit("clickReturn", true);
-      console.log("test")
-    }
+      // console.log("test")
+    },
   },
 };
 </script>
@@ -28,17 +28,23 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #fe6464;
-  background-color: #fe6464;
+  background-color: #ffffff;
+  padding: 4px 4px 4px 6px;
   border-radius: 10px;
   margin-bottom: 20px;
   cursor: pointer;
   margin-right: 15px;
 }
 
+.icon-box {
+  background-color: #fe6464;
+  border-radius: 6px;
+  margin-left: 2px;
+}
+
 .category-icon {
-  width: 30px;
-  padding: 5px 10px;
+  width: 27px;
+  padding: 5px 7px;
 }
 
 #text-box {

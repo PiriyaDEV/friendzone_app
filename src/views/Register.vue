@@ -60,6 +60,8 @@
                   v-model="password"
                   class="input_box"
                   :type="passwordFieldType"
+                  maxlength="36"
+                  size="36"
                   placeholder="enter your password"
                   autocomplete="new-password"
                 />
@@ -92,6 +94,8 @@
                   v-model="passwordConfirm"
                   class="input_box"
                   :type="passwordFieldType"
+                  maxlength="36"
+                  size="36"
                   placeholder="enter your password"
                   autocomplete="new-password"
                 />
@@ -243,7 +247,7 @@ export default {
     this.year = user.birthdate.year;
   },
   watch: {
-    username: function () {
+    username: function() {
       this.invalidUsername = false;
       if (this.username.length < 3) {
         this.invalidUsername = true;
@@ -259,18 +263,18 @@ export default {
         this.invalidUsername = true;
         this.alertUsername = "username can't end with period";
       }
-      if (this.username.length == 0) this.invalidUsername = false;
+      if (!this.username) this.invalidUsername = false;
     },
-    email: function () {
+    email: function() {
       this.invalidEmail = false;
       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (!re.test(this.email) && this.email.length > 0) {
         this.invalidEmail = true;
         this.alertEmail = "email is invalid";
       }
-      if (this.email.length == 0) this.invalidEmail = false;
+      if (!this.email) this.invalidEmail = false;
     },
-    password: function () {
+    password: function() {
       this.invalidPassword = false;
       if (this.password.length < 8) {
         this.invalidPassword = true;
@@ -288,20 +292,21 @@ export default {
         this.invalidPassword = true;
         this.alertPassword = "password must have at least 1 special characters";
       }
-      if (this.password.length == 0) this.invalidPassword = false;
+      if (!this.password) this.invalidPassword = false;
     },
-    passwordConfirm: function () {
+    passwordConfirm: function() {
       this.invalidPasswordConfirm = false;
       if (this.password != this.passwordConfirm) {
         this.invalidPasswordConfirm = true;
         this.alertPasswordConfirm = "password does not match";
       }
-      if (this.passwordConfirm.length == 0) this.invalidPasswordConfirm = false;
+      if (!this.passwordConfirm) this.invalidPasswordConfirm = false;
     },
     // Leap year is incompleted
-    day: function () {
+    day: function() {
       this.invalidDate = false;
-      if (!/[0-9]/.test(this.day)) {
+      var reg = /^\d*\.?\d+$/;
+      if (!reg.test(this.day)) {
         this.invalidDate = true;
         this.alertDate = "date must be only numbers";
       } else if (this.day < 1 || this.day > 31) {
@@ -316,22 +321,24 @@ export default {
         this.invalidDate = true;
         this.alertDate = "day or month is invalid";
       }
-      if (this.day.length == 0) this.invalidDate = false;
+      if (!this.day) this.invalidDate = false;
     },
-    month: function () {
+    month: function() {
       this.invalidDate = false;
-      if (!/[0-9]/.test(this.month)) {
+      var reg = /^\d*\.?\d+$/;
+      if (!reg.test(this.month)) {
         this.invalidDate = true;
         this.alertDate = "date must be only numbers";
       } else if (this.month < 1 || this.month > 12) {
         this.invalidDate = true;
         this.alertDate = "month must be only 1-12";
       }
-      if (this.month.length == 0) this.invalidDate = false;
+      if (!this.month) this.invalidDate = false;
     },
-    year: function () {
+    year: function() {
       this.invalidDate = false;
-      if (!/[0-9]/.test(this.year)) {
+      var reg = /^\d*\.?\d+$/;
+      if (!reg.test(this.year)) {
         this.invalidDate = true;
         this.alertDate = "date must be only numbers";
       } else if (this.year < 1921) {
@@ -341,7 +348,7 @@ export default {
         this.invalidDate = true;
         this.alertDate = "you must be 18 years or older";
       }
-      if (this.year.length == 0) this.invalidDate = false;
+      if (!this.year) this.invalidDate = false;
     },
   },
   methods: {
@@ -356,6 +363,7 @@ export default {
         this.passwordFieldType === "password" ? "text" : "password";
     },
     checkRegister() {
+      var reg = /^\d*\.?\d+$/;
       if (!this.username) {
         this.invalidUsername = true;
         this.alertUsername = "username required";
@@ -368,9 +376,17 @@ export default {
         this.invalidPassword = true;
         this.alertPassword = "password required";
       }
-      if (!this.day.length || !this.month.length || !this.year.length) {
+      if (!this.day || !this.month || !this.year) {
         this.invalidDate = true;
         this.alertDate = "birthday required";
+      }
+      if (
+        !reg.test(this.day) ||
+        !reg.test(this.month) ||
+        !reg.test(this.year)
+      ) {
+        this.invalidDate = true;
+        this.alertDate = "date must be only numbers";
       }
       if (
         !this.invalidUsername &&
@@ -424,8 +440,8 @@ export default {
       $("input[id='month']").attr("placeholder", "mm");
       $("input[id='year']").attr("placeholder", "yyyy");
     }
-    $(document).ready(function () {
-      $("input").keyup(function () {
+    $(document).ready(function() {
+      $("input").keyup(function() {
         if ($(this).val().length == $(this).attr("maxlength")) {
           const i = $("input").index(this);
           $("input")

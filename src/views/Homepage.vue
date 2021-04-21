@@ -15,9 +15,10 @@
           </div>
 
           <div>
-            <button id="join_button" @click="goRegister()">JOIN OUR COMMUNITY</button>
+            <button id="join_button" @click="goRegister()">
+              JOIN OUR COMMUNITY
+            </button>
           </div>
-
         </div>
       </div>
       <!-- First Section -->
@@ -40,7 +41,7 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    }
+    },
   },
   created() {
     if (this.loggedIn) {
@@ -178,9 +179,9 @@ export default {
   }
 }
 @media screen and (max-width: 500px) {
-  #firstsection{
+  #firstsection {
     padding: 124px 0px 300px 0px;
-    }
+  }
 }
 @media screen and (max-width: 440px) {
   #egg {
@@ -198,5 +199,5 @@ export default {
     padding: 16px 44px;
     font-size: 1.75em;
   }
-}
-</style>r
+}</style
+>r

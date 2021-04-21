@@ -1,9 +1,6 @@
 <template>
   <div id="navbar" class="section">
-    <div
-      id="menu-container"
-      class="navbar-container"
-    >
+    <div id="menu-container" class="navbar-container">
       <input v-model="checkedBox" type="checkbox" id="check" />
       <div
         style="cursor: pointer"
@@ -14,7 +11,7 @@
       </div>
 
       <div id="nav-button">
-        <button id="orange-button" @click="goRegister()" >JOIN US</button>
+        <button id="orange-button" @click="goRegister()">JOIN US</button>
         <button id="white-button" @click="goLogin()">SIGN IN</button>
       </div>
 
@@ -48,7 +45,7 @@ export default {
     goLogin() {
       window.location.href = "/login";
     },
-  }
+  },
 };
 </script>
 

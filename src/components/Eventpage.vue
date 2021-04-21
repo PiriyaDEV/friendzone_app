@@ -1,6 +1,6 @@
 <template>
   <div id="event-page" class="event-container">
-    <div  v-if="categorySelected == false">
+    <div v-if="categorySelected == false">
       <h1 id="event-title" class="event-header">NEW EVENTS</h1>
 
       <div id="event-page-section">
@@ -39,7 +39,7 @@
       </div>
     </div>
     <div v-if="categorySelected == true">
-          <EventCategory></EventCategory>
+      <EventCategory @categoryClick="categoryClick"></EventCategory>
     </div>
   </div>
 </template>

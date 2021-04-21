@@ -1,11 +1,10 @@
-import AuthService from '../services/auth.service'
+import AuthService from "../services/auth.service";
 
-
-if(localStorage.getItem('user')){
-  try{
-    var user = localStorage.getItem('user');
-  }catch(e){
-    alert("message: "+e);
+if (localStorage.getItem("user")) {
+  try {
+    var user = localStorage.getItem("user");
+  } catch (e) {
+    alert("message: " + e);
   }
 }
 
@@ -19,12 +18,12 @@ export const auth = {
   actions: {
     login({ commit }, user) {
       return AuthService.login(user).then(
-        user => {
-          commit('loginSuccess', user);
+        (user) => {
+          commit("loginSuccess", user);
           return Promise.resolve(user);
         },
-        error => {
-          commit('loginFailure');
+        (error) => {
+          commit("loginFailure");
           return Promise.reject(error);
         }
       );
@@ -32,21 +31,21 @@ export const auth = {
 
     logout({ commit }) {
       AuthService.logout();
-      commit('logout');
+      commit("logout");
     },
 
     register({ commit }, user) {
       return AuthService.register(user).then(
-        response => {
-          commit('registerSuccess');
+        (response) => {
+          commit("registerSuccess");
           return Promise.resolve(response.data);
         },
-        error => {
-          commit('registerFailure');
+        (error) => {
+          commit("registerFailure");
           return Promise.reject(error);
         }
       );
-    }
+    },
   },
   mutations: {
     loginSuccess(state, user) {
@@ -69,6 +68,6 @@ export const auth = {
     },
     Isuserrestore(state) {
       state.status.loggedIn = true;
-    }
-  }
-}
+    },
+  },
+};
