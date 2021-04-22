@@ -6,13 +6,13 @@
 
         <div class="edit-section">
           <div id="left">
-            <div v-if="!avatar" id="profile-frame">
-              <img id="profile-pic" :src="profile_pic" />
+            <div v-if="!profile_pic" id="profile-frame">
+              <img id="profile-pic" :src="user.profile_pic" />
             </div>
             <div id="profile-frame" style="position: relative" v-else>
-              <img id="profile-pic" :src="avatar.imageURL" alt="avatar" />
+              <img id="profile-pic" :src="profile_pic.imageURL" alt="profile_pic" />
             </div>
-            <Upload v-model="avatar">
+            <Upload v-model="profile_pic">
               <div slot="activator" id="select-photo-section" class="section">
                 <img
                   id="addphoto"
@@ -107,14 +107,34 @@
                 maxlength="30"
                 size="30"
                 v-model="phone"
+                @blur="checkUniquePhone()"
               />
             </div>
             <!-- Information -->
+            <h3 v-if="invalidPhone === true" class="invalid">
+                    * {{ alertPhone }}
+            </h3>
 
             <!-- Information -->
             <div class="static-info">
               <h1 class="info-title">Gender</h1>
-              <h1 id="gender">Male</h1>
+              <select
+                    name="gender"
+                    class="input_profile_box"
+                    v-model="selected"
+                    required
+                  >
+                    <option value="" disabled selected hidden>
+                      select your gender
+                    </option>
+                    <option
+                      v-for="(gender, index) in genderList"
+                      :key="index"
+                      :value="gender.gender_id"
+                    >
+                      {{ gender.gender_name }}
+                    </option>
+                  </select>
             </div>
             <!-- Information -->
           </div>
@@ -142,6 +162,7 @@
 import Upload from "./../../components/UploadPic.vue";
 import User from "./../../models/user";
 import UserService from "./../../services/user.service";
+import AuthService from "./../../services/auth.service";
 
 export default {
   data() {
@@ -154,7 +175,6 @@ export default {
       profile_pic: "",
       bio: "",
       selected: "",
-      avatar: null,
       saving: false,
       saved: false,
 
@@ -174,8 +194,7 @@ export default {
   components: {
     Upload: Upload,
   },
-  computed: {
-  },
+  computed: {},
   created() {
     UserService.getUserDetail().then((res) => {
       if (res) {
@@ -185,11 +204,11 @@ export default {
         this.firstname = this.user.firstname;
         this.lastname = this.user.lastname;
         this.phone = this.user.phone;
-        this.profile_pic = this.user.profile_pic;
         this.bio = this.user.bio;
         console.log(this.user);
       }
     });
+  
   },
   mounted() {
     if (!this.loggedIn) {
@@ -197,21 +216,33 @@ export default {
     }
   },
   watch: {
-    avatar: {
-      handler: function () {
+    profile_pic: {
+      handler: function() {
         this.saved = false;
       },
+    },
+    phone: function() {
+      this.invalidPhone = false;
+      var reg = /^\d*\.?\d+$/;
+      if (!reg.test(this.phone)) {
+        this.invalidPhone = true;
+        this.alertPhone = "phone number must be only numbers";
+      } else if (this.phone.length != 10) {
+        this.invalidPhone = true;
+        this.alertPhone = "phone number is invalid";
+      }
+      if (!this.phone) this.invalidPhone = false;
     },
   },
   methods: {
     uploadImage() {
       this.saving = true;
-      setTimeout(() => this.savedAvatar(), 1000);
+      setTimeout(() => this.savedProfile_pic(), 1000);
     },
-    savedAvatar() {
+    savedProfile_pic() {
       this.saving = false;
       this.saved = true;
-      alert(this.avatar.imageURL);
+      alert(this.profile_pic.imageURL);
     },
     editReturn() {
       this.username = this.user.username;
@@ -241,6 +272,16 @@ export default {
       this.$emit("clickEdit", false);
       this.$emit("clickDetail", true);
     },
+    checkUniquePhone() {
+      if (this.phone) {
+        AuthService.checkUniqueExists({ phone: this.phone }).then((res) => {
+          if (res.exist) {
+            this.invalidPhone = res.exist;
+            this.alertPhone = "this phone number has been used";
+          } else this.invalidPhone = res.exist;
+        });
+      }
+    },
   },
 };
 </script>
@@ -252,6 +293,14 @@ export default {
 
 #right {
   margin-left: 50px;
+}
+
+.invalid {
+  margin: 0 -5px 0 0;
+  padding: 0;
+  font-size: 1.5em;
+  color: #ff8864;
+  font-weight: 300;
 }
 
 .info {

@@ -70,6 +70,7 @@
                     maxlength="10"
                     size="10"
                     placeholder="enter your phone number"
+                    @blur="checkUniquePhone()"
                   />
                   <h3 v-if="invalidPhone === true" class="invalid">
                     * {{ alertPhone }}
@@ -117,7 +118,7 @@
 
                   <div>
                     <div class="section" style="position: relative">
-                      <div v-if="!avatar" id="photo-circle">
+                      <div v-if="!profile_pic" id="photo-circle">
                         <img
                           id="photo-circle-default"
                           src="@/assets/icon/icons8-picture-96.png"
@@ -127,12 +128,12 @@
                         <img
                           class="pictureUpload"
                           style="position: relative"
-                          :src="avatar.imageURL"
-                          alt="avatar"
+                          :src="profile_pic.imageURL"
+                          alt="profile_pic"
                         />
                       </div>
                     </div>
-                    <Upload v-model="avatar">
+                    <Upload v-model="profile_pic">
                       <div
                         slot="activator"
                         id="select-photo-section"
@@ -188,6 +189,8 @@
 <script>
 import Upload from "@/components/UploadPic.vue";
 import GenderService from "../services/gender.service";
+import AuthService from "../services/auth.service";
+import UserService from "../services/user.service";
 
 export default {
   name: "profile",
@@ -197,7 +200,7 @@ export default {
       lastname: "",
       phone: "",
       bio: "",
-      avatar: null,
+      profile_pic: "",
       selected: "",
       saving: false,
       saved: false,
@@ -218,16 +221,20 @@ export default {
     Upload: Upload,
   },
   watch: {
-    phone: function () {
+    phone: function() {
       this.invalidPhone = false;
-      if (!/[0-9]/.test(this.phone)) {
+      var reg = /^\d*\.?\d+$/;
+      if (!reg.test(this.phone)) {
         this.invalidPhone = true;
         this.alertPhone = "phone number must be only numbers";
+      } else if (this.phone.length != 10) {
+        this.invalidPhone = true;
+        this.alertPhone = "phone number is invalid";
       }
-      if (this.phone.length == 0) this.invalidPhone = false;
+      if (!this.phone) this.invalidPhone = false;
     },
-    avatar: {
-      handler: function () {
+    profile_pic: {
+      handler: function() {
         this.saved = false;
       },
     },
@@ -245,11 +252,15 @@ export default {
     if (!user.username || !user.email || !user.password) {
       window.location.href = "/register";
     } else {
+      if (!user.gender_id) {
+        this.selected = "";
+      } else {
+        this.selected = user.gender_id;
+      }
       this.firstname = user.firstname;
       this.lastname = user.lastname;
       this.phone = user.phone;
-      this.selected = user.gender_id;
-      this.avatar = user.profile_pic;
+      this.profile_pic = user.profile_pic;
       this.bio = user.bio;
     }
     GenderService.getGenderList().then((res) => {
@@ -264,7 +275,7 @@ export default {
       this.$store.state.user.lastname = this.lastname;
       this.$store.state.user.phone = this.phone;
       this.$store.state.user.gender_id = this.selected;
-      this.$store.state.user.profile_pic = this.avatar;
+      this.$store.state.user.profile_pic = this.profile_pic;
       this.$store.state.user.bio = this.bio;
       this.$router.push("/register");
     },
@@ -285,29 +296,63 @@ export default {
         this.invalidGender = true;
         this.alertGender = "gender required";
       }
-      if (!this.avatar) {
+      if (!this.profile_pic) {
         this.invalidProfilePic = true;
         this.alertProfilePic = "profile picture required";
       }
-      if (!this.invalidFirstname &&
-      !this.invalidLastname &&
-      !this.invalidPhone &&
-      !this.invalidGender &&
-      !this.invalidProfilePic) {
-        this.$store.dispatch("auth/signin", {
-
-        })
-        this.$router.push("/interestSelect");
+      if (
+        !this.invalidFirstname &&
+        !this.invalidLastname &&
+        !this.invalidPhone &&
+        !this.invalidGender &&
+        !this.invalidProfilePic
+      ) {
+        var birthdate = this.$store.state.user.birthdate;
+        this.$store.state.user.birthdate =
+          birthdate.day.padStart(2, "0") +
+          birthdate.month.padStart(2, "0") +
+          birthdate.year.padStart(4, "0");
+        this.$store.state.user.firstname = this.firstname;
+        this.$store.state.user.lastname = this.lastname;
+        this.$store.state.user.phone = this.phone;
+        this.$store.state.user.gender_id = this.selected;
+        this.$store.state.user.bio = this.bio;
+        console.log(this.profile_pic)
+        this.$store.dispatch("auth/register", this.$store.state.user).then(
+          (res) => {
+            if (res.user_id) {
+              UserService.uploadProfile(this.profile_pic.formData).then((res) => {
+                if (res) {
+                  console.log(res)
+                  this.$router.push("/interestSelect");
+                }
+              });
+            }
+          },
+          (error) => {
+            console.log(error.message);
+          }
+        );
+      }
+    },
+    checkUniquePhone() {
+      if (this.phone) {
+        AuthService.checkUniqueExists({ phone: this.phone }).then((res) => {
+          if (res.exist) {
+            this.invalidPhone = res.exist;
+            this.alertPhone = "this phone number has been used";
+          } else this.invalidPhone = res.exist;
+        });
       }
     },
     uploadImage() {
       this.saving = true;
-      setTimeout(() => this.savedAvatar(), 1000);
+      setTimeout(() => this.saveProfilePic(), 1000);
     },
-    savedAvatar() {
+    saveProfilePic() {
       this.saving = false;
       this.saved = true;
-      alert(this.avatar.imageURL);
+      alert(this.profile_pic.imageURL);
     },
   },
 };

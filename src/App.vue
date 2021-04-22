@@ -4,6 +4,12 @@
   </div>
 </template>
 
+<script>
+export default {
+
+};
+</script>
+
 <style>
 @import url("https://use.typekit.net/zqk6rjr.css");
 body,
@@ -215,6 +221,11 @@ button {
 .event-container {
   width: 1440px;
   max-width: 1440px;
+  padding: 0;
+}
+
+.search-flex-container {
+  width: 100%;
   padding: 0;
 }
 

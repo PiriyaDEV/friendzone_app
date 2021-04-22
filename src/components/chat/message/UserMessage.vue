@@ -33,7 +33,7 @@ export default {
 #message {
   display: flex;
   justify-content: flex-start;
-  margin-top:15px;
+  margin-top: 15px;
 }
 
 #username {

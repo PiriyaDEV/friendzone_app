@@ -101,6 +101,7 @@ export default {
 .event-pic {
   width: 315px;
   height: 200px;
+  object-fit: cover;
   border-top-left-radius: 17px;
   border-top-right-radius: 17px;
 }

@@ -20,7 +20,6 @@
       <OrangeMessage></OrangeMessage>
       <UserMessage></UserMessage>
       <UserMessage></UserMessage>
-
     </div>
 
     <div id="sending-box">
@@ -46,7 +45,8 @@ export default {
 
 <style scoped>
 #chatbox-section {
-  width: 650px;
+  /* width: 650px; */
+  margin-right: 20px;
 }
 
 #chat-container {

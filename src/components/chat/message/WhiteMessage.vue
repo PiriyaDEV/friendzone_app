@@ -26,7 +26,7 @@ export default {};
 }
 
 #message {
-    background-color: #ffffff;
+  background-color: #ffffff;
   border: 1px solid #707070;
   padding: 5px 16px;
   border-radius: 20px;
@@ -35,7 +35,7 @@ export default {};
 }
 
 #time {
-  margin-top:20px;
+  margin-top: 20px;
   margin-left: 6px;
   color: #a0a0a0;
   margin-bottom: 0px;

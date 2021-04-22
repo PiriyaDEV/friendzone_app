@@ -9,6 +9,7 @@
           type="text"
           class="search-input"
           placeholder="find Event, friend, and discount"
+          v-model="search"
         />
       </div>
       <!-- Input -->
@@ -50,15 +51,29 @@ import UserService from "../services/user.service";
 export default {
   data() {
     return {
+      search: "",
       user: new User({ username: "", profile_pic: "" }),
     };
   },
+  props: ["clearSearch"],
   created() {
     UserService.getTopBarInfo().then((res) => {
+      console.log(res);
       if (res) {
         this.user = res;
       }
     });
+  },
+  watch: {
+    search: function() {
+      this.$emit("searchData", this.search);
+      this.$emit("clickClearSearch", false);
+    },
+    clearSearch: function() {
+      if (this.clearSearch == true) {
+        this.search = "";
+      }
+    },
   },
   methods: {
     detailReturn() {

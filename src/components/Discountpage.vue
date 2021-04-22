@@ -21,7 +21,7 @@
           >
             <div class="list event-flex-section">
               <div v-for="(item, i) in eventList" :key="i">
-                <DiscountFlex></DiscountFlex>
+                <DiscountFlex @clickDiscountFlex="clickDiscountFlex"></DiscountFlex>
               </div>
             </div>
           </div>
@@ -44,7 +44,7 @@
               >
                 <div class="list event-flex-wrap-section">
                   <div v-for="(item, i) in eventList" :key="i">
-                    <DiscountLongFlex />
+                    <DiscountLongFlex @clickDiscountLongFlex="clickDiscountLongFlex"/>
                   </div>
                 </div>
               </div>
@@ -73,6 +73,14 @@ export default {
   components: {
     DiscountFlex,
     DiscountLongFlex,
+  },
+  methods: {
+    clickDiscountLongFlex(value) {
+      this.$emit("clickDiscount2",value);
+    },
+    clickDiscountFlex(value) {
+      this.$emit("clickDiscount2",value);
+    },
   },
 };
 </script>

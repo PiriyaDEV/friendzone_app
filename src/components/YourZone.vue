@@ -196,13 +196,8 @@
               <div class="list event-flex-wrap-section">
                 <div v-for="(item, i) in eventList" :key="i">
                   <DiscountLongFlex
-                    :user="dataUser[i]"
-                    :date="dataDate"
-                    :title="dataTitle"
-                    :location="dataLocation"
-                    :host="dataHost"
-                    @clickRate="clickRate"
-                    @checkRate="checkRate"
+                    :statusYourZone="checkStatus"
+                    @discountReturn="discountReturn"
                   />
                 </div>
               </div>
@@ -255,8 +250,9 @@ export default {
       dataHost: "pd.piriya",
     };
   },
+  props:["discountSelect"],
   watch: {
-    host: function () {
+    host: function() {
       if (this.host == true) {
         this.selectHost = "menu-box-orange";
         this.join = false;
@@ -264,7 +260,7 @@ export default {
         this.discount = false;
       } else this.selectHost = "menu-box-white";
     },
-    join: function () {
+    join: function() {
       if (this.join == true) {
         this.selectJoin = "menu-box-orange";
         this.host = false;
@@ -272,7 +268,7 @@ export default {
         this.discount = false;
       } else this.selectJoin = "menu-box-white";
     },
-    request: function () {
+    request: function() {
       if (this.request == true) {
         this.selectRequest = "menu-box-orange";
         this.host = false;
@@ -280,7 +276,7 @@ export default {
         this.discount = false;
       } else this.selectRequest = "menu-box-white";
     },
-    discount: function () {
+    discount: function() {
       if (this.discount == true) {
         this.selectDiscount = "menu-box-orange";
         this.host = false;
@@ -300,7 +296,18 @@ export default {
     checkRate(value) {
       this.$emit("checkShow", value);
     },
+    discountReturn(value) {
+      this.$emit("clickDiscount", value);
+    },
   },
+  computed: {
+    checkStatus() {
+      if(this.discountSelect == 1) {
+        return true;
+      }
+      return false;
+    },
+  }
 };
 </script>
 

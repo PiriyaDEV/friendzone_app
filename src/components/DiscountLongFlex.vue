@@ -1,5 +1,6 @@
 <template>
-  <div id="discount-box">
+<div>
+  <div v-if="statusYourZone == true" id="discount-box">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -19,17 +20,55 @@
       </h1>
     </div>
 
-    <!-- Double Button -->
-    <div id="double-button">
+    <!-- Button -->
+    <div @click="moreDetail()" id="button" >
       <button>MORE DETAIL</button>
     </div>
-    <!-- Double Button -->
+    <!-- Button -->
   </div>
+  
+  <div  v-else @click="clickDiscount()" style="cursor:pointer;" id="discount-box">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <img
+      class="discount-pic"
+      src="https://www-cms.majorcineplex.com/uploads/content/16217/cover_16217.jpg"
+    />
+
+    <div id="title-section">
+      <h1 class="discount-title">
+        FREE popcorn and soft drink FREE popcorn and soft drink
+      </h1>
+      <h1 class="discount-description">
+        1 free big popcorn and 1 big glass of soft drink of your selection
+      </h1>
+    </div>
+
+    <div  id="coin-section">
+      <div>
+        <img id="coin-icon" src="@/assets/icon/coin.png" />
+        <h1 class="coin-title">2500</h1>
+      </div>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
 export default {
   name: "DiscountLongFlex",
+  methods: {
+    moreDetail() {
+      this.$emit("discountReturn", true);
+    },
+    clickDiscount() {
+      this.$emit("clickDiscountLongFlex", true);
+    }
+  },
+  props:["statusYourZone"],
 };
 </script>
 
@@ -45,6 +84,7 @@ export default {
 .discount-pic {
   width: 315px;
   height: 200px;
+  object-fit: cover;
   border-top-left-radius: 17px;
   border-top-right-radius: 17px;
 }
@@ -77,6 +117,19 @@ export default {
   color: #ff8864;
 }
 
+#coin-icon {
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
+}
+
+.coin-title {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 1.75em;
+  font-weight: 450;
+}
+
 #button {
   text-align: right;
   margin-right: 20px;
@@ -84,18 +137,7 @@ export default {
   padding-bottom: 15px;
 }
 
-#double-button {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-right: 20px;
-  margin-left: 20px;
-  margin-top: 10px;
-  padding-bottom: 15px;
-}
-
-#button > button,
-#double-button > button {
+#button > button {
   color: #ff8864;
   border: 2px solid #ff8864;
   background-color: #ffffff;
@@ -105,5 +147,12 @@ export default {
   padding: 7px 15px;
   margin: 0;
   border-radius: 16px;
+}
+
+#coin-section > div{
+  display:flex;
+  align-items:center;
+  justify-content: flex-end;
+  padding: 10px 25px 15px 0px;
 }
 </style>

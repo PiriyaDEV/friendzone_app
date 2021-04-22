@@ -3,7 +3,7 @@
     <h1 id="chat-title" class="event-header">CHAT</h1>
 
     <div id="chat-section">
-      <div>
+      <div id="message-section">
         <ChatBox></ChatBox>
       </div>
 
@@ -35,6 +35,10 @@ export default {
 
 #chat-title {
   margin-top: 0px;
+}
+
+#message-section {
+  width: 100%;
 }
 
 #chat-section {

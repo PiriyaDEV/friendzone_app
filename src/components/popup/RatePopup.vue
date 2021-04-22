@@ -2,7 +2,9 @@
   <div id="rate-popup" class="popup">
     <div class="popup-section section">
       <div class="popup-form">
-        <h1 v-if="checkParticipants == true" class="header_title">RATE PARTICIPANT</h1>
+        <h1 v-if="checkParticipants == true" class="header_title">
+          RATE PARTICIPANT
+        </h1>
         <h1 v-else class="header_title">RATE EVENT</h1>
         <div class="rate-popup-section">
           <div id="left">
@@ -68,7 +70,9 @@
             <div id="rate-detail">
               <!-- Input -->
               <div v-if="checkParticipants == true">
-                <h2 class="input_title">Participants<span class="orange-color"> *</span></h2>
+                <h2 class="input_title">
+                  Participants<span class="orange-color"> *</span>
+                </h2>
                 <select
                   name="gender"
                   class="input_select minimal"
@@ -89,7 +93,9 @@
 
               <!-- Input -->
               <div>
-                <h2 class="input_title">Rating<span class="orange-color"> *</span></h2>
+                <h2 class="input_title">
+                  Rating<span class="orange-color"> *</span>
+                </h2>
                 <div class="section">
                   <!-- Star -->
                   <div>
@@ -170,7 +176,7 @@
 <script>
 export default {
   name: "RatePopup",
-  props: ['checkParticipants'],
+  props: ["checkParticipants"],
   data() {
     return {
       user_selected: "",

@@ -1,8 +1,8 @@
 <template>
   <div id="mainpage">
-    <CreateEvent v-show="createShow == true" @clickCreate="clickCreate" />
+    <CreateEvent v-if="createShow == true" @clickCreate="clickCreate" />
     <RatePopup
-      v-show="rateShow == true"
+      v-if="rateShow == true"
       @clickShowed="clickShowed"
       v-bind:checkParticipants="selectRateShow"
     />
@@ -17,9 +17,15 @@
       @clickEdit="clickEdit"
     />
     <ReportPopup
-      v-show="reportShow == true"
+      v-if="reportShow == true"
       @clickReport="clickReport"
       v-bind:categoryReport="selectReportShow"
+    />
+    <DiscountPopup
+      v-if="discountShow == true||discountShow2 == true"
+      @clickDiscount="clickDiscount"
+      @clickDiscount2="clickDiscount2"
+      :clickFromYourZone="discountShow"
     />
     <link
       rel="stylesheet"
@@ -29,6 +35,7 @@
     <div id="mainpage-background" class="section">
       <MainpageMenu
         id="menubar"
+        @clickClearSearch="clickClearSearch"
         @pageReturn="pageReturn"
         @clickCreate="clickCreate"
       />
@@ -36,27 +43,36 @@
       <!-- Page -->
       <div id="timeline">
         <!-- Top Bar -->
-        <Topbar @clickDetail="clickDetail" />
+        <Topbar @searchData="searchData" @clickDetail="clickDetail" :clearSearch="clearSearched" @clickClearSearch="clickClearSearch"/>
         <!-- Top Bar -->
-        <div v-if="select == 1">
-          <Yourzone @clickShowed="clickShowed" @checkShow="checkShow" />
+        <div v-if="searchBar">
+          <Searchpage :searchValue="searchBar"/>
         </div>
 
-        <div v-if="select == 2">
+        <div v-if="select == 1 && !searchBar">
+          <Yourzone @clickShowed="clickShowed" @checkShow="checkShow" @clickDiscount="clickDiscount" :discountSelect="select"/>
+        </div>
+
+        <div v-if="select == 2 && !searchBar">
           <Chat />
         </div>
 
-        <div v-if="select == 3">
+        <div v-if="select == 3 && !searchBar">
           <ReportPage @clickReport="clickReport" @checkReport="checkReport" />
         </div>
 
-        <div v-if="select == 4">
+        <div v-if="select == 4 && !searchBar">
           <Eventpage />
         </div>
 
-        <div v-if="select == 5">
-          <Discountpage />
+        <div v-if="select == 5 && !searchBar">
+          <Discountpage @clickDiscount2="clickDiscount2" :discountSelect="select"/>
         </div>
+
+        <div v-if="select == 6 && !searchBar">
+          <History />
+        </div>
+
       </div>
     </div>
   </div>
@@ -75,6 +91,9 @@ import ReportPage from "@/components/ReportPage.vue";
 import EditProfile from "@/components/popup/EditProfile.vue";
 import ProfileDetail from "@/components/popup/ProfileDetail.vue";
 import ReportPopup from "@/components/popup/ReportPopup.vue";
+import DiscountPopup from "@/components/popup/DiscountPopup.vue";
+import Searchpage from "@/components/Searchpage.vue";
+import History from "@/components/History.vue";
 
 export default {
   name: "mainpage",
@@ -91,6 +110,9 @@ export default {
     EditProfile,
     ProfileDetail,
     ReportPopup,
+    DiscountPopup,
+    Searchpage,
+    History
   },
   data() {
     return {
@@ -101,6 +123,10 @@ export default {
       editShow: false,
       detailShow: false,
       reportShow: false,
+      discountShow: false,
+      discountShow2: false,
+      searchBar:'',
+      clearSearched: false,
     };
   },
   computed: {
@@ -138,6 +164,18 @@ export default {
     checkReport(value) {
       this.selectReportShow = value;
     },
+    searchData(value) {
+      this.searchBar = value;
+    },
+    clickClearSearch(value) {
+      this.clearSearched = value;
+    },
+    clickDiscount(value) {
+      this.discountShow = value;
+    },
+    clickDiscount2(value) {
+      this.discountShow2 = value;
+    }
   },
 };
 </script>

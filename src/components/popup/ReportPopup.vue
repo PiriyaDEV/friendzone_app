@@ -2,15 +2,21 @@
   <div id="rate-popup" class="popup">
     <div class="popup-section section">
       <div class="popup-form">
-        <h1 v-if="categoryReport == 1" class="header_title report-title">REPORT USER</h1>
-        <h1 v-if="categoryReport == 2" class="header_title report-title">REPORT EVENT</h1>
-        <h1 v-if="categoryReport == 3" class="header_title report-title">REPORT WEB</h1>
+        <h1 v-if="categoryReport == 1" class="header_title report-title">
+          REPORT USER
+        </h1>
+        <h1 v-if="categoryReport == 2" class="header_title report-title">
+          REPORT EVENT
+        </h1>
+        <h1 v-if="categoryReport == 3" class="header_title report-title">
+          REPORT WEB
+        </h1>
 
         <!-- User Input -->
         <div v-if="categoryReport == 1">
-          <h2 class="input_title">Who do you want to report?<span class="orange-color">
-              *</span
-            ></h2>
+          <h2 class="input_title">
+            Who do you want to report?<span class="orange-color"> *</span>
+          </h2>
           <input
             v-model="username"
             class="input_box"
@@ -112,7 +118,7 @@
 <script>
 export default {
   name: "ReportPopup",
-  props: ['categoryReport'],
+  props: ["categoryReport"],
   data() {
     return {
       user_selected: "",

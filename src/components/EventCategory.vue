@@ -1,13 +1,14 @@
 <template>
-  <div class="event-container">
-    <div class="title">
-      <i class="fa fa-angle-left" aria-hidden="true"></i>
+<div>
+  <div v-if="showTitle === true" class="event-container">
+    <div class="title" @click="back()">
+      <i  class="fa fa-angle-left" aria-hidden="true"></i>
       <h1 id="eventcat-title" class="event-header">ENTERTAINMENT</h1>
     </div>
 
     <div class="second-section">
       <h1 class="event-second-header">YOUR EVENT</h1>
-      <div class="second-title">
+      <div @click="clickSeeAll()" class="second-title">
         <h1>See All</h1>
         <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
       </div>
@@ -75,6 +76,38 @@
       </div>
     </div>
   </div>
+  <!-- See All -->
+  <div v-else class="event-container">
+    <div class="title" @click="backCategory()">
+      <i  class="fa fa-angle-left" aria-hidden="true"></i>
+      <h1 id="eventcat-title" class="event-header">FOLLOWING</h1>
+    </div>
+            <!-- Event -->
+            <div id="container">
+              <div
+                @mouseover="hovered = true"
+                @mouseleave="hovered = false"
+                class="event-container"
+              >
+                <div class="list event-flex-wrap-section">
+                  <div v-for="(item, i) in eventList" :key="i">
+                    <EventFlex
+                      :user="dataUser[i]"
+                      :date="dataDate"
+                      :title="dataTitle"
+                      :location="dataLocation"
+                      :host="dataHost"
+                      @clickRate="clickRate"
+                      @checkRate="checkRate"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Event -->
+  </div>
+  <!-- See All -->
+</div>
 </template>
 
 <script>
@@ -83,6 +116,7 @@ export default {
   data() {
     return {
       hovered: false,
+      showTitle: true,
       selected: "all",
       eventList: 20,
       joinList: 10,
@@ -104,6 +138,17 @@ export default {
       dataLocation: "Localhost Resort Chiang Mai, Thailand",
       dataHost: "pd.piriya",
     };
+  },
+  methods: {
+    back() {
+      this.$emit("categoryClick",false)
+    },
+    backCategory() {
+      this.showTitle = true
+    },
+    clickSeeAll() {
+      this.showTitle = false
+    }
   },
   components: {
     EventFlex,
