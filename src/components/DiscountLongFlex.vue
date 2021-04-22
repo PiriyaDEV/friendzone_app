@@ -79,6 +79,7 @@ export default {
   position: relative;
   margin-right: 20px;
   margin-bottom: 20px;
+  height: 335px;
 }
 
 .discount-pic {
@@ -90,7 +91,7 @@ export default {
 }
 
 .discount-title {
-  width: 228px;
+  width: 275px;
   margin-left: 20px;
   margin-top: 0px;
   margin-bottom: 0px;

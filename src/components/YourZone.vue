@@ -83,6 +83,7 @@
                     :host="dataHost"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
+                    @manageReturn="manageReturn"
                   />
                 </div>
               </div>
@@ -123,6 +124,7 @@
                     :host="dataHost"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
+                    @manageReturn="manageReturn"
                   />
                 </div>
               </div>
@@ -162,6 +164,7 @@
                     :host="dataHost"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
+                    @manageReturn="manageReturn"
                   />
                 </div>
               </div>
@@ -298,6 +301,9 @@ export default {
     },
     discountReturn(value) {
       this.$emit("clickDiscount", value);
+    },
+    manageReturn(value) {
+      this.$emit("clickManage", value);
     },
   },
   computed: {

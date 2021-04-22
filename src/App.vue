@@ -63,6 +63,50 @@ div::-webkit-scrollbar-thumb {
   height: 100vh;
 }
 
+.multiselect__tag{
+background: #FF8864 !important;
+}
+
+.multiselect__tags{
+border: 2px solid #e3e3e3 !important;
+border-radius: 10px !important;
+}
+
+.multiselect__tag-icon:after{
+color: #ffffff !important;
+}
+
+.multiselect__placeholder{
+color: #cccccc !important;
+font-size:1em !important;
+}
+
+.multiselect__input{
+color: #444444 !important;
+font-size:1em !important;
+}
+
+.multiselect__option{
+  font-size:1em !important;
+}
+
+.multiselect{
+  width:350px !important;
+}
+
+/* .input_box,
+.input_participant,
+.input_age {
+  font-size: 1.6em;
+  font-weight: 450;
+  color: #444444;
+  padding: 12px 12px 9px 15px;
+  border: 2px solid #e3e3e3;
+  border-radius: 10px;
+  margin-bottom: 2px;
+  box-shadow: none;
+} */
+
 .event-header {
   color: #444444;
   font-size: 3.75em;

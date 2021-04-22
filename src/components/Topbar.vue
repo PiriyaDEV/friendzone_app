@@ -136,7 +136,7 @@ input {
   font-size: 1.75em;
   font-weight: 400;
   background-color: #ffffff;
-  color: E3E3E3;
+  color: #444444;
   border-radius: 8px;
   border: none;
 }
