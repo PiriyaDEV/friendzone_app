@@ -7,7 +7,7 @@ import Mainpage from "../views/Mainpage.vue";
 import Backup from "../views/Backup.vue";
 import ProfileSetting from "../views/ProfileSetting.vue";
 import InterestSelect from "../views/InterestSelect.vue";
-import Popup from "../components/popup/DiscountPopup.vue";
+import Popup from "../components/popup/manageEvent/ManageEvent.vue";
 Vue.use(VueRouter);
 
 const routes = [

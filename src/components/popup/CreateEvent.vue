@@ -619,9 +619,9 @@ option {
 }
 
 .input_textarea_box {
-  font-size: 1.75em;
-  font-weight: 600;
-  color: #a0a0a0;
+  font-size: 1.6em;
+  font-weight: 500;
+  color: #444444;
   padding: 7px 12px 7px 15px;
   border: 2px solid #e3e3e3;
   border-radius: 10px;

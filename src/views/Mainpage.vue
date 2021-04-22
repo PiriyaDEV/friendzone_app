@@ -27,6 +27,10 @@
       @clickDiscount2="clickDiscount2"
       :clickFromYourZone="discountShow"
     />
+    <ManageEvent
+      v-if="manageShow == true"
+      @clickManage="clickManage"
+    />
     <link
       rel="stylesheet"
       type="text/css"
@@ -50,7 +54,7 @@
         </div>
 
         <div v-if="select == 1 && !searchBar">
-          <Yourzone @clickShowed="clickShowed" @checkShow="checkShow" @clickDiscount="clickDiscount" :discountSelect="select"/>
+          <Yourzone @clickShowed="clickShowed" @checkShow="checkShow" @clickDiscount="clickDiscount" @clickManage="clickManage" :discountSelect="select"/>
         </div>
 
         <div v-if="select == 2 && !searchBar">
@@ -92,6 +96,7 @@ import EditProfile from "@/components/popup/EditProfile.vue";
 import ProfileDetail from "@/components/popup/ProfileDetail.vue";
 import ReportPopup from "@/components/popup/ReportPopup.vue";
 import DiscountPopup from "@/components/popup/DiscountPopup.vue";
+import ManageEvent from "@/components/popup/manageEvent/ManageEvent.vue";
 import Searchpage from "@/components/Searchpage.vue";
 import History from "@/components/History.vue";
 
@@ -111,6 +116,7 @@ export default {
     ProfileDetail,
     ReportPopup,
     DiscountPopup,
+    ManageEvent,
     Searchpage,
     History
   },
@@ -127,6 +133,7 @@ export default {
       discountShow2: false,
       searchBar:'',
       clearSearched: false,
+      manageShow: false,
     };
   },
   computed: {
@@ -157,6 +164,9 @@ export default {
     },
     checkShow(value) {
       this.selectRateShow = value;
+    },
+    clickManage(value) {
+      this.manageShow = value;
     },
     clickReport(value) {
       this.reportShow = value;

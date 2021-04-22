@@ -162,6 +162,11 @@ h2 {
   margin-top: 5px;
 }
 
+.star {
+  width: 12px;
+  margin-right: 1px;
+}
+
 #rating > h2 {
   font-size: 1.5em;
 }
@@ -169,11 +174,6 @@ h2 {
 #name_title {
   font-size: 2.25em;
   margin: 0px;
-}
-
-.star {
-  width: 12px;
-  margin-right: 1px;
 }
 
 #follower {

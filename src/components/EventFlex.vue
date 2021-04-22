@@ -29,10 +29,10 @@
     <img class="event-pic" src="@/assets/event/download.jpeg" />
 
     <div id="title-section">
-      <img
+      <!-- <img
         class="event-icon"
         src="@/assets/event/event-icon/icons8-airport-200.png"
-      />
+      /> -->
       <h1 class="event-title">{{ title }}</h1>
     </div>
 
@@ -60,7 +60,8 @@
     <!-- Double Button -->
     <div id="double-button">
       <button @click="ratePartReturn()">RATE PARTICIPANTS</button>
-      <button @click="rateEventReturn()">RATE THIS EVENT</button>
+      <button @click="rateEventReturn()" style="display:none;">RATE THIS EVENT</button>
+      <button @click="manageEventReturn()">MANAGE EVENT</button>
     </div>
     <!-- Double Button -->
 
@@ -85,6 +86,9 @@ export default {
       this.$emit("clickRate", true);
       this.$emit("checkRate", true);
     },
+    manageEventReturn() {
+      this.$emit("manageReturn", true);
+    },
   },
 };
 </script>
@@ -96,6 +100,7 @@ export default {
   position: relative;
   margin-right: 20px;
   margin-bottom: 20px;
+  height: 350px;
 }
 
 .event-pic {
@@ -139,8 +144,8 @@ export default {
 }
 
 .event-title {
-  width: 228px;
-  margin-left: 10px;
+  width: 275px;
+  margin-left: 18px;
   margin-top: 0px;
   margin-bottom: 0px;
   font-size: 1.75em;
@@ -150,8 +155,8 @@ export default {
 
 #title-section {
   margin-top: 23px;
-  display: flex;
-  align-items: center;
+  /* display: flex;
+  align-items: center; */
 }
 
 #date-box {

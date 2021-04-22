@@ -24,7 +24,7 @@
       <!-- First Section -->
       <img id="egg" src="@/assets/egg.svg" alt="" />
     </div>
-
+U
     <div id="secondsection" class="section">
       <div class="page-container"></div>
     </div>
