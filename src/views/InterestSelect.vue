@@ -22,16 +22,17 @@
               </p>
             </div>
 
-            <div id="category-list" v-for="(item, i) in User" :key="i">
+            <div id="category-list" v-for="(item, i) in categoryList" :key="i">
               <CategoryBox
                 @click.native="clicktest($event, i)"
-                :nameCategory="User[i].Category"
-                :icon="User[i].Icon"
-                :status="User[i].Status"
+                :nameCategory="categoryList[i].category_name"
+                :icon="categoryList[i].icon_white"
+                :colorCode="categoryList[i].color_code"
+                :status="categoryList[i].status"
               />
             </div>
 
-            <button id="signin_button" @click="ClickStart()">
+            <button id="signin_button" @click="clickStart()">
               Start using FRIENDZONE !
             </button>
           </div>
@@ -44,69 +45,68 @@
 
 <script>
 import CategoryBox from "@/components/CategoryBox.vue";
+import UserService from "../services/user.service";
+import CategoryService from "../services/category.service";
+
 export default {
   name: "interest",
   data() {
     return {
-      User: [
-        {
-          Category: "FOOD",
-          Icon: "@/assets/icon/icons8-event-96-b.png",
-          Status: false,
-        },
-        {
-          Category: "GAME",
-          Icon: "@/assets/icon/icons8-event-96-o.png",
-          Status: false,
-        },
-        {
-          Category: "SPORT",
-          Icon: "@/assets/icon/icons8-event-96-o.png",
-          Status: false,
-        },
-        {
-          Category: "TRAVEL",
-          Icon: "@/assets/icon/icons8-event-96-o.png",
-          Status: false,
-        },
-        {
-          Category: "CAMPING",
-          Icon: "@/assets/icon/icons8-event-96-o.png",
-          Status: false,
-        },
-        {
-          Category: "STUDY",
-          Icon: "@/assets/icon/icons8-event-96-o.png",
-          Status: false,
-        },
-        {
-          Category: "MAIRUU",
-          Icon: "@/assets/icon/icons8-event-96-o.png",
-          Status: false,
-        },
-      ],
+      categoryList: null,
     };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    },
+  },
+  created() {
+    CategoryService.getCategoryList().then((res) => {
+      if (res) {
+        this.categoryList = res;
+      }
+    });
+    if (this.loggedIn) {
+      this.$router.push("/mainpage");
+    }
+    var user = this.$store.state.user;
+    if (!user.username || !user.email || !user.password || !user.phone) {
+      window.location.href = "/register";
+    }
   },
   components: {
     CategoryBox,
   },
   methods: {
-    ClickStart() {
-      window.location.href = "/mainpage";
+    clickStart() {
+      var category_id = [];
+
+      this.categoryList.forEach((category) => {
+        if (category.status) {
+          category_id.push(category.category_id);
+        }
+      });
+
+      if (category_id.length > 0) {
+        UserService.updateUserCategory(category_id).then((res) => {
+          if (res) window.location.href = "/mainpage";
+        });
+      } else {
+        window.location.href = "/mainpage";
+      }
     },
     clicktest(ev, i) {
       console.log(i + 1);
-      this.User[i].Status = !this.User[i].Status;
-      console.log(this.User[0].Status);
-      console.log(this.User[1].Status);
-      console.log(this.User[2].Status);
-      console.log(this.User[3].Status);
-      console.log(this.User[4].Status);
-      console.log(this.User[5].Status);
-      console.log(this.User[6].Status);
+      this.categoryList[i].status = !this.categoryList[i].status;
+      console.log(this.categoryList[0].status);
+      console.log(this.categoryList[1].status);
+      console.log(this.categoryList[2].status);
+      console.log(this.categoryList[3].status);
+      console.log(this.categoryList[4].status);
+      console.log(this.categoryList[5].status);
+      console.log(this.categoryList[6].status);
     },
   },
-  computed: {},
 };
 </script>
 
@@ -122,7 +122,6 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
 .icon {
   width: 24px;
   margin-top: -10px;
@@ -194,7 +193,6 @@ export default {
   margin: 12px 0px;
   text-align: center;
 }
-
 #term > p {
   margin: 0;
 }
@@ -225,7 +223,6 @@ export default {
   color: #ffbb62;
   transition: 0.3s;
 }
-
 .invalid {
   margin: -3px 0 0 0;
   padding: 0;
@@ -233,29 +230,24 @@ export default {
   color: #ff8864;
   font-weight: 300;
 }
-
 @media screen and (max-width: 768px) {
   #interest {
     display: flex;
     justify-content: center;
     align-items: flex-start;
   }
-
   #header_title {
     font-size: 2.5em;
   }
-
   #category-box {
     width: 100%;
   }
-
   input {
     /* Remove First */
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
   }
-
   #whitelogo {
     width: 200px;
     margin-top: 45px;
@@ -271,7 +263,6 @@ export default {
   #interest_account {
     width: 300px;
   }
-
   #interest_suggest {
     width: 373px;
     margin-top: 20px;
@@ -282,7 +273,6 @@ export default {
     background-position: center;
   }
 }
-
 @media screen and (max-width: 414px) {
   .input_box {
     width: 228px;
@@ -290,13 +280,11 @@ export default {
   #interest_account {
     width: 260px;
   }
-
   #interest_suggest {
     width: 333px;
     margin-top: 20px;
   }
 }
-
 @media screen and (max-width: 360px) {
   .input_box {
     width: 208px;
@@ -304,12 +292,10 @@ export default {
   #interest_account {
     width: 240px;
   }
-
   #interest_suggest {
     width: 313px;
     margin-top: 20px;
   }
-
   #header_title {
     font-size: 2.25em;
   }

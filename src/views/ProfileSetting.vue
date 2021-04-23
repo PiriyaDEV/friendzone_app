@@ -202,8 +202,6 @@ export default {
       bio: "",
       profile_pic: "",
       selected: "",
-      saving: false,
-      saved: false,
       genderList: null,
       invalidFirstname: false,
       alertFirstname: "",
@@ -233,11 +231,6 @@ export default {
       }
       if (!this.phone) this.invalidPhone = false;
     },
-    profile_pic: {
-      handler: function() {
-        this.saved = false;
-      },
-    },
   },
   computed: {
     loggedIn() {
@@ -245,6 +238,11 @@ export default {
     },
   },
   created() {
+    GenderService.getGenderList().then((res) => {
+      if (res) {
+        this.genderList = res;
+      }
+    });
     if (this.loggedIn) {
       this.$router.push("/mainpage");
     }
@@ -263,11 +261,6 @@ export default {
       this.profile_pic = user.profile_pic;
       this.bio = user.bio;
     }
-    GenderService.getGenderList().then((res) => {
-      if (res) {
-        this.genderList = res;
-      }
-    });
   },
   methods: {
     ClickBack() {
@@ -317,16 +310,18 @@ export default {
         this.$store.state.user.phone = this.phone;
         this.$store.state.user.gender_id = this.selected;
         this.$store.state.user.bio = this.bio;
-        console.log(this.profile_pic)
+        console.log(this.profile_pic);
         this.$store.dispatch("auth/register", this.$store.state.user).then(
           (res) => {
             if (res.user_id) {
-              UserService.uploadProfile(this.profile_pic.formData).then((res) => {
-                if (res) {
-                  console.log(res)
-                  this.$router.push("/interestSelect");
+              UserService.uploadProfile(this.profile_pic.formData).then(
+                (res) => {
+                  if (res) {
+                    console.log(res);
+                    this.$router.push("/interestSelect");
+                  }
                 }
-              });
+              );
             }
           },
           (error) => {
@@ -345,15 +340,6 @@ export default {
         });
       }
     },
-    uploadImage() {
-      this.saving = true;
-      setTimeout(() => this.saveProfilePic(), 1000);
-    },
-    saveProfilePic() {
-      this.saving = false;
-      this.saved = true;
-      alert(this.profile_pic.imageURL);
-    },
   },
 };
 </script>
@@ -366,7 +352,7 @@ export default {
   overflow-y: auto;
   /* height: auto; */
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;

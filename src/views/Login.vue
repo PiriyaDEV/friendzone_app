@@ -149,7 +149,7 @@ export default {
   overflow-y: auto;
   /* height: auto; */
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -273,11 +273,11 @@ export default {
     appearance: none;
   }
 
-  #header_title{
+  #header_title {
     font-size: 2.25em;
   }
 
-  #signin_button{
+  #signin_button {
     padding: 10px 0px;
   }
 

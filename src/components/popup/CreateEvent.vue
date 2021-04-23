@@ -11,14 +11,33 @@
                 Event Picture<span class="orange-color"> *</span>
               </h2>
               <div id="select-photo-section" class="section">
-                <div id="select-photo-inside" class="section">
+              <Upload v-model="event_pic">
+                <div
+                  v-if="!event_pic"
+                  slot="activator"
+                  id="select-photo-inside"
+                  class="section"
+                >
                   <img
                     id="addphoto"
-                    @click="goMainpage()"
                     src="@/assets/icon/icons8-add-image-96.png"
                   />
                   <h1 class="upload">upload photo</h1>
                 </div>
+                <div
+                  v-else
+                  slot="activator"
+                  id="select-photo-section"
+                  class="section"
+                >
+                  <img
+                    class="pictureUpload"
+                    style="position: relative"
+                    :src="event_pic.imageURL"
+                    alt="event_pic"
+                  />
+                </div>
+              </Upload>
               </div>
             </div>
             <!-- Input -->
@@ -272,8 +291,16 @@
               <h2 class="input_title">
                 Preferred Participant Gender<span class="orange-color"> *</span>
               </h2>
-              <multiselect v-model="gender_value" placeholder="select your preferred gender" label="name" track-by="code" :options="gender_options" :multiple="true"></multiselect>
+              <multiselect
+                v-model="gender_value"
+                placeholder="select your preferred gender"
+                label="name"
+                track-by="code"
+                :options="gender_options"
+                :multiple="true"
+              ></multiselect>
             </div>
+            <h1>{{ genderList }}</h1>
             <!-- Input -->
 
             <!-- Input -->
@@ -281,8 +308,17 @@
               <h2 class="input_title">
                 Event Category<span class="orange-color"> *</span>
               </h2>
-              <multiselect v-model="category_value" placeholder="select event category" label="name" track-by="code" :options="category_options" :multiple="true"></multiselect>
+              <multiselect
+                v-model="category_value"
+                placeholder="select event category"
+                label="name"
+                track-by="code"
+                :options="category_options"
+                :multiple="true"
+                :max="3"
+              ></multiselect>
             </div>
+            <h1>{{ categoryList }}</h1>
             <!-- Input -->
 
             <div>
@@ -356,10 +392,11 @@
 
 <script>
 import $ from "jquery";
-import Multiselect from 'vue-multiselect'
+import Multiselect from "vue-multiselect";
 import Event from "./../../models/event";
 import GenderService from "../../services/gender.service";
-
+import CategoryService from "../../services/category.service";
+import Upload from "@/components/UploadPic.vue";
 
 class constructDate {
   constructor(date) {
@@ -373,20 +410,25 @@ class constructDate {
   }
 }
 
-
+class Pick {
+  constructor(pick) {
+    this.name = pick.name;
+    this.code = pick.code;
+  }
+}
 
 export default {
   data() {
     return {
-      gender_selected: "",
-      category_selected: "",
-      genderList: null,
+      genderList: [],
+      categoryList: [],
       date_start: new constructDate(""),
       date_end: new constructDate(""),
       hs: "",
       ms: "",
       he: "",
       me: "",
+      event_pic: "",
       event: new Event({
         host_id: "",
         title: "",
@@ -399,38 +441,24 @@ export default {
         min_age: "",
         max_age: "",
       }),
-      gender_value: [
-        { name: 'Male', code: 'male' },
-        { name: 'Female', code: 'female' },
-        { name: 'LGBTQ+', code: 'lgbt' }
-      ],
-      gender_options: [
-        { name: 'Male', code: 'male' },
-        { name: 'Female', code: 'female' },
-        { name: 'LGBTQ+', code: 'lgbt' }
-      ],
-      category_value: [
-        { name: 'Sport', code: 'sport' },
-        { name: 'Eating', code: 'Eating' }
-      ],
-      category_options: [
-        { name: 'Sport', code: 'sport' },
-        { name: 'Eating', code: 'Eating' },
-        { name: 'Something', code: 'Something' }
-      ]
+      gender_value: [],
+      gender_options: [],
+      category_value: [],
+      category_options: [],
     };
   },
-  components:{
-    Multiselect
+  components: {
+    Multiselect,
+    Upload: Upload,
   },
   methods: {
-    addTag (newTag) {
+    addTag(newTag) {
       const tag = {
         name: newTag,
-        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
-      }
-      this.options.push(tag)
-      this.value.push(tag)
+        code: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000),
+      };
+      this.options.push(tag);
+      this.value.push(tag);
     },
     createdReturn() {
       this.$emit("clickCreate", false);
@@ -441,17 +469,34 @@ export default {
       this.he = this.date_end.h1 + this.date_end.h2;
       this.me = this.date_end.m1 + this.date_end.m2;
 
-      this.event.start_at = new Date(this.date_start.year + '-' + 
-                            this.date_start.month + '-' +
-                            this.date_start.day + ' ' +
-                            this.hs + ':' + this.ms +':00 UTC').getTime();
+      this.event.start_at = new Date(
+        this.date_start.year +
+          "-" +
+          this.date_start.month +
+          "-" +
+          this.date_start.day +
+          " " +
+          this.hs +
+          ":" +
+          this.ms +
+          ":00 UTC"
+      ).getTime();
 
-      this.event.end_at = new Date(this.date_end.year + '-' + 
-                            this.date_end.month + '-' +
-                            this.date_end.day + ' ' +
-                            this.he + ':' + this.me +':00 UTC').getTime();    
-                            
-      console.log(this.event)
+      this.event.end_at = new Date(
+        this.date_end.year +
+          "-" +
+          this.date_end.month +
+          "-" +
+          this.date_end.day +
+          " " +
+          this.he +
+          ":" +
+          this.me +
+          ":00 UTC"
+      ).getTime();
+
+      console.log(this.event);
+      console.log(this.category_value);
 
       //  EventService.create({ phone: this.phone }).then((res) => {
       //     if (res.exist) {
@@ -474,12 +519,29 @@ export default {
     });
   },
   created() {
-     GenderService.getGenderList().then((res) => {
+    GenderService.getGenderList().then((res) => {
       if (res) {
-        this.genderList = res;
+        res.forEach((gender) => {
+          let pick = new Pick("");
+          pick.name = gender.gender_name;
+          pick.code = gender.gender_id;
+
+          this.gender_options.push(pick);
+        });
       }
     });
-  }
+    CategoryService.getCategoryList().then((res) => {
+      if (res) {
+        res.forEach((category) => {
+          let pick = new Pick("");
+          pick.name = category.category_name;
+          pick.code = category.category_id;
+
+          this.category_options.push(pick);
+        });
+      }
+    });
+  },
 };
 </script>
 
@@ -517,6 +579,17 @@ export default {
 
 .description {
   padding-bottom: 35px;
+}
+
+.pictureUpload {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .input_select {

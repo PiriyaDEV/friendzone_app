@@ -3,19 +3,26 @@
     <div v-if="status == 1">
       <h1 class="title">Participants (3/5)</h1>
 
-      <div v-for="(item, i) in eventList" :key="i">
-        <Userbox :select="status" />
+      <div class="small-box">
+        <div v-for="(item, i) in eventList" :key="i">
+          <Userbox :select="status" />
+        </div>
       </div>
 
       <h1 class="title">Pending (1)</h1>
-      <div v-for="(item, i) in eventList" :key="i">
-        <Userbox :select="status" />
+
+      <div class="small-box">
+        <div v-for="(item, i) in eventList" :key="i">
+          <Userbox :select="status" />
+        </div>
       </div>
     </div>
     <div v-if="status == 2">
       <h1 class="title">Request (1)</h1>
-      <div v-for="(item, i) in eventList" :key="i">
-        <Userbox :select="status" />
+      <div class="large-box">
+        <div v-for="(item, i) in eventList" :key="i">
+          <Userbox :select="status" />
+        </div>
       </div>
     </div>
     <div v-if="status == 3" style="margin-top:20px;">
@@ -31,13 +38,17 @@
       </div>
       <!-- Input -->
       <div v-if="search">
-        <h1 class="title">Followers ({{eventList}})</h1>
-        <div v-for="(item, i) in eventList" :key="i">
-          <Userbox :select="status" />
+        <h1 class="title">Followers ({{ eventList }})</h1>
+        <div class="small-box">
+          <div v-for="(item, i) in eventList" :key="i">
+            <Userbox :select="status" />
+          </div>
         </div>
-        <h1 class="title">Others ({{eventList}})</h1>
-        <div v-for="(item, i) in eventList" :key="i">
-          <Userbox :select="status" />
+        <h1 class="title">Others ({{ eventList }})</h1>
+        <div class="small-box">
+          <div v-for="(item, i) in eventList" :key="i">
+            <Userbox :select="status" />
+          </div>
         </div>
       </div>
     </div>
@@ -53,16 +64,15 @@ import Userbox from "@/components/popup/manageEvent/Userbox.vue";
 export default {
   data() {
     return {
-      eventList: 3,
-      search:"",
+      eventList: 10,
+      search: "",
     };
   },
   props: ["status"],
   components: {
     Userbox,
   },
-  watch: {
-  },
+  watch: {},
 };
 </script>
 
@@ -83,7 +93,7 @@ h1 {
   margin: 30px 0px;
   position: absolute;
   z-index: 3;
-  bottom: -10px;
+  bottom: 0px;
   right: 60px;
 }
 
@@ -95,7 +105,7 @@ h1 {
   font-size: 2.25em;
   font-weight: 450;
   border: none;
-  padding: 7px 70px;
+  padding: 9px 100px;
   margin: 0;
   border-radius: 24px;
 }
@@ -141,5 +151,15 @@ i {
 
 .fa {
   font-size: initial;
+}
+
+.small-box {
+  height: 130px;
+  overflow-y: scroll;
+}
+
+.large-box {
+  height: 300px;
+  overflow-y: scroll;
 }
 </style>

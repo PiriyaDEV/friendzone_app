@@ -63,8 +63,30 @@ class UserService {
     return axios
       .post(API_URL + "uploadPic/img?user_id=" + userData.user_id, formData, {
         headers: authHeader(),
-        "Content-Type": "multipart/form-data",
       })
+      .then((response) => {
+        console.log("response " + response);
+        return response.data;
+      })
+      .catch(() => {
+        // console.log("err" + err)
+        return "err";
+      });
+  }
+
+  updateUserCategory(userCategory) {
+    let userData = decode(localStorage.getItem("user"));
+    return axios
+      .post(
+        API_URL + "updateUserCategory",
+        {
+          user_id: userData.user_id,
+          category_id: userCategory,
+        },
+        {
+          headers: authHeader(),
+        }
+      )
       .then((response) => {
         console.log("response " + response);
         return response.data;
@@ -78,9 +100,9 @@ class UserService {
   async getTopBarInfo() {
     let user = decode(localStorage.getItem("user"));
     let profile_pic = "http://localhost:8080/api/user/displayPic/";
-    let res; 
+    let res;
     try {
-        res = await axios.get(API_URL + "getUsername/" + user.user_id, {
+      res = await axios.get(API_URL + "getUsername/" + user.user_id, {
         headers: authHeader(),
       });
     } catch {

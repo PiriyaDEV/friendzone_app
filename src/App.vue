@@ -90,6 +90,10 @@ font-size:1em !important;
   font-size:1em !important;
 }
 
+.multiselect__tag-icon:hover{
+background: #FF8864 !important;
+}
+
 .multiselect{
   width:350px !important;
 }
