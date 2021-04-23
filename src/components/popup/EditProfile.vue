@@ -118,23 +118,7 @@
             <!-- Information -->
             <div class="static-info">
               <h1 class="info-title">Gender</h1>
-              <select
-                    name="gender"
-                    class="input_profile_box"
-                    v-model="selected"
-                    required
-                  >
-                    <option value="" disabled selected hidden>
-                      select your gender
-                    </option>
-                    <option
-                      v-for="(gender, index) in genderList"
-                      :key="index"
-                      :value="gender.gender_id"
-                    >
-                      {{ gender.gender_name }}
-                    </option>
-                  </select>
+              <h1 id="gender">{{ user.gender_id }}</h1>
             </div>
             <!-- Information -->
           </div>
@@ -184,9 +168,7 @@ export default {
         firstname: "",
         lastname: "",
         phone: "",
-        gender: "",
         profile_pic: "",
-        birthdate: "",
         bio: "",
       }),
     };
