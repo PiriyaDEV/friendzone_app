@@ -1,82 +1,107 @@
 <template>
-  <div id="mainpage">
-    <CreateEvent v-if="createShow == true" @clickCreate="clickCreate" />
-    <RatePopup
-      v-if="rateShow == true"
-      @clickShowed="clickShowed"
-      v-bind:checkParticipants="selectRateShow"
-    />
-    <ProfileDetail
-      v-if="detailShow == true"
-      @clickDetail="clickDetail"
-      @clickEdit="clickEdit"
-    />
-    <EditProfile
-      v-if="editShow == true"
-      @clickDetail="clickDetail"
-      @clickEdit="clickEdit"
-    />
-    <ReportPopup
-      v-if="reportShow == true"
-      @clickReport="clickReport"
-      v-bind:categoryReport="selectReportShow"
-    />
-    <DiscountPopup
-      v-if="discountShow == true||discountShow2 == true"
-      @clickDiscount="clickDiscount"
-      @clickDiscount2="clickDiscount2"
-      :clickFromYourZone="discountShow"
-    />
-    <ManageEvent
-      v-if="manageShow == true"
-      @clickManage="clickManage"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
-    />
-    <div id="mainpage-background" class="section">
-      <MainpageMenu
-        id="menubar"
-        @clickClearSearch="clickClearSearch"
-        @pageReturn="pageReturn"
-        @clickCreate="clickCreate"
+  <div>
+    <div v-if="role == 1" id="mainpage">
+      <CreateEvent v-if="createShow == true" @clickCreate="clickCreate" />
+      <RatePopup
+        v-if="rateShow == true"
+        @clickShowed="clickShowed"
+        v-bind:checkParticipants="selectRateShow"
       />
+      <ProfileDetail
+        v-if="detailShow == true"
+        @clickDetail="clickDetail"
+        @clickEdit="clickEdit"
+      />
+      <EditProfile
+        v-if="editShow == true"
+        @clickDetail="clickDetail"
+        @clickEdit="clickEdit"
+      />
+      <ReportPopup
+        v-if="reportShow == true"
+        @clickReport="clickReport"
+        v-bind:categoryReport="selectReportShow"
+      />
+      <DiscountPopup
+        v-if="discountShow == true || discountShow2 == true"
+        @clickDiscount="clickDiscount"
+        @clickDiscount2="clickDiscount2"
+        :clickFromYourZone="discountShow"
+      />
+      <ManageEvent v-if="manageShow == true" @clickManage="clickManage" />
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+      />
+      <div id="mainpage-background" class="section">
+        <MainpageMenu
+          id="menubar"
+          @clickClearSearch="clickClearSearch"
+          @pageReturn="pageReturn"
+          @clickCreate="clickCreate"
+        />
 
-      <!-- Page -->
-      <div id="timeline">
-        <!-- Top Bar -->
-        <Topbar @searchData="searchData" @clickDetail="clickDetail" :clearSearch="clearSearched" @clickClearSearch="clickClearSearch"/>
-        <!-- Top Bar -->
-        <div v-if="searchBar">
-          <Searchpage :searchValue="searchBar"/>
+        <!-- Page -->
+        <div id="timeline">
+          <!-- Top Bar -->
+          <Topbar
+            @searchData="searchData"
+            @clickDetail="clickDetail"
+            :clearSearch="clearSearched"
+            @clickClearSearch="clickClearSearch"
+            @demoAdmin="demoAdmin"
+            :demoRole="role"
+          />
+          <!-- Top Bar -->
+          <div v-if="searchBar">
+            <Searchpage :searchValue="searchBar" />
+          </div>
+
+          <div v-if="select == 1 && !searchBar">
+            <Yourzone
+              @clickShowed="clickShowed"
+              @checkShow="checkShow"
+              @clickDiscount="clickDiscount"
+              @clickManage="clickManage"
+              :discountSelect="select"
+            />
+          </div>
+
+          <div v-if="select == 2 && !searchBar">
+            <Chat />
+          </div>
+
+          <div v-if="select == 3 && !searchBar">
+            <ReportPage @clickReport="clickReport" @checkReport="checkReport" />
+          </div>
+
+          <div v-if="select == 4 && !searchBar">
+            <Eventpage />
+          </div>
+
+          <div v-if="select == 5 && !searchBar">
+            <Discountpage
+              @clickDiscount2="clickDiscount2"
+              :discountSelect="select"
+            />
+          </div>
+
+          <div v-if="select == 6 && !searchBar">
+            <History />
+          </div>
         </div>
+      </div>
+    </div>
 
-        <div v-if="select == 1 && !searchBar">
-          <Yourzone @clickShowed="clickShowed" @checkShow="checkShow" @clickDiscount="clickDiscount" @clickManage="clickManage" :discountSelect="select"/>
+    <div v-if="role == 2" id="mainpage-admin">
+      <div id="mainpage-background" class="section">
+        <AdminMenu id="menubar" />
+        <div id="timeline">
+          <Topbar @demoAdmin="demoAdmin" :demoRole="role" />
+
+          <AdminMainpage />
         </div>
-
-        <div v-if="select == 2 && !searchBar">
-          <Chat />
-        </div>
-
-        <div v-if="select == 3 && !searchBar">
-          <ReportPage @clickReport="clickReport" @checkReport="checkReport" />
-        </div>
-
-        <div v-if="select == 4 && !searchBar">
-          <Eventpage />
-        </div>
-
-        <div v-if="select == 5 && !searchBar">
-          <Discountpage @clickDiscount2="clickDiscount2" :discountSelect="select"/>
-        </div>
-
-        <div v-if="select == 6 && !searchBar">
-          <History />
-        </div>
-
       </div>
     </div>
   </div>
@@ -99,6 +124,8 @@ import DiscountPopup from "@/components/popup/DiscountPopup.vue";
 import ManageEvent from "@/components/popup/manageEvent/ManageEvent.vue";
 import Searchpage from "@/components/Searchpage.vue";
 import History from "@/components/History.vue";
+import AdminMainpage from "@/components/admin/AdminMainpage.vue";
+import AdminMenu from "@/components/admin/AdminMenu.vue";
 
 export default {
   name: "mainpage",
@@ -118,7 +145,9 @@ export default {
     DiscountPopup,
     ManageEvent,
     Searchpage,
-    History
+    History,
+    AdminMainpage,
+    AdminMenu,
   },
   data() {
     return {
@@ -131,9 +160,10 @@ export default {
       reportShow: false,
       discountShow: false,
       discountShow2: false,
-      searchBar:'',
+      searchBar: "",
       clearSearched: false,
       manageShow: false,
+      role: 1,
     };
   },
   computed: {
@@ -185,14 +215,17 @@ export default {
     },
     clickDiscount2(value) {
       this.discountShow2 = value;
-    }
+    },
+    demoAdmin(value) {
+      this.role = value;
+    },
   },
 };
 </script>
 
 <style scoped>
-#mainpage {
-  background-color: #f8f3ec;
+#mainpage,
+#mainpage-admin {
   /* background-image: url("../assets/harryfer-background.jpg"); */
   overflow-y: scroll;
   height: auto;
@@ -201,6 +234,14 @@ export default {
   /* display: flex; */
   justify-content: center;
   align-items: center;
+}
+
+#mainpage {
+  background-color: #f8f3ec;
+}
+
+#mainpage-admin {
+  background-color: #444444;
 }
 
 #timeline {

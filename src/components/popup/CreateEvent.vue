@@ -1,4 +1,4 @@
-<template>
+r<template>
   <div id="create-event" class="popup">
     <div class="popup-section section">
       <div class="popup-form">
@@ -11,33 +11,28 @@
                 Event Picture<span class="orange-color"> *</span>
               </h2>
               <div id="select-photo-section" class="section">
-              <Upload v-model="event_pic">
-                <div
-                  v-if="!event_pic"
-                  slot="activator"
-                  id="select-photo-inside"
-                  class="section"
-                >
-                  <img
-                    id="addphoto"
-                    src="@/assets/icon/icons8-add-image-96.png"
-                  />
-                  <h1 class="upload">upload photo</h1>
-                </div>
-                <div
-                  v-else
-                  slot="activator"
-                  id="select-photo-section"
-                  class="section"
-                >
-                  <img
-                    class="pictureUpload"
-                    style="position: relative"
-                    :src="event_pic.imageURL"
-                    alt="event_pic"
-                  />
-                </div>
-              </Upload>
+                <Upload v-model="event_pic">
+                  <div
+                    v-if="!event_pic"
+                    slot="activator"
+                    id="select-photo-inside"
+                    class="section"
+                  >
+                    <img
+                      id="addphoto"
+                      src="@/assets/icon/icons8-add-image-96.png"
+                    />
+                    <h1 class="upload">upload photo</h1>
+                  </div>
+                  <div v-else slot="activator">
+                    <img
+                      class="pictureUpload"
+                      style="position: relative"
+                      :src="event_pic.imageURL"
+                      alt="event_pic"
+                    />
+                  </div>
+                </Upload>
               </div>
             </div>
             <!-- Input -->
@@ -300,7 +295,6 @@
                 :multiple="true"
               ></multiselect>
             </div>
-            <h1>{{ genderList }}</h1>
             <!-- Input -->
 
             <!-- Input -->
@@ -318,7 +312,6 @@
                 :max="3"
               ></multiselect>
             </div>
-            <h1>{{ categoryList }}</h1>
             <!-- Input -->
 
             <div>
@@ -396,6 +389,7 @@ import Multiselect from "vue-multiselect";
 import Event from "./../../models/event";
 import GenderService from "../../services/gender.service";
 import CategoryService from "../../services/category.service";
+import EventService from "../../services/event.service";
 import Upload from "@/components/UploadPic.vue";
 
 class constructDate {
@@ -428,6 +422,7 @@ export default {
       ms: "",
       he: "",
       me: "",
+      event_id: null,
       event_pic: "",
       event: new Event({
         host_id: "",
@@ -449,7 +444,7 @@ export default {
   },
   components: {
     Multiselect,
-    Upload: Upload,
+    Upload,
   },
   methods: {
     addTag(newTag) {
@@ -496,14 +491,33 @@ export default {
       ).getTime();
 
       console.log(this.event);
-      console.log(this.category_value);
 
-      //  EventService.create({ phone: this.phone }).then((res) => {
-      //     if (res.exist) {
-      //       this.invalidPhone = res.exist;
-      //       this.alertPhone = "this phone number has been used";
-      //     } else this.invalidPhone = res.exist;
-      //   });
+      this.gender_value.forEach((gender) => {
+        this.genderList.push(gender.code);
+      });
+
+      this.category_value.forEach((category) => {
+        this.categoryList.push(category.code);
+      });
+      EventService.create({
+        event: this.event,
+        gender_id: this.genderList,
+        category_id: this.categoryList,
+      }).then((res) => {
+        if (res.event_id) {
+          EventService.uploadEventPic(this.event_pic.formData, res.event_id).then(
+            (res) => {
+              if (res) {
+                console.log(res);
+                window.location.href = "/mainpage";
+              }
+            }
+          )
+        }
+      },
+      (error) => {
+          console.log(error.message);
+      });
     },
   },
   mounted() {
@@ -525,7 +539,6 @@ export default {
           let pick = new Pick("");
           pick.name = gender.gender_name;
           pick.code = gender.gender_id;
-
           this.gender_options.push(pick);
         });
       }
@@ -587,9 +600,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
+  width: 420px;
+  height: 165px;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .input_select {
@@ -671,7 +685,7 @@ option {
 #select-photo-inside {
   border: 2px solid #e3e3e3;
   border-radius: 6px;
-  padding: 3px 8px;
+  padding: 3px 3px;
 }
 
 #select-photo-section {
@@ -681,6 +695,7 @@ option {
 #select-photo-inside {
   margin-top: 60px;
   margin-bottom: 60px;
+  cursor: pointer;
 }
 
 #right {

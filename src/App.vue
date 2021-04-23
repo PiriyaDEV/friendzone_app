@@ -5,9 +5,7 @@
 </template>
 
 <script>
-export default {
-
-};
+export default {};
 </script>
 
 <style>
@@ -47,7 +45,7 @@ div::-webkit-scrollbar-track {
 div::-webkit-scrollbar-thumb {
   border-radius: 4px;
   background-color: rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 1px rgba(255, 255, 255, 1);
+  /* box-shadow: 0 0 1px rgba(255, 255, 255, 1); */
 }
 
 .popup {
@@ -63,39 +61,39 @@ div::-webkit-scrollbar-thumb {
   height: 100vh;
 }
 
-.multiselect__tag{
-background: #FF8864 !important;
+.multiselect__tag {
+  background: #ff8864 !important;
 }
 
-.multiselect__tags{
-border: 2px solid #e3e3e3 !important;
-border-radius: 10px !important;
+.multiselect__tags {
+  border: 2px solid #e3e3e3 !important;
+  border-radius: 10px !important;
 }
 
-.multiselect__tag-icon:after{
-color: #ffffff !important;
+.multiselect__tag-icon:after {
+  color: #ffffff !important;
 }
 
-.multiselect__placeholder{
-color: #cccccc !important;
-font-size:1em !important;
+.multiselect__placeholder {
+  color: #cccccc !important;
+  font-size: 1em !important;
 }
 
-.multiselect__input{
-color: #444444 !important;
-font-size:1em !important;
+.multiselect__input {
+  color: #444444 !important;
+  font-size: 1em !important;
 }
 
-.multiselect__option{
-  font-size:1em !important;
+.multiselect__option {
+  font-size: 1em !important;
 }
 
-.multiselect__tag-icon:hover{
-background: #FF8864 !important;
+.multiselect__tag-icon:hover {
+  background: #ff8864 !important;
 }
 
-.multiselect{
-  width:350px !important;
+.multiselect {
+  width: 350px !important;
 }
 
 /* .input_box,
@@ -118,6 +116,10 @@ background: #FF8864 !important;
 
 .black-color {
   color: #444444;
+}
+
+.white-color {
+  color: #FFFFFF;
 }
 
 .orange-color {

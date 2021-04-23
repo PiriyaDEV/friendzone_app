@@ -6,12 +6,7 @@
       <div id="top-half" class="section">
         <div>
           <img id="logo" src="@/assets/longlogo.png" />
-          <div id="create-event-button" class="section">
-            <button @click="createdReturn()">
-              CREATE EVENT
-              <img id="plus" src="@/assets/icons8-plus-math-90.png" />
-            </button>
-          </div>
+          
         </div>
       </div>
 
@@ -22,7 +17,7 @@
           @click="zoneClick()"
           class="section"
           :class="zonebox"
-          style="cursor: pointer;"
+          style="margin-top:115px; cursor: pointer;"
         >
           <div>
             <img
@@ -37,7 +32,7 @@
             />
           </div>
           <div>
-            <h1 :class="zonetext">Your Zone</h1>
+            <h1 :class="zonetext">Mainpage</h1>
           </div>
         </div>
         <!-- Your Zone -->
@@ -92,7 +87,7 @@
         </div>
         <!-- Discount -->
 
-        <!-- Chat -->
+        <!-- User -->
         <div
           @click="chatClick()"
           style="cursor: pointer;"
@@ -103,25 +98,25 @@
             <img
               v-show="chatselect == false"
               class="menu-icon"
-              src="@/assets/icon/icons8-chat-52-b.png"
+              src="@/assets/icon/icons8-user-male-144-b.png"
             />
             <img
               v-show="chatselect == true"
               class="menu-icon"
-              src="@/assets/icon/icons8-chat-52-o.png"
+              src="@/assets/icon/icons8-user-male-144-o.png"
             />
           </div>
           <div>
-            <h1 :class="chattext">Chat</h1>
+            <h1 :class="chattext">User</h1>
           </div>
         </div>
-        <!-- Chat -->
+        <!-- User -->
 
 
         <!-- Report -->
         <div
           @click="reportClick()"
-          style="margin-top: 210px; cursor: pointer;"
+          style="cursor: pointer;"
           class="section"
           :class="reportbox"
         >
@@ -148,7 +143,7 @@
           @click="signoutClick()"
           class="section"
           :class="signoutbox"
-          style="cursor: pointer;"
+          style="margin-top: 210px;  cursor: pointer;"
         >
           <div>
             <img
@@ -173,7 +168,7 @@
 </template>
 
 <script>
-import AuthService from "../services/auth.service";
+import AuthService from "./../../services/auth.service";
 
 export default {
   name: "Mainpage",
