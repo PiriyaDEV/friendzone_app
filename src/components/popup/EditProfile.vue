@@ -347,6 +347,7 @@ export default {
   border-radius: 6px;
   padding: 3px 8px;
   margin-top: 20px;
+  cursor:pointer;
 }
 
 .info-title {

@@ -74,13 +74,9 @@
               class="event-container"
             >
               <div class="list event-flex-wrap-section">
-                <div v-for="(item, i) in eventList" :key="i">
+                <div v-for="(event, i) in eventList" :key="i">
                   <EventFlex
-                    :user="dataUser[i]"
-                    :date="dataDate"
-                    :title="dataTitle"
-                    :location="dataLocation"
-                    :host="dataHost"
+                    :event="event"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                     @manageReturn="manageReturn"
@@ -115,13 +111,9 @@
               class="event-container"
             >
               <div class="list event-flex-wrap-section">
-                <div v-for="(item, i) in eventList" :key="i">
+                <div v-for="(event, i) in eventList" :key="i">
                   <EventFlex
-                    :user="dataUser[i]"
-                    :date="dataDate"
-                    :title="dataTitle"
-                    :location="dataLocation"
-                    :host="dataHost"
+                    :event="event"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                     @manageReturn="manageReturn"
@@ -155,13 +147,9 @@
               class="event-container"
             >
               <div class="list event-flex-wrap-section">
-                <div v-for="(item, i) in eventList" :key="i">
+                <div v-for="(event, i) in eventList" :key="i">
                   <EventFlex
-                    :user="dataUser[i]"
-                    :date="dataDate"
-                    :title="dataTitle"
-                    :location="dataLocation"
-                    :host="dataHost"
+                    :event="event"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                     @manageReturn="manageReturn"
@@ -197,7 +185,7 @@
               class="event-container"
             >
               <div class="list event-flex-wrap-section">
-                <div v-for="(item, i) in eventList" :key="i">
+                <div v-for="(item, i) in eventListLongFlex" :key="i">
                   <DiscountLongFlex
                     :statusYourZone="checkStatus"
                     @discountReturn="discountReturn"
@@ -233,27 +221,12 @@ export default {
       selectRequest: "menu-box-white",
       selectDiscount: "menu-box-white",
       selected: "all",
-      eventList: 5,
       joinList: 10,
-      dataUser: [
-        "05/20",
-        "06/20",
-        "07/20",
-        "08/20",
-        "09/20",
-        "10/20",
-        "11/20",
-        "12/20",
-        "13/20",
-        "14/20",
-      ],
-      dataDate: "14 Oct 2021 - 15 Oct 2021",
-      dataTitle: "Chai Miang Chiang Mai Camp with Aj.Harryfer",
-      dataLocation: "Localhost Resort Chiang Mai, Thailand",
-      dataHost: "pd.piriya",
+      eventList: [],
+      eventListLongFlex: 10,
     };
   },
-  props:["discountSelect"],
+  props: ["discountSelect"],
   watch: {
     host: function() {
       if (this.host == true) {
@@ -292,6 +265,20 @@ export default {
     EventFlex,
     DiscountLongFlex,
   },
+  created() {
+    this.eventList = [
+      {
+        host_id: "US000001",
+        host_pic: "http://localhost:8080/api/user/displayPic/US000002",
+        title: "Pattaya Trip",
+        location: "Pattaya, Chon Buri, Thailand",
+        max_participant: 9,
+        event_pic: "http://localhost:8080/api/event/displayPic/EV000001",
+        start_at: new Date(1639303920000),
+        end_at: new Date(1639390200000)
+      }
+    ]
+  },
   methods: {
     clickRate(value) {
       this.$emit("clickShowed", value);
@@ -308,12 +295,12 @@ export default {
   },
   computed: {
     checkStatus() {
-      if(this.discountSelect == 1) {
+      if (this.discountSelect == 1) {
         return true;
       }
       return false;
     },
-  }
+  },
 };
 </script>
 

@@ -9,44 +9,48 @@
     <!-- User -->
     <div id="user-box">
       <img class="user" src="@/assets/event/icons8-customer-100.png" />
-      <!-- <h1>{{ user }}</h1> -->
-      <h1 style="font-weight: 600" class="orange-color">FULL</h1>
+      <h1>9/{{ event.max_participant }}</h1>
+      <!-- <h1 style="font-weight: 600" class="orange-color">FULL</h1> -->
     </div>
     <!-- User -->
 
     <!-- Date -->
     <div id="date-box">
-      <h1>{{ date }}</h1>
+      <h1>
+        {{ event.start_at.getDate() }} {{ months[event.start_at.getMonth()] }}
+        {{ event.start_at.getFullYear() }} - {{ event.end_at.getDate() }}
+        {{ months[event.end_at.getMonth()] }} {{ event.end_at.getFullYear() }}
+      </h1>
     </div>
     <!-- Date -->
 
     <!-- Date -->
-    <div id="end-box">
+    <!-- <div id="end-box">
       <h1>EVENT HAS ENDED</h1>
-    </div>
+    </div> -->
     <!-- Date -->
 
-    <img class="event-pic" src="@/assets/event/download.jpeg" />
+    <img class="event-pic" :src="event.event_pic" />
 
     <div id="title-section">
       <!-- <img
         class="event-icon"
         src="@/assets/event/event-icon/icons8-airport-200.png"
       /> -->
-      <h1 class="event-title">{{ title }}</h1>
+      <h1 class="event-title">{{ event.title }}</h1>
     </div>
 
     <!-- Location -->
     <div>
-      <h1 class="event-location">{{ location }}</h1>
+      <h1 class="event-location">{{ event.location }}</h1>
     </div>
     <!-- Location -->
 
     <!-- Host -->
     <div id="host-section">
-      <img id="profile-logo" src="@/assets/profile/pfpic.jpg" />
+      <img id="profile-logo" :src="event.host_pic" />
       <h1>
-        Hosted by <span class="highlight-text">{{ host }}</span>
+        Hosted by <span class="highlight-text">{{ event.host_id }}</span>
       </h1>
     </div>
     <!-- Host -->
@@ -60,7 +64,9 @@
     <!-- Double Button -->
     <div id="double-button">
       <button @click="ratePartReturn()">RATE PARTICIPANTS</button>
-      <button @click="rateEventReturn()" style="display:none;">RATE THIS EVENT</button>
+      <button @click="rateEventReturn()" style="display:none;">
+        RATE THIS EVENT
+      </button>
       <button @click="manageEventReturn()">MANAGE EVENT</button>
     </div>
     <!-- Double Button -->
@@ -75,8 +81,26 @@
 
 <script>
 export default {
+  data() {
+    return {
+      months: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
+    };
+  },
   name: "EventFlex",
-  props: ["user", "date", "title", "location", "host"],
+  props: ["event"],
   methods: {
     rateEventReturn() {
       this.$emit("clickRate", true);
@@ -210,6 +234,8 @@ export default {
 
 #profile-logo {
   width: 25px;
+  height: 25px;
+  object-fit: cover;
   border-radius: 50%;
 }
 

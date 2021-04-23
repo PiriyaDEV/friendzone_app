@@ -216,7 +216,7 @@ export default {
     };
   },
   components: {
-    Upload: Upload,
+    Upload,
   },
   watch: {
     phone: function() {

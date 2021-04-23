@@ -1,6 +1,6 @@
 <template>
   <!-- Top Bar -->
-  <div id="topbar" class="event-container">
+  <div :id="cssBlackground" class="event-container">
     <div id="search-bar">
       <!-- Input -->
       <div class="left-inner-addon input-container">
@@ -14,13 +14,13 @@
       </div>
       <!-- Input -->
 
-      <div class="section">
+      <div v-if="!toggle" class="section">
         <img id="coin-logo" src="@/assets/icon/coin.png" />
-        <h1 id="bar-value">2500</h1>
+        <h1 class="black-color" id="bar-value">2500</h1>
       </div>
 
       <div>
-        <div id="mail-circle">
+        <div @click="clickDemoAdmin()" id="mail-circle">
           <img
             id="mail-logo"
             src="@/assets/icon/icons8-important-mail-96@2x.png"
@@ -36,7 +36,7 @@
           style="cursor: pointer"
         >
           <img id="profile-logo" :src="user.profile_pic" />
-          <h1 id="bar-value">{{ user.username }}</h1>
+          <h1 class="black-color" id="bar-value">{{ user.username }}</h1>
         </div>
       </div>
     </div>
@@ -52,13 +52,13 @@ export default {
   data() {
     return {
       search: "",
+      toggle: false,
       user: new User({ username: "", profile_pic: "" }),
     };
   },
-  props: ["clearSearch"],
+  props: ["clearSearch", "demoRole"],
   created() {
     UserService.getTopBarInfo().then((res) => {
-      console.log(res);
       if (res) {
         this.user = res;
       }
@@ -79,20 +79,43 @@ export default {
     detailReturn() {
       this.$emit("clickDetail", true);
     },
+    clickDemoAdmin() {
+      this.toggle = !this.toggle;
+      if (this.toggle == true) {
+        this.$emit("demoAdmin", 2);
+      } else {
+        this.$emit("demoAdmin", 1);
+      }
+    },
+  },
+  computed: {
+    cssBlackground() {
+      let user = "topbar";
+      let admin = "topbar-admin";
+      if (this.demoRole == 1) {
+        return user;
+      }
+      return admin;
+    },
   },
 };
 </script>
 
 <style scoped>
-#topbar {
-  background-color: #f8f3ec;
-  /* display: flex;
-  align-items: center;
-  justify-content: space-between; */
+#topbar,
+#topbar-admin {
   padding-top: 25px;
   padding-bottom: 15px;
   z-index: 999;
   position: fixed;
+}
+
+#topbar {
+  background-color: #f8f3ec;
+}
+
+#topbar-admin {
+  background-color: #444444;
 }
 
 #search-bar {
@@ -167,6 +190,7 @@ i {
   border-radius: 50%;
   background-color: #ffffff;
   padding: 11px;
+  cursor:pointer;
 }
 
 #bar-value {
