@@ -104,7 +104,7 @@
             <h1 class="info-text">{{ user.birthdate }}</h1>
             <h1 class="info-text">{{ user.email }}</h1>
             <h1 class="info-text">{{ user.phone }}</h1>
-            <h1 class="info-text">Male</h1>
+            <h1 class="info-text">{{ user.gender }}</h1>
           </div>
           <img
             @click="detailReturn()"
@@ -119,24 +119,27 @@
 </template>
 
 <script>
-import User from "./../../models/user";
 import UserService from "./../../services/user.service";
 
 export default {
   data() {
     return {
-      user: new User({
-        username: "",
-        email: "",
-        firstname: "",
-        lastname: "",
-        phone: "",
-        gender: "",
-        profile_pic: "",
-        birthdate: "",
-        bio: "",
-      }),
+      user: null,
       fullname: "",
+      months: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
     };
   },
   created() {
@@ -144,6 +147,11 @@ export default {
       if (res) {
         this.user = res;
         this.fullname = this.user.firstname + " " + this.user.lastname;
+        let birthdate = new Date(this.user.birthdate);
+        let date = birthdate.getDate();
+        let month = birthdate.getMonth();
+        let year = birthdate.getFullYear();
+        this.user.birthdate = `${date} ${this.months[month]} ${year}`;
       }
     });
   },

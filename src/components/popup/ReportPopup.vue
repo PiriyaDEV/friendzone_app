@@ -139,8 +139,8 @@ export default {
 }
 
 .input_select {
-  font-size: 1.75em;
-  font-weight: 600;
+  font-size: 1.6em;
+  font-weight: 500;
   width: 100%;
   padding: 9px 12px 9px 15px;
   border: 2px solid #e3e3e3;
@@ -151,7 +151,7 @@ export default {
 }
 
 .comment {
-  font-size: 1.75em;
+  font-size: 1.6em;
   font-weight: 600;
   color: #444444;
   width: calc(100% - 15px);
@@ -221,6 +221,7 @@ option {
   font-size: 1.5em;
   color: #a0a0a0;
   margin-bottom: 0;
+  font-weight: 400;
   margin-top: 2px;
 }
 
@@ -257,8 +258,8 @@ option {
 }
 
 .input_textarea_box {
-  font-size: 1.75em;
-  font-weight: 600;
+  font-size: 1.6em;
+  font-weight: 500;
   color: #a0a0a0;
   padding: 7px 12px 7px 15px;
   border: 2px solid #e3e3e3;

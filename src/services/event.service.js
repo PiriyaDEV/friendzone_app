@@ -40,5 +40,44 @@ class EventService {
         return "err";
       });
   }
+
+  async updateInterestEvent(data) {
+    let user = decode(localStorage.getItem("user"));
+    const res = await axios.post(API_URL + "updateInterestEvent",
+      {
+      user_id: user.user_id,
+      event_id: data.event_id,
+      interest: data.interest
+      }, 
+      {
+        headers: authHeader(),
+      }
+    );
+    return res.data;
+  }
+
+  async getHostedEvent() {
+    let user = decode(localStorage.getItem("user"));
+    const res = await axios.get(API_URL + "getHostedEvent/" + user.user_id, {
+      headers: authHeader(),
+    });
+    res.data.forEach(event => {
+      event.event_pic = API_URL + "displayPic/" + event.event_id;
+      event.host_pic = "http://localhost:8080/api/user/displayPic/" + user.user_id;
+    });
+    return res.data;
+  }
+
+  async getJoinedEvent() {
+    let user = decode(localStorage.getItem("user"));
+    const res = await axios.get(API_URL + "getJoinedEvent/" + user.user_id, {
+      headers: authHeader(),
+    });
+    res.data.forEach(event => {
+      event.event_pic = API_URL + "displayPic/" + event.event_id;
+      event.host_pic = "http://localhost:8080/api/user/displayPic/" + event.user_id;
+    });
+    return res.data;
+  }
 }
 export default new EventService();

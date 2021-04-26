@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- User -->
     <div v-if="role == 1" id="mainpage">
       <CreateEvent v-if="createShow == true" @clickCreate="clickCreate" />
       <RatePopup
@@ -93,17 +94,31 @@
         </div>
       </div>
     </div>
-
+    <!-- User -->
+    <!-- Admin -->
     <div v-if="role == 2" id="mainpage-admin">
+
+      <EditUser v-if="editShow" @clickEdit="clickEdit"/>
+
+      <CreateDiscount v-if="createShow" @clickCreate="clickCreate" />
+
       <div id="mainpage-background" class="section">
-        <AdminMenu id="menubar" />
+        <AdminMenu id="menubar" @pageReturnAdmin="pageReturnAdmin"/>
         <div id="timeline">
+
           <Topbar @demoAdmin="demoAdmin" :demoRole="role" />
 
-          <AdminMainpage />
+          <AdminMainpage
+            v-if="selectAdmin == 1"
+            @clickCreate="clickCreate"
+            @clickEdit="clickEdit"
+          />
+          <AdminReport v-if="selectAdmin == 5" />
+
         </div>
       </div>
     </div>
+    <!-- Admin -->
   </div>
 </template>
 
@@ -126,6 +141,9 @@ import Searchpage from "@/components/Searchpage.vue";
 import History from "@/components/History.vue";
 import AdminMainpage from "@/components/admin/AdminMainpage.vue";
 import AdminMenu from "@/components/admin/AdminMenu.vue";
+import AdminReport from "@/components/admin/report/AdminReport.vue";
+import CreateDiscount from "@/components/admin/popup/CreateDiscount.vue";
+import EditUser from "@/components/admin/popup/EditUser.vue";
 
 export default {
   name: "mainpage",
@@ -148,6 +166,9 @@ export default {
     History,
     AdminMainpage,
     AdminMenu,
+    AdminReport,
+    CreateDiscount,
+    EditUser,
   },
   data() {
     return {
@@ -164,6 +185,7 @@ export default {
       clearSearched: false,
       manageShow: false,
       role: 1,
+      selectAdmin: 1,
     };
   },
   computed: {
@@ -218,6 +240,9 @@ export default {
     },
     demoAdmin(value) {
       this.role = value;
+    },
+    pageReturnAdmin(value) {
+      this.selectAdmin = value;
     },
   },
 };

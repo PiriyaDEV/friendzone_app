@@ -4,12 +4,23 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-    <img class="star" src="@/assets/event/icons8-star-96.png" />
+    <img
+      v-if="!event.interest"
+      @click="interestEvent()"
+      class="star"
+      src="@/assets/event/icons8-star-96.png"
+    />
+    <img
+      v-if="event.interest"
+      @click="interestEvent()"
+      class="star"
+      src="@/assets/event/icons8-star-96-y.png"
+    />
 
     <!-- User -->
     <div id="user-box">
       <img class="user" src="@/assets/event/icons8-customer-100.png" />
-      <h1>9/{{ event.max_participant }}</h1>
+      <h1>{{ event.joined }}/{{ event.max_participant }}</h1>
       <!-- <h1 style="font-weight: 600" class="orange-color">FULL</h1> -->
     </div>
     <!-- User -->
@@ -17,9 +28,7 @@
     <!-- Date -->
     <div id="date-box">
       <h1>
-        {{ event.start_at.getDate() }} {{ months[event.start_at.getMonth()] }}
-        {{ event.start_at.getFullYear() }} - {{ event.end_at.getDate() }}
-        {{ months[event.end_at.getMonth()] }} {{ event.end_at.getFullYear() }}
+        {{ date }}
       </h1>
     </div>
     <!-- Date -->
@@ -50,7 +59,8 @@
     <div id="host-section">
       <img id="profile-logo" :src="event.host_pic" />
       <h1>
-        Hosted by <span class="highlight-text">{{ event.host_id }}</span>
+        Hosted by
+        <span class="highlight-text">{{ event.username }}</span>
       </h1>
     </div>
     <!-- Host -->
@@ -80,9 +90,12 @@
 </template>
 
 <script>
+import EventService from "../services/event.service";
+
 export default {
   data() {
     return {
+      date: "",
       months: [
         "Jan",
         "Feb",
@@ -101,6 +114,21 @@ export default {
   },
   name: "EventFlex",
   props: ["event"],
+  created() {
+    let start_at = new Date(this.event.start_at);
+    let end_at = new Date(this.event.end_at);
+    let startDate = start_at.getDate();
+    let startMonth = start_at.getMonth();
+    let startYear = start_at.getFullYear();
+    let endDate = end_at.getDate();
+    let endMonth = end_at.getMonth();
+    let endYear = end_at.getFullYear();
+    if (startDate == endDate && startMonth == endMonth && startYear == endYear)
+      this.date = `${startDate} ${this.months[startMonth]} ${startYear}`;
+    else
+      this.date = `${startDate} ${this.months[startMonth]} ${startYear} - ${endDate} ${this.months[endMonth]} ${endYear}`;
+    
+  },
   methods: {
     rateEventReturn() {
       this.$emit("clickRate", true);
@@ -113,6 +141,13 @@ export default {
     manageEventReturn() {
       this.$emit("manageReturn", true);
     },
+    interestEvent() {
+      this.event.interest = !this.event.interest;
+      EventService.updateInterestEvent({
+        event: this.event.event_id, 
+        interest: this.event.interest
+        })
+    },
   },
 };
 </script>
@@ -124,27 +159,31 @@ export default {
   position: relative;
   margin-right: 20px;
   margin-bottom: 20px;
-  height: 350px;
+  height: 270px;
+  width: 230px;
 }
 
 .event-pic {
-  width: 315px;
-  height: 200px;
+  width: 100%;
+  height: 130px;
   object-fit: cover;
   border-top-left-radius: 17px;
   border-top-right-radius: 17px;
 }
 
 .star {
-  width: 30px;
+  width: 23px;
+  height: 23px;
   position: absolute;
   z-index: 3;
   top: 10px;
   left: 10px;
+  cursor:pointer;
 }
 
 .user {
-  width: 18px;
+  width: 14px;
+  height: 14px;
   margin-right: 4px;
 }
 
@@ -168,17 +207,18 @@ export default {
 }
 
 .event-title {
-  width: 275px;
-  margin-left: 18px;
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin: 0px 15px;
   font-size: 1.75em;
   font-weight: 450;
   color: #444444;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #title-section {
-  margin-top: 23px;
+  margin-top: 19px;
   /* display: flex;
   align-items: center; */
 }
@@ -190,8 +230,8 @@ export default {
   text-align: center;
   position: absolute;
   z-index: 3;
-  top: 186px;
-  left: 16px;
+  top: 115px;
+  left: 12px;
   color: white;
   border: 2px solid white;
 }
@@ -218,23 +258,32 @@ export default {
 #user-box > h1,
 #host-section > h1 {
   margin: 0;
-  font-size: 1.5em;
+  font-size: 1.25em;
   font-weight: 500;
 }
 
+#host-section > h1,
+#user-box > h1 {
+  color: #444444;
+}
+
 .event-location {
-  width: 228px;
-  margin-left: 18px;
+  margin-left: 15px;
+  margin-right: 15px;
   margin-top: 6px;
   margin-bottom: 0px;
   font-size: 1.5em;
   font-weight: 400;
   color: #a0a0a0;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #profile-logo {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   object-fit: cover;
   border-radius: 50%;
 }
@@ -280,19 +329,18 @@ export default {
   align-items: center;
   margin-right: 20px;
   margin-left: 20px;
-  margin-top: 10px;
-  padding-bottom: 15px;
+  margin-top: 15px;
 }
 
 #button > button,
 #double-button > button {
   color: #ff8864;
-  border: 2px solid #ff8864;
+  border: 1.75px solid #ff8864;
   background-color: #ffffff;
   font-family: "Atten-Round-New";
-  font-size: 1.25em;
+  font-size: 1em;
   font-weight: 550;
-  padding: 7px 15px;
+  padding: 3px 8px;
   margin: 0;
   border-radius: 16px;
 }

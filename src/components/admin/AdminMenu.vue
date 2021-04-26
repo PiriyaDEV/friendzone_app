@@ -6,7 +6,6 @@
       <div id="top-half" class="section">
         <div>
           <img id="logo" src="@/assets/longlogo.png" />
-          
         </div>
       </div>
 
@@ -14,36 +13,30 @@
       <div>
         <!-- Your Zone -->
         <div
-          @click="zoneClick()"
-          class="section"
-          :class="zonebox"
+          @click="mainpageClick()"
+          :class="mainpagebox"
           style="margin-top:115px; cursor: pointer;"
         >
           <div>
             <img
-              v-show="zoneselect == false"
+              v-show="mainpageselect == false"
               class="menu-icon"
               src="@/assets/icon/icons8-home-144-b.png"
             />
             <img
-              v-show="zoneselect == true"
+              v-show="mainpageselect == true"
               class="menu-icon"
               src="@/assets/icon/icons8-home-144-o.png"
             />
           </div>
           <div>
-            <h1 :class="zonetext">Mainpage</h1>
+            <h1 :class="mainpagetext">Mainpage</h1>
           </div>
         </div>
         <!-- Your Zone -->
 
         <!-- Event -->
-        <div
-          @click="eventClick()"
-          class="section"
-          :class="eventbox"
-          style="cursor: pointer;"
-        >
+        <div @click="eventClick()" :class="eventbox" style="cursor: pointer;">
           <div>
             <img
               v-show="eventselect == false"
@@ -65,7 +58,6 @@
         <!-- Discount -->
         <div
           @click="discountClick()"
-          class="section"
           :class="discountbox"
           style="cursor: pointer;"
         >
@@ -88,38 +80,27 @@
         <!-- Discount -->
 
         <!-- User -->
-        <div
-          @click="chatClick()"
-          style="cursor: pointer;"
-          class="section"
-          :class="chatbox"
-        >
+        <div @click="userClick()" style="cursor: pointer;" :class="userbox">
           <div>
             <img
-              v-show="chatselect == false"
+              v-show="userselect == false"
               class="menu-icon"
               src="@/assets/icon/icons8-user-male-144-b.png"
             />
             <img
-              v-show="chatselect == true"
+              v-show="userselect == true"
               class="menu-icon"
               src="@/assets/icon/icons8-user-male-144-o.png"
             />
           </div>
           <div>
-            <h1 :class="chattext">User</h1>
+            <h1 :class="usertext">User</h1>
           </div>
         </div>
         <!-- User -->
 
-
         <!-- Report -->
-        <div
-          @click="reportClick()"
-          style="cursor: pointer;"
-          class="section"
-          :class="reportbox"
-        >
+        <div @click="reportClick()" style="cursor: pointer;" :class="reportbox">
           <div>
             <img
               v-show="reportselect == false"
@@ -141,7 +122,6 @@
         <!-- Sign out -->
         <div
           @click="signoutClick()"
-          class="section"
           :class="signoutbox"
           style="margin-top: 210px;  cursor: pointer;"
         >
@@ -174,109 +154,89 @@ export default {
   name: "Mainpage",
   data() {
     return {
-      zoneselect: true,
+      mainpageselect: true,
       eventselect: false,
       discountselect: false,
-      chatselect: false,
-      historyselect: false,
+      userselect: false,
       reportselect: false,
       signoutselect: false,
     };
   },
   methods: {
-    createdReturn() {
-      this.$emit("clickCreate", true);
-    },
-    zoneClick() {
-      this.zoneselect = true;
+    mainpageClick() {
+      this.mainpageselect = true;
       this.eventselect = false;
       this.discountselect = false;
-      this.chatselect = false;
-      this.historyselect = false;
-      (this.reportselect = false), (this.signoutselect = false);
-      this.$emit("clickClearSearch", true);
-      this.$emit("pageReturn", 1);
+      this.userselect = false;
+      this.reportselect = false;
+      (this.signoutselect = false), this.$emit("clickClearSearch", true);
+      this.$emit("pageReturnAdmin", 1);
     },
     eventClick() {
-      this.zoneselect = false;
+      this.mainpageselect = false;
       this.eventselect = true;
       this.discountselect = false;
-      this.chatselect = false;
-      this.historyselect = false;
-      (this.reportselect = false), (this.signoutselect = false);
-      this.$emit("clickClearSearch", true);
-      this.$emit("pageReturn", 4);
+      this.userselect = false;
+      this.reportselect = false;
+      (this.signoutselect = false), this.$emit("clickClearSearch", true);
+      this.$emit("pageReturnAdmin", 2);
     },
     discountClick() {
-      this.zoneselect = false;
+      this.mainpageselect = false;
       this.eventselect = false;
       this.discountselect = true;
-      this.chatselect = false;
-      this.historyselect = false;
-      (this.reportselect = false), (this.signoutselect = false);
-      this.$emit("clickClearSearch", true);
-      this.$emit("pageReturn", 5);
+      this.userselect = false;
+      this.reportselect = false;
+      (this.signoutselect = false), this.$emit("clickClearSearch", true);
+      this.$emit("pageReturnAdmin", 3);
     },
-    chatClick() {
-      this.zoneselect = false;
+    userClick() {
+      this.mainpageselect = false;
       this.eventselect = false;
       this.discountselect = false;
-      this.chatselect = true;
-      this.historyselect = false;
-      (this.reportselect = false), (this.signoutselect = false);
-      this.$emit("clickClearSearch", true);
-      this.$emit("pageReturn", 2);
-    },
-    historyClick() {
-      this.zoneselect = false;
-      this.eventselect = false;
-      this.discountselect = false;
-      this.chatselect = false;
-      this.historyselect = true;
-      (this.reportselect = false), (this.signoutselect = false);
-      this.$emit("clickClearSearch", true);
-      this.$emit("pageReturn", 6);
+      this.userselect = true;
+      this.reportselect = false;
+      (this.signoutselect = false), this.$emit("clickClearSearch", true);
+      this.$emit("pageReturnAdmin", 4);
     },
     reportClick() {
-      this.zoneselect = false;
+      this.mainpageselect = false;
       this.eventselect = false;
       this.discountselect = false;
-      this.chatselect = false;
-      this.historyselect = false;
-      (this.reportselect = true), (this.signoutselect = false);
-      this.$emit("clickClearSearch", true);
-      this.$emit("pageReturn", 3);
+      this.userselect = false;
+      this.reportselect = true;
+      (this.signoutselect = false), this.$emit("clickClearSearch", true);
+      this.$emit("pageReturnAdmin", 5);
     },
     signoutClick() {
-      this.zoneselect = false;
+      this.mainpageselect = false;
       this.eventselect = false;
       this.discountselect = false;
-      this.chatselect = false;
-      this.historyselect = false;
-      (this.reportselect = false), (this.signoutselect = true);
-      AuthService.logout();
+      this.userselect = false;
+      this.reportselect = false;
+      (this.signoutselect = true), AuthService.logout();
     },
   },
   computed: {
-    zonebox() {
+    mainpagebox() {
       let select = "section menu-box";
       let unselect = "section menu-box-unselect";
-      if (this.zoneselect === true) {
+      if (this.mainpageselect === true) {
         return select;
       }
       return unselect;
     },
-    zonetext() {
+    mainpagetext() {
       let unselect = "menu-text";
       let select = "menu-text-select";
-      if (this.zoneselect === true) {
+      if (this.mainpageselect === true) {
         return select;
       }
       return unselect;
     },
     eventbox() {
-      let select = "menu-box";
-      let unselect = "menu-box-unselect";
+      let select = "section menu-box";
+      let unselect = "section menu-box-unselect";
       if (this.eventselect === true) {
         return select;
       }
@@ -291,8 +251,8 @@ export default {
       return unselect;
     },
     discountbox() {
-      let select = "menu-box";
-      let unselect = "menu-box-unselect";
+      let select = "section menu-box";
+      let unselect = "section menu-box-unselect";
       if (this.discountselect === true) {
         return select;
       }
@@ -306,41 +266,25 @@ export default {
       }
       return unselect;
     },
-    chatbox() {
-      let select = "menu-box";
-      let unselect = "menu-box-unselect";
-      if (this.chatselect === true) {
+    userbox() {
+      let select = "section menu-box";
+      let unselect = "section menu-box-unselect";
+      if (this.userselect === true) {
         return select;
       }
       return unselect;
     },
-    chattext() {
+    usertext() {
       let unselect = "menu-text";
       let select = "menu-text-select";
-      if (this.chatselect === true) {
-        return select;
-      }
-      return unselect;
-    },
-    historybox() {
-      let select = "menu-box";
-      let unselect = "menu-box-unselect";
-      if (this.historyselect === true) {
-        return select;
-      }
-      return unselect;
-    },
-    historytext() {
-      let unselect = "menu-text";
-      let select = "menu-text-select";
-      if (this.historyselect === true) {
+      if (this.userselect === true) {
         return select;
       }
       return unselect;
     },
     reportbox() {
-      let select = "menu-box";
-      let unselect = "menu-box-unselect";
+      let select = "section menu-box";
+      let unselect = "section menu-box-unselect";
       if (this.reportselect === true) {
         return select;
       }
@@ -355,8 +299,8 @@ export default {
       return unselect;
     },
     signoutbox() {
-      let select = "menu-box";
-      let unselect = "menu-box-unselect";
+      let select = "section menu-box";
+      let unselect = "section menu-box-unselect";
       if (this.signoutselect === true) {
         return select;
       }

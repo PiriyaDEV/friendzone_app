@@ -10,7 +10,11 @@
               <img id="profile-pic" :src="user.profile_pic" />
             </div>
             <div id="profile-frame" style="position: relative" v-else>
-              <img id="profile-pic" :src="profile_pic.imageURL" alt="profile_pic" />
+              <img
+                id="profile-pic"
+                :src="profile_pic.imageURL"
+                alt="profile_pic"
+              />
             </div>
             <Upload v-model="profile_pic">
               <div slot="activator" id="select-photo-section" class="section">
@@ -81,7 +85,7 @@
             <!-- Information -->
             <div class="static-info">
               <h1 class="info-title">Birthdate</h1>
-              <h1 id="date">{{ user.birthdate }}</h1>
+              <h1 id="date">{{ date }}</h1>
             </div>
             <!-- Information -->
 
@@ -112,7 +116,7 @@
             </div>
             <!-- Information -->
             <h3 v-if="invalidPhone === true" class="invalid">
-                    * {{ alertPhone }}
+              * {{ alertPhone }}
             </h3>
 
             <!-- Information -->
@@ -147,6 +151,7 @@ import Upload from "./../../components/UploadPic.vue";
 import User from "./../../models/user";
 import UserService from "./../../services/user.service";
 import AuthService from "./../../services/auth.service";
+import GenderService from "./../../services/gender.service";
 
 export default {
   data() {
@@ -157,16 +162,31 @@ export default {
       lastname: "",
       phone: "",
       profile_pic: "",
+      genderList: null,
       bio: "",
       selected: "",
-      saving: false,
-      saved: false,
+      date: "",
+      months: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
 
       user: new User({
         username: "",
         email: "",
         firstname: "",
         lastname: "",
+        birthdate: "",
         phone: "",
         profile_pic: "",
         bio: "",
@@ -174,10 +194,15 @@ export default {
     };
   },
   components: {
-    Upload: Upload,
+    Upload,
   },
-  computed: {},
   created() {
+    GenderService.getGenderList().then((res) => {
+      if (res) {
+        this.genderList = res;
+      }
+    });
+
     UserService.getUserDetail().then((res) => {
       if (res) {
         this.user = res;
@@ -189,8 +214,12 @@ export default {
         this.bio = this.user.bio;
         console.log(this.user);
       }
+      let start_at = new Date(this.user.birthdate);
+      let date = start_at.getDate();
+      let month = start_at.getMonth();
+      let year = start_at.getFullYear();
+      this.date = `${date} ${this.months[month]} ${year}`;
     });
-  
   },
   mounted() {
     if (!this.loggedIn) {
@@ -198,11 +227,6 @@ export default {
     }
   },
   watch: {
-    profile_pic: {
-      handler: function() {
-        this.saved = false;
-      },
-    },
     phone: function() {
       this.invalidPhone = false;
       var reg = /^\d*\.?\d+$/;
@@ -217,15 +241,6 @@ export default {
     },
   },
   methods: {
-    uploadImage() {
-      this.saving = true;
-      setTimeout(() => this.savedProfile_pic(), 1000);
-    },
-    savedProfile_pic() {
-      this.saving = false;
-      this.saved = true;
-      alert(this.profile_pic.imageURL);
-    },
     editReturn() {
       this.username = this.user.username;
       this.email = this.user.email;
@@ -243,7 +258,6 @@ export default {
       this.user.firstname = this.firstname;
       this.user.lastname = this.lastname;
       this.user.phone = this.phone;
-      this.user.profile_pic = this.profile_pic;
       this.user.bio = this.bio;
 
       UserService.editUser(this.user).then((res) => {
@@ -251,8 +265,12 @@ export default {
           console.log(res);
         } else console.log(res);
       });
-      this.$emit("clickEdit", false);
-      this.$emit("clickDetail", true);
+      UserService.uploadProfile(this.profile_pic.formData).then((res) => {
+        if (res) {
+          console.log(res);
+        }
+      });
+      window.location.href = "/mainpage";
     },
     checkUniquePhone() {
       if (this.phone) {
@@ -347,7 +365,7 @@ export default {
   border-radius: 6px;
   padding: 3px 8px;
   margin-top: 20px;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .info-title {
