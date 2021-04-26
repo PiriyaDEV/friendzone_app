@@ -58,6 +58,7 @@ export default {
   margin-bottom: 0px;
   font-size: 1.75em;
   font-weight: 450;
+  color:#444444;
 }
 
 .coin-title{
@@ -65,6 +66,7 @@ export default {
   margin-bottom: 0px;
   font-size: 1.75em;
   font-weight: 450;
+  color:#444444;
 }
 
 .coin-section{

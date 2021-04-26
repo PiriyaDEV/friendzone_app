@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <router-view />
   </div>
 </template>
@@ -76,16 +80,19 @@ div::-webkit-scrollbar-thumb {
 
 .multiselect__placeholder {
   color: #cccccc !important;
-  font-size: 1em !important;
+  font-size: 0.9em !important;
+  font-weight: 450 !important;
 }
 
 .multiselect__input {
   color: #444444 !important;
-  font-size: 1em !important;
+  font-size: 0.9em !important;
+  font-weight: 450 !important;
 }
 
 .multiselect__option {
-  font-size: 1em !important;
+  font-size: 0.9em !important;
+  font-weight: 450 !important;
 }
 
 .multiselect__tag-icon:hover {
@@ -119,7 +126,7 @@ div::-webkit-scrollbar-thumb {
 }
 
 .white-color {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .orange-color {
@@ -217,6 +224,8 @@ input:-webkit-autofill:active {
 
 .input_title {
   font-size: 1.6em;
+  font-weight: 500;
+  color: #444444;
   margin: 6px 0px;
 }
 
@@ -288,6 +297,10 @@ button {
   justify-content: center;
   z-index: 1001;
   padding: 0;
+}
+
+.text-center {
+  text-align: center;
 }
 .form {
   background-color: #ffffff;

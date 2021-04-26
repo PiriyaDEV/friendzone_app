@@ -301,16 +301,13 @@ export default {
         !this.invalidProfilePic
       ) {
         var birthdate = this.$store.state.user.birthdate;
-        this.$store.state.user.birthdate =
-          birthdate.day.padStart(2, "0") +
-          birthdate.month.padStart(2, "0") +
-          birthdate.year.padStart(4, "0");
+        this.$store.state.user.birthdate = new Date(birthdate.year, birthdate.month-1, birthdate.day).getTime();
         this.$store.state.user.firstname = this.firstname;
         this.$store.state.user.lastname = this.lastname;
         this.$store.state.user.phone = this.phone;
         this.$store.state.user.gender_id = this.selected;
         this.$store.state.user.bio = this.bio;
-        console.log(this.profile_pic);
+        
         this.$store.dispatch("auth/register", this.$store.state.user).then(
           (res) => {
             if (res.user_id) {

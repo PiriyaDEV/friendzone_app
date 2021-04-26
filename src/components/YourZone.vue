@@ -4,14 +4,14 @@
     <div id="follow-box">
       <!-- Host -->
       <div class="verticle-box">
-        <h1 class="number-box">2</h1>
+        <h1 class="number-box">{{ hostedCount }}</h1>
         <h1 class="title-box">Host</h1>
       </div>
       <!-- Host -->
 
       <!-- Joined -->
       <div class="verticle-box">
-        <h1 class="number-box">5</h1>
+        <h1 class="number-box">{{ joinedCount }}</h1>
         <h1 class="title-box">Joined</h1>
       </div>
       <!-- Joined -->
@@ -42,8 +42,8 @@
       <div @click="join = true" :class="selectJoin">
         <h1>JOINED</h1>
       </div>
-      <div @click="request = true" :class="selectRequest">
-        <h1>REQUEST</h1>
+      <div @click="interest = true" :class="selectInterest">
+        <h1>INTEREST</h1>
       </div>
       <div @click="discount = true" :class="selectDiscount">
         <h1>DISCOUNT</h1>
@@ -58,7 +58,7 @@
         <div class="event-section">
           <h1 class="event-header">YOUR EVENT</h1>
           <select id="select-event" v-model="selected">
-            <option value="all">All Event</option>
+            <option value="all">All Events</option>
             <option value="host">Hosted</option>
             <option value="interest">Interested</option>
           </select>
@@ -74,7 +74,7 @@
               class="event-container"
             >
               <div class="list event-flex-wrap-section">
-                <div v-for="(event, i) in eventList" :key="i">
+                <div v-for="(event, i) in hostedEventList" :key="i">
                   <EventFlex
                     :event="event"
                     @clickRate="clickRate"
@@ -95,7 +95,7 @@
         <div class="event-section">
           <h1 class="event-header">JOINED</h1>
           <select id="select-event" v-model="selected">
-            <option value="all">All Event</option>
+            <option value="all">All Events</option>
             <option value="host">Hosted</option>
             <option value="interest">Interested</option>
           </select>
@@ -111,7 +111,7 @@
               class="event-container"
             >
               <div class="list event-flex-wrap-section">
-                <div v-for="(event, i) in eventList" :key="i">
+                <div v-for="(event, i) in joinedEventList" :key="i">
                   <EventFlex
                     :event="event"
                     @clickRate="clickRate"
@@ -127,11 +127,11 @@
         <!-- YOUR EVENT -->
       </div>
 
-      <div v-if="request == true" id="request-menu">
+      <div v-if="interest == true" id="interest-menu">
         <div class="event-section">
-          <h1 class="event-header">REQUEST</h1>
+          <h1 class="event-header">INTEREST</h1>
           <select id="select-event" v-model="selected">
-            <option value="all">All Event</option>
+            <option value="all">All Events</option>
             <option value="host">Hosted</option>
             <option value="interest">Interested</option>
           </select>
@@ -169,7 +169,7 @@
         <div class="event-section">
           <h1 class="event-header">DISCOUNT</h1>
           <select id="select-event" v-model="selected">
-            <option value="all">All Event</option>
+            <option value="all">All Discounts</option>
             <option value="host">Hosted</option>
             <option value="interest">Interested</option>
           </select>
@@ -206,6 +206,7 @@
 <script>
 import EventFlex from "@/components/EventFlex.vue";
 import DiscountLongFlex from "@/components/DiscountLongFlex.vue";
+import EventService from "../services/event.service";
 
 export default {
   name: "Yourzone",
@@ -213,16 +214,18 @@ export default {
     return {
       host: true,
       join: false,
-      request: false,
+      interest: false,
       discount: false,
       hovered: false,
       selectHost: "menu-box-orange",
       selectJoin: "menu-box-white",
-      selectRequest: "menu-box-white",
+      selectInterest: "menu-box-white",
       selectDiscount: "menu-box-white",
       selected: "all",
-      joinList: 10,
-      eventList: [],
+      hostedCount: 0,
+      hostedEventList: null,
+      joinedCount: 0,
+      joinedEventList: null,
       eventListLongFlex: 10,
     };
   },
@@ -232,7 +235,7 @@ export default {
       if (this.host == true) {
         this.selectHost = "menu-box-orange";
         this.join = false;
-        this.request = false;
+        this.interest = false;
         this.discount = false;
       } else this.selectHost = "menu-box-white";
     },
@@ -240,24 +243,24 @@ export default {
       if (this.join == true) {
         this.selectJoin = "menu-box-orange";
         this.host = false;
-        this.request = false;
+        this.interest = false;
         this.discount = false;
       } else this.selectJoin = "menu-box-white";
     },
-    request: function() {
-      if (this.request == true) {
-        this.selectRequest = "menu-box-orange";
+    interest: function() {
+      if (this.interest == true) {
+        this.selectInterest = "menu-box-orange";
         this.host = false;
         this.join = false;
         this.discount = false;
-      } else this.selectRequest = "menu-box-white";
+      } else this.selectInterest = "menu-box-white";
     },
     discount: function() {
       if (this.discount == true) {
         this.selectDiscount = "menu-box-orange";
         this.host = false;
         this.join = false;
-        this.request = false;
+        this.interest = false;
       } else this.selectDiscount = "menu-box-white";
     },
   },
@@ -266,18 +269,18 @@ export default {
     DiscountLongFlex,
   },
   created() {
-    this.eventList = [
-      {
-        host_id: "US000001",
-        host_pic: "http://localhost:8080/api/user/displayPic/US000002",
-        title: "Pattaya Trip",
-        location: "Pattaya, Chon Buri, Thailand",
-        max_participant: 9,
-        event_pic: "http://localhost:8080/api/event/displayPic/EV000001",
-        start_at: new Date(1639303920000),
-        end_at: new Date(1639390200000)
+    EventService.getHostedEvent().then((res) => {
+      if (res) {
+        this.hostedEventList = res;
+        this.hostedCount = this.hostedEventList.length;
       }
-    ]
+    });
+    EventService.getJoinedEvent().then((res) => {
+      if (res) {
+        this.joinedEventList = res;
+        this.joinedCount = this.joinedEventList.length;
+      }
+    });
   },
   methods: {
     clickRate(value) {
@@ -333,7 +336,7 @@ export default {
   right: -25px;
 }
 
-/* menubar css  */
+/* menubar css */
 
 #menubar {
   display: flex;

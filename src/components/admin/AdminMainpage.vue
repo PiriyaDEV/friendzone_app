@@ -1,16 +1,12 @@
 <template>
   <div id="admin-mainpage" class="event-container">
     <div>
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-      />
       <div id="flex-select">
-        <div id="flex-role" class="flex-box">
+        <div @click="editReturn()" id="flex-role" class="flex-box">
           <h1 class="flex-title">ADD NEW ROLES</h1>
           <h1 class="flex-subtitle">TO EXISTING USER</h1>
         </div>
-        <div id="flex-discount" class="flex-box">
+        <div @click="createReturn()" id="flex-discount" class="flex-box">
           <h1 class="flex-title">CREATE NEW DISCOUNT</h1>
           <h1 class="flex-subtitle">FOR USER</h1>
         </div>
@@ -104,6 +100,14 @@ export default {
     DiscountFlex,
     ReportBox,
   },
+  methods: {
+    editReturn() {
+      this.$emit("clickEdit", true);
+    },
+    createReturn() {
+      this.$emit("clickCreate", true);
+    },
+  },
 };
 </script>
 
@@ -121,7 +125,7 @@ export default {
 #flex-select {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 #middle-column {
@@ -135,7 +139,7 @@ export default {
   border-radius: 8px;
   margin-bottom: 20px;
   padding: 55px 0px 20px 20px;
-  width: 300px;
+  width: 100%;
 }
 
 .flex-title {
@@ -152,19 +156,26 @@ export default {
   margin: 0px;
 }
 
+#flex-discount,
+#flex-role,
+#flex-edit {
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 #flex-role {
-  background: transparent linear-gradient(180deg, #e4c56f 0%, #f89179 100%) 0%
-    0% no-repeat padding-box;
+  background-image: url("~@/assets/admin/Asset 3@4x.png");
+  margin-right:25px;
 }
 
 #flex-discount {
-  background: transparent linear-gradient(180deg, #71d1e8 0%, #7d68d3 100%) 0%
-    0% no-repeat padding-box;
+  background-image: url("~@/assets/admin/Asset 2@4x.png");
+  margin-right:25px;
 }
 
 #flex-edit {
-  background: transparent linear-gradient(180deg, #9af76a 0%, #2ca0cb 100%) 0%
-    0% no-repeat padding-box;
+  background-image: url("~@/assets/admin/Asset 4@4x.png");
 }
 
 .title-section,

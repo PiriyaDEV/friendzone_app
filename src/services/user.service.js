@@ -6,20 +6,6 @@ import AuthService from "./auth.service";
 const API_URL = "http://localhost:8080/api/user/";
 
 class UserService {
-  getUserData(user) {
-    return axios
-      .post(
-        API_URL + "profile",
-        {
-          user_id: user.user_id,
-        },
-        { headers: authHeader() }
-      )
-      .then((response) => {
-        return response.data;
-      });
-  }
-
   changePassword(id, oldPassword, newPassword) {
     return axios
       .post(
@@ -99,7 +85,6 @@ class UserService {
 
   async getTopBarInfo() {
     let user = decode(localStorage.getItem("user"));
-    let profile_pic = "http://localhost:8080/api/user/displayPic/";
     let res;
     try {
       res = await axios.get(API_URL + "getUsername/" + user.user_id, {
@@ -108,17 +93,16 @@ class UserService {
     } catch {
       AuthService.logout();
     }
-    res.data.profile_pic = profile_pic + user.user_id;
+    res.data.profile_pic = API_URL + "displayPic/" + user.user_id;
     return res.data;
   }
 
   async getUserDetail() {
     let user = decode(localStorage.getItem("user"));
-    let profile_pic = "http://localhost:8080/api/user/displayPic/";
     const res = await axios.get(API_URL + "getUserDetail/" + user.user_id, {
       headers: authHeader(),
     });
-    res.data.profile_pic = profile_pic + user.user_id;
+    res.data.profile_pic = API_URL + "displayPic/" + user.user_id;
     return res.data;
   }
 }

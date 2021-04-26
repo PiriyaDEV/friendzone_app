@@ -23,7 +23,7 @@ export default {
     errorDialog: null,
     errorText: "",
     uploadFieldName: "file",
-    maxSize: 1024,
+    maxSize: 100000,
   }),
   props: {
     // Use "value" to enable using v-model

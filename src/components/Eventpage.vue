@@ -39,7 +39,7 @@
       </div>
     </div>
     <div v-if="categorySelected == true">
-      <EventCategory @categoryClick="categoryClick"></EventCategory>
+      <EventCategory @categoryClick="categoryClick" ></EventCategory>
     </div>
   </div>
 </template>
@@ -48,6 +48,8 @@
 import EventFlex from "@/components/EventFlex.vue";
 import EventCategory from "@/components/EventCategory.vue";
 import CategorySelect from "@/components/category/CategorySelect.vue";
+import CategoryService from "../services/category.service";
+
 export default {
   name: "event-page",
   data() {
@@ -56,6 +58,7 @@ export default {
       selected: "all",
       eventList: 20,
       joinList: 10,
+      categoryList: null,
       categorySelected: false,
       dataUser: [
         "05/20",
@@ -74,6 +77,13 @@ export default {
       dataLocation: "Localhost Resort Chiang Mai, Thailand",
       dataHost: "pd.piriya",
     };
+  },
+  created() {
+    CategoryService.getCategoryList().then((res) => {
+      if (res) {
+        this.categoryList = res;
+      }
+    });
   },
   components: {
     EventFlex,

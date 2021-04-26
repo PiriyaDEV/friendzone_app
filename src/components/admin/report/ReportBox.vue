@@ -6,7 +6,12 @@
         <h1 class="menu-text">Suspect fake user</h1>
         <h1 class="menu-text">User</h1>
         <h1 class="menu-text">Fake User</h1>
-        <h1 class="menu-text">Pending</h1>
+        <div id="pending-dot">
+          <span class="dot yellow"></span>
+          <h1 class="menu-text">pending</h1>
+          <!-- <span class="dot green"></span> -->
+          <!-- <h1 class="menu-text">done</h1> -->
+        </div>
       </div>
       <div id="button-section">
         <button class="button delete">View</button>
@@ -59,13 +64,34 @@ export default {};
   font-size: 1.5em;
   font-weight: 550;
   padding: 4px 13px;
-  margin: 2px 7px 2px 0px;
+  margin: 2px 8px 2px 0px;
   border-radius: 24px;
 }
 
 .delete {
-  color: #FFFFFF;
-  border: 1.5px solid #FFFFFF;
+  color: #ffffff;
+  border: 1.5px solid #ffffff;
   background-color: inherit;
+}
+
+.dot {
+  height: 6px;
+  width: 6px;
+  background-color: #bbb;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.green {
+  background-color: #91f071;
+}
+
+.yellow {
+  background-color: #ffba1d;
+}
+
+#pending-dot {
+  display: flex;
+  align-items: center;
 }
 </style>

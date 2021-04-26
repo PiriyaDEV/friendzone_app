@@ -1,9 +1,9 @@
 r<template>
-  <div id="create-event" class="popup">
+  <div id="create-discount" class="popup">
     <div class="popup-section section">
       <div class="popup-form">
-        <h1 class="header_title">CREATE NEW EVENT</h1>
-        <div id="create-event-section">
+        <h1 class="header_title">CREATE NEW DISCOUNT</h1>
+        <div id="create-discount-section">
           <div id="left">
             <!-- Input -->
             <div>
@@ -11,7 +11,7 @@ r<template>
                 Event Picture<span class="orange-color"> *</span>
               </h2>
               <div id="select-photo-section" class="section">
-                <Upload v-model="event_pic">
+                <Upload>
                   <div
                     v-if="!event_pic"
                     slot="activator"
@@ -43,12 +43,11 @@ r<template>
                 Title<span class="orange-color"> *</span>
               </h2>
               <input
-                v-model="event.title"
                 class="input_box"
                 type="text"
-                maxlength="64"
-                size="64"
-                placeholder="enter your event title"
+                maxlength="30"
+                size="30"
+                placeholder="enter discount name"
               />
             </div>
             <!-- Input -->
@@ -63,24 +62,22 @@ r<template>
                 maxlength="256"
                 size="256"
                 name="bio"
-                placeholder="enter your event description"
-                v-model="event.description"
+                placeholder="enter discount description"
               >
               </textarea>
             </div>
             <!-- Input -->
 
             <!-- Input -->
-            <div>
-              <h2 class="input_title">Location<span class="orange-color"> *</span></h2>
-              <input
-                v-model="event.location"
-                class="input_box"
-                type="text"
-                maxlength="30"
-                size="30"
-                placeholder="enter your location"
-              />
+            <div class="number-box">
+              <h2 class="input_title">
+                Point Required<span class="orange-color"> *</span>
+              </h2>
+              <div class="number">
+                <span class="minus">-</span>
+                <input type="text" value="1" />
+                <span class="plus">+</span>
+              </div>
             </div>
             <!-- Input -->
           </div>
@@ -98,7 +95,6 @@ r<template>
                   pattern="[0-9]*"
                   maxlength="2"
                   size="2"
-                  v-model="date_start.day"
                   placeholder="day"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
@@ -110,7 +106,6 @@ r<template>
                   pattern="[0-9]*"
                   maxlength="2"
                   size="2"
-                  v-model="date_start.month"
                   placeholder="month"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
@@ -122,7 +117,6 @@ r<template>
                   pattern="[0-9]*"
                   maxlength="4"
                   size="4"
-                  v-model="date_start.year"
                   placeholder="year"
                 />
               </div>
@@ -134,7 +128,6 @@ r<template>
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="date_start.h1"
                   placeholder="0"
                 />
                 <input
@@ -145,7 +138,6 @@ r<template>
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="date_start.h2"
                   placeholder="0"
                 />
                 <h1
@@ -166,7 +158,6 @@ r<template>
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="date_start.m1"
                   placeholder="0"
                 />
                 <input
@@ -177,7 +168,6 @@ r<template>
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="date_start.m2"
                   placeholder="0"
                 />
               </div>
@@ -195,7 +185,6 @@ r<template>
                   pattern="[0-9]*"
                   maxlength="2"
                   size="2"
-                  v-model="date_end.day"
                   placeholder="day"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
@@ -207,7 +196,6 @@ r<template>
                   pattern="[0-9]*"
                   maxlength="2"
                   size="2"
-                  v-model="date_end.month"
                   placeholder="month"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
@@ -219,7 +207,6 @@ r<template>
                   pattern="[0-9]*"
                   maxlength="4"
                   size="4"
-                  v-model="date_end.year"
                   placeholder="year"
                 />
               </div>
@@ -231,7 +218,6 @@ r<template>
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="date_end.h1"
                   placeholder="0"
                 />
                 <input
@@ -242,7 +228,6 @@ r<template>
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="date_end.h2"
                   placeholder="0"
                 />
                 <h1
@@ -263,7 +248,6 @@ r<template>
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="date_end.m1"
                   placeholder="0"
                 />
                 <input
@@ -274,7 +258,6 @@ r<template>
                   pattern="[0-9]*"
                   maxlength="1"
                   size="1"
-                  v-model="date_end.m2"
                   placeholder="0"
                 />
               </div>
@@ -284,94 +267,120 @@ r<template>
             <!-- Input -->
             <div>
               <h2 class="input_title">
-                Preferred Participant Gender<span class="orange-color"> *</span>
+                Use within<span class="orange-color"> *</span>
               </h2>
-              <multiselect
-                v-model="gender_value"
-                placeholder="select your preferred gender"
-                label="name"
-                track-by="code"
-                :options="gender_options"
-                :multiple="true"
-              ></multiselect>
-            </div>
-            <!-- Input -->
-
-            <!-- Input -->
-            <div>
-              <h2 class="input_title">
-                Event Category<span class="orange-color"> *</span>
-              </h2>
-              <multiselect
-                v-model="category_value"
-                placeholder="select event category"
-                label="name"
-                track-by="code"
-                :options="category_options"
-                :multiple="true"
-                :max="3"
-              ></multiselect>
-            </div>
-            <!-- Input -->
-
-            <div>
-              <div id="participant-section">
-                <!-- Input -->
-                <div>
-                  <h2 class="input_title">
-                    Max Participants<span class="orange-color"> *</span>
-                  </h2>
-                  <input
-                    v-model="event.max_participant"
-                    class="input_participant"
-                    type="text"
-                    maxlength="2"
-                    size="2"
-                    placeholder="Max amount"
-                  />
-                </div>
-                <!-- Input -->
-
-                <!-- Input -->
-                <div>
-                  <h2 class="input_title">
-                    Age Limits<span class="orange-color"> *</span>
-                  </h2>
-                  <div class="section">
-                    <input
-                      v-model="event.min_age"
-                      class="input_age"
-                      type="text"
-                      maxlength="2"
-                      size="2"
-                      placeholder="min"
-                    />
-                    <h1 class="input_title" id="to">to</h1>
-                    <input
-                      v-model="event.max_age"
-                      class="input_age"
-                      type="text"
-                      maxlength="2"
-                      size="2"
-                      placeholder="max"
-                    />
-                  </div>
-                </div>
-                <!-- Input -->
+              <div class="date-section">
+                <input
+                  id="day"
+                  class="date_box_popup"
+                  type="text"
+                  pattern="[0-9]*"
+                  maxlength="2"
+                  size="2"
+                  placeholder="day"
+                />
+                <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
+                <input
+                  id="month"
+                  style="margin-left: 10px"
+                  class="date_box_popup"
+                  type="text"
+                  pattern="[0-9]*"
+                  maxlength="2"
+                  size="2"
+                  placeholder="month"
+                />
+                <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
+                <input
+                  id="year"
+                  style="margin-left: 10px"
+                  class="date_box_popup"
+                  type="text"
+                  pattern="[0-9]*"
+                  maxlength="4"
+                  size="4"
+                  placeholder="year"
+                />
+              </div>
+              <div class="time-section">
+                <input
+                  id="h1"
+                  class="date_box_popup"
+                  type="text"
+                  pattern="[0-9]*"
+                  maxlength="1"
+                  size="1"
+                  placeholder="0"
+                />
+                <input
+                  id="h2"
+                  style="margin-left: 10px"
+                  class="date_box_popup"
+                  type="text"
+                  pattern="[0-9]*"
+                  maxlength="1"
+                  size="1"
+                  placeholder="0"
+                />
+                <h1
+                  style="
+                    font-size: 3em;
+                    margin-top: 5px;
+                    margin-left: 10px;
+                    color: #e3e3e3;
+                  "
+                >
+                  :
+                </h1>
+                <input
+                  id="m1"
+                  style="margin-left: 10px"
+                  class="date_box_popup"
+                  type="text"
+                  pattern="[0-9]*"
+                  maxlength="1"
+                  size="1"
+                  placeholder="0"
+                />
+                <input
+                  id="m2"
+                  style="margin-left: 10px"
+                  class="date_box_popup"
+                  type="text"
+                  pattern="[0-9]*"
+                  maxlength="1"
+                  size="1"
+                  placeholder="0"
+                />
               </div>
             </div>
+            <!-- Input -->
+
+            <!-- Input -->
+            <div class="number-box">
+              <h2 class="input_title">
+                Limit buy per user<span class="orange-color"> *</span>
+              </h2>
+              <div class="number">
+                <span class="minus">-</span>
+                <input type="text" value="1" />
+                <span class="plus">+</span>
+              </div>
+            </div>
+            <!-- Input -->
+
           </div>
         </div>
 
         <div class="button-section">
-          <button class="back_button" @click="createdReturn()">Cancel</button>
+          <button class="back_button" @click="createReturn()">Cancel</button>
           <button class="create_button" @click="ClickCreate()">
             Create Now
           </button>
         </div>
 
         <img
-          @click="createdReturn()"
+          @click="createReturn()"
           style="cursor: pointer"
           class="close"
           src="@/assets/icon/icons8-multiply-96.png"
@@ -384,182 +393,17 @@ r<template>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <script>
-import $ from "jquery";
-import Multiselect from "vue-multiselect";
-import Event from "./../../models/event";
-import GenderService from "../../services/gender.service";
-import CategoryService from "../../services/category.service";
-import EventService from "../../services/event.service";
-import Upload from "@/components/UploadPic.vue";
-
-class constructDate {
-  constructor(date) {
-    this.day = date.day;
-    this.month = date.month;
-    this.year = date.year;
-    this.h1 = date.h1;
-    this.h2 = date.h2;
-    this.m1 = date.m1;
-    this.m2 = date.m2;
-  }
-}
-
-class Pick {
-  constructor(pick) {
-    this.name = pick.name;
-    this.code = pick.code;
-  }
-}
-
 export default {
-  data() {
-    return {
-      genderList: [],
-      categoryList: [],
-      date_start: new constructDate(""),
-      date_end: new constructDate(""),
-      hs: "",
-      ms: "",
-      he: "",
-      me: "",
-      event_id: null,
-      event_pic: "",
-      event: new Event({
-        host_id: "",
-        title: "",
-        description: "",
-        location: "",
-        event_pic: "",
-        start_at: "",
-        end_at: "",
-        max_participant: "",
-        min_age: "",
-        max_age: "",
-      }),
-      gender_value: [],
-      gender_options: [],
-      category_value: [],
-      category_options: [],
-    };
-  },
-  components: {
-    Multiselect,
-    Upload,
-  },
   methods: {
-    addTag(newTag) {
-      const tag = {
-        name: newTag,
-        code: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000),
-      };
-      this.options.push(tag);
-      this.value.push(tag);
-    },
-    createdReturn() {
+    createReturn() {
       this.$emit("clickCreate", false);
     },
-    ClickCreate() {
-      this.hs = this.date_start.h1 + this.date_start.h2;
-      this.ms = this.date_start.m1 + this.date_start.m2;
-      this.he = this.date_end.h1 + this.date_end.h2;
-      this.me = this.date_end.m1 + this.date_end.m2;
-
-      this.event.start_at = new Date(
-        this.date_start.year +
-          "-" +
-          this.date_start.month +
-          "-" +
-          this.date_start.day +
-          " " +
-          this.hs +
-          ":" +
-          this.ms +
-          ":00 UTC"
-      ).getTime();
-
-      this.event.end_at = new Date(
-        this.date_end.year +
-          "-" +
-          this.date_end.month +
-          "-" +
-          this.date_end.day +
-          " " +
-          this.he +
-          ":" +
-          this.me +
-          ":00 UTC"
-      ).getTime();
-
-      console.log(this.event);
-
-      this.gender_value.forEach((gender) => {
-        this.genderList.push(gender.code);
-      });
-
-      this.category_value.forEach((category) => {
-        this.categoryList.push(category.code);
-      });
-      EventService.create({
-        event: this.event,
-        gender_id: this.genderList,
-        category_id: this.categoryList,
-      }).then((res) => {
-        if (res.event_id) {
-          EventService.uploadEventPic(this.event_pic.formData, res.event_id).then(
-            (res) => {
-              if (res) {
-                console.log(res);
-                window.location.href = "/mainpage";
-              }
-            }
-          )
-        }
-      },
-      (error) => {
-          console.log(error.message);
-      });
-    },
-  },
-  mounted() {
-    $(document).ready(function() {
-      $("input").keyup(function() {
-        if ($(this).val().length == $(this).attr("maxlength")) {
-          const i = $("input").index(this);
-          $("input")
-            .eq(i + 1)
-            .focus();
-        }
-      });
-    });
-  },
-  created() {
-    GenderService.getGenderList().then((res) => {
-      if (res) {
-        res.forEach((gender) => {
-          let pick = new Pick("");
-          pick.name = gender.gender_name;
-          pick.code = gender.gender_id;
-          this.gender_options.push(pick);
-        });
-      }
-    });
-    CategoryService.getCategoryList().then((res) => {
-      if (res) {
-        res.forEach((category) => {
-          let pick = new Pick("");
-          pick.name = category.category_name;
-          pick.code = category.category_id;
-
-          this.category_options.push(pick);
-        });
-      }
-    });
   },
 };
 </script>
 
 <style scoped>
-#create-event-section {
+#create-discount-section {
   display: flex;
   justify-content: center;
 }
@@ -673,8 +517,8 @@ option {
 
 .upload {
   color: #cccccc;
-  font-size: 1.6em;
-  font-weight: 500;
+  font-size: 1.75em;
+  font-weight: 600;
   margin: 0px 0px 0px 6px;
 }
 
@@ -720,6 +564,56 @@ option {
 }
 
 .bio {
-  padding-bottom: 55px;
+  padding-bottom: 20px;
+}
+
+.number-box,
+.number {
+  display: flex;
+  align-items: center;
+}
+
+.number-box {
+  margin-top: 10px;
+}
+
+.number {
+  margin-left: 30px;
+  justify-content: center;
+}
+
+.minus,
+.plus {
+  background-color: #ffffff;
+  border: 2px solid #e3e3e3;
+  font-size: 3em;
+  color: #ffc661;
+  font-weight: 600;
+  padding: 0px 10px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.minus {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.plus {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.number > input {
+  text-align: center;
+  border-top: 2px solid #e3e3e3;
+  border-bottom: 2px solid #e3e3e3;
+  border-left: none;
+  border-right: none;
+  font-size: 2.25em;
+  font-weight: 500;
+  color: #444444;
+  padding: 3px 0px;
+  width: 100px;
 }
 </style>
