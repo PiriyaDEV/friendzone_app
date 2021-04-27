@@ -11,12 +11,8 @@
       <ProfileDetail
         v-if="detailShow == true"
         @clickDetail="clickDetail"
-        @clickEdit="clickEdit"
-      />
-      <EditProfile
-        v-if="editShow == true"
-        @clickDetail="clickDetail"
-        @clickEdit="clickEdit"
+        @demoAdmin="demoAdmin"
+        :demoRole="role"
       />
       <ReportPopup
         v-if="reportShow == true"
@@ -51,7 +47,6 @@
             @clickDetail="clickDetail"
             :clearSearch="clearSearched"
             @clickClearSearch="clickClearSearch"
-            @demoAdmin="demoAdmin"
             :demoRole="role"
           />
           <!-- Top Bar -->
@@ -97,16 +92,26 @@
     <!-- User -->
     <!-- Admin -->
     <div v-if="role == 2" id="mainpage-admin">
+      <ProfileDetail
+        v-if="detailShow == true"
+        @clickDetail="clickDetail"
+        @clickEdit="clickEdit"
+        @demoAdmin="demoAdmin"
+        :demoRole="role"
+      />
 
-      <EditUser v-if="editShow" @clickEdit="clickEdit"/>
+      <EditUser v-if="editShow" @clickEdit="clickEdit" />
 
       <CreateDiscount v-if="createShow" @clickCreate="clickCreate" />
 
       <div id="mainpage-background" class="section">
-        <AdminMenu id="menubar" @pageReturnAdmin="pageReturnAdmin"/>
+        <AdminMenu id="menubar" @pageReturnAdmin="pageReturnAdmin" />
         <div id="timeline">
-
-          <Topbar @demoAdmin="demoAdmin" :demoRole="role" />
+          <Topbar
+            @demoAdmin="demoAdmin"
+            @clickDetail="clickDetail"
+            :demoRole="role"
+          />
 
           <AdminMainpage
             v-if="selectAdmin == 1"
@@ -114,7 +119,6 @@
             @clickEdit="clickEdit"
           />
           <AdminReport v-if="selectAdmin == 5" />
-
         </div>
       </div>
     </div>
@@ -132,7 +136,6 @@ import Chat from "@/components/Chat.vue";
 import CreateEvent from "@/components/popup/CreateEvent.vue";
 import RatePopup from "@/components/popup/RatePopup.vue";
 import ReportPage from "@/components/ReportPage.vue";
-import EditProfile from "@/components/popup/EditProfile.vue";
 import ProfileDetail from "@/components/popup/ProfileDetail.vue";
 import ReportPopup from "@/components/popup/ReportPopup.vue";
 import DiscountPopup from "@/components/popup/DiscountPopup.vue";
@@ -157,7 +160,6 @@ export default {
     CreateEvent,
     RatePopup,
     ReportPage,
-    EditProfile,
     ProfileDetail,
     ReportPopup,
     DiscountPopup,

@@ -158,6 +158,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 10px 25px 15px 0px;
+  padding: 20px 15px 0px;
 }
 </style>

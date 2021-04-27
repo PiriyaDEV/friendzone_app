@@ -1,7 +1,7 @@
 <template>
   <div id="event-page" class="event-container">
     <div v-if="categorySelected == false">
-      <h1 id="event-title" class="event-header">NEW EVENTS</h1>
+      <h1 id="event-title" class="event-header">SUGGESTED</h1>
 
       <div id="event-page-section">
         <!-- Event -->

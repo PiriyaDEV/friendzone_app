@@ -4,14 +4,14 @@
       <img class="category-icon" @click="goMainpage()" :src="icon" />
       <h1 class="category-text">{{ nameCategory }}</h1>
     </div>
-    <div v-if="status == true" id="category-box-click" :style="changeBorder">
+    <div v-if="status == true" id="category-box-click">
       <img
         class="category-icon-click"
         @click="goMainpage()"
         :style="changeBg"
         :src="icon"
       />
-      <h1 class="category-text" :style="changeText">{{ nameCategory }}</h1>
+      <h1 class="category-text">{{ nameCategory }}</h1>
     </div>
   </div>
 </template>
@@ -19,17 +19,6 @@
 <script>
 export default {
   props: ["nameCategory", "icon", "colorCode", "status"],
-  computed: {
-    changeText() {
-      return "color: " + this.colorCode;
-    },
-    changeBorder() {
-      return "border: 2px solid " + this.colorCode;
-    },
-    changeBg() {
-      return "background-color: " + this.colorCode;
-    },
-  },
 };
 </script>
 
@@ -46,7 +35,7 @@ export default {
 }
 
 #category-box-click {
-  /* border: 2px solid #ff8864; */
+  border: 2px solid #ff8864;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -56,24 +45,12 @@ export default {
   cursor: pointer;
 }
 
-#category-box-click > .category-text {
-  font-weight: 600;
-}
-
 .category-icon,
 .category-icon-click {
   width: 18px;
   padding: 7px;
   border-radius: 6px;
   border: none;
-}
-
-.category-icon {
-  background-color: #e3e3e3;
-}
-
-.category-icon-click {
-  /* background-color: #FE6464; */
 }
 
 .category-text {
