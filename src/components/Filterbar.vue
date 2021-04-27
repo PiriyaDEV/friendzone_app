@@ -116,7 +116,7 @@ export default {
       selectedGender: [""],
       AgeData: [
         { name: "specific age range" },
-        { name: "specific Start date" },
+        { name: "specific start date" },
       ],
       selectedAge: [""],
       DiscountData: [

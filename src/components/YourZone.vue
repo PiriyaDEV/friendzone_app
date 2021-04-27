@@ -42,8 +42,11 @@
       <div @click="join = true" :class="selectJoin">
         <h1>JOINED</h1>
       </div>
+      <div @click="request = true" :class="selectRequest">
+        <h1>REQUEST</h1>
+      </div>
       <div @click="interest = true" :class="selectInterest">
-        <h1>INTEREST</h1>
+        <h1>FAVOURITE</h1>
       </div>
       <div @click="discount = true" :class="selectDiscount">
         <h1>DISCOUNT</h1>
@@ -59,8 +62,9 @@
           <h1 class="event-header">YOUR EVENT</h1>
           <select id="select-event" v-model="selected">
             <option value="all">All Events</option>
-            <option value="host">Hosted</option>
-            <option value="interest">Interested</option>
+            <option value="pending">Pending</option>
+            <option value="ongoing">On Going</option>
+            <option value="ended">Ended</option>
           </select>
         </div>
         <!-- YOUR EVENT -->
@@ -96,8 +100,8 @@
           <h1 class="event-header">JOINED</h1>
           <select id="select-event" v-model="selected">
             <option value="all">All Events</option>
-            <option value="host">Hosted</option>
-            <option value="interest">Interested</option>
+            <option value="ongoing">On Going</option>
+            <option value="ended">Ended</option>
           </select>
         </div>
         <!-- YOUR EVENT -->
@@ -127,13 +131,12 @@
         <!-- YOUR EVENT -->
       </div>
 
-      <div v-if="interest == true" id="interest-menu">
+      <div v-if="request == true" id="request-menu">
         <div class="event-section">
-          <h1 class="event-header">INTEREST</h1>
+          <h1 class="event-header">REQUEST</h1>
           <select id="select-event" v-model="selected">
             <option value="all">All Events</option>
             <option value="host">Hosted</option>
-            <option value="interest">Interested</option>
           </select>
         </div>
         <!-- YOUR EVENT -->
@@ -147,7 +150,44 @@
               class="event-container"
             >
               <div class="list event-flex-wrap-section">
-                <div v-for="(event, i) in eventList" :key="i">
+                <div v-for="(event, i) in requestedEventList" :key="i">
+                  <EventFlex
+                    :event="event"
+                    @clickRate="clickRate"
+                    @checkRate="checkRate"
+                    @manageReturn="manageReturn"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Event -->
+          </div>
+        </div>
+
+        <!-- YOUR EVENT -->
+      </div>
+
+       <div v-if="interest == true" id="interest-menu">
+        <div class="event-section">
+          <h1 class="event-header">FAVOURITE</h1>
+          <select id="select-event" v-model="selected">
+            <option value="all">All Events</option>
+            <option value="host">Hosted</option>
+          </select>
+        </div>
+        <!-- YOUR EVENT -->
+
+        <div>
+          <!-- Event -->
+          <div id="container">
+            <div
+              @mouseover="hovered = true"
+              @mouseleave="hovered = false"
+              class="event-container"
+            >
+              <div class="list event-flex-wrap-section">
+                <div v-for="(event, i) in interestedEventList" :key="i">
                   <EventFlex
                     :event="event"
                     @clickRate="clickRate"
@@ -214,6 +254,7 @@ export default {
     return {
       host: true,
       join: false,
+      request: false,
       interest: false,
       discount: false,
       hovered: false,
@@ -221,35 +262,56 @@ export default {
       selectJoin: "menu-box-white",
       selectInterest: "menu-box-white",
       selectDiscount: "menu-box-white",
+      selectRequest: "menu-box-white",
       selected: "all",
       hostedCount: 0,
       hostedEventList: null,
       joinedCount: 0,
       joinedEventList: null,
+      requestedCount: 0,
+      requestedEventList: null,
+      interestedCount: 0,
+      interestedEventList: null,
       eventListLongFlex: 10,
     };
   },
   props: ["discountSelect"],
   watch: {
     host: function() {
+      this.getHostedEventList();
       if (this.host == true) {
         this.selectHost = "menu-box-orange";
+        this.request = false;
         this.join = false;
         this.interest = false;
         this.discount = false;
       } else this.selectHost = "menu-box-white";
     },
     join: function() {
+      this.getJoinedEventList();
       if (this.join == true) {
         this.selectJoin = "menu-box-orange";
+        this.request = false;
         this.host = false;
         this.interest = false;
         this.discount = false;
       } else this.selectJoin = "menu-box-white";
     },
+    request: function() {
+      this.getRequestedEventList();
+      if(this.request == true) {
+        this.selectRequest = "menu-box-orange";
+        this.host = false;
+        this.join = false;
+        this.interest = false;
+        this.discount = false;
+      } else this.selectRequest = "menu-box-white";
+    },
     interest: function() {
+      this.getInterestedEventList();
       if (this.interest == true) {
         this.selectInterest = "menu-box-orange";
+        this.request = false;
         this.host = false;
         this.join = false;
         this.discount = false;
@@ -258,6 +320,7 @@ export default {
     discount: function() {
       if (this.discount == true) {
         this.selectDiscount = "menu-box-orange";
+        this.request = false;
         this.host = false;
         this.join = false;
         this.interest = false;
@@ -269,18 +332,10 @@ export default {
     DiscountLongFlex,
   },
   created() {
-    EventService.getHostedEvent().then((res) => {
-      if (res) {
-        this.hostedEventList = res;
-        this.hostedCount = this.hostedEventList.length;
-      }
-    });
-    EventService.getJoinedEvent().then((res) => {
-      if (res) {
-        this.joinedEventList = res;
-        this.joinedCount = this.joinedEventList.length;
-      }
-    });
+    this.getHostedEventList();
+    this.getJoinedEventList();
+    this.getRequestedEventList();
+    this.getInterestedEventList();
   },
   methods: {
     clickRate(value) {
@@ -294,6 +349,54 @@ export default {
     },
     manageReturn(value) {
       this.$emit("clickManage", value);
+    },
+    getHostedEventList() {
+      EventService.getHostedEvent()
+        .then((res) => {
+          if (res) {
+            this.hostedEventList = res;
+            this.hostedCount = this.hostedEventList.length;
+          }
+        })
+        .catch(() => {
+          this.hostedEventList = null;
+        });
+    },
+    getJoinedEventList() {
+      EventService.getJoinedEvent()
+        .then((res) => {
+          if (res) {
+            this.joinedEventList = res;
+            this.joinedCount = this.joinedEventList.length;
+          }
+        })
+        .catch(() => {
+          this.joinedEventList = null;
+        });
+    },
+    getRequestedEventList() {
+      EventService.getRequestedEvent()
+        .then((res) => {
+          if (res) {
+            this.requestedEventList = res;
+            this.requestedCount = this.requestedEventList.length;
+          }
+        })
+        .catch(() => {
+          this.requestedEventList = null;
+        });
+    },
+    getInterestedEventList() {
+      EventService.getInterestedEvent()
+        .then((res) => {
+          if (res) {
+            this.interestedEventList = res;
+            this.interestedCount = this.interestedEventList.length;
+          }
+        })
+        .catch(() => {
+          this.interestedEventList = null;
+        });
     },
   },
   computed: {
@@ -363,7 +466,7 @@ export default {
 
 .menu-box-orange > h1,
 .menu-box-white > h1 {
-  font-size: 2em;
+  font-size: 1.75em;
   font-weight: 600;
   margin: 0px;
 }

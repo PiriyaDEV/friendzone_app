@@ -149,7 +149,7 @@ div::-webkit-scrollbar-thumb {
   font-family: "Atten-Round-New";
   text-align: center;
   width: 250px;
-  padding: 9px 0px;
+  padding: 5px 0px;
   background-color: #ffffff;
   border-radius: 35px;
   border: 2px solid #ff8864;

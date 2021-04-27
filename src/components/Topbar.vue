@@ -14,13 +14,13 @@
       </div>
       <!-- Input -->
 
-      <div v-if="!toggle" class="section">
+      <div v-if="demoRole == 1" class="section">
         <img id="coin-logo" src="@/assets/icon/coin.png" />
         <h1 class="black-color" id="bar-value">2500</h1>
       </div>
 
       <div>
-        <div @click="clickDemoAdmin()" id="mail-circle">
+        <div id="mail-circle">
           <img
             id="mail-logo"
             src="@/assets/icon/icons8-important-mail-96@2x.png"
@@ -52,7 +52,6 @@ export default {
   data() {
     return {
       search: "",
-      toggle: false,
       user: new User({ username: "", profile_pic: "" }),
     };
   },
@@ -78,14 +77,6 @@ export default {
   methods: {
     detailReturn() {
       this.$emit("clickDetail", true);
-    },
-    clickDemoAdmin() {
-      this.toggle = !this.toggle;
-      if (this.toggle == true) {
-        this.$emit("demoAdmin", 2);
-      } else {
-        this.$emit("demoAdmin", 1);
-      }
     },
   },
   computed: {
@@ -190,7 +181,7 @@ i {
   border-radius: 50%;
   background-color: #ffffff;
   padding: 11px;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 #bar-value {

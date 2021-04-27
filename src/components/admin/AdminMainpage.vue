@@ -11,7 +11,7 @@
           <h1 class="flex-subtitle">FOR USER</h1>
         </div>
         <div id="flex-edit" class="flex-box">
-          <h1 class="flex-title">EDIT DATABASE (ตั้งตรงนี้ว่าไรดี)</h1>
+          <h1 class="flex-title">EDIT DATABASE</h1>
           <h1 class="flex-subtitle">REPORT & CATEGORY TYPE</h1>
         </div>
       </div>
@@ -166,12 +166,12 @@ export default {
 
 #flex-role {
   background-image: url("~@/assets/admin/Asset 3@4x.png");
-  margin-right:25px;
+  margin-right: 25px;
 }
 
 #flex-discount {
   background-image: url("~@/assets/admin/Asset 2@4x.png");
-  margin-right:25px;
+  margin-right: 25px;
 }
 
 #flex-edit {

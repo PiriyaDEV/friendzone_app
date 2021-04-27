@@ -20,8 +20,10 @@
     <!-- User -->
     <div id="user-box">
       <img class="user" src="@/assets/event/icons8-customer-100.png" />
-      <h1>{{ event.joined }}/{{ event.max_participant }}</h1>
-      <!-- <h1 style="font-weight: 600" class="orange-color">FULL</h1> -->
+      <h1 v-if="event.joined != event.max_participant">{{ event.joined }}/{{ event.max_participant }}</h1>
+      <h1 v-if="event.joined == event.max_participant" class="full">
+        FULL
+      </h1>
     </div>
     <!-- User -->
 
@@ -73,7 +75,9 @@
 
     <!-- Double Button -->
     <div id="double-button">
-      <button @click="ratePartReturn()">RATE PARTICIPANTS</button>
+      <button @click="ratePartReturn()">
+        RATE PARTICIPANTS
+      </button>
       <button @click="rateEventReturn()" style="display:none;">
         RATE THIS EVENT
       </button>
@@ -127,7 +131,6 @@ export default {
       this.date = `${startDate} ${this.months[startMonth]} ${startYear}`;
     else
       this.date = `${startDate} ${this.months[startMonth]} ${startYear} - ${endDate} ${this.months[endMonth]} ${endYear}`;
-    
   },
   methods: {
     rateEventReturn() {
@@ -144,9 +147,9 @@ export default {
     interestEvent() {
       this.event.interest = !this.event.interest;
       EventService.updateInterestEvent({
-        event: this.event.event_id, 
-        interest: this.event.interest
-        })
+        event_id: this.event.event_id,
+        interest: this.event.interest,
+      });
     },
   },
 };
@@ -178,7 +181,7 @@ export default {
   z-index: 3;
   top: 10px;
   left: 10px;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .user {
@@ -208,6 +211,7 @@ export default {
 
 .event-title {
   margin: 0px 15px;
+  height: 18px;
   font-size: 1.75em;
   font-weight: 450;
   color: #444444;
@@ -275,6 +279,7 @@ export default {
   font-size: 1.5em;
   font-weight: 400;
   color: #a0a0a0;
+  height: 18px;
   max-width: 200px;
   white-space: nowrap;
   overflow: hidden;
@@ -332,8 +337,18 @@ export default {
   margin-top: 15px;
 }
 
+#single-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-top: 15px;
+}
+
 #button > button,
-#double-button > button {
+#double-button > button,
+#single-button > button {
   color: #ff8864;
   border: 1.75px solid #ff8864;
   background-color: #ffffff;
@@ -343,6 +358,11 @@ export default {
   padding: 3px 8px;
   margin: 0;
   border-radius: 16px;
+}
+
+.full {
+  color: #ff8864 !important;
+  font-weight: 600 !important;
 }
 
 @media screen and (max-width: 1440px) {

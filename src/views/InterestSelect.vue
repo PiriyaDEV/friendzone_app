@@ -26,7 +26,7 @@
               <CategoryBox
                 @click.native="clicktest($event, i)"
                 :nameCategory="categoryList[i].category_name"
-                :icon="categoryList[i].icon_white"
+                :icon="categoryList[i].icon_black"
                 :colorCode="categoryList[i].color_code"
                 :status="categoryList[i].status"
               />
