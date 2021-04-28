@@ -3,7 +3,9 @@
     <div id="info-section">
       <div class="information-box">
         <h1 class="info-title black-color">Name</h1>
-        <h1 v-if="!edit" class="info-text">{{ user.firstname }}  {{ user.lastname }}</h1>
+        <h1 v-if="!edit" class="info-text">
+          {{ user.firstname }} {{ user.lastname }}
+        </h1>
         <div v-if="edit" id="name-section">
           <input
             class="input_username_box"
@@ -14,7 +16,7 @@
             v-model="user.firstname"
           />
           <input
-          style="margin-left:20px;"
+            style="margin-left:20px;"
             class="input_username_box"
             type="text"
             maxlength="30"
@@ -115,7 +117,6 @@
 </template>
 
 <script>
-// import UserService from "./../../services/user.service";
 
 export default {
   data() {
@@ -133,7 +134,7 @@ export default {
 
 <style scoped>
 #info-section {
-  margin: 5px 0px 0px 0px;
+  margin: 5px 0px 20px 0px;
 }
 
 .information-box {
@@ -141,7 +142,7 @@ export default {
   grid-template-columns: 20% 80%;
   align-items: center;
   width: 100%;
-  margin-bottom: 19px;
+  margin: 0px 0px 19px 0px;
 }
 
 .info-title,
@@ -177,7 +178,8 @@ export default {
   background-color: #e3e3e3;
 }
 
-.input_profile_box,.input_username_box {
+.input_profile_box,
+.input_username_box {
   width: calc(100% - 20px);
 }
 .back_button,
@@ -188,6 +190,6 @@ export default {
 #name-section {
   display: flex;
   justify-content: space-between;
-  align-items:center;
+  align-items: center;
 }
 </style>

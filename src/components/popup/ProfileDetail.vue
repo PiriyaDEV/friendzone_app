@@ -4,27 +4,22 @@
       <div class="popup-form">
         <div id="profile-section" class="section">
           <div id="left">
-            <div v-if="!edit" id="profile-frame">
+            <div v-if="!profile_pic" id="profile-frame">
               <img id="profile-pic" :src="user.profile_pic" />
             </div>
-            <div id="profile-frame" v-if="edit">
+            <div v-if="profile_pic">
+              <img
+                id="profile-pic"
+                class="pictureUpload"
+                style="position: relative"
+                :src="profile_pic.imageURL"
+                alt="profile_pic"
+              />
+            </div>
+            <div style="position:relative;" v-if="edit">
               <Upload v-model="profile_pic">
-                <div
-                  v-if="!profile_pic"
-                  slot="activator"
-                  id="select-photo-inside"
-                  class="section"
-                >
-                  <img id="profile-pic" :src="user.profile_pic" />
-                </div>
-                <div v-else slot="activator">
-                  <img
-                    id="profile-pic"
-                    class="pictureUpload"
-                    style="position: relative"
-                    :src="profile_pic.imageURL"
-                    alt="profile_pic"
-                  />
+                <div id="upload-photo" slot="activator">
+                  <img src="@/assets/icon/icons8-add-image-96.png" />
                 </div>
               </Upload>
             </div>
@@ -89,11 +84,11 @@
               </div>
               <!-- Rating -->
 
-              <div v-if="demoRole == 1" id="switch-button">
+              <div v-if="demoRole == 1 && !edit" id="switch-button">
                 <button @click="clickDemoAdmin()">Switch to Admin</button>
               </div>
 
-              <div v-if="demoRole == 2" id="switch-button">
+              <div v-if="demoRole == 2 && !edit" id="switch-button">
                 <button @click="clickDemoAdmin()">Switch to User</button>
               </div>
             </div>
@@ -138,19 +133,26 @@
               <button @click="clickEdit()">
                 EDIT PROFILE
               </button>
-              <button>INTERESTED</button>
-              <button>CHANGE PASSWORD</button>
+              <button @click="clickInterest()">INTERESTED</button>
+              <button @click="clickPassword()">CHANGE PASSWORD</button>
             </div>
           </div>
         </div>
 
         <div id="middle">
           <EditProfile
+            v-if="interestShow == false && changePassword == false"
             @editReturn="editReturn"
             :edit="edit"
             :user="user"
             :role="demoRole"
           />
+          <ProfileInterest
+            v-if="interestShow == true"
+            @showBack="showBack"
+            :profileDetail="interestShow"
+          />
+          <ChangePassword v-if="changePassword == true" @showBack="showBack" />
         </div>
 
         <img
@@ -165,6 +167,8 @@
 </template>
 
 <script>
+import ProfileInterest from "@/components/popup/profile/ProfileInterest.vue";
+import ChangePassword from "@/components/popup/profile/ChangePassword.vue";
 import EditProfile from "@/components/popup/EditProfile.vue";
 import UserService from "./../../services/user.service";
 import Upload from "./../../components/UploadPic.vue";
@@ -189,12 +193,16 @@ export default {
         "December",
       ],
       edit: false,
+      interestShow: false,
+      changePassword: false,
     };
   },
   props: ["demoRole"],
   components: {
     EditProfile,
     Upload,
+    ProfileInterest,
+    ChangePassword,
   },
   created() {
     UserService.getUserDetail().then((res) => {
@@ -224,9 +232,25 @@ export default {
     },
     clickEdit() {
       this.edit = true;
+      this.interestShow = false;
+      this.changePassword = false;
     },
     editReturn(value) {
       this.edit = value;
+    },
+    clickInterest() {
+      this.interestShow = true;
+      this.changePassword = false;
+      this.edit = false;
+    },
+    clickPassword() {
+      this.changePassword = true;
+      this.interestShow = false;
+      this.edit = false;
+    },
+    showBack(value) {
+      this.interestShow = value;
+      this.changePassword = value;
     },
   },
 };
@@ -305,6 +329,7 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 3px;
+  position: relative;
 }
 
 #profile-section {
@@ -411,5 +436,21 @@ export default {
   margin: 25px 0px 0px 0px;
   font-size: 3.75em;
   font-weight: 700;
+}
+
+#upload-photo {
+  background-color: #fe8864;
+  border: none;
+  border-radius: 50%;
+  padding: 7px;
+  position: absolute;
+  bottom: 2px;
+  right: 5px;
+  cursor: pointer;
+}
+
+#upload-photo > img {
+  width: 22px;
+  height: 22px;
 }
 </style>

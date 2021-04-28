@@ -10,7 +10,7 @@
           <h1 class="flex-title">CREATE NEW DISCOUNT</h1>
           <h1 class="flex-subtitle">FOR USER</h1>
         </div>
-        <div id="flex-edit" class="flex-box">
+        <div @click="editDatabase()" id="flex-edit" class="flex-box">
           <h1 class="flex-title">EDIT DATABASE</h1>
           <h1 class="flex-subtitle">REPORT & CATEGORY TYPE</h1>
         </div>
@@ -61,12 +61,7 @@
         <!-- Event -->
         <div class="event-section">
           <div id="container">
-            <div
-              id="list-container"
-              @mouseover="hovered = true"
-              @mouseleave="hovered = false"
-              class="event-container"
-            >
+            <div class="event-container">
               <div class="list event-flex-section">
                 <div v-for="(item, i) in eventList" :key="i">
                   <DiscountFlex
@@ -90,7 +85,6 @@ export default {
   name: "event-page",
   data() {
     return {
-      hovered: false,
       selected: "all",
       eventList: 10,
       joinList: 10,
@@ -106,6 +100,9 @@ export default {
     },
     createReturn() {
       this.$emit("clickCreate", true);
+    },
+    editDatabase() {
+      this.$emit("editDatabase", true);
     },
   },
 };
@@ -249,7 +246,7 @@ export default {
 }
 
 #report-box {
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   height: 260px;
 }
