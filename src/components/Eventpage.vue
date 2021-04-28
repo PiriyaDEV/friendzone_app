@@ -7,22 +7,10 @@
         <!-- Event -->
         <div class="event-section">
           <div id="container">
-            <div
-              id="list-container"
-              @mouseover="hovered = true"
-              @mouseleave="hovered = false"
-              class="event-container"
-            >
+            <div class="event-container">
               <div class="list event-flex-section">
                 <div v-for="(item, i) in eventList" :key="i">
                   <EventFlex
-                    :user="dataUser[i]"
-                    :date="dataDate"
-                    :title="dataTitle"
-                    :location="dataLocation"
-                    :host="dataHost"
-                    @clickRate="clickRate"
-                    @checkRate="checkRate"
                   />
                 </div>
               </div>
@@ -60,22 +48,6 @@ export default {
       joinList: 10,
       categoryList: null,
       categorySelected: false,
-      dataUser: [
-        "05/20",
-        "06/20",
-        "07/20",
-        "08/20",
-        "09/20",
-        "10/20",
-        "11/20",
-        "12/20",
-        "13/20",
-        "14/20",
-      ],
-      dataDate: "14 Oct 2021 - 15 Oct 2021",
-      dataTitle: "Chai Miang Chiang Mai Camp with Aj.Harryfer",
-      dataLocation: "Localhost Resort Chiang Mai, Thailand",
-      dataHost: "pd.piriya",
     };
   },
   created() {

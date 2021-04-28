@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div v-if="status == false" id="category-box">
+    <div v-if="status == false" :id="cssBox">
       <img class="category-icon" @click="goMainpage()" :src="icon" />
       <h1 class="category-text">{{ nameCategory }}</h1>
     </div>
-    <div v-if="status == true" id="category-box-click">
+    <div v-if="status == true" :id="cssBoxClick">
       <img
         class="category-icon-click"
         @click="goMainpage()"
@@ -18,38 +18,64 @@
 
 <script>
 export default {
-  props: ["nameCategory", "icon", "colorCode", "status"],
+  props: ["nameCategory", "icon", "colorCode", "status", "profileDetail"],
+  computed: {
+    cssBox() {
+      let afterStart = "category-box";
+      let beforeStart = "category-box-short";
+      if (this.profileDetail == true) {
+        return beforeStart;
+      }
+      return afterStart;
+    },
+    cssBoxClick() {
+      let afterStart = "category-box-click";
+      let beforeStart = "category-box-click-short";
+      if (this.profileDetail == true) {
+        return beforeStart;
+      }
+      return afterStart;
+    },
+  },
 };
 </script>
 
 <style scoped>
-#category-box {
+#category-box,
+#category-box-short {
   border: 2px solid #e3e3e3;
   border-radius: 10px;
-  padding: 7px 0px 7px 20px;
   margin: 5px 0px;
-  width: 420px;
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 
-#category-box-click {
+#category-box-click,
+#category-box-click-short {
   border: 2px solid #ff8864;
   border-radius: 10px;
   display: flex;
   align-items: center;
-  padding: 7px 0px 7px 20px;
   margin: 5px 0px;
-  width: 420px;
   cursor: pointer;
+}
+
+#category-box,
+#category-box-click {
+  padding: 7px 0px 7px 20px;
+  width: 420px;
+}
+
+#category-box-short,
+#category-box-click-short {
+  padding: 5px 0px 5px 20px;
+  width: 200px;
 }
 
 .category-icon,
 .category-icon-click {
   width: 18px;
-  padding: 7px;
-  border-radius: 6px;
   border: none;
 }
 

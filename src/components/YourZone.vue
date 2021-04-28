@@ -4,14 +4,14 @@
     <div id="follow-box">
       <!-- Host -->
       <div class="verticle-box">
-        <h1 class="number-box">{{ hostedCount }}</h1>
+        <h1 class="number-box">0</h1>
         <h1 class="title-box">Host</h1>
       </div>
       <!-- Host -->
 
       <!-- Joined -->
       <div class="verticle-box">
-        <h1 class="number-box">{{ joinedCount }}</h1>
+        <h1 class="number-box">0</h1>
         <h1 class="title-box">Joined</h1>
       </div>
       <!-- Joined -->
@@ -60,7 +60,7 @@
       <div v-if="host == true" id="host-menu">
         <div class="event-section">
           <h1 class="event-header">YOUR EVENT</h1>
-          <select id="select-event" v-model="selected">
+          <select id="select-event" v-model="hostFilter">
             <option value="all">All Events</option>
             <option value="pending">Pending</option>
             <option value="ongoing">On Going</option>
@@ -72,11 +72,7 @@
         <div>
           <!-- Event -->
           <div id="container">
-            <div
-              @mouseover="hovered = true"
-              @mouseleave="hovered = false"
-              class="event-container"
-            >
+            <div class="event-container">
               <div class="list event-flex-wrap-section">
                 <div v-for="(event, i) in hostedEventList" :key="i">
                   <EventFlex
@@ -98,7 +94,7 @@
       <div v-if="join == true" id="joined-menu">
         <div class="event-section">
           <h1 class="event-header">JOINED</h1>
-          <select id="select-event" v-model="selected">
+          <select id="select-event" v-model="joinFilter">
             <option value="all">All Events</option>
             <option value="ongoing">On Going</option>
             <option value="ended">Ended</option>
@@ -109,11 +105,7 @@
         <div>
           <!-- Event -->
           <div id="container">
-            <div
-              @mouseover="hovered = true"
-              @mouseleave="hovered = false"
-              class="event-container"
-            >
+            <div class="event-container">
               <div class="list event-flex-wrap-section">
                 <div v-for="(event, i) in joinedEventList" :key="i">
                   <EventFlex
@@ -134,9 +126,10 @@
       <div v-if="request == true" id="request-menu">
         <div class="event-section">
           <h1 class="event-header">REQUEST</h1>
-          <select id="select-event" v-model="selected">
+          <select id="select-event" v-model="requestFilter">
             <option value="all">All Events</option>
-            <option value="host">Hosted</option>
+            <option value="pending">Pending</option>
+            <option value="rejected">Rejected</option>
           </select>
         </div>
         <!-- YOUR EVENT -->
@@ -144,11 +137,7 @@
         <div>
           <!-- Event -->
           <div id="container">
-            <div
-              @mouseover="hovered = true"
-              @mouseleave="hovered = false"
-              class="event-container"
-            >
+            <div class="event-container">
               <div class="list event-flex-wrap-section">
                 <div v-for="(event, i) in requestedEventList" :key="i">
                   <EventFlex
@@ -160,7 +149,6 @@
                 </div>
               </div>
             </div>
-
             <!-- Event -->
           </div>
         </div>
@@ -168,10 +156,10 @@
         <!-- YOUR EVENT -->
       </div>
 
-       <div v-if="interest == true" id="interest-menu">
+      <div v-if="interest == true" id="interest-menu">
         <div class="event-section">
           <h1 class="event-header">FAVOURITE</h1>
-          <select id="select-event" v-model="selected">
+          <select id="select-event" v-model="interestFilter">
             <option value="all">All Events</option>
             <option value="host">Hosted</option>
           </select>
@@ -181,11 +169,7 @@
         <div>
           <!-- Event -->
           <div id="container">
-            <div
-              @mouseover="hovered = true"
-              @mouseleave="hovered = false"
-              class="event-container"
-            >
+            <div class="event-container">
               <div class="list event-flex-wrap-section">
                 <div v-for="(event, i) in interestedEventList" :key="i">
                   <EventFlex
@@ -197,7 +181,6 @@
                 </div>
               </div>
             </div>
-
             <!-- Event -->
           </div>
         </div>
@@ -208,7 +191,7 @@
       <div v-if="discount == true" id="discount-menu">
         <div class="event-section">
           <h1 class="event-header">DISCOUNT</h1>
-          <select id="select-event" v-model="selected">
+          <select id="select-event" v-model="discountFilter">
             <option value="all">All Discounts</option>
             <option value="host">Hosted</option>
             <option value="interest">Interested</option>
@@ -219,11 +202,7 @@
         <div>
           <!-- Event -->
           <div id="container">
-            <div
-              @mouseover="hovered = true"
-              @mouseleave="hovered = false"
-              class="event-container"
-            >
+            <div class="event-container">
               <div class="list event-flex-wrap-section">
                 <div v-for="(item, i) in eventListLongFlex" :key="i">
                   <DiscountLongFlex
@@ -252,34 +231,37 @@ export default {
   name: "Yourzone",
   data() {
     return {
+      hostFilter: "all",
+      joinFilter: "all",
+      requestFilter: "all",
+      interestFilter: "all",
+      discountFilter: "all",
       host: true,
       join: false,
       request: false,
       interest: false,
       discount: false,
-      hovered: false,
       selectHost: "menu-box-orange",
       selectJoin: "menu-box-white",
+      selectRequest: "menu-box-white",
       selectInterest: "menu-box-white",
       selectDiscount: "menu-box-white",
-      selectRequest: "menu-box-white",
-      selected: "all",
-      hostedCount: 0,
-      hostedEventList: null,
-      joinedCount: 0,
-      joinedEventList: null,
-      requestedCount: 0,
-      requestedEventList: null,
-      interestedCount: 0,
-      interestedEventList: null,
+      hostedEventShow: [],
+      hostedEventList: [],
+      joinedEventShow: [],
+      joinedEventList: [],
+      requestedEventShow: [],
+      requestedEventList: [],
+      interestedEventShow: [],
+      interestedEventList: [],
       eventListLongFlex: 10,
     };
   },
   props: ["discountSelect"],
   watch: {
     host: function() {
-      this.getHostedEventList();
       if (this.host == true) {
+        this.getHostedEventList();
         this.selectHost = "menu-box-orange";
         this.request = false;
         this.join = false;
@@ -288,8 +270,8 @@ export default {
       } else this.selectHost = "menu-box-white";
     },
     join: function() {
-      this.getJoinedEventList();
       if (this.join == true) {
+        this.getJoinedEventList();
         this.selectJoin = "menu-box-orange";
         this.request = false;
         this.host = false;
@@ -298,8 +280,8 @@ export default {
       } else this.selectJoin = "menu-box-white";
     },
     request: function() {
-      this.getRequestedEventList();
-      if(this.request == true) {
+      if (this.request == true) {
+        this.getRequestedEventList();
         this.selectRequest = "menu-box-orange";
         this.host = false;
         this.join = false;
@@ -308,8 +290,8 @@ export default {
       } else this.selectRequest = "menu-box-white";
     },
     interest: function() {
-      this.getInterestedEventList();
       if (this.interest == true) {
+        this.getInterestedEventList();
         this.selectInterest = "menu-box-orange";
         this.request = false;
         this.host = false;
@@ -326,6 +308,24 @@ export default {
         this.interest = false;
       } else this.selectDiscount = "menu-box-white";
     },
+    // hostFilter: function() {
+    //   if (this.hostFilter == "all") this.hostedEventShow = this.hostedEventList;
+    //   else if (this.hostFilter == "pending") {
+    //     this.hostedEventShow = this.hostedEventList.filter(
+    //       (event) => event.status_id == "ST13"
+    //     );
+    //   }
+    //   else if (this.hostFilter == "ongoing") {
+    //     this.hostedEventShow = this.hostedEventList.filter((event) => {
+    //       let currentTime = new Date().getTime();
+    //       // console.log("Now   " + currentTime);
+    //       // console.log("Start " + event.start_at);
+    //       // console.log("End   " + event.end_at);
+    //       // console.log(currentTime > event.start_at && currentTime < event.end_at)
+    //       return (currentTime > event.start_at) && (currentTime < event.end_at);
+    //     });
+    //   }
+    // },
   },
   components: {
     EventFlex,
@@ -333,9 +333,6 @@ export default {
   },
   created() {
     this.getHostedEventList();
-    this.getJoinedEventList();
-    this.getRequestedEventList();
-    this.getInterestedEventList();
   },
   methods: {
     clickRate(value) {
@@ -354,48 +351,48 @@ export default {
       EventService.getHostedEvent()
         .then((res) => {
           if (res) {
+            this.hostedEventShow = res;
             this.hostedEventList = res;
-            this.hostedCount = this.hostedEventList.length;
           }
         })
         .catch(() => {
-          this.hostedEventList = null;
+          this.hostedEventShow = [];
         });
     },
     getJoinedEventList() {
       EventService.getJoinedEvent()
         .then((res) => {
           if (res) {
+            this.joinedEventShow = res;
             this.joinedEventList = res;
-            this.joinedCount = this.joinedEventList.length;
           }
         })
         .catch(() => {
-          this.joinedEventList = null;
+          this.joinedEventShow = [];
         });
     },
     getRequestedEventList() {
       EventService.getRequestedEvent()
         .then((res) => {
           if (res) {
+            this.requestedEventShow = res;
             this.requestedEventList = res;
-            this.requestedCount = this.requestedEventList.length;
           }
         })
         .catch(() => {
-          this.requestedEventList = null;
+          this.requestedEventShow = [];
         });
     },
     getInterestedEventList() {
       EventService.getInterestedEvent()
         .then((res) => {
           if (res) {
+            this.interestedEventShow = res;
             this.interestedEventList = res;
-            this.interestedCount = this.interestedEventList.length;
           }
         })
         .catch(() => {
-          this.interestedEventList = null;
+          this.interestedEventShow = [];
         });
     },
   },

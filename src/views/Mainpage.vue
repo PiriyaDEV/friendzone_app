@@ -102,6 +102,8 @@
 
       <EditUser v-if="editShow" @clickEdit="clickEdit" />
 
+      <EditDatabase v-if="editDatabaseShow == true" @editDatabase="editDatabase"/>
+
       <CreateDiscount v-if="createShow" @clickCreate="clickCreate" />
 
       <div id="mainpage-background" class="section">
@@ -117,6 +119,7 @@
             v-if="selectAdmin == 1"
             @clickCreate="clickCreate"
             @clickEdit="clickEdit"
+            @editDatabase="editDatabase"
           />
           <AdminReport v-if="selectAdmin == 5" />
         </div>
@@ -147,6 +150,7 @@ import AdminMenu from "@/components/admin/AdminMenu.vue";
 import AdminReport from "@/components/admin/report/AdminReport.vue";
 import CreateDiscount from "@/components/admin/popup/CreateDiscount.vue";
 import EditUser from "@/components/admin/popup/EditUser.vue";
+import EditDatabase from "@/components/admin/popup/EditDatabase.vue";
 
 export default {
   name: "mainpage",
@@ -171,6 +175,7 @@ export default {
     AdminReport,
     CreateDiscount,
     EditUser,
+    EditDatabase,
   },
   data() {
     return {
@@ -186,6 +191,7 @@ export default {
       searchBar: "",
       clearSearched: false,
       manageShow: false,
+      editDatabaseShow: false,
       role: 1,
       selectAdmin: 1,
     };
@@ -246,6 +252,9 @@ export default {
     pageReturnAdmin(value) {
       this.selectAdmin = value;
     },
+    editDatabase(value) {
+      this.editDatabaseShow = value;
+    }
   },
 };
 </script>

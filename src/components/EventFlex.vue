@@ -30,7 +30,7 @@
     <!-- Date -->
     <div id="date-box">
       <h1>
-        {{ date }}
+        {{ event.date }}
       </h1>
     </div>
     <!-- Date -->
@@ -97,41 +97,8 @@
 import EventService from "../services/event.service";
 
 export default {
-  data() {
-    return {
-      date: "",
-      months: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    };
-  },
   name: "EventFlex",
   props: ["event"],
-  created() {
-    let start_at = new Date(this.event.start_at);
-    let end_at = new Date(this.event.end_at);
-    let startDate = start_at.getDate();
-    let startMonth = start_at.getMonth();
-    let startYear = start_at.getFullYear();
-    let endDate = end_at.getDate();
-    let endMonth = end_at.getMonth();
-    let endYear = end_at.getFullYear();
-    if (startDate == endDate && startMonth == endMonth && startYear == endYear)
-      this.date = `${startDate} ${this.months[startMonth]} ${startYear}`;
-    else
-      this.date = `${startDate} ${this.months[startMonth]} ${startYear} - ${endDate} ${this.months[endMonth]} ${endYear}`;
-  },
   methods: {
     rateEventReturn() {
       this.$emit("clickRate", true);
@@ -151,7 +118,7 @@ export default {
         interest: this.event.interest,
       });
     },
-  },
+  }
 };
 </script>
 
