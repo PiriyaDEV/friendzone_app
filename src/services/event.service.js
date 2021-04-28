@@ -178,5 +178,29 @@ class EventService {
 
     return res.data;
   }
+
+  async getRequestedEvent() {
+    let user = decode(localStorage.getItem("user"));
+    const res = await axios.get(API_URL + "getRequestedEvent/" + user.user_id, {
+      headers: authHeader(),
+    });
+    res.data.forEach(event => {
+      event.event_pic = API_URL + "displayPic/" + event.event_id;
+      event.host_pic = "http://localhost:8080/api/user/displayPic/" + event.user_id;
+    });
+    return res.data;
+  }
+
+  async getInterestedEvent() {
+    let user = decode(localStorage.getItem("user"));
+    const res = await axios.get(API_URL + "getInterestedEvent/" + user.user_id, {
+      headers: authHeader(),
+    });
+    res.data.forEach(event => {
+      event.event_pic = API_URL + "displayPic/" + event.event_id;
+      event.host_pic = "http://localhost:8080/api/user/displayPic/" + event.user_id;
+    });
+    return res.data;
+  }
 }
 export default new EventService();
