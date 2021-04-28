@@ -1,4 +1,4 @@
-r<template>
+<template>
   <div id="create-discount" class="popup">
     <div class="popup-section section">
       <div class="popup-form">
