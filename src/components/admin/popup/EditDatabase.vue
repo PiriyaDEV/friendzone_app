@@ -73,9 +73,12 @@ export default {
     categoryReturn(value) {
       this.editCategory = value;
     },
+    reportReturn(value) {
+      this.editReport = value;
+    },
     editReturn(value) {
       this.editReport = value;
-    }
+    },
   },
 };
 </script>

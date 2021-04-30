@@ -1,7 +1,7 @@
 <template>
   <div id="participant">
     <div v-if="status == 1">
-      <h1 class="title">Participants (3/5)</h1>
+      <h1 class="title">Participants ({{ event.joined }}/{{ event.max_participant }})</h1>
 
       <div class="small-box">
         <div v-for="(item, i) in eventList" :key="i">
@@ -68,7 +68,7 @@ export default {
       search: "",
     };
   },
-  props: ["status"],
+  props: ["status", "event"],
   components: {
     Userbox,
   },

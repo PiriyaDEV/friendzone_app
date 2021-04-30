@@ -11,7 +11,7 @@
           <h1 class="title">host</h1>
         </div>
 
-        <div v-if="select == 2||select == 3" class="namerole">
+        <div v-if="select == 2 || select == 3" class="namerole">
           <h1 class="title">Harryfer</h1>
           <div>
             <!-- Rating -->
@@ -63,8 +63,8 @@
       </div>
 
       <div id="button-section">
-        <button v-if="select == 1" class="button delete" >Delete</button>
-        <button v-if="select == 3" class="button delete" >Invite</button>
+        <button v-if="select == 1" class="button delete">Delete</button>
+        <button v-if="select == 3" class="button delete">Invite</button>
         <button v-if="select == 2" class="button decline">Decline</button>
         <button v-if="select == 2" class="button approve">Approve</button>
         <!-- <button>Click</button> -->
@@ -93,7 +93,7 @@ export default {
       fullname: "",
     };
   },
-  props:["select"],
+  props: ["select"],
   created() {
     UserService.getUserDetail().then((res) => {
       if (res) {
@@ -119,7 +119,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom:10px;
+  margin-bottom: 10px;
 }
 
 #box-info {

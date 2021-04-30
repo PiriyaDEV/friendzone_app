@@ -165,7 +165,7 @@ div::-webkit-scrollbar-thumb {
   font-family: "Atten-Round-New";
   text-align: center;
   width: 250px;
-  padding: 9px 0px;
+  padding: 7px 0px;
   background-color: #ff8864;
   border-radius: 35px;
   border: none;
@@ -377,6 +377,38 @@ button {
   margin-bottom: 30px;
 }
 
+/* Homepage */
+
+.homepage-title {
+  width: 328px;
+  font-weight: 800;
+  color: #444444;
+  font-size: 5.5em;
+  margin: 0px;
+  z-index: 1;
+}
+
+.homepage-subtitle {
+  font-weight: 800;
+  color: #444444;
+  font-size: 4em;
+  text-transform: uppercase;
+  margin: 0px;
+  z-index: 1;
+}
+
+.homepage-description {
+  color: #444444;
+  width: 490px;
+  font-weight: 500;
+  font-size: 3.5em;
+  margin-top: 15px;
+  margin-bottom: 29px;
+  z-index: 1;
+}
+
+/* Homepage */
+
 @media screen and (max-width: 1080px) {
   .back_button,
   .create_button {
@@ -412,6 +444,7 @@ button {
     max-width: 1024px;
   }
 }
+
 @media screen and (max-width: 1024px) {
   .page-container,
   .event-container,
@@ -444,11 +477,30 @@ button {
     width: 268px;
   }
 
+  .homepage-description {
+    font-size: 3em;
+    width: 416px;
+  }
+
   .back_button,
   .create_button {
     margin: 15px 0px;
     font-size: 1.6em;
     width: 140px;
+  }
+
+  .homepage-title {
+    font-size: 4.5em;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .homepage-title {
+    font-size: 4em;
+  }
+  .homepage-description {
+    font-size: 2.25em;
+    width: 310px;
   }
 }
 

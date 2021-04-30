@@ -7,6 +7,7 @@
         v-if="rateShow == true"
         @clickShowed="clickShowed"
         v-bind:checkParticipants="selectRateShow"
+        :event="eventData"
       />
       <ProfileDetail
         v-if="detailShow == true"
@@ -25,7 +26,11 @@
         @clickDiscount2="clickDiscount2"
         :clickFromYourZone="discountShow"
       />
-      <ManageEvent v-if="manageShow == true" @clickManage="clickManage" />
+      <ManageEvent
+        v-if="manageShow == true"
+        @clickManage="clickManage"
+        :Event="eventData"
+      />
       <link
         rel="stylesheet"
         type="text/css"
@@ -60,6 +65,7 @@
               @checkShow="checkShow"
               @clickDiscount="clickDiscount"
               @clickManage="clickManage"
+              @thisEvent="thisEvent"
               :discountSelect="select"
             />
           </div>
@@ -102,7 +108,10 @@
 
       <EditUser v-if="editShow" @clickEdit="clickEdit" />
 
-      <EditDatabase v-if="editDatabaseShow == true" @editDatabase="editDatabase"/>
+      <EditDatabase
+        v-if="editDatabaseShow == true"
+        @editDatabase="editDatabase"
+      />
 
       <CreateDiscount v-if="createShow" @clickCreate="clickCreate" />
 
@@ -194,6 +203,7 @@ export default {
       editDatabaseShow: false,
       role: 1,
       selectAdmin: 1,
+      eventData: "",
     };
   },
   computed: {
@@ -254,7 +264,10 @@ export default {
     },
     editDatabase(value) {
       this.editDatabaseShow = value;
-    }
+    },
+    thisEvent(value) {
+      this.eventData = value;
+    },
   },
 };
 </script>

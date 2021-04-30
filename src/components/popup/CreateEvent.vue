@@ -72,7 +72,9 @@ r<template>
 
             <!-- Input -->
             <div>
-              <h2 class="input_title">Location<span class="orange-color"> *</span></h2>
+              <h2 class="input_title">
+                Location<span class="orange-color"> *</span>
+              </h2>
               <input
                 v-model="event.location"
                 class="input_box"
@@ -474,7 +476,7 @@ export default {
           this.hs +
           ":" +
           this.ms +
-          ":00 UTC"
+          ":00 GMT+0700"
       ).getTime();
 
       this.event.end_at = new Date(
@@ -487,7 +489,7 @@ export default {
           this.he +
           ":" +
           this.me +
-          ":00 UTC"
+          ":00 GMT+0700"
       ).getTime();
 
       console.log(this.event);
@@ -503,21 +505,24 @@ export default {
         event: this.event,
         gender_id: this.genderList,
         category_id: this.categoryList,
-      }).then((res) => {
-        if (res.event_id) {
-          EventService.uploadEventPic(this.event_pic.formData, res.event_id).then(
-            (res) => {
+      }).then(
+        (res) => {
+          if (res.event_id) {
+            EventService.uploadEventPic(
+              this.event_pic.formData,
+              res.event_id
+            ).then((res) => {
               if (res) {
                 console.log(res);
                 window.location.href = "/mainpage";
               }
-            }
-          )
-        }
-      },
-      (error) => {
+            });
+          }
+        },
+        (error) => {
           console.log(error.message);
-      });
+        }
+      );
     },
   },
   mounted() {
@@ -720,6 +725,6 @@ option {
 }
 
 .bio {
-  padding-bottom: 55px;
+  padding-bottom: 31px;
 }
 </style>

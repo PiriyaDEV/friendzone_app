@@ -7,16 +7,20 @@
         </h1>
 
         <div id="menu">
-          <h1 @click="clickEventDetail()" :class="cssEventDetail">Event Details</h1>
-          <h1 @click="clickParticipants()" :class="cssParticipants">Participants</h1>
+          <h1 @click="clickEventDetail()" :class="cssEventDetail">
+            Event Details
+          </h1>
+          <h1 @click="clickParticipants()" :class="cssParticipants">
+            Participants
+          </h1>
           <h1 @click="clickRequest()" :class="cssRequest">Request</h1>
           <h1 @click="clickInvite()" :class="cssInvite">Invite</h1>
         </div>
         <hr id="bar" />
 
-        <EventInfo v-if="eventDetail == true"/>
+        <EventInfo v-if="eventDetail == true" :event="Event" />
 
-        <Participant v-else :status="valueShow" />
+        <Participant v-else :status="valueShow" :event="Event" />
 
         <img
           @click="cancelManage()"
@@ -29,8 +33,8 @@
   </div>
 </template>
 <script>
-import EventInfo from "@/components/popup/manageEvent/EventInfo.vue"
-import Participant from "@/components/popup/manageEvent/Participant.vue"
+import EventInfo from "@/components/popup/manageEvent/EventInfo.vue";
+import Participant from "@/components/popup/manageEvent/Participant.vue";
 export default {
   data() {
     return {
@@ -38,16 +42,17 @@ export default {
       participants: false,
       request: false,
       invite: false,
-      valueShow:1,
-    }
-  },  
-  components:{
+      valueShow: 1,
+    };
+  },
+  props: ["Event"],
+  components: {
     EventInfo,
-    Participant
+    Participant,
   },
   methods: {
     cancelManage() {
-      this.$emit("clickManage",false);
+      this.$emit("clickManage", false);
     },
     clickEventDetail() {
       this.eventDetail = true;
@@ -111,13 +116,12 @@ export default {
       return deselect;
     },
   },
-}
-</script> 
+};
+</script>
 
 <style scoped>
-
-h1{
-  color:#444444;
+h1 {
+  color: #444444;
 }
 
 #menu {
@@ -132,9 +136,9 @@ h1{
   margin-top: -15px;
 }
 
-#manage_event{
-  width:700px;
-  height:620px;
+#manage_event {
+  width: 700px;
+  height: 620px;
   position: relative;
 }
 
@@ -150,7 +154,6 @@ h1{
 
 .selected {
   font-weight: 600;
-  border-bottom: 5px solid #FE8864;
+  border-bottom: 5px solid #fe8864;
 }
-
 </style>

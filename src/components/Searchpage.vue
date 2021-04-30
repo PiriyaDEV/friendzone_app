@@ -22,13 +22,19 @@
               @mouseleave="hovered = false"
               class="search-flex-container"
             >
-              <div v-if="friendSelect == true" class="list event-flex-wrap-section">
+              <div
+                v-if="friendSelect == true"
+                class="list event-flex-wrap-section"
+              >
                 <div v-for="(item, i) in eventList" :key="i">
                   <FriendFlex />
                 </div>
               </div>
 
-              <div v-if="eventSelect == true" class="list event-flex-wrap-section">
+              <div
+                v-if="eventSelect == true"
+                class="list event-flex-wrap-section"
+              >
                 <div v-for="(item, i) in eventList" :key="i">
                   <EventFlex
                     :user="dataUser[i]"
@@ -42,7 +48,10 @@
                 </div>
               </div>
 
-              <div v-if="discountSelect == true" class="list event-flex-wrap-section">
+              <div
+                v-if="discountSelect == true"
+                class="list event-flex-wrap-section"
+              >
                 <div v-for="(item, i) in eventList" :key="i">
                   <DiscountLongFlex />
                 </div>

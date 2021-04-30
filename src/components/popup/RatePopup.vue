@@ -11,13 +11,13 @@
             <h1 class="orange_title">Event Details</h1>
             <div id="event-detail">
               <h1 class="black-color">
-                Chai Miang Chiang Mai Camp with Aj.big
+                {{ event.title }}
               </h1>
               <h1 class="black-color">
-                ID :<span class="orange-color"> EV000112</span>
+                ID :<span class="orange-color"> {{ event.event_id }}</span>
               </h1>
               <h1 class="detail-text gray-color">
-                Localhost Resort Chiang Mai, Thailand
+                {{ event.location }}
               </h1>
 
               <div id="image-section">
@@ -26,18 +26,18 @@
                   src="@/assets/event/icons8-customer-100.png"
                 />
                 <h1 class="detail-text black-color" style="margin: 0">
-                  5 Participants (Including Host)
+                  {{ participant }} (Including Host)
                 </h1>
               </div>
 
               <h1 class="detail-text black-color">
-                Hosted <span class="orange-color">by b.big____</span>
+                Hosted <span class="orange-color">by {{ event.username }}</span>
               </h1>
               <h1 class="detail-text black-color">
-                Start on : <span class="gray-color">21 Feb 2021 09:00</span>
+                Start on : <span class="gray-color">{{ start_at }}</span>
               </h1>
               <h1 class="detail-text black-color">
-                End on : <span class="gray-color">21 Feb 2021 12:00</span>
+                End on : <span class="gray-color">{{ end_at }}</span>
               </h1>
 
               <div id="description">
@@ -45,23 +45,22 @@
                   Description<span style="opacity: 0">.</span>:
                 </h1>
                 <h1 class="detail-text gray-color" style="margin-left: 2px">
-                  I am sick of Samutsakorn. Let go to the place far from here.
-                  Let go Chaing Mai~!
+                  {{ event.description }}
                 </h1>
               </div>
 
               <h1 class="detail-text black-color">
-                Category : <span class="gray-color">Travel</span>
+                Category : <span class="gray-color">{{ category }}</span>
               </h1>
               <h1 class="detail-text black-color">
                 Preferred Participants Gender :
-                <span class="gray-color">ALL Genders</span>
+                <span class="gray-color">{{ gender }}</span>
               </h1>
               <h1 class="detail-text black-color">
-                Max Participants : <span class="gray-color">20</span>
+                Max Participants : <span class="gray-color">{{ event.max_participant }}</span>
               </h1>
               <h1 class="detail-text black-color">
-                Age Limits : <span class="gray-color">18 - 25</span>
+                Age Limits : <span class="gray-color">{{ event.min_age }} - {{ event.max_age }}</span>
               </h1>
             </div>
           </div>
@@ -176,11 +175,57 @@
 <script>
 export default {
   name: "RatePopup",
-  props: ["checkParticipants"],
+  props: ["checkParticipants", "event"],
   data() {
     return {
       user_selected: "",
+      participant: "",
+      start_at: "",
+      end_at: "",
+      gender: "-",
+      category: "-",
+      months: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
     };
+  },
+  created() {
+    let start_at = new Date(this.event.start_at);
+    let end_at = new Date(this.event.end_at);
+    let startDate = start_at.getDate();
+    let startMonth = start_at.getMonth();
+    let startYear = start_at.getFullYear();
+    let startHours = start_at.getHours().toString().padStart(2, '0');
+    let startMins = start_at.getMinutes().toString().padStart(2, '0');
+    let endDate = end_at.getDate();
+    let endMonth = end_at.getMonth();
+    let endYear = end_at.getFullYear();
+    let endHours = end_at.getHours().toString().padStart(2, '0');
+    let endMins = end_at.getMinutes().toString().padStart(2, '0');
+    this.start_at = `${startDate} ${this.months[startMonth]} ${startYear} ${startHours}:${startMins}`;
+    this.end_at = `${endDate} ${this.months[endMonth]} ${endYear} ${endHours}:${endMins}`;
+
+    if (this.event.joined == 1)
+      this.participant = `${this.event.joined} Participant`;
+    else if (this.event.joined > 1)
+      this.participant = `${this.event.joined} Participants`;
+
+    if (this.event.gender.length == 3) this.gender = "All genders";
+    else if (this.event.gender.length == 2)
+      this.gender = `${this.event.gender[0]}, ${this.event.gender[1]}`;
+    else if (this.event.gender.length == 1)
+      this.gender = `${this.event.gender[0]}`;
   },
   methods: {
     rateReturn() {

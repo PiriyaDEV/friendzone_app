@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="title">
-      <i @click="back()" class="fa fa-angle-left" aria-hidden="true"></i>
+    <div class="title" @click="back()">
+      <i class="fa fa-angle-left" aria-hidden="true"></i>
       <h1 id="header" class="header_title">EDIT CATEGORY</h1>
     </div>
 
@@ -21,17 +21,17 @@
 
     <div>
       <div id="menu">
-        <h1 @click="clickEventDetail()" class="menu-text selected">
+        <h1 @click="edit()" :class="cssEdit">
           Edit Category
         </h1>
-        <h1 @click="clickParticipants()" class="menu-text">
+        <h1 @click="addNew()" :class="cssAdd">
           Add New Category
         </h1>
       </div>
       <hr id="bar" />
 
       <div>
-        <CategorySection />
+        <CategorySection :Case="caseCategory" />
       </div>
     </div>
   </div>
@@ -45,6 +45,7 @@ export default {
   data() {
     return {
       categoryList: null,
+      caseCategory: true,
     };
   },
   created() {
@@ -59,9 +60,33 @@ export default {
   },
   methods: {
     back() {
-      this.$emit("categoryReturn", false)
-    }
+      this.$emit("categoryReturn", false);
+    },
+    edit() {
+      this.caseCategory = true;
+    },
+    addNew() {
+      this.caseCategory = false;
+    },
   },
+  computed: {
+    cssEdit() {
+      let select = "menu-text selected"
+      let unselect = "menu-text"
+      if(this.caseCategory == true) {
+        return select
+      }
+      return unselect
+    },
+    cssAdd() {
+      let select = "menu-text selected"
+      let unselect = "menu-text"
+      if(this.caseCategory == false) {
+        return select
+      }
+      return unselect
+    }
+  }
 };
 </script>
 
@@ -94,6 +119,7 @@ h1 {
   padding: 25px 0px 13px 0px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 #category-list-box {
@@ -140,7 +166,7 @@ h1 {
   border-width: 0;
   color: #a0a0a0;
   background-color: #a0a0a0;
-  margin-top: -15px;
+  margin-top: -13px;
 }
 
 .menu-text {
@@ -157,5 +183,4 @@ h1 {
   font-weight: 600;
   border-bottom: 5px solid #fe8864;
 }
-
 </style>

@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     back() {
-      this.$emit("showBack",false);
+      this.$emit("showBack", false);
     },
   },
 };

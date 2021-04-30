@@ -20,7 +20,9 @@
     <!-- User -->
     <div id="user-box">
       <img class="user" src="@/assets/event/icons8-customer-100.png" />
-      <h1 v-if="event.joined != event.max_participant">{{ event.joined }}/{{ event.max_participant }}</h1>
+      <h1 v-if="event.joined != event.max_participant">
+        {{ event.joined }}/{{ event.max_participant }}
+      </h1>
       <h1 v-if="event.joined == event.max_participant" class="full">
         FULL
       </h1>
@@ -107,9 +109,11 @@ export default {
     ratePartReturn() {
       this.$emit("clickRate", true);
       this.$emit("checkRate", true);
+      this.$emit("thisEvent", this.event);
     },
     manageEventReturn() {
       this.$emit("manageReturn", true);
+      this.$emit("thisEvent", this.event);
     },
     interestEvent() {
       this.event.interest = !this.event.interest;
@@ -118,7 +122,7 @@ export default {
         interest: this.event.interest,
       });
     },
-  }
+  },
 };
 </script>
 

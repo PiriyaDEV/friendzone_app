@@ -50,7 +50,7 @@ const routes = [
     path: "/popup",
     name: "Popup",
     component: Popup,
-  }
+  },
 ];
 
 const router = new VueRouter({

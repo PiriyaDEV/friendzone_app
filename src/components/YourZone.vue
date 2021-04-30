@@ -4,14 +4,14 @@
     <div id="follow-box">
       <!-- Host -->
       <div class="verticle-box">
-        <h1 class="number-box">0</h1>
+        <h1 class="number-box">{{ hostedEventList.length }}</h1>
         <h1 class="title-box">Host</h1>
       </div>
       <!-- Host -->
 
       <!-- Joined -->
       <div class="verticle-box">
-        <h1 class="number-box">0</h1>
+        <h1 class="number-box">{{ joinedEventList.length }}</h1>
         <h1 class="title-box">Joined</h1>
       </div>
       <!-- Joined -->
@@ -74,12 +74,13 @@
           <div id="container">
             <div class="event-container">
               <div class="list event-flex-wrap-section">
-                <div v-for="(event, i) in hostedEventList" :key="i">
+                <div v-for="(event, i) in hostedEventShow" :key="i">
                   <EventFlex
                     :event="event"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                     @manageReturn="manageReturn"
+                    @thisEvent="thisEvent"
                   />
                 </div>
               </div>
@@ -107,12 +108,13 @@
           <div id="container">
             <div class="event-container">
               <div class="list event-flex-wrap-section">
-                <div v-for="(event, i) in joinedEventList" :key="i">
+                <div v-for="(event, i) in joinedEventShow" :key="i">
                   <EventFlex
                     :event="event"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                     @manageReturn="manageReturn"
+                    @thisEvent="thisEvent"
                   />
                 </div>
               </div>
@@ -139,12 +141,13 @@
           <div id="container">
             <div class="event-container">
               <div class="list event-flex-wrap-section">
-                <div v-for="(event, i) in requestedEventList" :key="i">
+                <div v-for="(event, i) in requestedEventShow" :key="i">
                   <EventFlex
                     :event="event"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                     @manageReturn="manageReturn"
+                    @thisEvent="thisEvent"
                   />
                 </div>
               </div>
@@ -171,12 +174,13 @@
           <div id="container">
             <div class="event-container">
               <div class="list event-flex-wrap-section">
-                <div v-for="(event, i) in interestedEventList" :key="i">
+                <div v-for="(event, i) in interestedEventShow" :key="i">
                   <EventFlex
                     :event="event"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                     @manageReturn="manageReturn"
+                    @thisEvent="thisEvent"
                   />
                 </div>
               </div>
@@ -226,6 +230,7 @@
 import EventFlex from "@/components/EventFlex.vue";
 import DiscountLongFlex from "@/components/DiscountLongFlex.vue";
 import EventService from "../services/event.service";
+import decode from "jwt-decode";
 
 export default {
   name: "Yourzone",
@@ -261,7 +266,9 @@ export default {
   watch: {
     host: function() {
       if (this.host == true) {
+        this.hostedEventShow = [];
         this.getHostedEventList();
+        this.hostFilter = "all";
         this.selectHost = "menu-box-orange";
         this.request = false;
         this.join = false;
@@ -271,7 +278,9 @@ export default {
     },
     join: function() {
       if (this.join == true) {
+        this.joinedEventShow = [];
         this.getJoinedEventList();
+        this.joinFilter = "all";
         this.selectJoin = "menu-box-orange";
         this.request = false;
         this.host = false;
@@ -281,7 +290,9 @@ export default {
     },
     request: function() {
       if (this.request == true) {
+        this.requestedEventShow = [];
         this.getRequestedEventList();
+        this.requestFilter = "all";
         this.selectRequest = "menu-box-orange";
         this.host = false;
         this.join = false;
@@ -291,7 +302,9 @@ export default {
     },
     interest: function() {
       if (this.interest == true) {
+        //this.interestedEventShow = [];
         this.getInterestedEventList();
+        this.interestFilter = "all";
         this.selectInterest = "menu-box-orange";
         this.request = false;
         this.host = false;
@@ -301,6 +314,7 @@ export default {
     },
     discount: function() {
       if (this.discount == true) {
+        this.discountFilter = "all";
         this.selectDiscount = "menu-box-orange";
         this.request = false;
         this.host = false;
@@ -308,24 +322,61 @@ export default {
         this.interest = false;
       } else this.selectDiscount = "menu-box-white";
     },
-    // hostFilter: function() {
-    //   if (this.hostFilter == "all") this.hostedEventShow = this.hostedEventList;
-    //   else if (this.hostFilter == "pending") {
-    //     this.hostedEventShow = this.hostedEventList.filter(
-    //       (event) => event.status_id == "ST13"
-    //     );
-    //   }
-    //   else if (this.hostFilter == "ongoing") {
-    //     this.hostedEventShow = this.hostedEventList.filter((event) => {
-    //       let currentTime = new Date().getTime();
-    //       // console.log("Now   " + currentTime);
-    //       // console.log("Start " + event.start_at);
-    //       // console.log("End   " + event.end_at);
-    //       // console.log(currentTime > event.start_at && currentTime < event.end_at)
-    //       return (currentTime > event.start_at) && (currentTime < event.end_at);
-    //     });
-    //   }
-    // },
+    hostFilter: function() {
+      if (this.hostFilter == "all") this.hostedEventShow = this.hostedEventList;
+      else if (this.hostFilter == "pending") {
+        this.hostedEventShow = this.hostedEventList.filter(
+          (event) => event.status_id == "ST13"
+        );
+      } else if (this.hostFilter == "ongoing") {
+        this.hostedEventShow = this.hostedEventList.filter((event) => {
+          let currentTime = new Date().getTime();
+          return currentTime > event.start_at && currentTime < event.end_at;
+        });
+      } else if (this.hostFilter == "ended") {
+        this.hostedEventShow = this.hostedEventList.filter((event) => {
+          let currentTime = new Date().getTime();
+          return currentTime > event.end_at;
+        });
+      }
+    },
+    joinFilter: function() {
+      if (this.joinFilter == "all") this.joinedEventShow = this.joinedEventList;
+      else if (this.joinFilter == "ongoing") {
+        this.joinedEventShow = this.joinedEventList.filter((event) => {
+          let currentTime = new Date().getTime();
+          return currentTime > event.start_at && currentTime < event.end_at;
+        });
+      } else if (this.joinFilter == "ended") {
+        this.joinedEventShow = this.joinedEventList.filter((event) => {
+          let currentTime = new Date().getTime();
+          return currentTime > event.end_at;
+        });
+      }
+    },
+    requestFilter: function() {
+      if (this.requestFilter == "all")
+        this.requestedEventShow = this.requestedEventList;
+      else if (this.requestFilter == "pending") {
+        this.requestedEventShow = this.requestedEventList.filter(
+          (event) => !event.rejected
+        );
+      } else if (this.requestFilter == "rejected") {
+        this.requestedEventShow = this.requestedEventList.filter(
+          (event) => event.rejected
+        );
+      }
+    },
+    interestFilter: function() {
+      let user = decode(localStorage.getItem("user"));
+      if (this.interestFilter == "all")
+        this.interestedEventShow = this.interestedEventList;
+      else if (this.interestFilter == "host") {
+        this.interestedEventShow = this.interestedEventList.filter(
+          (event) => event.user_id == user.user_id
+        );
+      }
+    },
   },
   components: {
     EventFlex,
@@ -333,6 +384,7 @@ export default {
   },
   created() {
     this.getHostedEventList();
+    this.getJoinedEventList();
   },
   methods: {
     clickRate(value) {
@@ -346,6 +398,9 @@ export default {
     },
     manageReturn(value) {
       this.$emit("clickManage", value);
+    },
+    thisEvent(value) {
+      this.$emit("thisEvent", value);
     },
     getHostedEventList() {
       EventService.getHostedEvent()

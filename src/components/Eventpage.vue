@@ -10,8 +10,7 @@
             <div class="event-container">
               <div class="list event-flex-section">
                 <div v-for="(item, i) in eventList" :key="i">
-                  <EventFlex
-                  />
+                  <EventFlex />
                 </div>
               </div>
             </div>
@@ -21,13 +20,19 @@
 
         <!-- Category -->
         <div>
-          <CategorySelect @categoryClick="categoryClick"></CategorySelect>
+          <CategorySelect
+            @categoryClick="categoryClick"
+            @nameReturn="nameReturn"
+          ></CategorySelect>
         </div>
         <!-- Category -->
       </div>
     </div>
     <div v-if="categorySelected == true">
-      <EventCategory @categoryClick="categoryClick" ></EventCategory>
+      <EventCategory
+        @categoryClick="categoryClick"
+        :nameCategorySelected="nameCategorySelected"
+      ></EventCategory>
     </div>
   </div>
 </template>
@@ -48,6 +53,7 @@ export default {
       joinList: 10,
       categoryList: null,
       categorySelected: false,
+      nameCategorySelected: "",
     };
   },
   created() {
@@ -65,6 +71,9 @@ export default {
   methods: {
     categoryClick(value) {
       this.categorySelected = value;
+    },
+    nameReturn(value) {
+      this.nameCategorySelected = value;
     },
   },
 };
