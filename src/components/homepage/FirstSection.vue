@@ -27,7 +27,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    goRegister() {
+      window.location.href = "/register";
+    },
+  },
+};
 </script>
 
 <style scoped>
