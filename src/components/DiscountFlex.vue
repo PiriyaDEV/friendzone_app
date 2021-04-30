@@ -23,8 +23,8 @@
 export default {
   methods: {
     Onclick() {
-      this.$emit("clickDiscountFlex",true);
-    }
+      this.$emit("clickDiscountFlex", true);
+    },
   },
 };
 </script>
@@ -58,20 +58,20 @@ export default {
   margin-bottom: 0px;
   font-size: 1.75em;
   font-weight: 450;
-  color:#444444;
+  color: #444444;
 }
 
-.coin-title{
+.coin-title {
   margin-top: 0px;
   margin-bottom: 0px;
   font-size: 1.75em;
   font-weight: 450;
-  color:#444444;
+  color: #444444;
 }
 
-.coin-section{
+.coin-section {
   display: flex;
-  align-items:center;
+  align-items: center;
   justify-content: flex-end;
   padding: 15px 10px 10px 0px;
 }

@@ -1,113 +1,115 @@
 <template>
-<div>
-  <div v-if="showTitle === true" class="event-container">
-    <div class="title" @click="back()">
-      <i  class="fa fa-angle-left" aria-hidden="true"></i>
-      <h1 id="eventcat-title" class="event-header">ENTERTAINMENT</h1>
-    </div>
-
-    <div class="second-section">
-      <h1 class="event-second-header">YOUR EVENT</h1>
-      <div @click="clickSeeAll()" class="second-title">
-        <h1>See All</h1>
-        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+  <div>
+    <div v-if="showTitle === true" class="event-container">
+      <div class="title" @click="back()">
+        <i class="fa fa-angle-left" aria-hidden="true"></i>
+        <h1 id="eventcat-title" class="event-header">
+          {{ nameCategorySelected }}
+        </h1>
       </div>
-    </div>
 
-    <div id="discount-page-section">
-      <!-- Event -->
-      <div class="event-section">
-        <div id="container">
-          <div
-            id="list-container"
-            @mouseover="hovered = true"
-            @mouseleave="hovered = false"
-            class="event-container"
-          >
-            <div class="list event-flex-section">
-              <div v-for="(item, i) in eventList" :key="i">
-                <EventFlex
-                  :user="dataUser[i]"
-                  :date="dataDate"
-                  :title="dataTitle"
-                  :location="dataLocation"
-                  :host="dataHost"
-                  @clickRate="clickRate"
-                  @checkRate="checkRate"
-                />
+      <div class="second-section">
+        <h1 class="event-second-header">YOUR EVENT</h1>
+        <div @click="clickSeeAll()" class="second-title">
+          <h1>See All</h1>
+          <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div id="discount-page-section">
+        <!-- Event -->
+        <div class="event-section">
+          <div id="container">
+            <div
+              id="list-container"
+              @mouseover="hovered = true"
+              @mouseleave="hovered = false"
+              class="event-container"
+            >
+              <div class="list event-flex-section">
+                <div v-for="(item, i) in eventList" :key="i">
+                  <EventFlex
+                    :user="dataUser[i]"
+                    :date="dataDate"
+                    :title="dataTitle"
+                    :location="dataLocation"
+                    :host="dataHost"
+                    @clickRate="clickRate"
+                    @checkRate="checkRate"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <!-- Event -->
       </div>
-      <!-- Event -->
-    </div>
 
-    <div>
-      <div id="joined-menu">
-        <h1 class="event-second-header">OTHERS</h1>
-        <div>
+      <div>
+        <div id="joined-menu">
+          <h1 class="event-second-header">OTHERS</h1>
           <div>
-            <!-- Event -->
-            <div id="container">
-              <div
-                @mouseover="hovered = true"
-                @mouseleave="hovered = false"
-                class="event-container"
-              >
-                <div class="list event-flex-wrap-section">
-                  <div v-for="(item, i) in eventList" :key="i">
-                    <EventFlex
-                      :user="dataUser[i]"
-                      :date="dataDate"
-                      :title="dataTitle"
-                      :location="dataLocation"
-                      :host="dataHost"
-                      @clickRate="clickRate"
-                      @checkRate="checkRate"
-                    />
+            <div>
+              <!-- Event -->
+              <div id="container">
+                <div
+                  @mouseover="hovered = true"
+                  @mouseleave="hovered = false"
+                  class="event-container"
+                >
+                  <div class="list event-flex-wrap-section">
+                    <div v-for="(item, i) in eventList" :key="i">
+                      <EventFlex
+                        :user="dataUser[i]"
+                        :date="dataDate"
+                        :title="dataTitle"
+                        :location="dataLocation"
+                        :host="dataHost"
+                        @clickRate="clickRate"
+                        @checkRate="checkRate"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
+              <!-- Event -->
             </div>
-            <!-- Event -->
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- See All -->
-  <div v-else class="event-container">
-    <div class="title" @click="backCategory()">
-      <i  class="fa fa-angle-left" aria-hidden="true"></i>
-      <h1 id="eventcat-title" class="event-header">FOLLOWING</h1>
-    </div>
-            <!-- Event -->
-            <div id="container">
-              <div
-                @mouseover="hovered = true"
-                @mouseleave="hovered = false"
-                class="event-container"
-              >
-                <div class="list event-flex-wrap-section">
-                  <div v-for="(item, i) in eventList" :key="i">
-                    <EventFlex
-                      :user="dataUser[i]"
-                      :date="dataDate"
-                      :title="dataTitle"
-                      :location="dataLocation"
-                      :host="dataHost"
-                      @clickRate="clickRate"
-                      @checkRate="checkRate"
-                    />
-                  </div>
-                </div>
-              </div>
+    <!-- See All -->
+    <div v-else class="event-container">
+      <div class="title" @click="backCategory()">
+        <i class="fa fa-angle-left" aria-hidden="true"></i>
+        <h1 id="eventcat-title" class="event-header">FOLLOWING</h1>
+      </div>
+      <!-- Event -->
+      <div id="container">
+        <div
+          @mouseover="hovered = true"
+          @mouseleave="hovered = false"
+          class="event-container"
+        >
+          <div class="list event-flex-wrap-section">
+            <div v-for="(item, i) in eventList" :key="i">
+              <EventFlex
+                :user="dataUser[i]"
+                :date="dataDate"
+                :title="dataTitle"
+                :location="dataLocation"
+                :host="dataHost"
+                @clickRate="clickRate"
+                @checkRate="checkRate"
+              />
             </div>
-            <!-- Event -->
+          </div>
+        </div>
+      </div>
+      <!-- Event -->
+    </div>
+    <!-- See All -->
   </div>
-  <!-- See All -->
-</div>
 </template>
 
 <script>
@@ -139,16 +141,17 @@ export default {
       dataHost: "pd.piriya",
     };
   },
+  props: ["nameCategorySelected"],
   methods: {
     back() {
-      this.$emit("categoryClick",false)
+      this.$emit("categoryClick", false);
     },
     backCategory() {
-      this.showTitle = true
+      this.showTitle = true;
     },
     clickSeeAll() {
-      this.showTitle = false
-    }
+      this.showTitle = false;
+    },
   },
   components: {
     EventFlex,
@@ -160,6 +163,7 @@ export default {
 #eventcat-title {
   margin: 0px;
   cursor: pointer;
+  text-transform: uppercase;
 }
 
 .event-second-header {
@@ -175,7 +179,7 @@ export default {
   align-items: center;
 }
 
-.title{
+.title {
   margin-bottom: 20px;
 }
 

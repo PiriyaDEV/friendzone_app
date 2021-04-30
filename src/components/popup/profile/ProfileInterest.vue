@@ -67,7 +67,7 @@ export default {
       console.log(this.categoryList[6].status);
     },
     cancel() {
-      this.$emit("showBack",false);
+      this.$emit("showBack", false);
     },
   },
 };

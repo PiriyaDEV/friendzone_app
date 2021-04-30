@@ -5,7 +5,12 @@
       <!-- Top -->
       <div id="top-half" class="section">
         <div>
-          <img id="logo" src="@/assets/longlogo.png" />
+          <img
+            @click="zoneClick()"
+            id="logo"
+            style="cursor: pointer;"
+            src="@/assets/longlogo.png"
+          />
           <div id="create-event-button" class="section">
             <button @click="createdReturn()">
               CREATE EVENT
@@ -116,7 +121,6 @@
           </div>
         </div>
         <!-- Chat -->
-
 
         <!-- Report -->
         <div

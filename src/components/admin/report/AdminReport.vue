@@ -11,22 +11,22 @@
       </div>
 
       <div>
-            <div id="report-menu">
-              <div id="report-middle-menu">
-                <h1 id="menu-text-id" class="menu-text">ID</h1>
-                <h1 class="menu-text">TITLE</h1>
-                <h1 class="menu-text">TYPE</h1>
-                <h1 class="menu-text">CAREGORIES</h1>
-                <h1 class="menu-text">STATUS</h1>
-              </div>
-              <div id="space-button"></div>
-            </div>
-            <div id="report-box">
-              <div v-for="(item, i) in eventList" :key="i">
-                <ReportBox />
-              </div>
-            </div>
+        <div id="report-menu">
+          <div id="report-middle-menu">
+            <h1 id="menu-text-id" class="menu-text">ID</h1>
+            <h1 class="menu-text">TITLE</h1>
+            <h1 class="menu-text">TYPE</h1>
+            <h1 class="menu-text">CAREGORIES</h1>
+            <h1 class="menu-text">STATUS</h1>
           </div>
+          <div id="space-button"></div>
+        </div>
+        <div id="report-box">
+          <div v-for="(item, i) in eventList" :key="i">
+            <ReportBox />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -41,9 +41,9 @@ export default {
       eventList: 20,
     };
   },
-  components:{
-  ReportBox
-  }
+  components: {
+    ReportBox,
+  },
 };
 </script>
 

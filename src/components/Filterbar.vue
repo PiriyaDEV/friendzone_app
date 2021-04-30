@@ -140,7 +140,7 @@ h1 {
 #filter-bar {
   width: 150px;
   /* position : fixed */
-  }
+}
 
 #filter-icon {
   display: flex;

@@ -1,30 +1,24 @@
 <template>
-  <div @click="Onclick()" id="typebox">
-    <div class="icon-box">
-      <img
-        class="category-icon"
-        src="../../assets/category/white/icons8-airport-64@2x.png"
-      />
+  <div id="typebox">
+    <div class="icon-box" v-bind:style="{ backgroundColor: bgcolorCode }">
+      <img class="category-icon" :src="icon" />
     </div>
     <div id="text-box">
-      <h1>FOOD</h1>
+      <h1 v-bind:style="{ color: colorCode }">{{ nameCategory }}</h1>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  methods: {
-    Onclick() {
-      this.$emit("clickReturn", true);
-      // console.log("test")
-    },
-  },
+  methods: {},
+  props: ["nameCategory", "icon", "colorCode", "bgcolorCode"],
 };
 </script>
 
 <style scoped>
-#typebox {
+#typebox,
+#typebox-dark {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,7 +31,6 @@ export default {
 }
 
 .icon-box {
-  background-color: #fe6464;
   border-radius: 6px;
   margin-left: 2px;
 }
@@ -61,6 +54,6 @@ export default {
 #text-box > h1 {
   font-size: 2em;
   font-weight: 450;
-  color: #fe6464;
+  text-transform: uppercase;
 }
 </style>

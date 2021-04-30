@@ -259,7 +259,7 @@ export default {
       let select = "role-box role-box-selected";
       let unselect = "role-box";
       let roleCorrect = "role-box role-box-block";
-      
+
       if (this.role == "Admin") {
         return roleCorrect;
       } else if (this.admin == true) {
