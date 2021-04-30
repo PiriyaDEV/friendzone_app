@@ -122,7 +122,7 @@ export default {
         interest: this.event.interest,
       });
     },
-  },
+  }
 };
 </script>
 
