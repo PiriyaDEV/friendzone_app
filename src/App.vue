@@ -278,8 +278,8 @@ button {
 }
 
 .event-container {
-  width: 1440px;
-  max-width: 1440px;
+  width: 1750px;
+  max-width: 1750px;
   padding: 0;
 }
 
@@ -409,6 +409,14 @@ button {
 
 /* Homepage */
 
+@media screen and (max-width: 2320px) {
+  .event-container {
+    width: 1540px;
+    max-width: 1540px;
+    padding: 0;
+  }
+}
+
 @media screen and (max-width: 1080px) {
   .back_button,
   .create_button {
@@ -443,6 +451,14 @@ button {
     width: 1024px;
     max-width: 1024px;
   }
+}
+
+@media screen and (max-width: 1350px) {
+  .event-container {
+    width: 765px;
+    max-width: 765px;
+  }
+  /* กำลังทำ */
 }
 
 @media screen and (max-width: 1024px) {
