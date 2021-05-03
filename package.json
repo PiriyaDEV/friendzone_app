@@ -16,6 +16,7 @@
     "js-cookie": "^2.2.1",
     "jwt-decode": "^3.1.2",
     "vue": "^2.6.12",
+    "vue-burger-menu": "^2.0.5",
     "vue-cli": "^2.9.6",
     "vue-cookie": "^1.1.4",
     "vue-cookies": "^1.7.4",

@@ -54,7 +54,7 @@
     </div>
 
     <div id="button">
-      <button>Done</button>
+      <button @click="done()">Done</button>
     </div>
   </div>
 </template>
@@ -72,7 +72,11 @@ export default {
   components: {
     Userbox,
   },
-  watch: {},
+  methods: {
+    done() {
+      this.$emit("doneClick", false);
+    },
+  },
 };
 </script>
 
@@ -90,11 +94,9 @@ h1 {
 }
 
 #button {
+  display:flex;
+  justify-content:flex-end;
   margin: 30px 0px;
-  position: absolute;
-  z-index: 3;
-  bottom: 0px;
-  right: 60px;
 }
 
 #button > button {

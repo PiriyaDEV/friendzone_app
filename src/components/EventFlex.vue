@@ -336,9 +336,62 @@ export default {
   font-weight: 600 !important;
 }
 
-@media screen and (max-width: 1440px) {
-  /* #event-box {
-    margin-right: 40px;
-  } */
+@media screen and (max-width: 880px) {
+  #event-box {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  #event-box {
+    width: 340px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #event-box {
+    width: 310px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  #event-box {
+    width: 290px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  #event-box {
+    width: 270px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #event-box {
+    width: 250px;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  #event-box {
+    width: 480px;
+  }
+}
+
+@media screen and (max-width: 525px) {
+  #event-box {
+    width: 440px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  #event-box {
+    width: 410px;
+  }
+}
+
+@media screen and (max-width: 445px) {
+
 }
 </style>

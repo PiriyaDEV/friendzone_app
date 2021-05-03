@@ -14,12 +14,12 @@
       </div>
       <!-- Input -->
 
-      <div v-if="demoRole == 1" class="section">
+      <div id="coin-box" v-if="demoRole == 1" class="section">
         <img id="coin-logo" src="@/assets/icon/coin.png" />
         <h1 class="black-color" id="bar-value">2500</h1>
       </div>
 
-      <div>
+      <div id="mail-box">
         <div id="mail-circle">
           <img
             id="mail-logo"
@@ -202,5 +202,31 @@ i {
   border-radius: 27px;
   padding: 7px 20px 7px 7px;
   /* margin-left: 57px; */
+}
+
+@media screen and (max-width: 1350px) {
+  .search-input {
+    width: 350px;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  #profile-box,
+  #coin-box,
+  #mail-box {
+    display: none;
+  }
+
+  #search-bar{
+    display:block;
+  }
+
+  #topbar{
+    position:relative;
+  }
+
+  .search-input {
+    width: 100%;
+  }
 }
 </style>

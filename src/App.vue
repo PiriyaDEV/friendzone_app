@@ -409,6 +409,20 @@ button {
 
 /* Homepage */
 
+.bm-burger-button {
+  position: relative !important;
+  width: 25px !important;
+  height: 20px !important;
+  left: 0px !important;
+  top: 0px !important;
+}
+
+.bm-burger-bars {
+  border: none !important;
+  border-radius: 3px !important;
+  background-color: #fe8864 !important;
+}
+
 @media screen and (max-width: 2320px) {
   .event-container {
     width: 1540px;
@@ -455,15 +469,14 @@ button {
 
 @media screen and (max-width: 1350px) {
   .event-container {
-    width: 765px;
-    max-width: 765px;
+    width: 750px;
+    max-width: 750px;
   }
   /* กำลังทำ */
 }
 
 @media screen and (max-width: 1024px) {
   .page-container,
-  .event-container,
   .navbar-container {
     width: 960px;
     max-width: 960px;
@@ -471,24 +484,53 @@ button {
     padding-right: 20px;
   }
 }
-@media screen and (max-width: 768px) {
-  .page-container,
-  .event-container,
-  .navbar-container {
-    width: 720px;
-    max-width: 720px;
-  }
-}
-@media screen and (max-width: 767px) {
-  .page-container,
-  .event-container,
-  .navbar-container {
+
+@media screen and (max-width: 800px) {
+  .event-container {
     width: 720px;
     max-width: 720px;
   }
 }
 
+@media screen and (max-width: 768px) {
+  .page-container,
+  .navbar-container {
+    width: 720px;
+    max-width: 720px;
+  }
+
+  .event-container {
+    width: 660px;
+    max-width: 660px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .page-container .navbar-container {
+    width: 720px;
+    max-width: 720px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  .event-container {
+    width: 620px;
+    max-width: 620px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .event-container {
+    width: 580px;
+    max-width: 580px;
+  }
+}
+
 @media screen and (max-width: 600px) {
+  .event-container {
+    width: 540px;
+    max-width: 540px;
+  }
+
   .input_box {
     width: 268px;
   }
@@ -507,6 +549,38 @@ button {
 
   .homepage-title {
     font-size: 4.5em;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .event-container {
+    width: 500px;
+    max-width: 500px;
+  }
+
+  .event-flex-wrap-section {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 525px) {
+  .event-container {
+    width: 465px;
+    max-width: 465px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .event-container {
+    width: 430px;
+    max-width: 430px;
+  }
+}
+
+@media screen and (max-width: 445px) {
+  .event-container {
+    width: 430px;
+    max-width: 430px;
   }
 }
 
