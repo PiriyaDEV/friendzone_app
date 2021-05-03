@@ -36,11 +36,6 @@ export default {
       this.$router.push("/mainpage");
     }
   },
-  methods: {
-    goRegister() {
-      window.location.href = "/register";
-    },
-  },
 };
 </script>
 

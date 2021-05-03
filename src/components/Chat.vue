@@ -4,11 +4,11 @@
 
     <div id="chat-section">
       <div id="message-section">
-        <ChatBox></ChatBox>
+        <ChatBox :event_id="chat"></ChatBox>
       </div>
 
       <div>
-        <GroupList></GroupList>
+        <GroupList @eventChat="eventChat"></GroupList>
       </div>
     </div>
   </div>
@@ -17,11 +17,22 @@
 <script>
 import ChatBox from "@/components/chat/ChatBox.vue";
 import GroupList from "@/components/chat/GroupList.vue";
+
 export default {
   name: "chat",
+  data() {
+    return {
+      chat: [],
+    };
+  },
   components: {
     ChatBox,
     GroupList,
+  },
+  methods: {
+    eventChat(value) {
+      this.chat = value;
+    }
   },
 };
 </script>

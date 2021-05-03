@@ -2,10 +2,12 @@
   <div id="message">
     <img id="profile-logo" src="@/assets/profile/pfpic.jpg" />
     <div>
-      <h1 id="username">Finale at Finland (10/10)</h1>
+      <h1 id="username">
+        {{ event.title }} ({{ event.joined }}/{{ event.max_participant }})
+      </h1>
       <div id="message-section">
-        <h1 id="message-text">Do any of you guys have a camera?</h1>
-        <h1 id="time">15:39</h1>
+        <h1 id="message-text">{{ event.message }}</h1>
+        <h1 id="time">{{ event.created_at }}</h1>
       </div>
     </div>
   </div>
@@ -14,6 +16,7 @@
 <script>
 export default {
   components: {},
+  props: ["event"],
 };
 </script>
 

@@ -4,22 +4,23 @@
       <div id="chat-head">
         <div id="chat-box">
           <h1 class="large-text">
-            Chai Miang Chiang Mai Camp with Aj.Harryfer
+            {{ headChat.title }}
           </h1>
           <div id="user-count" class="section">
             <img class="user" src="@/assets/chat/icons8-customer-white.png" />
-            <h1 class="large-text">01/20</h1>
+            <h1 class="large-text">{{ headChat.joined }}/{{headChat.max_participant}}</h1>
           </div>
         </div>
-        <h1 class="host-text">Hosted by harryfer</h1>
+        <h1 class="host-text">Hosted by {{headChat.username}}</h1>
       </div>
     </div>
 
     <div id="message-container">
-      <UserMessage></UserMessage>
+      <!-- <UserMessage></UserMessage>
       <OrangeMessage></OrangeMessage>
       <UserMessage></UserMessage>
-      <UserMessage></UserMessage>
+      <UserMessage></UserMessage> -->
+      <h1>{{ event_id }}</h1>
     </div>
 
     <div id="sending-box">
@@ -32,13 +33,39 @@
 </template>
 
 <script>
-import UserMessage from "@/components/chat/message/UserMessage.vue";
-import OrangeMessage from "@/components/chat/message/OrangeMessage.vue";
+// import UserMessage from "@/components/chat/message/UserMessage.vue";
+// import OrangeMessage from "@/components/chat/message/OrangeMessage.vue";
+import ChatService from "../../services/chat.service";
+
 export default {
   name: "chatbox",
+  data() {
+    return {
+      messages: [],
+      headChat: [],
+    };
+  },
   components: {
-    UserMessage,
-    OrangeMessage,
+    // UserMessage,
+    // OrangeMessage,
+  },
+  props: ["event_id"],
+  watch: {
+    event_id: function() {
+      ChatService.getChatHead(this.event_id).then((res) => {
+        if (res) {
+          this.headChat = res;
+          console.log("test");
+        }
+      });
+
+      ChatService.getMessages(this.event_id).then((res) => {
+        if (res) {
+          this.messages = res;
+          console.log("test");
+        }
+      });
+    },
   },
 };
 </script>

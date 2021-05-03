@@ -31,6 +31,9 @@
         @clickManage="clickManage"
         :Event="eventData"
       />
+      <!-- Mobile Top Bar -->  
+          <MobileTopbar id="mobile-topbar"/>
+          <!-- Mobile Top Bar -->
       <link
         rel="stylesheet"
         type="text/css"
@@ -141,6 +144,7 @@
 <script>
 import MainpageMenu from "@/components/MainpageMenu.vue";
 import Topbar from "@/components/Topbar.vue";
+import MobileTopbar from "@/components/MobileTopbar.vue";
 import Yourzone from "@/components/YourZone.vue";
 import Eventpage from "@/components/Eventpage.vue";
 import Discountpage from "@/components/Discountpage.vue";
@@ -185,6 +189,7 @@ export default {
     CreateDiscount,
     EditUser,
     EditDatabase,
+    MobileTopbar
   },
   data() {
     return {
@@ -300,5 +305,44 @@ export default {
 #menubar {
   width: 260px;
   z-index: 1000;
+}
+
+#mobile-topbar{
+  display:none;
+}
+
+@media screen and (max-width: 1080px) {
+  #menubar {
+    width: 230px;
+  }
+
+  #timeline {
+    margin-left: 230px;
+  }
+}
+
+@media screen and (max-width: 1060px) {
+  #menubar {
+    width: 80px;
+  }
+
+  #timeline {
+    margin-left: 80px;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  #menubar {
+    display:none;
+  }
+
+  #timeline {
+    margin-left: 0px;
+    margin-top:70px;
+  }
+
+  #mobile-topbar{
+  display:block;
+}
 }
 </style>

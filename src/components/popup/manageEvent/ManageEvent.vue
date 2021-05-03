@@ -18,9 +18,13 @@
         </div>
         <hr id="bar" />
 
-        <EventInfo v-if="eventDetail == true" :event="Event" />
+        <EventInfo
+          v-if="eventDetail == true"
+          :event="Event"
+          @doneClick="doneClick"
+        />
 
-        <Participant v-else :status="valueShow" :event="Event" />
+        <Participant v-else :status="valueShow" :event="Event" @doneClick="doneClick"/>
 
         <img
           @click="cancelManage()"
@@ -81,6 +85,9 @@ export default {
       this.invite = true;
       this.valueShow = 3;
     },
+    doneClick(value) {
+      this.$emit("clickManage", value);
+    }
   },
   computed: {
     cssEventDetail() {
@@ -137,8 +144,7 @@ h1 {
 }
 
 #manage_event {
-  width: 700px;
-  height: 620px;
+  min-width: 700px;
   position: relative;
 }
 

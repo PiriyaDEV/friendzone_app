@@ -53,14 +53,18 @@
                 Category : <span class="gray-color">{{ category }}</span>
               </h1>
               <h1 class="detail-text black-color">
-                Preferred Participants Gender :
+                Preferred Gender :
                 <span class="gray-color">{{ gender }}</span>
               </h1>
               <h1 class="detail-text black-color">
-                Max Participants : <span class="gray-color">{{ event.max_participant }}</span>
+                Max Participants :
+                <span class="gray-color">{{ event.max_participant }}</span>
               </h1>
               <h1 class="detail-text black-color">
-                Age Limits : <span class="gray-color">{{ event.min_age }} - {{ event.max_age }}</span>
+                Age Limits :
+                <span class="gray-color"
+                  >{{ event.min_age }} - {{ event.max_age }}</span
+                >
               </h1>
             </div>
           </div>
@@ -173,6 +177,8 @@
 </template>
 
 <script>
+import EventService from "@/services/event.service";
+
 export default {
   name: "RatePopup",
   props: ["checkParticipants", "event"],
@@ -182,8 +188,8 @@ export default {
       participant: "",
       start_at: "",
       end_at: "",
-      gender: "-",
       category: "-",
+      gender: "-",
       months: [
         "Jan",
         "Feb",
@@ -201,18 +207,48 @@ export default {
     };
   },
   created() {
+    EventService.getEventGenderList(this.event.event_id).then((res) => {
+      if (res) {
+        this.gender = res
+          .map((e) => {
+            return e.gender_name;
+          })
+          .join(", ");
+      }
+    });
+    EventService.getEventCategoryList(this.event.event_id).then((res) => {
+      if (res) {
+        this.category = res
+          .map((e) => {
+            return e.category_name;
+          })
+          .join(", ");
+      }
+    });
     let start_at = new Date(this.event.start_at);
     let end_at = new Date(this.event.end_at);
     let startDate = start_at.getDate();
     let startMonth = start_at.getMonth();
     let startYear = start_at.getFullYear();
-    let startHours = start_at.getHours().toString().padStart(2, '0');
-    let startMins = start_at.getMinutes().toString().padStart(2, '0');
+    let startHours = start_at
+      .getHours()
+      .toString()
+      .padStart(2, "0");
+    let startMins = start_at
+      .getMinutes()
+      .toString()
+      .padStart(2, "0");
     let endDate = end_at.getDate();
     let endMonth = end_at.getMonth();
     let endYear = end_at.getFullYear();
-    let endHours = end_at.getHours().toString().padStart(2, '0');
-    let endMins = end_at.getMinutes().toString().padStart(2, '0');
+    let endHours = end_at
+      .getHours()
+      .toString()
+      .padStart(2, "0");
+    let endMins = end_at
+      .getMinutes()
+      .toString()
+      .padStart(2, "0");
     this.start_at = `${startDate} ${this.months[startMonth]} ${startYear} ${startHours}:${startMins}`;
     this.end_at = `${endDate} ${this.months[endMonth]} ${endYear} ${endHours}:${endMins}`;
 
@@ -220,12 +256,6 @@ export default {
       this.participant = `${this.event.joined} Participant`;
     else if (this.event.joined > 1)
       this.participant = `${this.event.joined} Participants`;
-
-    if (this.event.gender.length == 3) this.gender = "All genders";
-    else if (this.event.gender.length == 2)
-      this.gender = `${this.event.gender[0]}, ${this.event.gender[1]}`;
-    else if (this.event.gender.length == 1)
-      this.gender = `${this.event.gender[0]}`;
   },
   methods: {
     rateReturn() {

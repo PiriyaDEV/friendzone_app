@@ -11,9 +11,15 @@
             style="cursor: pointer;"
             src="@/assets/longlogo.png"
           />
+          <img
+            @click="zoneClick()"
+            id="mobile-logo"
+            style="cursor: pointer;"
+            src="@/assets/friendzone-logo.png"
+          />
           <div id="create-event-button" class="section">
             <button @click="createdReturn()">
-              CREATE EVENT
+              <span id="create-text">CREATE EVENT</span>
               <img id="plus" src="@/assets/icons8-plus-math-90.png" />
             </button>
           </div>
@@ -387,6 +393,12 @@ export default {
 #logo {
   width: 160px;
 }
+
+#mobile-logo {
+  display: none;
+  width: 40px;
+}
+
 #plus {
   width: 17px;
   padding-left: 7px;
@@ -454,5 +466,50 @@ export default {
 
 #nav-container {
   display: block;
+}
+
+@media screen and (max-width: 1080px) {
+  .menu-box {
+    width: 173px;
+  }
+}
+
+@media screen and (max-width: 1060px) {
+
+  .menu-text-select,
+  .menu-text {
+    display: none;
+  }
+
+
+  .menu-box,.menu-box-unselect {
+    justify-content: center;
+    width:inherit;
+    border: none;
+    margin-left:0px;
+    margin-top:40px;
+  }
+
+  #create-text {
+    display: none;
+  }
+
+  #plus {
+    padding: 0px;
+  }
+
+  #create-event-button > button {
+    border-radius: 50%;
+    padding: 8px;
+  }
+
+  #logo {
+    display: none;
+  }
+
+  #mobile-logo {
+    display: block;
+    margin-left:5px;
+  }
 }
 </style>
