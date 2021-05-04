@@ -53,5 +53,10 @@ export default {
   padding: 12px 17px;
   border-radius: 10px;
   height: 505px;
+  overflow-y: auto;
 }
+
+/* div::-webkit-scrollbar {
+    display: none;
+  } */
 </style>

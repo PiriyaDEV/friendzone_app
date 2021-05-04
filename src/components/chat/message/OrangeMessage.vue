@@ -1,16 +1,18 @@
 <template>
   <div id="message-box">
-    <h1 id="time">15:39</h1>
+    <h1 id="time">{{chat.created_at}}</h1>
     <div id="white-message">
       <div>
-        <h1 id="message">Do any of you guys have a camera?</h1>
+        <h1 id="message">{{ chat.message }}</h1>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["chat"],
+};
 </script>
 
 <style scoped>

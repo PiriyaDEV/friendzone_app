@@ -8,19 +8,35 @@
           </h1>
           <div id="user-count" class="section">
             <img class="user" src="@/assets/chat/icons8-customer-white.png" />
-            <h1 class="large-text">{{ headChat.joined }}/{{headChat.max_participant}}</h1>
+            <h1 class="large-text">
+              {{ headChat.joined }}/{{ headChat.max_participant }}
+            </h1>
           </div>
         </div>
-        <h1 class="host-text">Hosted by {{headChat.username}}</h1>
+        <h1 class="host-text">Hosted by {{ headChat.username }}</h1>
       </div>
     </div>
 
     <div id="message-container">
-      <!-- <UserMessage></UserMessage>
-      <OrangeMessage></OrangeMessage>
-      <UserMessage></UserMessage>
-      <UserMessage></UserMessage> -->
-      <h1>{{ event_id }}</h1>
+      <div v-for="(item, i) in messagesMe" :key="i">
+        <OrangeMessage :chat="item"></OrangeMessage>
+      </div>
+      <div v-for="(item, i) in messagesOther" :key="i">
+        <!-- <h2>
+          UserID : {{ item.user_id }} Count: {{ countUser }} Before
+          {{ tempUserID }}
+        </h2> -->
+        <UserMessage
+          :chat="item"
+          :tempUserId="messagesOther"
+          :nextUserId="messagesOther[i + 1]"
+          :count="i"
+        ></UserMessage>
+        <!-- <h2>
+          UserID : {{ item.user_id }} Count: {{ countUser }} After
+          {{ tempUserID }}
+        </h2> -->
+      </div>
     </div>
 
     <div id="sending-box">
@@ -33,9 +49,10 @@
 </template>
 
 <script>
-// import UserMessage from "@/components/chat/message/UserMessage.vue";
-// import OrangeMessage from "@/components/chat/message/OrangeMessage.vue";
+import UserMessage from "@/components/chat/message/UserMessage.vue";
+import OrangeMessage from "@/components/chat/message/OrangeMessage.vue";
 import ChatService from "../../services/chat.service";
+import decode from "jwt-decode";
 
 export default {
   name: "chatbox",
@@ -43,30 +60,53 @@ export default {
     return {
       messages: [],
       headChat: [],
+      messagesMe: [],
+      messagesOther: [],
+      UserData: [],
+      tempUserID: "",
+      countUser: 0,
     };
   },
   components: {
-    // UserMessage,
-    // OrangeMessage,
+    UserMessage,
+    OrangeMessage,
   },
   props: ["event_id"],
   watch: {
     event_id: function() {
+      this.userData = decode(localStorage.getItem("user"));
       ChatService.getChatHead(this.event_id).then((res) => {
         if (res) {
           this.headChat = res;
-          console.log("test");
         }
       });
 
       ChatService.getMessages(this.event_id).then((res) => {
         if (res) {
           this.messages = res;
-          console.log("test");
+          // console.log(this.message.user_id + "+" + this.userData.user_id);
+          if (this.messages.message != "not_found") {
+            this.messagesMe = this.messages.filter(
+              (message) => message.user_id == this.userData.user_id
+            );
+            this.messagesOther = this.messages.filter(
+              (message) => message.user_id != this.userData.user_id
+            );
+          }
         }
       });
     },
+    // countUser: function() {
+    //   this.tempUserID = this.messagesOther[this.countUser].user_id;
+    //   console.log(this.tempUserID);
+    // },
   },
+  methods: {
+    // count(value) {
+    //   this.countUser = value;
+    // },
+  },
+  computed: {},
 };
 </script>
 
@@ -115,7 +155,7 @@ export default {
   background-color: #ffffff;
   padding: 10px 20px 7px 15px;
   height: 400px;
-  overflow-y: scroll;
+  overflow-y: auto;
   box-shadow: inset 0px -14px 8px -11px #0000000d;
 }
 

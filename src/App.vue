@@ -412,7 +412,7 @@ button {
 .bm-burger-button {
   position: relative !important;
   width: 25px !important;
-  height: 20px !important;
+  height: 15px !important;
   left: 0px !important;
   top: 0px !important;
 }
@@ -421,6 +421,30 @@ button {
   border: none !important;
   border-radius: 3px !important;
   background-color: #fe8864 !important;
+}
+
+.bm-cross {
+  background: white !important;
+}
+
+.bm-item-list {
+  margin-left: 0px !important;
+}
+
+.bm-menu {
+  background-color: #fe8864 !important;
+  box-shadow: 0px 3px 30px #0000000d;
+}
+
+#event-flex-box,
+#discount-flex-box {
+  background-color: white;
+  border-radius: 17px;
+  position: relative;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  height: 270px;
+  width: 230px;
 }
 
 @media screen and (max-width: 2320px) {
@@ -472,7 +496,6 @@ button {
     width: 750px;
     max-width: 750px;
   }
-  /* กำลังทำ */
 }
 
 @media screen and (max-width: 1024px) {
@@ -485,10 +508,23 @@ button {
   }
 }
 
+@media screen and (max-width: 880px) {
+  #event-flex-box,
+  #discount-flex-box {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+}
+
 @media screen and (max-width: 800px) {
   .event-container {
     width: 720px;
     max-width: 720px;
+  }
+
+  #event-flex-box,
+  #discount-flex-box {
+    width: 340px;
   }
 }
 
@@ -499,9 +535,18 @@ button {
     max-width: 720px;
   }
 
+  #event-flex-box,
+  #discount-flex-box {
+    width: 310px;
+  }
+
   .event-container {
     width: 660px;
     max-width: 660px;
+  }
+
+  div::-webkit-scrollbar {
+    display: none;
   }
 }
 @media screen and (max-width: 767px) {
@@ -516,6 +561,11 @@ button {
     width: 620px;
     max-width: 620px;
   }
+
+  #event-flex-box,
+  #discount-flex-box {
+    width: 290px;
+  }
 }
 
 @media screen and (max-width: 650px) {
@@ -523,12 +573,22 @@ button {
     width: 580px;
     max-width: 580px;
   }
+
+  #event-flex-box,
+  #discount-flex-box {
+    width: 270px;
+  }
 }
 
 @media screen and (max-width: 600px) {
   .event-container {
     width: 540px;
     max-width: 540px;
+  }
+
+  #event-flex-box,
+  #discount-flex-box {
+    width: 250px;
   }
 
   .input_box {
@@ -558,8 +618,9 @@ button {
     max-width: 500px;
   }
 
-  .event-flex-wrap-section {
-    justify-content: center;
+  #event-flex-box,
+  #discount-flex-box {
+    width: 230px;
   }
 }
 
@@ -568,6 +629,15 @@ button {
     width: 465px;
     max-width: 465px;
   }
+
+  #event-flex-box,
+  #discount-flex-box {
+    width: 380px;
+  }
+
+  .event-flex-wrap-section {
+    justify-content: center;
+  }
 }
 
 @media screen and (max-width: 490px) {
@@ -575,12 +645,26 @@ button {
     width: 430px;
     max-width: 430px;
   }
+
+  #event-flex-box,
+  #discount-flex-box {
+    width: 360px;
+  }
+
+  .event-header {
+    font-size: 3em;
+  }
 }
 
-@media screen and (max-width: 445px) {
+@media screen and (max-width: 450px) {
   .event-container {
-    width: 430px;
-    max-width: 430px;
+    width: 390px;
+    max-width: 390px;
+  }
+
+  #event-flex-box,
+  #discount-flex-box {
+    width: 325px;
   }
 }
 
@@ -613,6 +697,14 @@ button {
     width: 120px;
   }
 }
+
+@media screen and (max-width: 400px) {
+  .event-container {
+    width: 360px;
+    max-width: 360px;
+  }
+}
+
 @media screen and (max-width: 375px) {
   .page-container,
   .event-container,
@@ -621,12 +713,24 @@ button {
     max-width: 355px;
   }
 }
+
+@media screen and (max-width: 370px) {
+  .event-container {
+    width: 335px;
+    max-width: 335px;
+  }
+}
+
 @media screen and (max-width: 360px) {
   .page-container,
-  .event-container,
   .navbar-container {
     width: 335px;
     max-width: 335px;
+  }
+
+  .event-container {
+    width: 325px;
+    max-width: 325px;
   }
 
   .input_box {

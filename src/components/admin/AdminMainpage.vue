@@ -1,78 +1,85 @@
 <template>
-  <div id="admin-mainpage" class="event-container">
-    <div>
-      <div id="flex-select">
-        <div @click="editReturn()" id="flex-role" class="flex-box">
-          <h1 class="flex-title">ADD NEW ROLES</h1>
-          <h1 class="flex-subtitle">TO EXISTING USER</h1>
-        </div>
-        <div @click="createReturn()" id="flex-discount" class="flex-box">
-          <h1 class="flex-title">CREATE NEW DISCOUNT</h1>
-          <h1 class="flex-subtitle">FOR USER</h1>
-        </div>
-        <div @click="editDatabase()" id="flex-edit" class="flex-box">
-          <h1 class="flex-title">EDIT DATABASE</h1>
-          <h1 class="flex-subtitle">REPORT & CATEGORY TYPE</h1>
-        </div>
-      </div>
-
-      <div id="middle-column">
-        <div id="report">
-          <div class="title-section">
-            <h1 class="title header white-color">RECENT REPORT</h1>
-            <div class="second-title">
-              <h1>See All</h1>
-              <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-            </div>
+  <div>
+    <div id="admin-mainpage" class="event-container">
+      <div>
+        <div id="flex-select">
+          <div @click="editReturn()" id="flex-role" class="flex-box">
+            <h1 class="flex-title">ADD NEW ROLES</h1>
+            <h1 class="flex-subtitle">TO EXISTING USER</h1>
           </div>
+          <div @click="createReturn()" id="flex-discount" class="flex-box">
+            <h1 class="flex-title">CREATE NEW DISCOUNT</h1>
+            <h1 class="flex-subtitle">FOR USER</h1>
+          </div>
+          <div @click="editDatabase()" id="flex-edit" class="flex-box">
+            <h1 class="flex-title">EDIT DATABASE</h1>
+            <h1 class="flex-subtitle">REPORT & CATEGORY TYPE</h1>
+          </div>
+        </div>
 
-          <div>
-            <div id="report-menu">
-              <div id="report-middle-menu">
-                <h1 id="menu-text-id" class="menu-text">ID</h1>
-                <h1 class="menu-text">TITLE</h1>
-                <h1 class="menu-text">TYPE</h1>
-                <h1 class="menu-text">CAREGORIES</h1>
-                <h1 class="menu-text">STATUS</h1>
-              </div>
-              <div id="space-button"></div>
-            </div>
-            <div id="report-box">
-              <div v-for="(item, i) in eventList" :key="i">
-                <ReportBox />
+        <div id="middle-column">
+          <div id="report">
+            <div class="title-section">
+              <h1 class="title header white-color">RECENT REPORT</h1>
+              <div class="second-title">
+                <h1>See All</h1>
+                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div id="employee">
-          <div class="title-section">
-            <h1 class="title header white-color">EMPLOYEES</h1>
-          </div>
-          <div
-            style="margin-top:10px; width:330px; height:280px; border:none; background-color: #626262; border-radius: 8px;"
-          ></div>
-        </div>
-      </div>
-
-      <h1 class="title header white-color">RECENT DISCOUNT</h1>
-
-      <div id="discount-page-section">
-        <!-- Event -->
-        <div class="event-section">
-          <div id="container">
-            <div class="event-container">
-              <div class="list event-flex-section">
+            <div>
+              <div id="report-menu">
+                <div id="report-middle-menu">
+                  <h1 id="menu-text-id" class="menu-text">ID</h1>
+                  <h1 class="menu-text">TITLE</h1>
+                  <h1 class="menu-text">TYPE</h1>
+                  <h1 class="menu-text">CAREGORIES</h1>
+                  <h1 class="menu-text">STATUS</h1>
+                </div>
+                <div id="space-button"></div>
+              </div>
+              <div id="report-box">
                 <div v-for="(item, i) in eventList" :key="i">
-                  <DiscountFlex
-                    @clickDiscountFlex="clickDiscountFlex"
-                  ></DiscountFlex>
+                  <ReportBox />
                 </div>
               </div>
             </div>
           </div>
+
+          <div id="employee">
+            <div class="title-section">
+              <h1 class="title header white-color">EMPLOYEES</h1>
+            </div>
+            <div
+              style="margin-top:10px; width:330px; height:280px; border:none; background-color: #626262; border-radius: 8px;"
+            ></div>
+          </div>
         </div>
-        <!-- Event -->
+
+        <h1 class="title header white-color">RECENT DISCOUNT</h1>
+
+        <div id="discount-page-section">
+      <!-- Event -->
+      <div class="event-section">
+        <div id="container">
+          <div
+            id="list-container"
+            @mouseover="hovered = true"
+            @mouseleave="hovered = false"
+            class="event-container"
+          >
+            <div class="list event-flex-section">
+              <div v-for="(item, i) in eventList" :key="i">
+                <DiscountFlex
+                  @clickDiscountFlex="clickDiscountFlex"
+                ></DiscountFlex>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Event -->
+    </div>
       </div>
     </div>
   </div>
@@ -250,4 +257,5 @@ export default {
   overflow-x: hidden;
   height: 260px;
 }
+
 </style>

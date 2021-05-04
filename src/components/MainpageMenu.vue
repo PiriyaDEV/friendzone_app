@@ -131,8 +131,7 @@
         <!-- Report -->
         <div
           @click="reportClick()"
-          style="margin-top: 210px; cursor: pointer;"
-          class="section"
+          class="bottom-menu section"
           :class="reportbox"
         >
           <div>
@@ -449,6 +448,11 @@ export default {
   justify-content: center;
 }
 
+.bottom-menu {
+  margin-top: 210px;
+  cursor: pointer;
+}
+
 #create-event-button > button {
   background-color: #ff8864;
   border: none;
@@ -475,19 +479,22 @@ export default {
 }
 
 @media screen and (max-width: 1060px) {
-
   .menu-text-select,
   .menu-text {
     display: none;
   }
 
+  .bottom-menu {
+    margin-top: 70px !important;
+  }
 
-  .menu-box,.menu-box-unselect {
+  .menu-box,
+  .menu-box-unselect {
     justify-content: center;
-    width:inherit;
+    width: inherit;
     border: none;
-    margin-left:0px;
-    margin-top:40px;
+    margin-left: 0px;
+    margin-top: 40px;
   }
 
   #create-text {
@@ -509,7 +516,7 @@ export default {
 
   #mobile-logo {
     display: block;
-    margin-left:5px;
+    margin-left: 5px;
   }
 }
 </style>

@@ -6,6 +6,12 @@
       <div id="top-half" class="section">
         <div>
           <img id="logo" src="@/assets/longlogo.png" />
+          <img
+            @click="zoneClick()"
+            id="mobile-logo"
+            style="cursor: pointer;"
+            src="@/assets/friendzone-logo.png"
+          />
         </div>
       </div>
 
@@ -123,7 +129,7 @@
         <div
           @click="signoutClick()"
           :class="signoutbox"
-          style="margin-top: 210px;  cursor: pointer;"
+          class="bottom-menu"
         >
           <div>
             <img
@@ -344,6 +350,12 @@ export default {
   margin-left: 43px;
   padding: 3px 10px;
 }
+
+#mobile-logo {
+  display: none;
+  width: 40px;
+}
+
 .menu-text {
   font-family: "Atten-Round-New";
   font-size: 2em;
@@ -372,22 +384,43 @@ export default {
   justify-content: center;
 }
 
-#create-event-button > button {
-  background-color: #ff8864;
-  border: none;
-  border-radius: 20px;
-  font-size: 1.75em;
-  font-weight: 450;
-  color: #ffffff;
-  padding: 6px 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 45px;
-  margin-bottom: 40px;
-}
 
 #nav-container {
   display: block;
+}
+
+@media screen and (max-width: 1080px) {
+  .menu-box {
+    width: 173px;
+  }
+}
+
+@media screen and (max-width: 1060px) {
+  .menu-text-select,
+  .menu-text {
+    display: none;
+  }
+
+  .bottom-menu {
+    margin-top: 70px !important;
+  }
+
+  .menu-box,
+  .menu-box-unselect {
+    justify-content: center;
+    width: inherit;
+    border: none;
+    margin-left: 0px;
+    margin-top: 40px;
+  }
+
+  #logo {
+    display: none;
+  }
+
+  #mobile-logo {
+    display: block;
+    margin-left: 5px;
+  }
 }
 </style>

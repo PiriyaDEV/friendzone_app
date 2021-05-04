@@ -31,9 +31,14 @@
         @clickManage="clickManage"
         :Event="eventData"
       />
-      <!-- Mobile Top Bar -->  
-          <MobileTopbar id="mobile-topbar"/>
-          <!-- Mobile Top Bar -->
+      <!-- Mobile Top Bar -->
+      <MobileTopbar id="mobile-topbar"
+        @clickClearSearch="clickClearSearch"
+        @pageReturn="pageReturn"
+        @clickCreate="clickCreate"
+        @clickDetail="clickDetail"
+      />
+      <!-- Mobile Top Bar -->
       <link
         rel="stylesheet"
         type="text/css"
@@ -97,6 +102,11 @@
           </div>
         </div>
       </div>
+      <div id="mobile-add">
+        <button @click="createShow = true" class="section">
+          <img id="plus" src="@/assets/icons8-plus-math-90.png" />
+        </button>
+      </div>
     </div>
     <!-- User -->
     <!-- Admin -->
@@ -117,6 +127,10 @@
       />
 
       <CreateDiscount v-if="createShow" @clickCreate="clickCreate" />
+
+      <!-- Mobile Top Bar -->
+      <MobileTopbar id="mobile-topbar" />
+      <!-- Mobile Top Bar -->
 
       <div id="mainpage-background" class="section">
         <AdminMenu id="menubar" @pageReturnAdmin="pageReturnAdmin" />
@@ -189,7 +203,7 @@ export default {
     CreateDiscount,
     EditUser,
     EditDatabase,
-    MobileTopbar
+    MobileTopbar,
   },
   data() {
     return {
@@ -302,13 +316,37 @@ export default {
   margin-left: 260px;
 }
 
+#mobile-add {
+  display: none;
+  position: fixed;
+  z-index: 9998;
+  bottom: 15px;
+  right: 15px;
+  box-shadow: 0px 3px 30px #0000000d;
+}
+
+#plus {
+  width: 30px;
+  padding: 10px;
+}
+
+#mobile-add > button {
+  background-color: #ff8864;
+  border: none;
+  font-size: 1.75em;
+  font-weight: 450;
+  color: #ffffff;
+  border-radius: 50%;
+  padding: 8px;
+}
+
 #menubar {
   width: 260px;
   z-index: 1000;
 }
 
-#mobile-topbar{
-  display:none;
+#mobile-topbar {
+  display: none;
 }
 
 @media screen and (max-width: 1080px) {
@@ -333,16 +371,34 @@ export default {
 
 @media screen and (max-width: 880px) {
   #menubar {
-    display:none;
+    display: none;
   }
 
   #timeline {
     margin-left: 0px;
-    margin-top:70px;
+    margin-top: 70px;
   }
 
-  #mobile-topbar{
-  display:block;
+  #mobile-topbar {
+    display: block;
+  }
+
+  #mobile-add {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  #plus {
+  width: 25px;
+  padding: 7px;
+}
+}
+
+@media screen and (max-width: 490px) {
+  #plus {
+  width: 23px;
+  padding: 5px;
 }
 }
 </style>
