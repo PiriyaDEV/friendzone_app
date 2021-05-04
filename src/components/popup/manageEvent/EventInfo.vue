@@ -1,6 +1,6 @@
 <template>
   <div id="eventinfo">
-    <div id="info-section" class="section">
+    <div id="info-section">
       <div id="left">
         <img id="event-image" :src="event.event_pic" alt="" />
         <div class="info-box">
@@ -163,6 +163,7 @@ h1 {
 
 #info-section {
   display: flex;
+  justify-content: center;
   margin-top: 20px;
 }
 

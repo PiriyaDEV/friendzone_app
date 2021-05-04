@@ -24,7 +24,6 @@ class ChatService {
     const res = await axios.get(URL + "getMessages/" + event_id, {
       headers: authHeader(),
     });
-    console.log("YO wwotttt");
     return res.data;
   }
 }

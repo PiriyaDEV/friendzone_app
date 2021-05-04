@@ -178,7 +178,7 @@
                 By continuing you accept the
                 <span style="color: #ff8864">Terms of Use</span> and
                 <span style="color: #ff8864"> Privacy Policy </span>, <br />
-                that your data will be stored, and that you are 18 years or
+                that your data will be stored, and that you are 13 years or
                 older.
               </p>
             </div>
@@ -344,9 +344,9 @@ export default {
       } else if (this.year < 1921) {
         this.invalidDate = true;
         this.alertDate = "you are too old";
-      } else if (this.year > 2002) {
+      } else if (this.year > 2007) {
         this.invalidDate = true;
-        this.alertDate = "you must be 18 years or older";
+        this.alertDate = "you must be 13 years or older";
       }
       if (!this.year) this.invalidDate = false;
     },

@@ -1,6 +1,6 @@
 <template>
   <div id="message">
-    <img id="profile-logo" src="@/assets/profile/pfpic.jpg" />
+    <img id="profile-logo" :src="pic" />
     <div>
       <h1 id="username">
         {{ event.title }} ({{ event.joined }}/{{ event.max_participant }})
@@ -17,6 +17,12 @@
 export default {
   components: {},
   props: ["event"],
+  computed:{
+    pic() {
+      let link = "http://localhost:8080/api/event/displayPic/";
+      return link + this.event.event_id;
+    },
+  }
 };
 </script>
 
@@ -26,12 +32,13 @@ export default {
   width: 34px;
   height: 34px;
   margin-right: 13px;
+  object-fit: cover;
 }
 
 #message {
   display: flex;
   justify-content: flex-start;
-  margin: 20px 0px;
+  margin: 15px 0px;
 }
 
 #username {

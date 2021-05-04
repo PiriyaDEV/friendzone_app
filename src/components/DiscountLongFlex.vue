@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="statusYourZone == true" id="discount-box">
+    <div v-if="statusYourZone == true" id="discount-flex-box">
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -31,7 +31,7 @@
       v-else
       @click="clickDiscount()"
       style="cursor:pointer;"
-      id="discount-box"
+      id="discount-flex-box"
     >
       <link
         rel="stylesheet"
@@ -78,15 +78,6 @@ export default {
 </script>
 
 <style scoped>
-#discount-box {
-  background-color: white;
-  border-radius: 17px;
-  position: relative;
-  margin-right: 20px;
-  margin-bottom: 20px;
-  height: 270px;
-  width: 230px;
-}
 
 .discount-pic {
   width: 100%;

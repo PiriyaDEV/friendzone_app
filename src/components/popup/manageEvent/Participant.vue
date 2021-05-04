@@ -1,27 +1,20 @@
 <template>
   <div id="participant">
     <div v-if="status == 1">
-      <h1 class="title">Participants ({{ event.joined }}/{{ event.max_participant }})</h1>
-
-      <div class="small-box">
-        <div v-for="(item, i) in eventList" :key="i">
-          <Userbox :select="status" />
-        </div>
-      </div>
-
-      <h1 class="title">Pending (1)</h1>
-
-      <div class="small-box">
-        <div v-for="(item, i) in eventList" :key="i">
-          <Userbox :select="status" />
+      <h1 class="title">
+        Participants ({{ joinedList.length }}/{{ event.max_participant }})
+      </h1>
+      <div class="large-box">
+        <div v-for="(item, i) in joinedList" :key="i">
+          <Userbox :select="status" :user="item" />
         </div>
       </div>
     </div>
     <div v-if="status == 2">
-      <h1 class="title">Request (1)</h1>
+      <h1 class="title">Request ({{ requestedList.length }})</h1>
       <div class="large-box">
-        <div v-for="(item, i) in eventList" :key="i">
-          <Userbox :select="status" />
+        <div v-for="(item, i) in requestedList" :key="i">
+          <Userbox :select="status" :user="item" />
         </div>
       </div>
     </div>
@@ -38,13 +31,13 @@
       </div>
       <!-- Input -->
       <div v-if="search">
-        <h1 class="title">Followers ({{ eventList }})</h1>
+        <h1 class="title">Followers ({{ joinedList.length }})</h1>
         <div class="small-box">
           <div v-for="(item, i) in eventList" :key="i">
             <Userbox :select="status" />
           </div>
         </div>
-        <h1 class="title">Others ({{ eventList }})</h1>
+        <h1 class="title">Others ({{ joinedList.length }})</h1>
         <div class="small-box">
           <div v-for="(item, i) in eventList" :key="i">
             <Userbox :select="status" />
@@ -61,16 +54,34 @@
 
 <script>
 import Userbox from "@/components/popup/manageEvent/Userbox.vue";
+import EventService from "@/services/event.service";
+
 export default {
   data() {
     return {
-      eventList: 10,
+      eventList: 2,
+      joinedList: [],
+      requestedList: [],
       search: "",
     };
   },
   props: ["status", "event"],
   components: {
     Userbox,
+  },
+  created() {
+    if (this.status == 1 || this.status == 2) {
+      EventService.getEventParticipantList(this.event.event_id).then((res) => {
+        if (res) {
+          this.joinedList = res.filter(
+            (participant) => participant.status_id == "ST11"
+          );
+          this.requestedList = res.filter(
+            (participant) => participant.status_id == "ST13"
+          );
+        }
+      });
+    }
   },
   methods: {
     done() {
@@ -94,8 +105,8 @@ h1 {
 }
 
 #button {
-  display:flex;
-  justify-content:flex-end;
+  display: flex;
+  justify-content: flex-end;
   margin: 30px 0px;
 }
 
@@ -157,11 +168,11 @@ i {
 
 .small-box {
   height: 130px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .large-box {
   height: 300px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 </style>

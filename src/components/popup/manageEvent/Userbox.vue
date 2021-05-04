@@ -7,12 +7,12 @@
         </div>
 
         <div v-if="select == 1" class="namerole">
-          <h1 class="title">Harryfer</h1>
-          <h1 class="title">host</h1>
+          <h1 class="title">{{ user.username }}</h1>
+          <h1 class="title">{{ eventRole }}</h1>
         </div>
 
         <div v-if="select == 2 || select == 3" class="namerole">
-          <h1 class="title">Harryfer</h1>
+          <h1 class="title">{{ user.username }}</h1>
           <div>
             <!-- Rating -->
             <div id="rating">
@@ -63,6 +63,12 @@
       </div>
 
       <div id="button-section">
+        <button v-if="select == 1" class="button moderator">
+          Move to Participant
+        </button>
+        <button v-if="select == 1" class="button moderator">
+          Move to Moderator
+        </button>
         <button v-if="select == 1" class="button delete">Delete</button>
         <button v-if="select == 3" class="button delete">Invite</button>
         <button v-if="select == 2" class="button decline">Decline</button>
@@ -74,34 +80,16 @@
 </template>
 
 <script>
-import User from "./../../../models/user";
-import UserService from "./../../../services/user.service";
 export default {
   data() {
     return {
-      user: new User({
-        username: "",
-        email: "",
-        firstname: "",
-        lastname: "",
-        phone: "",
-        gender: "",
-        profile_pic: "",
-        birthdate: "",
-        bio: "",
-      }),
-      fullname: "",
+      eventRole: "Participant",
     };
   },
-  props: ["select"],
+  props: ["select", "user"],
   created() {
-    UserService.getUserDetail().then((res) => {
-      if (res) {
-        this.user = res;
-        console.log(this.user.bio);
-        this.fullname = this.user.firstname + " " + this.user.lastname;
-      }
-    });
+    if (this.user.moderator != 0) this.eventRole = "Moderator";
+    else if (this.user.host == 1) this.eventRole = "Host";
   },
 };
 </script>
@@ -166,6 +154,11 @@ h1 {
 .delete {
   color: #ff8864;
   border: 1.5px solid #ff8864;
+}
+
+.moderator {
+  color: #a0a0a0;
+  border: 1.5px solid #a0a0a0;
 }
 
 .decline {

@@ -1,5 +1,5 @@
 <template>
-  <div id="event-box">
+  <div id="event-flex-box">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -127,15 +127,6 @@ export default {
 </script>
 
 <style scoped>
-#event-box {
-  background-color: white;
-  border-radius: 17px;
-  position: relative;
-  margin-right: 20px;
-  margin-bottom: 20px;
-  height: 270px;
-  width: 230px;
-}
 
 .event-pic {
   width: 100%;
@@ -186,7 +177,7 @@ export default {
   font-size: 1.75em;
   font-weight: 450;
   color: #444444;
-  max-width: 200px;
+  max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -251,7 +242,7 @@ export default {
   font-weight: 400;
   color: #a0a0a0;
   height: 18px;
-  max-width: 200px;
+  max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -334,64 +325,5 @@ export default {
 .full {
   color: #ff8864 !important;
   font-weight: 600 !important;
-}
-
-@media screen and (max-width: 880px) {
-  #event-box {
-    margin-right: 10px;
-    margin-left: 10px;
-  }
-}
-
-@media screen and (max-width: 800px) {
-  #event-box {
-    width: 340px;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  #event-box {
-    width: 310px;
-  }
-}
-
-@media screen and (max-width: 690px) {
-  #event-box {
-    width: 290px;
-  }
-}
-
-@media screen and (max-width: 650px) {
-  #event-box {
-    width: 270px;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  #event-box {
-    width: 250px;
-  }
-}
-
-@media screen and (max-width: 570px) {
-  #event-box {
-    width: 480px;
-  }
-}
-
-@media screen and (max-width: 525px) {
-  #event-box {
-    width: 440px;
-  }
-}
-
-@media screen and (max-width: 490px) {
-  #event-box {
-    width: 410px;
-  }
-}
-
-@media screen and (max-width: 445px) {
-
 }
 </style>

@@ -79,17 +79,18 @@
                 <select
                   name="gender"
                   class="input_select minimal"
-                  v-model="user_selected"
+                  v-model="selected"
                   required
                 >
                   <option value="" disabled selected hidden>
                     select participants
                   </option>
-                  <option value="1">Harry</option>
-                  <option value="2">Piriya</option>
-                  <option value="3">Bm</option>
-                  <option value="3">Big</option>
-                  <option value="3">4Most</option>
+                  <option
+                    v-for="(participant, i) in participantList"
+                    :key="i"
+                    :value="participant.event_participant_id"
+                    >{{ participant.username }}</option
+                  >
                 </select>
               </div>
               <!-- Input -->
@@ -101,9 +102,16 @@
                 </h2>
                 <div class="section">
                   <!-- Star -->
-                  <div>
-                    <!-- <img class="star" src="@/assets/icon/icons8-star-96.png" /> -->
+                  <div v-if="rating[0] == false">
                     <img
+                      @click="rateClick(1)"
+                      class="star"
+                      src="@/assets/icon/icons8-star-96.png"
+                    />
+                  </div>
+                  <div v-else>
+                    <img
+                      @click="rateClick(1)"
                       class="star"
                       src="@/assets/icon/icons8-star-96-orange.png"
                     />
@@ -112,32 +120,73 @@
 
                   <!-- Star -->
                   <div>
-                    <img class="star" src="@/assets/icon/icons8-star-96.png" />
-                    <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
+                    <img
+                      v-if="rating[1] == false"
+                      @click="rateClick(2)"
+                      class="star"
+                      src="@/assets/icon/icons8-star-96.png"
+                    />
+                    <img
+                      v-else
+                      @click="rateClick(2)"
+                      class="star"
+                      src="@/assets/icon/icons8-star-96-orange.png"
+                    />
                   </div>
                   <!-- Star -->
 
                   <!-- Star -->
                   <div>
-                    <img class="star" src="@/assets/icon/icons8-star-96.png" />
-                    <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
+                    <img
+                      v-if="!rating[2]"
+                      @click="rateClick(3)"
+                      class="star"
+                      src="@/assets/icon/icons8-star-96.png"
+                    />
+                    <img
+                      v-if="rating[2]"
+                      @click="rateClick(3)"
+                      class="star"
+                      src="@/assets/icon/icons8-star-96-orange.png"
+                    />
                   </div>
                   <!-- Star -->
 
                   <!-- Star -->
                   <div>
-                    <img class="star" src="@/assets/icon/icons8-star-96.png" />
-                    <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
+                    <img
+                      v-if="!rating[3]"
+                      @click="rateClick(4)"
+                      class="star"
+                      src="@/assets/icon/icons8-star-96.png"
+                    />
+                    <img
+                      v-if="rating[3]"
+                      @click="rateClick(4)"
+                      class="star"
+                      src="@/assets/icon/icons8-star-96-orange.png"
+                    />
                   </div>
                   <!-- Star -->
 
                   <!-- Star -->
                   <div>
-                    <img class="star" src="@/assets/icon/icons8-star-96.png" />
-                    <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
+                    <img
+                      v-if="!rating[4]"
+                      @click="rateClick(5)"
+                      class="star"
+                      src="@/assets/icon/icons8-star-96.png"
+                    />
+                    <img
+                      v-if="rating[4]"
+                      @click="rateClick(5)"
+                      class="star"
+                      src="@/assets/icon/icons8-star-96-orange.png"
+                    />
                   </div>
                   <!-- Star -->
                 </div>
+                <h1>{{ rating }}</h1>
               </div>
               <!-- Input -->
 
@@ -184,7 +233,9 @@ export default {
   props: ["checkParticipants", "event"],
   data() {
     return {
-      user_selected: "",
+      selected: "",
+      participantList: [],
+      rating: [true, false, false, false, false],
       participant: "",
       start_at: "",
       end_at: "",
@@ -225,6 +276,13 @@ export default {
           .join(", ");
       }
     });
+    EventService.getParticipantToReview(this.event.event_id).then((res) => {
+      if (res) {
+        this.participantList = res.filter(
+          (participant) => !participant.reviewed
+        );
+      }
+    });
     let start_at = new Date(this.event.start_at);
     let end_at = new Date(this.event.end_at);
     let startDate = start_at.getDate();
@@ -258,13 +316,23 @@ export default {
       this.participant = `${this.event.joined} Participants`;
   },
   methods: {
+    rateClick(rating) {
+      this.rating.fill(false);
+      this.rating.fill(true, 0, rating);
+      console.log(this.rating);
+    },
     rateReturn() {
       this.$emit("clickShowed", false);
     },
     test() {
-      alert(this.checkParticipants);
+      alert(this.selected);
     },
   },
+  watch: {
+    rating: function() {
+      console.log("test");
+    }
+  }
 };
 </script>
 

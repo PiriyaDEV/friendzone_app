@@ -85,6 +85,27 @@ class EventService {
     return res.data;
   }
 
+  async getEventParticipantList(event_id) {
+    const res = await axios.get(API_URL + "getEventParticipantList/" + event_id, {
+      headers: authHeader(),
+    });
+
+    await res.data.forEach((participant) => {
+      participant.profile_pic =  "http://localhost:8080/api/user/displayPic/" + participant.user_id;
+    });
+
+    return res.data;
+  }
+
+  async getParticipantToReview(event_id) {
+    let user = decode(localStorage.getItem("user")); //URL + "displayIcon?category_id=" + category.category_id + "&type=white";
+    const res = await axios.get(API_URL + "getParticipantToReview/?event_id=" + event_id + "&user_id=" + user.user_id, {
+      headers: authHeader(),
+    });
+
+    return res.data;
+  }
+
   async getHostedEvent() {
     let user = decode(localStorage.getItem("user"));
     const res = await axios.get(API_URL + "getHostedEvent/" + user.user_id, {
