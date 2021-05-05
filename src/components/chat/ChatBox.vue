@@ -1,5 +1,5 @@
 <template>
-  <div id="chatbox-section">
+  <div v-if="showChat" id="chatbox-section">
     <div id="chat-container">
       <div id="chat-head">
         <div id="chat-box">
@@ -17,32 +17,37 @@
       </div>
     </div>
 
-    <div id="message-container">
-      <div v-for="(item, i) in messagesMe" :key="i">
-        <OrangeMessage :chat="item"></OrangeMessage>
-      </div>
-      <div v-for="(item, i) in messagesOther" :key="i">
-        <!-- <h2>
-          UserID : {{ item.user_id }} Count: {{ countUser }} Before
-          {{ tempUserID }}
-        </h2> -->
-        <UserMessage
-          :chat="item"
-          :tempUserId="messagesOther"
-          :nextUserId="messagesOther[i + 1]"
-          :count="i"
-        ></UserMessage>
-        <!-- <h2>
-          UserID : {{ item.user_id }} Count: {{ countUser }} After
-          {{ tempUserID }}
-        </h2> -->
+    <div id="message-container" ref="messagecontainer">
+      <div v-show="messages.length" v-for="(chat, i) in messages" :key="i">
+        <div v-if="chat.showDate" class="section">
+          <div id="date">
+            <h1>{{ chat.date }}</h1>
+          </div>
+        </div>
+        <div v-if="chat.me">
+          <OrangeMessage :chat="chat"></OrangeMessage>
+        </div>
+        <div v-else>
+          <UserMessage
+            :chat="chat"
+            :nextUserId="messages[i + 1]"
+            :previousUserId="messages[i - 1]"
+          ></UserMessage>
+        </div>
       </div>
     </div>
 
     <div id="sending-box">
       <div id="sending-section">
-        <input id="input" type="text" autocomplete="off" />
-        <button id="send-btn">send</button>
+        <input
+          @keyup.enter="sendMessage()"
+          id="input"
+          type="text"
+          v-model="inputMessage"
+        />
+        <div @click="sendMessage()" id="send-btn">
+          Send
+        </div>
       </div>
     </div>
   </div>
@@ -51,7 +56,7 @@
 <script>
 import UserMessage from "@/components/chat/message/UserMessage.vue";
 import OrangeMessage from "@/components/chat/message/OrangeMessage.vue";
-import ChatService from "../../services/chat.service";
+import ChatService from "@/services/chat.service";
 import decode from "jwt-decode";
 
 export default {
@@ -64,14 +69,17 @@ export default {
       messagesOther: [],
       UserData: [],
       tempUserID: "",
+      inputMessage: "",
       countUser: 0,
+      clock: 0,
+      day: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     };
   },
   components: {
     UserMessage,
     OrangeMessage,
   },
-  props: ["event_id"],
+  props: ["event_id", "showChat"],
   watch: {
     event_id: function() {
       this.userData = decode(localStorage.getItem("user"));
@@ -81,32 +89,80 @@ export default {
         }
       });
 
+      this.getChatData();
+    },
+  },
+  created() {
+    setInterval(this.clock++, 1000);
+  },
+  destroyed() {
+    clearInterval();
+  },
+  mounted() {
+    this.scrollToEnd();
+  },
+  updated() {
+    this.scrollToEnd();
+  },
+  methods: {
+    scrollToEnd() {
+      var content = this.$refs.messagecontainer;
+      content.scrollTop = content.scrollHeight;
+    },
+    sendMessage() {
+      if (this.inputMessage) {
+        ChatService.create({
+          event_id: this.event_id,
+          message: this.inputMessage,
+        })
+          .then((res) => {
+            if (res.message == "chat created") {
+              this.inputMessage = "";
+              this.getChatData();
+            }
+          })
+          .catch(() => {
+            console.log("Couldn't send the message!");
+          });
+      } else console.log("Nothing to send!");
+    },
+    getChatData() {
       ChatService.getMessages(this.event_id).then((res) => {
         if (res) {
           this.messages = res;
-          // console.log(this.message.user_id + "+" + this.userData.user_id);
           if (this.messages.message != "not_found") {
-            this.messagesMe = this.messages.filter(
-              (message) => message.user_id == this.userData.user_id
-            );
-            this.messagesOther = this.messages.filter(
-              (message) => message.user_id != this.userData.user_id
-            );
+            this.messages.forEach((message, index) => {
+              let createTime = new Date(message.created_at);
+              message.date =
+                this.day[createTime.getDay()] +
+                ", " +
+                createTime
+                  .getDate()
+                  .toString()
+                  .padStart(2, "0") +
+                "/" +
+                (createTime.getMonth() + 1).toString().padStart(2, "0") +
+                "/" +
+                createTime
+                  .getFullYear()
+                  .toString()
+                  .substr(-2);
+              if (index) {
+                if (message.date == this.messages[index - 1].date)
+                  message.showDate = false;
+                else message.showDate = true;
+              } else {
+                message.showDate = true;
+              }
+
+              if (message.user_id == this.userData.user_id) message.me = true;
+              else message.me = false;
+            });
           }
         }
       });
     },
-    // countUser: function() {
-    //   this.tempUserID = this.messagesOther[this.countUser].user_id;
-    //   console.log(this.tempUserID);
-    // },
   },
-  methods: {
-    // count(value) {
-    //   this.countUser = value;
-    // },
-  },
-  computed: {},
 };
 </script>
 
@@ -137,6 +193,10 @@ export default {
   margin-right: 5px;
 }
 
+div::-webkit-scrollbar {
+  display: none;
+}
+
 .large-text {
   font-size: 2em;
   color: #ffffff;
@@ -149,6 +209,21 @@ export default {
   color: #ffc661;
   font-weight: 400;
   margin: 5px 0px 0px 0px;
+}
+
+#date {
+  background-color: #a0a0a0;
+  color: #ffffff;
+  padding: 4px 7px;
+  text-align: center;
+  border: none;
+  border-radius: 24px;
+}
+
+#date > h1 {
+  font-size: 1.25em;
+  font-weight: 400;
+  margin: 0px;
 }
 
 #message-container {
@@ -170,10 +245,10 @@ export default {
   border-radius: 3px;
   background-color: #f7f7f7;
   border: none;
-  padding: 5px 15px;
+  padding: 5px 7px;
   font-size: 1.75em;
   color: #a0a0a0;
-  font-weight: 600;
+  font-weight: 400;
   width: 100%;
 }
 
@@ -185,11 +260,33 @@ export default {
   border: none;
   padding: 4px 30px;
   margin-left: 14px;
+  cursor: pointer;
 }
 
 #sending-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@media screen and (max-width: 880px) {
+  #chatbox-section {
+    margin-right: 0px;
+    margin-bottom: 50px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  #send-btn {
+    padding: 4px 17px;
+  }
+
+  .user {
+    width: 16px;
+  }
+
+  #input {
+    padding: 5px;
+  }
 }
 </style>

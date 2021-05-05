@@ -56,6 +56,7 @@
           />
         </div>
         <div id="right">
+          <img id="coin-logo" src="@/assets/icon/coin.png" />
           <img
             id="mail-logo"
             src="@/assets/icon/icons8-important-mail-96@2x.png"
@@ -164,8 +165,7 @@ export default {
       this.$emit("clickDetail", true);
     },
   },
-  computed: {
-  },
+  computed: {},
 };
 </script>
 
@@ -197,6 +197,7 @@ export default {
 .menu-box {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .menu-icon {
@@ -232,12 +233,18 @@ export default {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin-left: 40px;
   object-fit: cover;
+  cursor: pointer;
 }
 
-#mail-logo {
+#mail-logo, #profile-logo{
+  margin-left:30px;
+}
+
+#mail-logo,
+#coin-logo {
   width: 30px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 490px) {
@@ -245,14 +252,23 @@ export default {
     width: 120px;
   }
 
-  #mail-logo {
+  #mail-logo,#coin-logo {
     width: 25px;
   }
 
   #profile-logo {
     width: 30px;
     height: 30px;
-    margin-left: 25px;
+  }
+
+  #mail-logo, #profile-logo{
+  margin-left:25px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  #mail-logo, #profile-logo{
+  margin-left:15px;
   }
 }
 </style>

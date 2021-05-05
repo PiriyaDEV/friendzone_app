@@ -2,8 +2,11 @@
   <div id="manageevent-popup" class="popup">
     <div class="popup-section section">
       <div id="manage_event" class="popup-form">
-        <h1 id="header" class="header_title">
+        <h1 v-if="valueManage" id="header" class="header_title">
           MANAGE EVENT
+        </h1>
+        <h1 v-if="valueDetail" id="header" class="header_title">
+          EVENT DETAIL
         </h1>
 
         <div id="menu">
@@ -22,9 +25,19 @@
           v-if="eventDetail == true"
           :event="Event"
           @doneClick="doneClick"
+          @deleteReturn="deleteReturn"
+          :detailReturn="valueDetail"
+          :manageReturn="valueManage"
         />
 
-        <Participant v-else :status="valueShow" :event="Event" @doneClick="doneClick"/>
+        <Participant
+          v-else
+          :status="valueShow"
+          :event="Event"
+          @doneClick="doneClick"
+          :detailReturn="valueDetail"
+          :manageReturn="valueManage"
+        />
 
         <img
           @click="cancelManage()"
@@ -49,7 +62,7 @@ export default {
       valueShow: 1,
     };
   },
-  props: ["Event"],
+  props: ["Event","valueDetail", "valueManage"],
   components: {
     EventInfo,
     Participant,
@@ -87,7 +100,10 @@ export default {
     },
     doneClick(value) {
       this.$emit("clickManage", value);
-    }
+    },
+    deleteReturn(value) {
+      this.$emit("clickDelete", value);
+    },
   },
   computed: {
     cssEventDetail() {
@@ -131,6 +147,11 @@ h1 {
   color: #444444;
 }
 
+#manage_event {
+  min-width: 700px;
+  position: relative;
+}
+
 #menu {
   display: flex;
 }
@@ -142,12 +163,6 @@ h1 {
   background-color: #a0a0a0;
   margin-top: -15px;
 }
-
-#manage_event {
-  min-width: 700px;
-  position: relative;
-}
-
 .menu-text {
   font-size: 2.25em;
   font-weight: 500;

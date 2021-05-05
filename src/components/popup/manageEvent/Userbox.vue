@@ -62,7 +62,7 @@
         </div>
       </div>
 
-      <div id="button-section">
+      <div v-if="managePage" id="button-section">
         <button v-if="select == 1" class="button moderator">
           Move to Participant
         </button>
@@ -86,7 +86,7 @@ export default {
       eventRole: "Participant",
     };
   },
-  props: ["select", "user"],
+  props: ["select", "user", "detailPage", "managePage"],
   created() {
     if (this.user.moderator != 0) this.eventRole = "Moderator";
     else if (this.user.host == 1) this.eventRole = "Host";

@@ -6,7 +6,7 @@
       </h1>
       <div class="large-box">
         <div v-for="(item, i) in joinedList" :key="i">
-          <Userbox :select="status" :user="item" />
+          <Userbox :select="status" :user="item" :eventPage="eventReturn" />
         </div>
       </div>
     </div>
@@ -14,7 +14,7 @@
       <h1 class="title">Request ({{ requestedList.length }})</h1>
       <div class="large-box">
         <div v-for="(item, i) in requestedList" :key="i">
-          <Userbox :select="status" :user="item" />
+          <Userbox :select="status" :user="item" :managePage="manageReturn" :detailPage="detailReturn" />
         </div>
       </div>
     </div>
@@ -65,7 +65,7 @@ export default {
       search: "",
     };
   },
-  props: ["status", "event"],
+  props: ["status", "event", "manageReturn", "detailReturn"],
   components: {
     Userbox,
   },

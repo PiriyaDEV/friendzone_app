@@ -9,7 +9,7 @@
       </div>
 
       <div class="second-section">
-        <h1 class="event-second-header">YOUR EVENT</h1>
+        <h1 class="event-second-header">FOLLOWING</h1>
         <div @click="clickSeeAll()" class="second-title">
           <h1>See All</h1>
           <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
@@ -20,14 +20,9 @@
         <!-- Event -->
         <div class="event-section">
           <div id="container">
-            <div
-              id="list-container"
-              @mouseover="hovered = true"
-              @mouseleave="hovered = false"
-              class="event-container"
-            >
+            <div id="list-container" class="event-container">
               <div class="list event-flex-section">
-                <div v-for="(item, i) in eventList" :key="i">
+                <!-- <div v-for="(item, i) in eventList" :key="i">
                   <EventFlex
                     :user="dataUser[i]"
                     :date="dataDate"
@@ -37,7 +32,7 @@
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                   />
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -52,21 +47,14 @@
             <div>
               <!-- Event -->
               <div id="container">
-                <div
-                  @mouseover="hovered = true"
-                  @mouseleave="hovered = false"
-                  class="event-container"
-                >
+                <div class="event-container">
                   <div class="list event-flex-wrap-section">
-                    <div v-for="(item, i) in eventList" :key="i">
+                    <div v-for="(event, i) in eventList" :key="i">
                       <EventFlex
-                        :user="dataUser[i]"
-                        :date="dataDate"
-                        :title="dataTitle"
-                        :location="dataLocation"
-                        :host="dataHost"
-                        @clickRate="clickRate"
-                        @checkRate="checkRate"
+                        @manageReturn="manageReturn"
+                        @thisEvent="thisEvent"
+                        :event="event"
+                        :eventPage="true"
                       />
                     </div>
                   </div>
@@ -86,13 +74,9 @@
       </div>
       <!-- Event -->
       <div id="container">
-        <div
-          @mouseover="hovered = true"
-          @mouseleave="hovered = false"
-          class="event-container"
-        >
+        <div class="event-container">
           <div class="list event-flex-wrap-section">
-            <div v-for="(item, i) in eventList" :key="i">
+            <!-- <div v-for="(item, i) in eventList" :key="i">
               <EventFlex
                 :user="dataUser[i]"
                 :date="dataDate"
@@ -102,7 +86,7 @@
                 @clickRate="clickRate"
                 @checkRate="checkRate"
               />
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -114,34 +98,20 @@
 
 <script>
 import EventFlex from "@/components/EventFlex.vue";
+import EventService from "@/services/event.service";
+
 export default {
   data() {
     return {
-      hovered: false,
       showTitle: true,
-      selected: "all",
-      eventList: 20,
-      joinList: 10,
+      eventList: [],
       categorySelected: false,
-      dataUser: [
-        "05/20",
-        "06/20",
-        "07/20",
-        "08/20",
-        "09/20",
-        "10/20",
-        "11/20",
-        "12/20",
-        "13/20",
-        "14/20",
-      ],
-      dataDate: "14 Oct 2021 - 15 Oct 2021",
-      dataTitle: "Chai Miang Chiang Mai Camp with Aj.Harryfer",
-      dataLocation: "Localhost Resort Chiang Mai, Thailand",
-      dataHost: "pd.piriya",
     };
   },
-  props: ["nameCategorySelected"],
+  props: ["idCategorySelected","nameCategorySelected"],
+  created() {
+    this.getCategory();
+  },
   methods: {
     back() {
       this.$emit("categoryClick", false);
@@ -151,6 +121,24 @@ export default {
     },
     clickSeeAll() {
       this.showTitle = false;
+    },
+    getCategory() {
+      EventService.getEventByCategory(this.idCategorySelected)
+        .then((res) => {
+          if (res) {
+            console.log("terst"+this.idCategorySelected)
+            this.eventList = res;
+          }
+        })
+        .catch(() => {
+          this.eventList = [];
+        });
+    },
+    thisEvent(value) {
+      this.$emit("thisEvent", value);
+    },
+    manageReturn(value) {
+      this.$emit("manageReturn", value);
     },
   },
   components: {

@@ -68,9 +68,14 @@
       </div>
     </div>
 
-    <div class="button-section">
-      <button class="back_button" @click="rateReturn()">Delete Event</button>
+    <div v-if="manageReturn" class="button-section">
+      <button class="back_button" @click="deleteClick()">Delete Event</button>
       <button class="create_button" @click="done()">
+        Done
+      </button>
+    </div>
+    <div id="single-button">
+      <button v-if="detailReturn" class="create_button" @click="done()">
         Done
       </button>
     </div>
@@ -103,7 +108,7 @@ export default {
       ],
     };
   },
-  props: ["event"],
+  props: ["event", "eventReturn","manageReturn","detailReturn"],
   created() {
     EventService.getEventGenderList(this.event.event_id).then((res) => {
       if (res) {
@@ -152,6 +157,9 @@ export default {
     done() {
       this.$emit("doneClick", false);
     },
+    deleteClick() {
+      this.$emit("deleteReturn", true);
+    },
   },
 };
 </script>
@@ -178,6 +186,12 @@ h1 {
 
 #right {
   margin-left: 20px;
+}
+
+#single-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 #eventinfo {

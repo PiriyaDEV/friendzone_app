@@ -38,18 +38,14 @@
     <!-- Date -->
 
     <!-- Date -->
-    <!-- <div id="end-box">
+    <div id="end-box">
       <h1>EVENT HAS ENDED</h1>
-    </div> -->
+    </div>
     <!-- Date -->
 
     <img class="event-pic" :src="event.event_pic" />
 
     <div id="title-section">
-      <!-- <img
-        class="event-icon"
-        src="@/assets/event/event-icon/icons8-airport-200.png"
-      /> -->
       <h1 class="event-title">{{ event.title }}</h1>
     </div>
 
@@ -69,38 +65,92 @@
     </div>
     <!-- Host -->
 
+    <!-- Double Button -->
+    <div id="double-button" style="display:none">
+      <button @click="ratePartReturn()">
+        RATE PARTICIPANTS
+      </button>
+      <div id="pending-button">
+        <button @click="rateEventReturn()">
+          RATE THIS EVENT
+        </button>
+      </div>
+    </div>
+    <!-- Double Button -->
+
     <!-- Button -->
-    <!-- <div id="button">
-      <button>MANAGE EVENT</button>
-    </div> -->
+    <div id="single-button" style="display:none">
+      <button @click="manageEventReturn()">MANAGE EVENT</button>
+    </div>
     <!-- Button -->
 
     <!-- Double Button -->
     <div id="double-button">
-      <button @click="ratePartReturn()">
-        RATE PARTICIPANTS
+      <button class="long" @click="moreDetailReturn()">
+        MORE DETAIL
       </button>
-      <button @click="rateEventReturn()" style="display:none;">
-        RATE THIS EVENT
-      </button>
-      <button @click="manageEventReturn()">MANAGE EVENT</button>
+      <div>
+        <div id="join-button">
+          <button @click="joinEvent()">JOIN NOW</button>
+        </div>
+        <div id="pending-button" style="display:none">
+          <button class="normal-cursor">
+            JOIN PENDING<i
+              style="margin-left:5px;"
+              class="fa fa-hourglass-start"
+            ></i>
+          </button>
+        </div>
+        <div id="pending-button" style="display:none">
+          <button class="normal-cursor">
+            JOINED<i style="margin-left:5px;" class="fa fa-check"></i>
+          </button>
+        </div>
+      </div>
     </div>
     <!-- Double Button -->
-
-    <!-- Pending Button -->
-    <!-- <div id="pending-button">
-      <button>JOIN PENDING<i style="margin-left:5px;" class="fa fa-hourglass-start"></i></button>
-    </div> -->
-    <!-- Pending Button -->
   </div>
 </template>
 
 <script>
-import EventService from "../services/event.service";
+import EventService from "@/services/event.service";
+import decode from "jwt-decode";
 
 export default {
+  data() {
+    return {
+      showManage: false,
+      showJoin: true,
+      showJoined: false,
+      showPending: false,
+      showEnded: false,
+    };
+  },
   name: "EventFlex",
-  props: ["event"],
+  props: ["event", "joined", "requested", "eventPage"],
+  created() {
+    let user = decode(localStorage.getItem("user"));
+    let currentTime = new Date().getTime();
+    if (currentTime > this.event.end_at) {
+      this.eventPage = false;
+      this.showJoin = false;
+      this.showJoined = false;
+      this.showPending = false;
+      this.showEnded = true;
+    } else if (this.event.user_id == user.user_id) {
+      this.showManage = true;
+    } else if (this.joined) {
+      this.eventPage = true;
+      this.showJoin = false;
+      this.showJoined = true;
+      this.showPending = false;
+    } else if (this.requested) {
+      this.eventPage = true;
+      this.showJoin = false;
+      this.showJoined = false;
+      this.showPending = true;
+    }
+  },
   methods: {
     rateEventReturn() {
       this.$emit("clickRate", true);
@@ -115,6 +165,10 @@ export default {
       this.$emit("manageReturn", true);
       this.$emit("thisEvent", this.event);
     },
+    moreDetailReturn() {
+      this.$emit("detailReturn", true);
+      this.$emit("thisEvent", this.event);
+    },
     interestEvent() {
       this.event.interest = !this.event.interest;
       EventService.updateInterestEvent({
@@ -122,12 +176,22 @@ export default {
         interest: this.event.interest,
       });
     },
-  }
+    joinEvent() {
+      EventService.joinEvent(this.event.event_id)
+        .then((res) => {
+          if (res) this.showJoin = false;
+          this.showJoined = false;
+          this.showPending = true;
+        })
+        .catch(() => {
+          console.log("Error when joining the event");
+        });
+    },
+  },
 };
 </script>
 
 <style scoped>
-
 .event-pic {
   width: 100%;
   height: 130px;
@@ -171,6 +235,10 @@ export default {
   padding-left: 15px;
 }
 
+.normal-cursor {
+  cursor: default;
+}
+
 .event-title {
   margin: 0px 15px;
   height: 18px;
@@ -209,14 +277,14 @@ export default {
   text-align: center;
   position: absolute;
   z-index: 3;
-  top: 158px;
-  left: 16px;
+  top: 91px;
+  left: 13px;
   color: #ff8864;
 }
 
 #end-box > h1 {
   margin: 0;
-  font-size: 1.25em;
+  font-size: 1em;
   font-weight: 500;
 }
 
@@ -270,8 +338,7 @@ export default {
   color: #ff8864;
 }
 
-#button,
-#pending-button {
+#button {
   text-align: right;
   margin-right: 20px;
   margin-top: 10px;
@@ -281,11 +348,11 @@ export default {
 #pending-button > button {
   color: #ffffff;
   background-color: #a0a0a0;
+  border: 1.75px solid #a0a0a0;
   font-family: "Atten-Round-New";
-  border: none;
-  font-size: 1.25em;
+  font-size: 1em;
   font-weight: 550;
-  padding: 7px 15px;
+  padding: 3px 8px;
   margin: 0;
   border-radius: 16px;
 }
@@ -301,11 +368,27 @@ export default {
 
 #single-button {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-right: 20px;
   margin-left: 20px;
   margin-top: 15px;
+}
+
+#join-button > button {
+  color: #ffffff;
+  background-color: #fe8864;
+  border: 1.75px solid #ff8864;
+  font-family: "Atten-Round-New";
+  font-size: 1em;
+  font-weight: 550;
+  padding: 3px 15px;
+  margin: 0;
+  border-radius: 16px;
+}
+
+.long {
+  padding: 3px 15px !important;
 }
 
 #button > button,

@@ -1,16 +1,16 @@
 <template>
   <div id="message">
     <img
-      v-if="newId == true || chat.user_id == nextId"
+      v-if="newId == true"
       id="profile-logo"
       :src="pic"
     />
     <div>
-      <h1 v-if="chat.user_id == nextId || newId == true" id="username">
+      <h1 v-if="newId == true" id="username">
         {{ chat.username }}
       </h1>
       <!-- <div v-for="(item,i) in tempUserId" :key="i"> -->
-      <WhiteMessage :chatData="chat"></WhiteMessage>
+      <WhiteMessage :chat="chat" :sameId="sameUser"></WhiteMessage>
       <!-- </div> -->
     </div>
   </div>
@@ -19,12 +19,12 @@
 <script>
 import WhiteMessage from "@/components/chat/message/WhiteMessage.vue";
 export default {
-  props: ["chat", "tempUserId", "nextUserId"],
+  props: ["chat", "nextUserId" , "previousUserId"],
   data() {
     return {
-      tempId: "",
       nextId: "",
       previousId: "",
+      sameUser: false,
       newId: false,
     };
   },
@@ -32,13 +32,20 @@ export default {
     WhiteMessage,
   },
   created() {
-    this.tempId = this.chat.user_id;
     if (this.nextUserId == null) {
-      console.log("1");
+      if(this.previousUserId.user_id !== this.chat.user_id) {
+        this.newId = true;
+      } else {
+        this.sameUser = true;
+      }
+    } else if(this.previousUserId == null) {
       this.newId = true;
     } else {
-      console.log("2");
-      this.nextId = this.nextUserId.user_id;
+      if(this.previousUserId.user_id !== this.chat.user_id) {
+        this.newId = true;
+      } else {
+        this.sameUser = true;
+      }
     }
   },
   computed: {
@@ -46,18 +53,7 @@ export default {
       let link = "http://localhost:8080/api/user/displayPic/";
       return link + this.chat.user_id;
     },
-    counter() {
-      return this.count + 1;
-    },
   },
-  mounted() {},
-  // methods: {
-  //   test() {
-  //      if (this.nextId == null) {
-  //         this.newId = true;
-  //      }
-  //   }
-  // },
 };
 </script>
 
@@ -82,5 +78,13 @@ export default {
   color: #444444;
   font-weight: 500;
   margin-top: 15px;
+}
+
+@media screen and (max-width: 490px) {
+  #profile-logo {
+  width: 25px;
+  height: 25px;
+  margin-top: 13px;
+}
 }
 </style>

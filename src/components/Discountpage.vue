@@ -120,4 +120,22 @@ export default {
 
 /* #discount-page-section {
 } */
+
+@media screen and (max-width: 768px) {
+  #list-container{
+    margin-bottom:10px;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  #discount-page {
+  margin-top: 0px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  #banner > img {
+  height:135px;
+}
+}
 </style>

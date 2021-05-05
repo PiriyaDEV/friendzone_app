@@ -210,6 +210,13 @@ i {
   }
 }
 
+@media screen and (max-width: 490px) {
+  #topbar,
+  #topbar-admin{
+  padding-top:10px;
+}
+}
+
 @media screen and (max-width: 880px) {
   #profile-box,
   #coin-box,
@@ -221,8 +228,10 @@ i {
     display:block;
   }
 
-  #topbar{
+  #topbar,
+  #topbar-admin{
     position:relative;
+    background-color: inherit;
   }
 
   .search-input {

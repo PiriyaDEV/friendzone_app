@@ -9,8 +9,13 @@
           <div id="container">
             <div class="event-container">
               <div class="list event-flex-section">
-                <div v-for="(item, i) in eventList" :key="i">
-                  <EventFlex />
+                <div v-for="(event, i) in eventList" :key="i">
+                  <EventFlex
+                    @detailReturn="detailReturn"
+                    @thisEvent="thisEvent"
+                    :event="event"
+                    :eventPage="true"
+                  />
                 </div>
               </div>
             </div>
@@ -22,6 +27,7 @@
         <div>
           <CategorySelect
             @categoryClick="categoryClick"
+            @idReturn="idReturn"
             @nameReturn="nameReturn"
           ></CategorySelect>
         </div>
@@ -31,7 +37,10 @@
     <div v-if="categorySelected == true">
       <EventCategory
         @categoryClick="categoryClick"
+        @detailReturn="detailReturn"
+        @thisEvent="thisEvent"
         :nameCategorySelected="nameCategorySelected"
+        :idCategorySelected="idCategorySelected"
       ></EventCategory>
     </div>
   </div>
@@ -42,6 +51,7 @@ import EventFlex from "@/components/EventFlex.vue";
 import EventCategory from "@/components/EventCategory.vue";
 import CategorySelect from "@/components/category/CategorySelect.vue";
 import CategoryService from "../services/category.service";
+import EventService from "@/services/event.service";
 
 export default {
   name: "event-page",
@@ -49,10 +59,10 @@ export default {
     return {
       hovered: false,
       selected: "all",
-      eventList: 20,
-      joinList: 10,
+      eventList: [],
       categoryList: null,
       categorySelected: false,
+      idCategorySelected: "",
       nameCategorySelected: "",
     };
   },
@@ -62,6 +72,7 @@ export default {
         this.categoryList = res;
       }
     });
+    this.getEventList();
   },
   components: {
     EventFlex,
@@ -72,8 +83,31 @@ export default {
     categoryClick(value) {
       this.categorySelected = value;
     },
+    idReturn(value) {
+      this.idCategorySelected = value;
+    },
     nameReturn(value) {
       this.nameCategorySelected = value;
+    },
+    getEventList() {
+      EventService.getUserCateogryInterestEvent()
+        .then((res) => {
+          if (res) {
+            this.eventList = res;
+          }
+        })
+        .catch(() => {
+          this.eventList = [];
+        });
+    },
+    moreDetailReturn(value) {
+      this.$emit("detailReturn", true);
+      this.$emit("detail", true);
+      this.$emit("thisEvent", this.event);
+      this.$emit("clickManage", value);
+    },
+    thisEvent(value) {
+      this.$emit("thisEvent", value);
     },
   },
 };
@@ -90,23 +124,7 @@ export default {
   margin-top: 0px;
 }
 
-/* div::-webkit-scrollbar {
-  height: 10px;
-  padding-bottom: 30px;
+.event-flex-section {
+  margin-bottom: 20px;
 }
-
-div::-webkit-scrollbar-track {
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-div::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 1px rgba(255, 255, 255, 1);
-} 
-
-div::-webkit-scrollbar:vertical {
-  display: none;
-} */
 </style>

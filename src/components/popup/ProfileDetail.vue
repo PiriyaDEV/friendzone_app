@@ -5,7 +5,7 @@
         <div id="profile-section" class="section">
           <div id="left">
             <div v-if="!profile_pic" id="profile-frame">
-              <img id="profile-pic" :src="user.profile_pic" />
+              <img id="profile-pic" :src="showprofile_pic" />
             </div>
             <div v-if="profile_pic">
               <img
@@ -35,7 +35,7 @@
               size="30"
               name="name"
               autocomplete="off"
-              v-model="user.username"
+              v-model="username"
             />
 
             <div id="double-flex">
@@ -124,7 +124,7 @@
                 size="256"
                 name="name"
                 autocomplete="off"
-                v-model="user.bio"
+                v-model="bio"
               >
               </textarea>
             </div>
@@ -146,6 +146,7 @@
             :edit="edit"
             :user="user"
             :role="demoRole"
+            @saveUser="saveUser"
           />
           <ProfileInterest
             v-if="interestShow == true"
@@ -177,7 +178,10 @@ export default {
   data() {
     return {
       user: null,
+      showprofile_pic: "",
       profile_pic: "",
+      username: "",
+      bio: "",
       months: [
         "January",
         "February",
@@ -208,6 +212,9 @@ export default {
     UserService.getUserDetail().then((res) => {
       if (res) {
         this.user = res;
+        this.username = this.user.username;
+        this.bio = this.user.bio;
+        this.showprofile_pic = this.user.profile_pic;
         let birthdate = new Date(this.user.birthdate);
         let date = birthdate.getDate();
         let month = birthdate.getMonth();
@@ -251,6 +258,11 @@ export default {
     showBack(value) {
       this.interestShow = value;
       this.changePassword = value;
+    },
+    saveUser(value) {
+      this.edit = false;
+       UserService.editUser(value)
+       UserService.uploadProfile(this.profile_pic.formData)
     },
   },
 };

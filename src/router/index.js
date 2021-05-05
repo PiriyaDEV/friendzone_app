@@ -4,10 +4,10 @@ import Homepage from "../views/Homepage.vue";
 import Register from "../views/Register.vue";
 import Login from "../views/Login.vue";
 import Mainpage from "../views/Mainpage.vue";
-import Backup from "../components/admin/popup/EditDatabase.vue";
+import Backup from "../components/popup/PointDetail.vue";
 import ProfileSetting from "../views/ProfileSetting.vue";
 import InterestSelect from "../views/InterestSelect.vue";
-import Popup from "../components/admin/popup/CreateDiscount.vue";
+import Popup from "../components/popup/WaitBox.vue";
 Vue.use(VueRouter);
 
 const routes = [

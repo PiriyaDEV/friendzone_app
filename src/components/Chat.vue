@@ -2,13 +2,23 @@
   <div id="chat" class="event-container">
     <h1 id="chat-title" class="event-header">CHAT</h1>
 
+    <div id="grouplist-horizontal">
+      <GroupList
+        @eventChat="eventChat"
+        @chatListLength="chatListLength"
+      ></GroupList>
+    </div>
+
     <div id="chat-section">
       <div id="message-section">
-        <ChatBox :event_id="chat"></ChatBox>
+        <ChatBox :event_id="chat" :showChat="showChat"></ChatBox>
       </div>
 
-      <div>
-        <GroupList @eventChat="eventChat"></GroupList>
+      <div id="grouplist-vertical">
+        <GroupList
+          @eventChat="eventChat"
+          @chatListLength="chatListLength"
+        ></GroupList>
       </div>
     </div>
   </div>
@@ -23,6 +33,7 @@ export default {
   data() {
     return {
       chat: [],
+      showChat: 0,
     };
   },
   components: {
@@ -32,7 +43,10 @@ export default {
   methods: {
     eventChat(value) {
       this.chat = value;
-    }
+    },
+    chatListLength(value) {
+      this.showChat = value;
+    },
   },
 };
 </script>
@@ -42,6 +56,10 @@ export default {
   margin-top: 110px;
   margin-bottom: 30px;
   overflow-x: hidden;
+}
+
+#grouplist-horizontal {
+  display: none;
 }
 
 #chat-title {
@@ -55,5 +73,23 @@ export default {
 #chat-section {
   display: flex;
   justify-content: space-between;
+}
+
+@media screen and (max-width: 880px) {
+  #chat {
+    margin-top: 0px;
+  }
+
+  #grouplist-vertical {
+    display: none;
+  }
+
+  #grouplist-horizontal {
+    display: block;
+  }
+
+  #chat-section {
+    display: block;
+  }
 }
 </style>
