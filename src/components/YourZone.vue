@@ -55,11 +55,11 @@
     <!-- Menubar -->
 
     <div id="event-display">
-      <!-- YOUR EVENT -->
+      <!-- HOST -->
 
       <div v-if="host == true" id="host-menu">
         <div class="event-section">
-          <h1 class="event-header">YOUR EVENT</h1>
+          <h1 class="event-header">HOST</h1>
           <select id="select-event" v-model="hostFilter">
             <option value="all">All Events</option>
             <option value="pending">Pending</option>
@@ -67,7 +67,7 @@
             <option value="ended">Ended</option>
           </select>
         </div>
-        <!-- YOUR EVENT -->
+        <!-- HOST -->
 
         <div>
           <!-- Event -->
@@ -89,7 +89,7 @@
           </div>
         </div>
 
-        <!-- YOUR EVENT -->
+        <!-- JOINED -->
       </div>
 
       <div v-if="join == true" id="joined-menu">
@@ -101,7 +101,7 @@
             <option value="ended">Ended</option>
           </select>
         </div>
-        <!-- YOUR EVENT -->
+        <!-- JOINED -->
 
         <div>
           <!-- Event -->
@@ -111,10 +111,12 @@
                 <div v-for="(event, i) in joinedEventShow" :key="i">
                   <EventFlex
                     :event="event"
+                    :joined="true"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                     @manageReturn="manageReturn"
                     @thisEvent="thisEvent"
+                    @detailReturn="detailReturn"
                   />
                 </div>
               </div>
@@ -122,7 +124,7 @@
           </div>
           <!-- Event -->
         </div>
-        <!-- YOUR EVENT -->
+        <!-- REQUEST -->
       </div>
 
       <div v-if="request == true" id="request-menu">
@@ -134,7 +136,7 @@
             <option value="rejected">Rejected</option>
           </select>
         </div>
-        <!-- YOUR EVENT -->
+        <!-- REQUEST-->
 
         <div>
           <!-- Event -->
@@ -144,10 +146,12 @@
                 <div v-for="(event, i) in requestedEventShow" :key="i">
                   <EventFlex
                     :event="event"
+                    :requested="true"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                     @manageReturn="manageReturn"
                     @thisEvent="thisEvent"
+                    @detailReturn="detailReturn"
                   />
                 </div>
               </div>
@@ -156,7 +160,7 @@
           </div>
         </div>
 
-        <!-- YOUR EVENT -->
+        <!-- FAVOURITE -->
       </div>
 
       <div v-if="interest == true" id="interest-menu">
@@ -167,7 +171,7 @@
             <option value="host">Hosted</option>
           </select>
         </div>
-        <!-- YOUR EVENT -->
+        <!-- FAVOURITE -->
 
         <div>
           <!-- Event -->
@@ -181,6 +185,7 @@
                     @checkRate="checkRate"
                     @manageReturn="manageReturn"
                     @thisEvent="thisEvent"
+                    @detailReturn="detailReturn"
                   />
                 </div>
               </div>
@@ -189,7 +194,7 @@
           </div>
         </div>
 
-        <!-- YOUR EVENT -->
+        <!-- DISCOUNT -->
       </div>
 
       <div v-if="discount == true" id="discount-menu">
@@ -201,7 +206,7 @@
             <option value="interest">Interested</option>
           </select>
         </div>
-        <!-- YOUR EVENT -->
+        <!-- DISCOUNT -->
 
         <div>
           <!-- Event -->
@@ -220,7 +225,6 @@
             <!-- Event -->
           </div>
         </div>
-        <!-- YOUR EVENT -->
       </div>
     </div>
   </div>
@@ -397,6 +401,11 @@ export default {
       this.$emit("clickDiscount", value);
     },
     manageReturn(value) {
+      this.$emit("manage", true);
+      this.$emit("clickManage", value);
+    },
+    moreDetailReturn(value) {
+      this.$emit("detail", true);
       this.$emit("clickManage", value);
     },
     thisEvent(value) {

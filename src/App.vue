@@ -125,6 +125,14 @@ div::-webkit-scrollbar-thumb {
   color: #444444;
 }
 
+.red-color {
+  color: #FD6363;
+}
+
+.green-color {
+  color: #1ED32C;
+}
+
 .white-color {
   color: #ffffff;
 }
@@ -357,6 +365,7 @@ button {
   display: flex;
   align-items: center;
   overflow-y: hidden;
+  width:100%;
   /* margin-bottom: 20px; */
 }
 

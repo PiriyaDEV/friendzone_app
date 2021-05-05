@@ -30,14 +30,19 @@
         v-if="manageShow == true"
         @clickManage="clickManage"
         :Event="eventData"
+        @clickDelete="clickDelete"
+        :valueDetail="valueDetail"
+        :valueManage="valueManage"
       />
       <!-- Mobile Top Bar -->
-      <MobileTopbar id="mobile-topbar"
+      <MobileTopbar
+        id="mobile-topbar"
         @clickClearSearch="clickClearSearch"
         @pageReturn="pageReturn"
         @clickCreate="clickCreate"
         @clickDetail="clickDetail"
       />
+      <WaitBox v-if="deleteShow == true" @back="back" />
       <!-- Mobile Top Bar -->
       <link
         rel="stylesheet"
@@ -87,7 +92,11 @@
           </div>
 
           <div v-if="select == 4 && !searchBar">
-            <Eventpage />
+            <Eventpage
+              @clickManage="clickManage"
+              @pageEvent="pageEvent"
+              @thisEvent="thisEvent"
+            />
           </div>
 
           <div v-if="select == 5 && !searchBar">
@@ -178,6 +187,7 @@ import AdminReport from "@/components/admin/report/AdminReport.vue";
 import CreateDiscount from "@/components/admin/popup/CreateDiscount.vue";
 import EditUser from "@/components/admin/popup/EditUser.vue";
 import EditDatabase from "@/components/admin/popup/EditDatabase.vue";
+import WaitBox from "@/components/popup/WaitBox.vue";
 
 export default {
   name: "mainpage",
@@ -204,6 +214,7 @@ export default {
     EditUser,
     EditDatabase,
     MobileTopbar,
+    WaitBox,
   },
   data() {
     return {
@@ -223,6 +234,9 @@ export default {
       role: 1,
       selectAdmin: 1,
       eventData: "",
+      deleteShow: false,
+      valueDetail: false,
+      valueManage: true,
     };
   },
   computed: {
@@ -263,6 +277,14 @@ export default {
     checkReport(value) {
       this.selectReportShow = value;
     },
+    clickDelete(value) {
+      this.deleteShow = value;
+      this.manageShow = false;
+    },
+    back(value) {
+      this.manageShow = value;
+      this.deleteShow = false;
+    },
     searchData(value) {
       this.searchBar = value;
     },
@@ -286,6 +308,17 @@ export default {
     },
     thisEvent(value) {
       this.eventData = value;
+    },
+    pageEvent(value) {
+      this.eventReturn = value;
+    },
+    detail(value) {
+      this.valueDetail = value;
+      this.valueManage = false;
+    },
+    manage(value) {
+      this.valueManage = value;
+      this.valueDetail = false;
     },
   },
 };
@@ -390,15 +423,15 @@ export default {
 
 @media screen and (max-width: 570px) {
   #plus {
-  width: 25px;
-  padding: 7px;
-}
+    width: 25px;
+    padding: 7px;
+  }
 }
 
 @media screen and (max-width: 490px) {
   #plus {
-  width: 23px;
-  padding: 5px;
-}
+    width: 23px;
+    padding: 5px;
+  }
 }
 </style>

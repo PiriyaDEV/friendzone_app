@@ -38,8 +38,8 @@ export default {
   },
   methods: {
     clicktest(ev, i) {
+      this.$emit("idReturn", this.categoryList[i].category_id);
       this.$emit("nameReturn", this.categoryList[i].category_name);
-      console.log(this.categoryList[i].category_name);
       this.$emit("categoryClick", true);
     },
   },

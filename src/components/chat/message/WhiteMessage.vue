@@ -2,16 +2,35 @@
   <div id="message-box">
     <div id="white-message">
       <div>
-        <h1 id="message">{{chatData.message}}</h1>
+        <h1 v-if="sameId == false" id="message">{{ chat.message }}</h1>
+        <h1 v-if="sameId == true" id="message-new">{{ chat.message }}</h1>
       </div>
     </div>
-    <h1 id="time">{{chatData.created_at}}</h1>
+    <h1 id="time">{{ time }}</h1>
   </div>
 </template>
 
 <script>
 export default {
-  props:["chatData"],
+  data() {
+    return {
+      time: "",
+    };
+  },
+  props: ["chat", "sameId"],
+  created() {
+    let createTime = new Date(this.chat.created_at);
+    this.time =
+      createTime
+        .getHours()
+        .toString()
+        .padStart(2, "0") +
+      ":" +
+      createTime
+        .getMinutes()
+        .toString()
+        .padStart(2, "0");
+  },
 };
 </script>
 
@@ -22,18 +41,27 @@ export default {
 }
 
 #message,
+#message-new,
 #time {
   font-size: 1.75em;
   font-weight: 400;
 }
 
-#message {
+#message,
+#message-new {
   background-color: #ffffff;
   border: 1px solid #707070;
   padding: 5px 16px;
   border-radius: 20px;
-  margin: 0;
   color: #444444;
+}
+
+#message {
+  margin: 0px;
+}
+
+#message-new {
+  margin: 0px 0px 0px 47px;
 }
 
 #time {
@@ -46,5 +74,27 @@ export default {
 #message-box {
   display: flex;
   justify-content: center;
+}
+
+@media screen and (max-width: 490px) {
+  #message,
+  #message-new {
+    font-size: 1.6em;
+    padding: 3px 9px;
+  }
+
+  #white-message{
+    margin-top:6px;
+  }
+
+  #message-new {
+  margin: 0px 0px 0px 38px;
+  }
+
+  #time {
+  margin-top: 17px;
+  font-size:1.3em;
+  margin-left: 5px;
+  }
 }
 </style>

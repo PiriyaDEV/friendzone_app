@@ -102,15 +102,15 @@
                 </h2>
                 <div class="section">
                   <!-- Star -->
-                  <div v-if="rating[0] == false">
+                  <div>
                     <img
+                      v-if="!showRating[0]"
                       @click="rateClick(1)"
                       class="star"
                       src="@/assets/icon/icons8-star-96.png"
                     />
-                  </div>
-                  <div v-else>
                     <img
+                      v-else
                       @click="rateClick(1)"
                       class="star"
                       src="@/assets/icon/icons8-star-96-orange.png"
@@ -121,7 +121,7 @@
                   <!-- Star -->
                   <div>
                     <img
-                      v-if="rating[1] == false"
+                      v-if="!showRating[1]"
                       @click="rateClick(2)"
                       class="star"
                       src="@/assets/icon/icons8-star-96.png"
@@ -138,13 +138,13 @@
                   <!-- Star -->
                   <div>
                     <img
-                      v-if="!rating[2]"
+                      v-if="!showRating[2]"
                       @click="rateClick(3)"
                       class="star"
                       src="@/assets/icon/icons8-star-96.png"
                     />
                     <img
-                      v-if="rating[2]"
+                      v-else
                       @click="rateClick(3)"
                       class="star"
                       src="@/assets/icon/icons8-star-96-orange.png"
@@ -155,13 +155,13 @@
                   <!-- Star -->
                   <div>
                     <img
-                      v-if="!rating[3]"
+                      v-if="!showRating[3]"
                       @click="rateClick(4)"
                       class="star"
                       src="@/assets/icon/icons8-star-96.png"
                     />
                     <img
-                      v-if="rating[3]"
+                      v-else
                       @click="rateClick(4)"
                       class="star"
                       src="@/assets/icon/icons8-star-96-orange.png"
@@ -172,13 +172,13 @@
                   <!-- Star -->
                   <div>
                     <img
-                      v-if="!rating[4]"
+                      v-if="!showRating[4]"
                       @click="rateClick(5)"
                       class="star"
                       src="@/assets/icon/icons8-star-96.png"
                     />
                     <img
-                      v-if="rating[4]"
+                      v-else
                       @click="rateClick(5)"
                       class="star"
                       src="@/assets/icon/icons8-star-96-orange.png"
@@ -186,7 +186,6 @@
                   </div>
                   <!-- Star -->
                 </div>
-                <h1>{{ rating }}</h1>
               </div>
               <!-- Input -->
 
@@ -235,7 +234,8 @@ export default {
     return {
       selected: "",
       participantList: [],
-      rating: [true, false, false, false, false],
+      showRating: [false, false, false, false, false],
+      rating: 0,
       participant: "",
       start_at: "",
       end_at: "",
@@ -317,22 +317,21 @@ export default {
   },
   methods: {
     rateClick(rating) {
-      this.rating.fill(false);
-      this.rating.fill(true, 0, rating);
-      console.log(this.rating);
+      let updateRating = [false, false, false, false, false];
+      updateRating.fill(true, 0, rating);
+      this.showRating = updateRating;
     },
     rateReturn() {
       this.$emit("clickShowed", false);
     },
     test() {
       alert(this.selected);
+      for (let i = 0; i < 5; i++) {
+        if (this.showRating[i]) this.rating++;
+      }
+      console.log(this.rating);
     },
   },
-  watch: {
-    rating: function() {
-      console.log("test");
-    }
-  }
 };
 </script>
 
@@ -380,6 +379,7 @@ export default {
 .star {
   width: 50px;
   margin-right: 4px;
+  cursor: pointer;
 }
 
 #back_button_popup {

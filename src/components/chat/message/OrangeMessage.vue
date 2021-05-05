@@ -1,7 +1,7 @@
 <template>
   <div id="message-box">
-    <h1 id="time">{{chat.created_at}}</h1>
-    <div id="white-message">
+    <h1 id="time">{{ time }}</h1>
+    <div id="orange-message">
       <div>
         <h1 id="message">{{ chat.message }}</h1>
       </div>
@@ -11,12 +11,30 @@
 
 <script>
 export default {
+  data() {
+    return {
+      time: "",
+    };
+  },
   props: ["chat"],
+  created() {
+    let createTime = new Date(this.chat.created_at);
+    this.time =
+      createTime
+        .getHours()
+        .toString()
+        .padStart(2, "0") +
+      ":" +
+      createTime
+        .getMinutes()
+        .toString()
+        .padStart(2, "0");
+  },
 };
 </script>
 
 <style scoped>
-#white-message {
+#orange-message {
   margin-top: 10px;
   margin-bottom: 0px;
 }
@@ -46,5 +64,22 @@ export default {
 #message-box {
   display: flex;
   justify-content: flex-end;
+}
+
+@media screen and (max-width: 490px) {
+  #message {
+    font-size: 1.6em;
+    padding: 3px 9px;
+  }
+
+  #orange-message{
+    margin-top:6px;
+  }
+
+  #time {
+  margin-top: 17px;
+  font-size:1.3em;
+  margin-right: 5px;
+  }
 }
 </style>

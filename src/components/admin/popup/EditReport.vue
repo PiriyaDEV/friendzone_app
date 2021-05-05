@@ -75,6 +75,9 @@
           </select>
         </div>
         <!-- Input -->
+        <div>
+          <hr id="dark-bar" />
+        </div>
         <!-- Input -->
         <div>
           <h2 class="input_title">Delete Report</h2>
@@ -219,6 +222,14 @@ h1 {
   border-width: 0;
   color: #ff8864;
   background-color: #ff8864;
+}
+
+#dark-bar {
+  height: 1.75px;
+  margin: 10px 0px;
+  border-width: 0;
+  color: #444444;
+  background-color: #444444;
 }
 
 .report-title,

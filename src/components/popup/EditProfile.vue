@@ -127,6 +127,9 @@ export default {
     cancel() {
       this.$emit("editReturn", false);
     },
+    save() {
+      this.$emit("saveUser", this.user);
+    },
   },
 };
 </script>

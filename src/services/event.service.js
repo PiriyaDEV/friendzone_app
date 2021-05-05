@@ -71,6 +71,21 @@ class EventService {
     return res.data;
   }
 
+  async joinEvent(event_id) {
+    let user = decode(localStorage.getItem("user"));
+    const res = await axios.post(
+      API_URL + "joinEvent",
+      {
+        user_id: user.user_id,
+        event_id: event_id
+      },
+      {
+        headers: authHeader(),
+      }
+    );
+    return res.data;
+  }
+
   async getEventGenderList(event_id) {
     const res = await axios.get(API_URL + "getEventGenderList/" + event_id, {
       headers: authHeader(),
@@ -98,7 +113,7 @@ class EventService {
   }
 
   async getParticipantToReview(event_id) {
-    let user = decode(localStorage.getItem("user")); //URL + "displayIcon?category_id=" + category.category_id + "&type=white";
+    let user = decode(localStorage.getItem("user"));
     const res = await axios.get(API_URL + "getParticipantToReview/?event_id=" + event_id + "&user_id=" + user.user_id, {
       headers: authHeader(),
     });
@@ -206,6 +221,76 @@ class EventService {
     let user = decode(localStorage.getItem("user"));
     const res = await axios.get(
       API_URL + "getInterestedEvent/" + user.user_id,
+      {
+        headers: authHeader(),
+      }
+    );
+
+    await res.data.forEach((event) => {
+      event.event_pic = API_URL + "displayPic/" + event.event_id;
+      event.host_pic =
+        "http://localhost:8080/api/user/displayPic/" + event.user_id;
+
+      let start_at = new Date(event.start_at);
+      let end_at = new Date(event.end_at);
+      let startDate = start_at.getDate();
+      let startMonth = start_at.getMonth();
+      let startYear = start_at.getFullYear();
+      let endDate = end_at.getDate();
+      let endMonth = end_at.getMonth();
+      let endYear = end_at.getFullYear();
+      if (
+        startDate == endDate &&
+        startMonth == endMonth &&
+        startYear == endYear
+      )
+        event.date = `${startDate} ${months[startMonth]} ${startYear}`;
+      else
+        event.date = `${startDate} ${months[startMonth]} ${startYear} - ${endDate} ${months[endMonth]} ${endYear}`;
+    });
+
+    return res.data;
+  }
+
+  async getUserCateogryInterestEvent() {
+    let user = decode(localStorage.getItem("user"));
+    const res = await axios.get(
+      API_URL + "getUserCateogryInterestEvent/" + user.user_id,
+      {
+        headers: authHeader(),
+      }
+    );
+
+    await res.data.forEach((event) => {
+      event.event_pic = API_URL + "displayPic/" + event.event_id;
+      event.host_pic =
+        "http://localhost:8080/api/user/displayPic/" + event.user_id;
+
+      let start_at = new Date(event.start_at);
+      let end_at = new Date(event.end_at);
+      let startDate = start_at.getDate();
+      let startMonth = start_at.getMonth();
+      let startYear = start_at.getFullYear();
+      let endDate = end_at.getDate();
+      let endMonth = end_at.getMonth();
+      let endYear = end_at.getFullYear();
+      if (
+        startDate == endDate &&
+        startMonth == endMonth &&
+        startYear == endYear
+      )
+        event.date = `${startDate} ${months[startMonth]} ${startYear}`;
+      else
+        event.date = `${startDate} ${months[startMonth]} ${startYear} - ${endDate} ${months[endMonth]} ${endYear}`;
+    });
+
+    return res.data;
+  }
+
+  async getEventByCategory(category_id) {
+    let user = decode(localStorage.getItem("user"));
+    const res = await axios.get(
+      API_URL + "getEventByCategory/" + user.user_id + "/" +category_id,
       {
         headers: authHeader(),
       }

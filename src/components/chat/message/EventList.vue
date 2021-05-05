@@ -1,13 +1,15 @@
 <template>
   <div id="message">
-    <img id="profile-logo" :src="pic" />
+    <img id="event-logo" :src="pic" />
     <div>
-      <h1 id="username">
-        {{ event.title }} ({{ event.joined }}/{{ event.max_participant }})
+      <h1 id="eventname">
+        <span class="cut-text">{{ event.title }}</span> ({{ event.joined }}/{{
+          event.max_participant
+        }})
       </h1>
       <div id="message-section">
         <h1 id="message-text">{{ event.message }}</h1>
-        <h1 id="time">{{ event.created_at }}</h1>
+        <h1 id="time">{{ datetime }}</h1>
       </div>
     </div>
   </div>
@@ -15,19 +17,58 @@
 
 <script>
 export default {
-  components: {},
+  data() {
+    return {
+      datetime: "",
+    };
+  },
+  created() {
+    if (this.event.created) {
+      let createTime = new Date(this.event.created);
+      let currentTime = new Date();
+      let createDate = createTime.getDate();
+      let createMonth = createTime.getMonth();
+      let createYear = createTime.getFullYear();
+      let currentDate = currentTime.getDate();
+      let currentMonth = currentTime.getMonth();
+      let currentYear = currentTime.getFullYear();
+      if (
+        createDate == currentDate &&
+        createMonth == currentMonth &&
+        createYear == currentYear
+      ) {
+        this.datetime =
+          createTime
+            .getHours()
+            .toString()
+            .padStart(2, "0") +
+          ":" +
+          createTime
+            .getMinutes()
+            .toString()
+            .padStart(2, "0");
+      } else {
+        this.datetime =
+          createDate.toString().padStart(2, "0") +
+          "/" +
+          (createMonth + 1).toString().padStart(2, "0") +
+          "/" +
+          createYear.toString().substr(-2);
+      }
+    }
+  },
   props: ["event"],
-  computed:{
+  computed: {
     pic() {
       let link = "http://localhost:8080/api/event/displayPic/";
       return link + this.event.event_id;
     },
-  }
+  },
 };
 </script>
 
 <style scoped>
-#profile-logo {
+#event-logo {
   border-radius: 50%;
   width: 34px;
   height: 34px;
@@ -38,10 +79,15 @@ export default {
 #message {
   display: flex;
   justify-content: flex-start;
-  margin: 15px 0px;
+  align-items: center;
+  margin: 0px 0px 15px 0px;
+  background-color: #ffffff;
+  padding: 2px;
+  border-radius: 24px;
+  cursor: pointer;
 }
 
-#username {
+#eventname {
   margin: 0;
   font-size: 1.85em;
   color: #444444;
@@ -53,6 +99,10 @@ export default {
   font-size: 1.5em;
   font-weight: 400;
   color: #a0a0a0;
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #message-section {
@@ -67,5 +117,30 @@ export default {
   font-size: 1.5em;
   font-weight: 400;
   color: #a0a0a0;
+}
+
+@media screen and (max-width: 1350px) {
+  #eventname {
+    font-size: 1.6em;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  #message {
+    width: 220px;
+    margin: 0px 20px 0px 0px;
+    padding: 10px;
+  }
+
+  #message-text {
+    max-width: 100%;
+  }
+
+  .cut-text {
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 </style>

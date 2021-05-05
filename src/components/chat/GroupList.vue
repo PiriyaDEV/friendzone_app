@@ -1,5 +1,5 @@
 <template>
-  <div id="grouplist">
+  <div v-show="chatList.length" id="grouplist">
     <div id="list-box">
       <div
         v-for="(event, i) in chatList"
@@ -31,6 +31,7 @@ export default {
       if (res) {
         this.chatList = res;
         this.$emit("eventChat", this.chatList[0].event_id);
+        this.$emit("chatListLength", this.chatList.length);
       }
     });
   },
@@ -56,7 +57,31 @@ export default {
   overflow-y: auto;
 }
 
-/* div::-webkit-scrollbar {
-    display: none;
-  } */
+div::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (max-width: 1350px) {
+  #grouplist {
+    width: 275px;
+  }
+
+  #list-box {
+    padding: 0px 15px;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  #list-box {
+    padding: 0px;
+    display: flex;
+    height: auto;
+    background-color: inherit;
+  }
+
+  #grouplist {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
 </style>

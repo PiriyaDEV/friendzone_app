@@ -26,6 +26,23 @@ class ChatService {
     });
     return res.data;
   }
+
+   async create(data) {
+     let user = decode(localStorage.getItem("user"));
+     return axios
+       .post(
+         URL + "create",
+         {
+           sender_id: user.user_id,
+           event_id: data.event_id,
+           message: data.message,
+         },
+         { headers: authHeader() }
+       )
+       .then((response) => {
+         return response.data;
+       });
+   }
 }
 
 export default new ChatService();

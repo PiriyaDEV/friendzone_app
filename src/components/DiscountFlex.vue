@@ -94,4 +94,55 @@ export default {
 #value {
   margin-top: 10px;
 }
+
+@media screen and (max-width: 880px) {
+  #discount-box {
+    height: 120px;
+  }
+
+  .coin-section {
+    padding: 0px 10px 10px 0px;
+  }
+
+  #value {
+    margin-top: 5px;
+  }
+
+  .cover{
+    width:125px;
+  }
+
+  .discount-title,
+  .discount-description {
+    width: 175px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  #discount-box {
+    height: 118px;
+  }
+
+  #coin-icon{
+    width:20px;
+    height: 20px;
+  }
+
+  .coin-section {
+    padding: 0px;
+  }
+
+  #value {
+    margin-top: 5px;
+  }
+
+  .cover{
+    width:85px;
+  }
+
+  .discount-title,
+  .discount-description {
+    width: 175px;
+  }
+}
 </style>
