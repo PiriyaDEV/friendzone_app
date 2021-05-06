@@ -42,7 +42,7 @@ export default {
 
 #text-box {
   background-color: #ffffff;
-  width: 250px;
+  width: 349px;
   height: 100%;
   padding-left: 20px;
   border-top-right-radius: 10px;
@@ -55,5 +55,120 @@ export default {
   font-size: 2em;
   font-weight: 450;
   text-transform: uppercase;
+}
+
+@media screen and (max-width: 2320px) {
+  #text-box {
+    width: 297px;
+  }
+}
+
+@media screen and (max-width: 1920px) {
+  #text-box {
+    width: 233px;
+  }
+}
+
+@media screen and (max-width: 1650px) {
+  #text-box {
+    width: 253px;
+  }
+}
+
+@media screen and (max-width: 1350px) {
+  #text-box {
+    width: 162px;
+  }
+
+  #text-box > h1 {
+    font-size: 1.75em;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  #text-box {
+    width: 272px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #text-box {
+    width: 242px;
+  }
+  #typebox,
+  #typebox-dark {
+    margin-right: 7.5px;
+    margin-left: 7.5px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  #text-box {
+    width: 222px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  #text-box {
+    width: 202px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #text-box {
+    width: 182px;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  #text-box {
+    width: 169px;
+  }
+
+  .category-icon {
+    width: 20px;
+  }
+}
+
+@media screen and (max-width: 525px) {
+  #text-box {
+    width: 161px;
+    padding-left: 10px;
+  }
+
+  #text-box > h1 {
+    font-size: 1.5em;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  #text-box {
+    width: 144px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  #text-box {
+    width: 124px;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  #text-box {
+    width: auto;
+    padding-left: 30px;
+  }
+
+  #typebox,
+  #typebox-dark {
+    margin-right: 0px;
+    margin-left: 0px;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+  }
+
+  #category-list {
+    width: 100%;
+  }
 }
 </style>

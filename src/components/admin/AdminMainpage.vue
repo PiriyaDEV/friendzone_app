@@ -50,56 +50,146 @@
             <div class="title-section">
               <h1 class="title header white-color">EMPLOYEES</h1>
             </div>
-            <div
-              style="margin-top:10px; width:330px; height:280px; border:none; background-color: #626262; border-radius: 8px;"
-            ></div>
+            <div id="black-box">
+              <div id="black-menu">
+                <h1 @click="adminClick()" style="cursor: pointer;" :class="cssAdmin">Admin</h1>
+                <h1 @click="analystClick()" style="cursor: pointer;" :class="cssAnalyst">Analyst</h1>
+                <h1 @click="approverClick()" style="cursor: pointer;" :class="cssApprover">Approver</h1>
+              </div>
+              <div id="userbox">
+                <div v-show="Admin" v-for="(item, i) in testList" :key="i">
+                  <Userbox :select="2" :user="item" :admin="true" />
+                </div>
+                <div v-show="Analyst" v-for="(item, i) in testList" :key="i">
+                  <Userbox :select="2" :user="item" :admin="true" />
+                </div>
+                <div v-show="Approver" v-for="(item, i) in testList" :key="i">
+                  <Userbox :select="2" :user="item" :admin="true" />
+                </div>
+              </div>
+              
+            </div>
           </div>
         </div>
 
         <h1 class="title header white-color">RECENT DISCOUNT</h1>
 
         <div id="discount-page-section">
-      <!-- Event -->
-      <div class="event-section">
-        <div id="container">
-          <div
-            id="list-container"
-            @mouseover="hovered = true"
-            @mouseleave="hovered = false"
-            class="event-container"
-          >
-            <div class="list event-flex-section">
-              <div v-for="(item, i) in eventList" :key="i">
-                <DiscountFlex
-                  @clickDiscountFlex="clickDiscountFlex"
-                ></DiscountFlex>
+          <!-- Event -->
+          <div class="event-section">
+            <div id="container">
+              <div id="list-container" class="event-container">
+                <div class="list event-flex-section">
+                  <div v-for="(item, i) in eventList" :key="i">
+                    <DiscountFlex
+                      @clickDiscountFlex="clickDiscountFlex"
+                    ></DiscountFlex>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+          <!-- Event -->
         </div>
-      </div>
-      <!-- Event -->
-    </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Userbox from "@/components/popup/manageEvent/Userbox.vue";
 import DiscountFlex from "@/components/DiscountFlex.vue";
 import ReportBox from "@/components/admin/report/ReportBox.vue";
 export default {
   name: "event-page",
   data() {
     return {
+      Admin: true,
+      Analyst: false,
+      Approver: false,
       selected: "all",
       eventList: 10,
       joinList: 10,
+      testList: [
+        {
+          event_participant_id: "EP000016",
+          user_id: "US000003",
+          username: "pd.piriya",
+          status_id: "ST13",
+          moderator: "0",
+          host: 0,
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
+        },
+        {
+          event_participant_id: "EP000016",
+          user_id: "US000003",
+          username: "pd.piriya",
+          status_id: "ST13",
+          moderator: "0",
+          host: 0,
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
+        },
+        {
+          event_participant_id: "EP000016",
+          user_id: "US000003",
+          username: "pd.piriya",
+          status_id: "ST13",
+          moderator: "0",
+          host: 0,
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
+        },
+        {
+          event_participant_id: "EP000016",
+          user_id: "US000003",
+          username: "pd.piriya",
+          status_id: "ST13",
+          moderator: "0",
+          host: 0,
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
+        },
+        {
+          event_participant_id: "EP000016",
+          user_id: "US000003",
+          username: "pd.piriya",
+          status_id: "ST13",
+          moderator: "0",
+          host: 0,
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
+        },
+        {
+          event_participant_id: "EP000016",
+          user_id: "US000003",
+          username: "pd.piriya",
+          status_id: "ST13",
+          moderator: "0",
+          host: 0,
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
+        },
+        {
+          event_participant_id: "EP000016",
+          user_id: "US000003",
+          username: "pd.piriya",
+          status_id: "ST13",
+          moderator: "0",
+          host: 0,
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
+        },
+        {
+          event_participant_id: "EP000016",
+          user_id: "US000003",
+          username: "pd.piriya",
+          status_id: "ST13",
+          moderator: "0",
+          host: 0,
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
+        },
+      ],
     };
   },
   components: {
     DiscountFlex,
     ReportBox,
+    Userbox,
   },
   methods: {
     editReturn() {
@@ -111,7 +201,48 @@ export default {
     editDatabase() {
       this.$emit("editDatabase", true);
     },
+    adminClick() {
+      this.Admin = true;
+      this.Analyst = false;
+      this.Approver = false;
+    },
+    analystClick() {
+      this.Admin = false;
+      this.Analyst = true;
+      this.Approver = false;
+    },
+    approverClick() {
+      this.Admin = false;
+      this.Analyst = false;
+      this.Approver = true;
+    }
   },
+  computed: {
+    cssAdmin() {
+      let select = "selected"
+      let unselect = ""
+      if(this.Admin == true){
+        return select
+      }
+      return unselect
+    },
+    cssAnalyst() {
+      let select = "selected"
+      let unselect = ""
+      if(this.Analyst == true){
+        return select
+      }
+      return unselect  
+    },
+    cssApprover() {
+      let select = "selected"
+      let unselect = ""
+      if(this.Approver == true){
+        return select
+      }
+      return unselect  
+    }
+  }  
 };
 </script>
 
@@ -218,6 +349,10 @@ export default {
   margin-top: 20px;
 }
 
+#userbox {
+  margin-top: 10px;
+}
+
 #report-middle-menu {
   display: grid;
   grid-template-columns: 20% 20% 20% 20% 20%;
@@ -256,6 +391,45 @@ export default {
   overflow-y: auto;
   overflow-x: hidden;
   height: 260px;
+  padding-right:15px;
 }
 
+#black-box {
+  margin-top: 10px;
+  width: 330px;
+  height: 280px;
+  border: none;
+  background-color: #626262;
+  border-radius: 8px;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+#black-menu {
+  background: #a0a0a0;
+  border-radius: 20px;
+  padding: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#black-menu > h1 {
+  margin: 0px;
+  text-transform: uppercase;
+  border-radius: 20px;
+  padding: 3px 23px;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: 500;
+  color: #444444;
+}
+
+.selected {
+  background: #ffffff;
+}
+
+.namerole{
+  width:100% !important;
+}
 </style>

@@ -2,14 +2,20 @@
   <div id="manageevent-popup" class="popup">
     <div class="popup-section section">
       <div id="manage_event" class="popup-form">
-        <h1 v-if="valueManage" id="header" class="header_title">
+        <h1 v-if="valueManage && !valueView" id="header" class="header_title">
           MANAGE EVENT
         </h1>
-        <h1 v-if="valueDetail" id="header" class="header_title">
+        <h1 v-if="valueDetail && !valueView" id="header" class="header_title">
           EVENT DETAIL
         </h1>
+        <h1 v-if="valueView" id="header" class="header_title">
+          REVIEW EVENT
+        </h1>
 
-        <div id="menu">
+        <div v-if="valueView"  id="menu">
+          <h1 class="menu-text">Event Details</h1>
+        </div>
+        <div v-if="!valueView" id="menu">
           <h1 @click="clickEventDetail()" :class="cssEventDetail">
             Event Details
           </h1>
@@ -21,6 +27,18 @@
         </div>
         <hr id="bar" />
 
+      <div v-if="valueView">
+         <EventInfo
+          v-if="eventDetail == true"
+          :event="Event"
+          @doneClick="doneClick"
+          @deleteReturn="deleteReturn"
+          :detailReturn="valueDetail"
+          :manageReturn="valueManage"
+          :view="valueView"
+        />
+      </div>
+      <div v-else>
         <EventInfo
           v-if="eventDetail == true"
           :event="Event"
@@ -38,7 +56,7 @@
           :detailReturn="valueDetail"
           :manageReturn="valueManage"
         />
-
+      </div>
         <img
           @click="cancelManage()"
           style="cursor: pointer"
@@ -62,7 +80,7 @@ export default {
       valueShow: 1,
     };
   },
-  props: ["Event","valueDetail", "valueManage"],
+  props: ["Event", "valueDetail", "valueManage","valueView"],
   components: {
     EventInfo,
     Participant,
@@ -76,6 +94,7 @@ export default {
       this.participants = false;
       this.request = false;
       this.invite = false;
+      this.valueShow = 0;
     },
     clickParticipants() {
       this.eventDetail = false;

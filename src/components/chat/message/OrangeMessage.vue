@@ -52,6 +52,7 @@ export default {
   border-radius: 20px;
   margin: 0;
   color: #444444;
+  word-wrap: break-word;
 }
 
 #time {
@@ -64,6 +65,24 @@ export default {
 #message-box {
   display: flex;
   justify-content: flex-end;
+  align-items: flex-end;
+}
+
+@media screen and (max-width: 490px) {
+  #message {
+    font-size: 1.6em;
+    padding: 3px 9px;
+  }
+
+  #orange-message {
+    margin-top: 6px;
+  }
+
+  #time {
+    margin-top: 17px;
+    font-size: 1.3em;
+    margin-right: 5px;
+  }
 }
 
 @media screen and (max-width: 490px) {

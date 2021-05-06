@@ -77,12 +77,41 @@ class EventService {
       API_URL + "joinEvent",
       {
         user_id: user.user_id,
-        event_id: event_id
+        event_id: event_id,
       },
       {
         headers: authHeader(),
       }
     );
+    return res.data;
+  }
+
+  async cancelRequest(event_id) {
+    let user = decode(localStorage.getItem("user"));
+    const res = await axios.post(
+      API_URL + "cancelRequest",
+      {
+        user_id: user.user_id,
+        event_id: event_id,
+      },
+      {
+        headers: authHeader(),
+      }
+    );
+    return res.data;
+  }
+
+  async approveRequest(data) {
+    const res = await axios.post(API_URL + "approveRequest", data, {
+      headers: authHeader(),
+    });
+    return res.data;
+  }
+
+  async declineRequest(data) {
+    const res = await axios.post(API_URL + "declineRequest", data, {
+      headers: authHeader(),
+    });
     return res.data;
   }
 
@@ -101,12 +130,16 @@ class EventService {
   }
 
   async getEventParticipantList(event_id) {
-    const res = await axios.get(API_URL + "getEventParticipantList/" + event_id, {
-      headers: authHeader(),
-    });
+    const res = await axios.get(
+      API_URL + "getEventParticipantList/" + event_id,
+      {
+        headers: authHeader(),
+      }
+    );
 
     await res.data.forEach((participant) => {
-      participant.profile_pic =  "http://localhost:8080/api/user/displayPic/" + participant.user_id;
+      participant.profile_pic =
+        "http://localhost:8080/api/user/displayPic/" + participant.user_id;
     });
 
     return res.data;
@@ -114,9 +147,16 @@ class EventService {
 
   async getParticipantToReview(event_id) {
     let user = decode(localStorage.getItem("user"));
-    const res = await axios.get(API_URL + "getParticipantToReview/?event_id=" + event_id + "&user_id=" + user.user_id, {
-      headers: authHeader(),
-    });
+    const res = await axios.get(
+      API_URL +
+        "getParticipantToReview/?event_id=" +
+        event_id +
+        "&user_id=" +
+        user.user_id,
+      {
+        headers: authHeader(),
+      }
+    );
 
     return res.data;
   }
@@ -290,7 +330,7 @@ class EventService {
   async getEventByCategory(category_id) {
     let user = decode(localStorage.getItem("user"));
     const res = await axios.get(
-      API_URL + "getEventByCategory/" + user.user_id + "/" +category_id,
+      API_URL + "getEventByCategory/" + user.user_id + "/" + category_id,
       {
         headers: authHeader(),
       }

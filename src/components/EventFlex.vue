@@ -38,7 +38,7 @@
     <!-- Date -->
 
     <!-- Date -->
-    <div id="end-box">
+    <div v-if="showEnded" id="end-box">
       <h1>EVENT HAS ENDED</h1>
     </div>
     <!-- Date -->
@@ -66,7 +66,7 @@
     <!-- Host -->
 
     <!-- Double Button -->
-    <div id="double-button" style="display:none">
+    <div v-if="showEnded" id="double-button">
       <button @click="ratePartReturn()">
         RATE PARTICIPANTS
       </button>
@@ -79,29 +79,29 @@
     <!-- Double Button -->
 
     <!-- Button -->
-    <div id="single-button" style="display:none">
+    <div v-if="showHost" id="single-button">
       <button @click="manageEventReturn()">MANAGE EVENT</button>
     </div>
     <!-- Button -->
 
     <!-- Double Button -->
-    <div id="double-button">
+    <div v-if="showButton" id="double-button">
       <button class="long" @click="moreDetailReturn()">
         MORE DETAIL
       </button>
       <div>
-        <div id="join-button">
+        <div v-if="!showPending && !showJoined" id="join-button">
           <button @click="joinEvent()">JOIN NOW</button>
         </div>
-        <div id="pending-button" style="display:none">
-          <button class="normal-cursor">
+        <div v-if="showPending" id="pending-button">
+          <button @click="cancelRequest()">
             JOIN PENDING<i
               style="margin-left:5px;"
               class="fa fa-hourglass-start"
             ></i>
           </button>
         </div>
-        <div id="pending-button" style="display:none">
+        <div v-if="showJoined" id="pending-button">
           <button class="normal-cursor">
             JOINED<i style="margin-left:5px;" class="fa fa-check"></i>
           </button>
@@ -119,35 +119,32 @@ import decode from "jwt-decode";
 export default {
   data() {
     return {
-      showManage: false,
-      showJoin: true,
-      showJoined: false,
-      showPending: false,
+      showButton: true,
       showEnded: false,
+      showHost: false,
+      showPending: false,
+      showJoined: false,
     };
   },
   name: "EventFlex",
-  props: ["event", "joined", "requested", "eventPage"],
+  props: ["event", "joined", "requested"],
   created() {
     let user = decode(localStorage.getItem("user"));
     let currentTime = new Date().getTime();
     if (currentTime > this.event.end_at) {
-      this.eventPage = false;
-      this.showJoin = false;
-      this.showJoined = false;
-      this.showPending = false;
+      this.showButton = false;
       this.showEnded = true;
-    } else if (this.event.user_id == user.user_id) {
-      this.showManage = true;
-    } else if (this.joined) {
-      this.eventPage = true;
-      this.showJoin = false;
+      this.showHost = false;
+    }
+    else if (this.event.user_id == user.user_id) {
+      this.showButton = false;
+      this.showEnded = false;
+      this.showHost = true;
+    }
+    if (this.joined) {
       this.showJoined = true;
-      this.showPending = false;
-    } else if (this.requested) {
-      this.eventPage = true;
-      this.showJoin = false;
-      this.showJoined = false;
+    }
+    if (this.requested) {
       this.showPending = true;
     }
   },
@@ -155,6 +152,7 @@ export default {
     rateEventReturn() {
       this.$emit("clickRate", true);
       this.$emit("checkRate", false);
+      this.$emit("thisEvent", this.event);
     },
     ratePartReturn() {
       this.$emit("clickRate", true);
@@ -179,12 +177,23 @@ export default {
     joinEvent() {
       EventService.joinEvent(this.event.event_id)
         .then((res) => {
-          if (res) this.showJoin = false;
-          this.showJoined = false;
-          this.showPending = true;
+          if (res) {
+            this.showPending = true;
+          }
         })
         .catch(() => {
           console.log("Error when joining the event");
+        });
+    },
+    cancelRequest() {
+      EventService.cancelRequest(this.event.event_id)
+        .then((res) => {
+          if (res) {
+            this.showPending = false;
+          }
+        })
+        .catch(() => {
+          console.log("Error when cancel the request");
         });
     },
   },

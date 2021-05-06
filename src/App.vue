@@ -126,11 +126,11 @@ div::-webkit-scrollbar-thumb {
 }
 
 .red-color {
-  color: #FD6363;
+  color: #fd6363;
 }
 
 .green-color {
-  color: #1ED32C;
+  color: #1ed32c;
 }
 
 .white-color {
@@ -365,7 +365,7 @@ button {
   display: flex;
   align-items: center;
   overflow-y: hidden;
-  width:100%;
+  width: 100%;
   /* margin-bottom: 20px; */
 }
 
@@ -456,11 +456,21 @@ button {
   width: 230px;
 }
 
+#orange-message,
+#white-message {
+  max-width: 600px;
+}
+
 @media screen and (max-width: 2320px) {
   .event-container {
     width: 1540px;
     max-width: 1540px;
     padding: 0;
+  }
+
+  #orange-message,
+  #white-message {
+    max-width: 500px;
   }
 }
 
@@ -483,12 +493,22 @@ button {
     width: 1284px;
     max-width: 1284px;
   }
+
+  #orange-message,
+  #white-message {
+    max-width: 400px;
+  }
 }
 
 @media screen and (max-width: 1650px) {
   .event-container {
     width: 1024px;
     max-width: 1024px;
+  }
+
+  #orange-message,
+  #white-message {
+    max-width: 350px;
   }
 }
 
@@ -504,6 +524,11 @@ button {
   .event-container {
     width: 750px;
     max-width: 750px;
+  }
+
+  #orange-message,
+  #white-message {
+    max-width: 300px;
   }
 }
 
@@ -522,6 +547,11 @@ button {
   #discount-flex-box {
     margin-right: 10px;
     margin-left: 10px;
+  }
+
+  #orange-message,
+  #white-message {
+    max-width: 400px;
   }
 }
 
@@ -574,6 +604,11 @@ button {
   #event-flex-box,
   #discount-flex-box {
     width: 290px;
+  }
+
+  #orange-message,
+  #white-message {
+    max-width: 300px;
   }
 }
 
@@ -630,6 +665,11 @@ button {
   #event-flex-box,
   #discount-flex-box {
     width: 230px;
+  }
+
+  #orange-message,
+  #white-message {
+    max-width: 250px;
   }
 }
 

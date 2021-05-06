@@ -32,6 +32,20 @@
               />
               <span class="menu-text">Chat</span>
             </a>
+            <a @click="chatClick()" id="chat" class="menu-box">
+              <img
+                class="menu-icon"
+                src="@/assets/icon/icon-white/icons8-increase-profits-96-w.png"
+              />
+              <span class="menu-text">Analyst</span>
+            </a>
+            <a @click="chatClick()" id="chat" class="menu-box">
+              <img
+                class="menu-icon"
+                src="@/assets/icon/icon-white/icons8-verified-badge-96-w.png"
+              />
+              <span class="menu-text">Approver</span>
+            </a>
             <a @click="reportClick()" id="report" class="menu-box">
               <img
                 class="menu-icon"
@@ -56,7 +70,7 @@
           />
         </div>
         <div id="right">
-          <img id="coin-logo" src="@/assets/icon/coin.png" />
+          <img @click="pointClick()" id="coin-logo" src="@/assets/icon/coin.png" />
           <img
             id="mail-logo"
             src="@/assets/icon/icons8-important-mail-96@2x.png"
@@ -64,7 +78,7 @@
           <img
             @click="detailReturn()"
             id="profile-logo"
-            src="@/assets/profile/pfpic.jpg"
+            :src="user.profile_pic"
           />
         </div>
       </div>
@@ -74,7 +88,10 @@
 
 <script>
 import { Slide } from "vue-burger-menu";
+import User from "../models/user";
+import UserService from "../services/user.service";
 import AuthService from "../services/auth.service";
+import PointTransactionService from "../services/pointTransaction.service";
 
 export default {
   components: {
@@ -82,6 +99,8 @@ export default {
   },
   data() {
     return {
+      user: new User({ username: "", profile_pic: "" }),
+      point: "",
       zoneselect: true,
       eventselect: false,
       discountselect: false,
@@ -91,7 +110,24 @@ export default {
       signoutselect: false,
     };
   },
+  created() {
+    UserService.getTopBarInfo().then((res) => {
+      if (res) {
+        this.user = res;
+      }
+    });
+
+    PointTransactionService.getPoint().then((res) => {
+      if (res) {
+        this.point = res;
+        console.log(this.point)
+      }
+    });
+  },
   methods: {
+    pointClick() {
+      this.$emit("point",true);
+    },
     zoneClick() {
       this.zoneselect = true;
       this.eventselect = false;

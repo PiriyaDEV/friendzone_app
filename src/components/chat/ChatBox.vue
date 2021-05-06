@@ -43,6 +43,7 @@
           @keyup.enter="sendMessage()"
           id="input"
           type="text"
+          maxlength="256"
           v-model="inputMessage"
         />
         <div @click="sendMessage()" id="send-btn">

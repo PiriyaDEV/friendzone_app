@@ -68,17 +68,27 @@
       </div>
     </div>
 
-    <div v-if="manageReturn" class="button-section">
-      <button class="back_button" @click="deleteClick()">Delete Event</button>
-      <button class="create_button" @click="done()">
-        Done
+    <div v-if="!view">
+      <div v-if="manageReturn" class="button-section">
+        <button class="back_button" @click="deleteClick()">Delete Event</button>
+        <button class="create_button" @click="done()">
+          Done
+        </button>
+      </div>
+      <div id="single-button">
+        <button v-if="detailReturn" class="create_button" @click="done()">
+          Done
+        </button>
+      </div>
+    </div>
+  
+    <div v-if="view == true" class="button-section">
+      <button id="disapprove_button" class="back_button">Disapprove</button>
+      <button id="approve_button" class="back_button">
+        Approve
       </button>
     </div>
-    <div id="single-button">
-      <button v-if="detailReturn" class="create_button" @click="done()">
-        Done
-      </button>
-    </div>
+
   </div>
 </template>
 
@@ -108,7 +118,7 @@ export default {
       ],
     };
   },
-  props: ["event", "eventReturn","manageReturn","detailReturn"],
+  props: ["event", "eventReturn","manageReturn","detailReturn","view"],
   created() {
     EventService.getEventGenderList(this.event.event_id).then((res) => {
       if (res) {
@@ -248,5 +258,15 @@ h1 {
   background: #e3e3e3;
   border-radius: 28px;
   padding: 3px 18px;
+}
+
+#disapprove_button{
+border:2px solid #FD6363 !important;
+color: #FD6363;
+}
+
+#approve_button{
+border:2px solid #1ED32C !important;
+color: #1ED32C;
 }
 </style>
