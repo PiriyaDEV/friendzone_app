@@ -128,6 +128,56 @@
         </div>
         <!-- Chat -->
 
+        <!-- Analyst -->
+        <div
+          @click="analystClick()"
+          style="cursor: pointer;"
+          class="middle-menu section"
+          :class="analystbox"
+        >
+          <div>
+            <img
+              v-show="analystselect == false"
+              class="menu-icon"
+              src="@/assets/icon/icons8-increase-profits-96-b.png"
+            />
+            <img
+              v-show="analystselect == true"
+              class="menu-icon"
+              src="@/assets/icon/icons8-increase-profits-96-o.png"
+            />
+          </div>
+          <div>
+            <h1 :class="analysttext">Analyst</h1>
+          </div>
+        </div>
+        <!-- Analyst -->
+
+        <!-- Approver -->
+        <div
+          @click="approverClick()"
+          style="cursor: pointer;"
+          class="section"
+          :class="approverbox"
+        >
+          <div>
+            <img
+              v-show="approverselect == false"
+              class="menu-icon"
+              src="@/assets/icon/icons8-verified-badge-96-b.png"
+            />
+            <img
+              v-show="approverselect == true"
+              class="menu-icon"
+              src="@/assets/icon/icons8-verified-badge-96-o.png"
+            />
+          </div>
+          <div>
+            <h1 :class="approvertext">Approver</h1>
+          </div>
+        </div>
+        <!-- Approver -->
+
         <!-- Report -->
         <div
           @click="reportClick()"
@@ -195,6 +245,8 @@ export default {
       historyselect: false,
       reportselect: false,
       signoutselect: false,
+      analystselect: false,
+      approverselect: false,
     };
   },
   methods: {
@@ -207,6 +259,8 @@ export default {
       this.discountselect = false;
       this.chatselect = false;
       this.historyselect = false;
+      this.analystselect = false;
+      this.approverselect = false;
       (this.reportselect = false), (this.signoutselect = false);
       this.$emit("clickClearSearch", true);
       this.$emit("pageReturn", 1);
@@ -217,6 +271,8 @@ export default {
       this.discountselect = false;
       this.chatselect = false;
       this.historyselect = false;
+      this.analystselect = false;
+      this.approverselect = false;
       (this.reportselect = false), (this.signoutselect = false);
       this.$emit("clickClearSearch", true);
       this.$emit("pageReturn", 4);
@@ -227,6 +283,8 @@ export default {
       this.discountselect = true;
       this.chatselect = false;
       this.historyselect = false;
+      this.analystselect = false;
+      this.approverselect = false;
       (this.reportselect = false), (this.signoutselect = false);
       this.$emit("clickClearSearch", true);
       this.$emit("pageReturn", 5);
@@ -237,6 +295,8 @@ export default {
       this.discountselect = false;
       this.chatselect = true;
       this.historyselect = false;
+      this.analystselect = false;
+      this.approverselect = false;
       (this.reportselect = false), (this.signoutselect = false);
       this.$emit("clickClearSearch", true);
       this.$emit("pageReturn", 2);
@@ -247,6 +307,8 @@ export default {
       this.discountselect = false;
       this.chatselect = false;
       this.historyselect = true;
+      this.analystselect = false;
+      this.approverselect = false;
       (this.reportselect = false), (this.signoutselect = false);
       this.$emit("clickClearSearch", true);
       this.$emit("pageReturn", 6);
@@ -257,6 +319,8 @@ export default {
       this.discountselect = false;
       this.chatselect = false;
       this.historyselect = false;
+      this.analystselect = false;
+      this.approverselect = false;
       (this.reportselect = true), (this.signoutselect = false);
       this.$emit("clickClearSearch", true);
       this.$emit("pageReturn", 3);
@@ -267,8 +331,34 @@ export default {
       this.discountselect = false;
       this.chatselect = false;
       this.historyselect = false;
+      this.analystselect = false;
+      this.approverselect = false;
       (this.reportselect = false), (this.signoutselect = true);
       AuthService.logout();
+    },
+    analystClick() {
+      this.zoneselect = false;
+      this.eventselect = false;
+      this.discountselect = false;
+      this.chatselect = false;
+      this.historyselect = false;
+      this.analystselect = true;
+      this.approverselect = false;
+      (this.reportselect = false), (this.signoutselect = false);
+      this.$emit("clickClearSearch", true);
+      this.$emit("pageReturn", 7);
+    },
+    approverClick() {
+      this.zoneselect = false;
+      this.eventselect = false;
+      this.discountselect = false;
+      this.chatselect = false;
+      this.historyselect = false;
+      this.analystselect = false;
+      this.approverselect = true;
+      (this.reportselect = false), (this.signoutselect = false);
+      this.$emit("clickClearSearch", true);
+      this.$emit("pageReturn", 8);
     },
   },
   computed: {
@@ -384,6 +474,38 @@ export default {
       }
       return unselect;
     },
+    analystbox() {
+      let select = "section menu-box";
+      let unselect = "section menu-box-unselect";
+      if (this.analystselect === true) {
+        return select;
+      }
+      return unselect;
+    },
+    analysttext() {
+      let unselect = "menu-text";
+      let select = "menu-text-select";
+      if (this.analystselect === true) {
+        return select;
+      }
+      return unselect;
+    },
+    approverbox() {
+      let select = "section menu-box";
+      let unselect = "section menu-box-unselect";
+      if (this.approverselect === true) {
+        return select;
+      }
+      return unselect;
+    },
+    approvertext() {
+      let unselect = "menu-text";
+      let select = "menu-text-select";
+      if (this.approverselect === true) {
+        return select;
+      }
+      return unselect;
+    },
   },
 };
 </script>
@@ -449,7 +571,12 @@ export default {
 }
 
 .bottom-menu {
-  margin-top: 210px;
+  margin-top: 90px;
+  cursor: pointer;
+}
+
+.middle-menu {
+  margin-top: 30px;
   cursor: pointer;
 }
 
@@ -494,7 +621,7 @@ export default {
     width: inherit;
     border: none;
     margin-left: 0px;
-    margin-top: 40px;
+    margin-top: 25px;
   }
 
   #create-text {

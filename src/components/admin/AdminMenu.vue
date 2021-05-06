@@ -356,6 +356,11 @@ export default {
   width: 40px;
 }
 
+.bottom-menu {
+  margin-top: 210px;
+  cursor: pointer;
+}
+
 .menu-text {
   font-family: "Atten-Round-New";
   font-size: 2em;

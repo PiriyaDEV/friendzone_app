@@ -119,12 +119,11 @@ export default {
 #friend-flex {
   background-color: white;
   border-radius: 17px;
-  width: 220px;
+  width: 214px;
   max-height: 250px;
   margin-right: 20px;
   margin-bottom: 20px;
   padding: 13px;
-  /* align-items: center; */
 }
 
 #top {
@@ -217,5 +216,73 @@ h2 {
   padding: 7px 15px;
   margin: 4px 0px 0px 0px;
   border-radius: 16px;
+}
+
+@media screen and (max-width: 880px) {
+    #friend-flex {
+      width:204px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+  #friend-flex {
+      width:314px;
+    }
+
+    #top{
+      justify-content: flex-start;
+    }
+
+    #right{
+      margin-left:25px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #friend-flex {
+      width:284px;
+    }
+}
+
+@media screen and (max-width: 690px) {
+    #friend-flex {
+      width:264px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+  #friend-flex {
+      width:244px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+  #friend-flex {
+      width:224px;
+    }
+}
+
+@media screen and (max-width: 570px) {
+  #friend-flex {
+      width:204px;
+    }
+}
+
+@media screen and (max-width: 525px) {
+    #friend-flex {
+      width:340px;
+    }
+}
+
+@media screen and (max-width: 490px) {
+  #friend-flex {
+      width:320px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+   #friend-flex {
+      width:285px;
+    }
 }
 </style>

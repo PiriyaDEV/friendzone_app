@@ -14,9 +14,14 @@
       </div>
       <!-- Input -->
 
-      <div id="coin-box" v-if="demoRole == 1" class="section">
+      <div
+        @click="pointClick()"
+        id="coin-box"
+        v-if="demoRole == 1"
+        class="section"
+      >
         <img id="coin-logo" src="@/assets/icon/coin.png" />
-        <h1 class="black-color" id="bar-value">2500</h1>
+        <h1 class="black-color" id="bar-value">{{point.point}}</h1>
       </div>
 
       <div id="mail-box">
@@ -47,12 +52,14 @@
 <script>
 import User from "../models/user";
 import UserService from "../services/user.service";
+import PointTransactionService from "../services/pointTransaction.service";
 
 export default {
   data() {
     return {
       search: "",
       user: new User({ username: "", profile_pic: "" }),
+      point: ""
     };
   },
   props: ["clearSearch", "demoRole"],
@@ -60,6 +67,13 @@ export default {
     UserService.getTopBarInfo().then((res) => {
       if (res) {
         this.user = res;
+      }
+    });
+
+    PointTransactionService.getPoint().then((res) => {
+      if (res) {
+        this.point = res;
+        console.log(this.point)
       }
     });
   },
@@ -77,6 +91,9 @@ export default {
   methods: {
     detailReturn() {
       this.$emit("clickDetail", true);
+    },
+    pointClick() {
+      this.$emit("point",true);
     },
   },
   computed: {
@@ -171,6 +188,7 @@ i {
 
 #coin-logo {
   width: 30px;
+  cursor: pointer;
 }
 
 #mail-logo {
@@ -187,6 +205,7 @@ i {
 #bar-value {
   font-size: 2em;
   margin-left: 13px;
+  cursor: pointer;
 }
 
 #profile-logo {
@@ -212,9 +231,9 @@ i {
 
 @media screen and (max-width: 490px) {
   #topbar,
-  #topbar-admin{
-  padding-top:10px;
-}
+  #topbar-admin {
+    padding-top: 10px;
+  }
 }
 
 @media screen and (max-width: 880px) {
@@ -224,13 +243,13 @@ i {
     display: none;
   }
 
-  #search-bar{
-    display:block;
+  #search-bar {
+    display: block;
   }
 
   #topbar,
-  #topbar-admin{
-    position:relative;
+  #topbar-admin {
+    position: relative;
     background-color: inherit;
   }
 

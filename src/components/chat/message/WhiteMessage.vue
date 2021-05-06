@@ -3,7 +3,9 @@
     <div id="white-message">
       <div>
         <h1 v-if="sameId == false" id="message">{{ chat.message }}</h1>
-        <h1 v-if="sameId == true" id="message-new">{{ chat.message }}</h1>
+        <h1 v-if="sameId == true" id="message" class="new">
+          {{ chat.message }}
+        </h1>
       </div>
     </div>
     <h1 id="time">{{ time }}</h1>
@@ -41,27 +43,23 @@ export default {
 }
 
 #message,
-#message-new,
 #time {
   font-size: 1.75em;
   font-weight: 400;
 }
 
-#message,
-#message-new {
+#message {
   background-color: #ffffff;
   border: 1px solid #707070;
   padding: 5px 16px;
   border-radius: 20px;
   color: #444444;
-}
-
-#message {
   margin: 0px;
+  word-wrap: break-word;
 }
 
-#message-new {
-  margin: 0px 0px 0px 47px;
+.new {
+  margin: 0px 0px 0px 47px !important;
 }
 
 #time {
@@ -74,27 +72,27 @@ export default {
 #message-box {
   display: flex;
   justify-content: center;
+  align-items:flex-end;
 }
 
 @media screen and (max-width: 490px) {
-  #message,
-  #message-new {
+  #message {
     font-size: 1.6em;
     padding: 3px 9px;
   }
 
-  #white-message{
-    margin-top:6px;
+  #white-message {
+    margin-top: 6px;
   }
 
-  #message-new {
-  margin: 0px 0px 0px 38px;
+  .new {
+    margin: 0px 0px 0px 38px !important;
   }
 
   #time {
-  margin-top: 17px;
-  font-size:1.3em;
-  margin-left: 5px;
+    margin-top: 17px;
+    font-size: 1.3em;
+    margin-left: 5px;
   }
 }
 </style>

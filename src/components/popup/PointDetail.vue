@@ -20,7 +20,7 @@
             </div>
 
             <img
-              @click="cancelManage()"
+              @click="pointClick()"
               style="cursor: pointer"
               class="close"
               src="@/assets/icon/icons8-multiply-96.png"
@@ -58,7 +58,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    pointClick() {
+      this.$emit("point", false);
+    },
+  },
+};
 </script>
 
 <style scoped>

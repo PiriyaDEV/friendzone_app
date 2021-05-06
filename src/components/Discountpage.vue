@@ -118,9 +118,6 @@ export default {
   object-fit: cover;
 }
 
-/* #discount-page-section {
-} */
-
 @media screen and (max-width: 768px) {
   #list-container{
     margin-bottom:10px;

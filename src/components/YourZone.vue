@@ -77,6 +77,7 @@
                 <div v-for="(event, i) in hostedEventShow" :key="i">
                   <EventFlex
                     :event="event"
+                    :host="true"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                     @manageReturn="manageReturn"
@@ -114,7 +115,6 @@
                     :joined="true"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
-                    @manageReturn="manageReturn"
                     @thisEvent="thisEvent"
                     @detailReturn="detailReturn"
                   />
@@ -149,7 +149,6 @@
                     :requested="true"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
-                    @manageReturn="manageReturn"
                     @thisEvent="thisEvent"
                     @detailReturn="detailReturn"
                   />
@@ -183,7 +182,6 @@
                     :event="event"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
-                    @manageReturn="manageReturn"
                     @thisEvent="thisEvent"
                     @detailReturn="detailReturn"
                   />
@@ -404,7 +402,7 @@ export default {
       this.$emit("manage", true);
       this.$emit("clickManage", value);
     },
-    moreDetailReturn(value) {
+    detailReturn(value) {
       this.$emit("detail", true);
       this.$emit("clickManage", value);
     },
@@ -730,66 +728,6 @@ option {
 
   #follow-box {
     padding: 15px 5px;
-  }
-}
-
-@media screen and (max-width: 360px) {
-}
-
-@media screen and (max-width: 1350px) {
-  #menubar {
-    margin: 0px;
-  }
-
-  .menu-box-orange,
-  .menu-box-white {
-    padding: 8px 40px;
-  }
-}
-
-@media screen and (max-width: 880px) {
-  #detail {
-    margin-top: 0px;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .menu-box-orange,
-  .menu-box-white {
-    padding: 8px 30px;
-  }
-}
-
-@media screen and (max-width: 650px) {
-  .menu-box-orange,
-  .menu-box-white {
-    padding: 8px 20px;
-  }
-
-  #follow-box {
-    padding: 15px 25px;
-  }
-
-  #egg {
-    width: 100px;
-    bottom:-23px;
-    right:-21px;
-  }
-}
-
-@media screen and (max-width: 570px) {
-  .menu-box-orange,
-  .menu-box-white {
-    padding: 8px 13px;
-  }
-
-  .menu-box-orange > h1,
-  .menu-box-white > h1 {
-    font-size: 1.6em;
-  }
-
-  #egg {
-    display:none;
   }
 }
 </style>

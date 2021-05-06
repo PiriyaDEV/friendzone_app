@@ -1,23 +1,22 @@
 <template>
   <div>
-    <div id="userbox">
+    <div :class="cssUserbox">
       <div id="box-info">
         <div id="profile-frame">
           <img id="profile-pic" :src="user.profile_pic" />
         </div>
-
-        <div v-if="select == 1" class="namerole">
+        <div v-if="select == 1" :class="cssName">
           <h1 class="title">{{ user.username }}</h1>
           <h1 class="title">{{ eventRole }}</h1>
         </div>
 
-        <div v-if="select == 2 || select == 3" class="namerole">
+        <div v-if="select == 2 || select == 3" :class="cssName">
           <h1 class="title">{{ user.username }}</h1>
           <div>
             <!-- Rating -->
-            <div id="rating">
+            <div :class="cssRate">
               <h2 class="black-color title">Rating</h2>
-              <div style="margin-left: 5px" class="section">
+              <div id="star-box" class="section">
                 <!-- Star -->
                 <div>
                   <!-- <img class="star" src="@/assets/icon/icons8-star-96.png" /> -->
@@ -71,8 +70,20 @@
         </button>
         <button v-if="select == 1" class="button delete">Delete</button>
         <button v-if="select == 3" class="button delete">Invite</button>
-        <button v-if="select == 2" class="button decline">Decline</button>
-        <button v-if="select == 2" class="button approve">Approve</button>
+        <button
+          v-if="select == 2"
+          @click="declineRequest()"
+          class="button decline"
+        >
+          Decline
+        </button>
+        <button
+          v-if="select == 2"
+          @click="approveRequest()"
+          class="button approve"
+        >
+          Approve
+        </button>
         <!-- <button>Click</button> -->
       </div>
     </div>
@@ -80,16 +91,74 @@
 </template>
 
 <script>
+import EventService from "@/services/event.service";
+
 export default {
   data() {
     return {
       eventRole: "Participant",
     };
   },
-  props: ["select", "user", "detailPage", "managePage"],
+  props: ["select", "event_id", "user", "detailPage", "managePage", "admin"],
   created() {
     if (this.user.moderator != 0) this.eventRole = "Moderator";
     else if (this.user.host == 1) this.eventRole = "Host";
+  },
+  computed: {
+    cssUserbox() {
+      let userRole = "userbox";
+      let adminRole = "userbox-admin";
+      if (this.admin == true) {
+        return adminRole;
+      }
+      return userRole;
+    },
+    cssName() {
+      let userRole = "namerole";
+      let adminRole = "namerole-admin";
+      if (this.admin == true) {
+        return adminRole;
+      }
+      return userRole;
+    },
+    cssRate() {
+      let userRole = "rating";
+      let adminRole = "rating-admin";
+      if (this.admin == true) {
+        return adminRole;
+      }
+      return userRole;
+    },
+  },
+  methods: {
+    approveRequest() {
+      EventService.approveRequest({
+        event_id: this.event_id,
+        user_id: this.user.user_id,
+      })
+        .then((res) => {
+          if (res) {
+            this.$emit("decrementList", this.user.user_id);
+          }
+        })
+        .catch(() => {
+          console.log("Error when approve the event");
+        });
+    },
+    declineRequest() {
+      EventService.declineRequest({
+        event_id: this.event_id,
+        user_id: this.user.user_id,
+      })
+        .then((res) => {
+          if (res) {
+            this.$emit("decrementList", this.user.user_id);
+          }
+        })
+        .catch(() => {
+          console.log("Error when decline the event");
+        });
+    },
   },
 };
 </script>
@@ -99,7 +168,8 @@ h1 {
   color: #444444;
 }
 
-#userbox {
+.userbox,
+.userbox-admin {
   border-radius: 23px;
   border: none;
   background-color: #f0f0f0;
@@ -108,6 +178,11 @@ h1 {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
+}
+
+/* Admin */
+.userbox-admin {
+  background-color: #a0a0a0 !important;
 }
 
 #box-info {
@@ -130,16 +205,31 @@ h1 {
   margin-right: 30px;
 }
 
-.namerole {
-  width: 400px;
+/* Admin */
+.namerole,
+.namerole-admin {
   display: grid;
   grid-template-columns: 40% 60%;
   align-items: center;
 }
 
+.namerole-admin {
+  width: 100%;
+}
+
+.namerole {
+  width: 400px;
+}
+
+#star-box {
+  margin-left: 5px;
+  margin-top: 3px;
+}
+
 .title {
   font-size: 1.75em;
   margin: 0px;
+  font-weight: 500;
 }
 
 .button {
@@ -171,10 +261,14 @@ h1 {
   border: 1.5px solid #1ed32c;
 }
 
-#rating {
+.rating,
+.rating-admin {
   display: flex;
   align-items: center;
-  margin-top: 5px;
+}
+
+.rating-admin {
+  margin-left: 40px;
 }
 
 .star {

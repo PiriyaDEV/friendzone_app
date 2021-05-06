@@ -26,6 +26,7 @@
         @clickDiscount2="clickDiscount2"
         :clickFromYourZone="discountShow"
       />
+      <PointDetail v-if="pointPage == true" @point="point" />
       <ManageEvent
         v-if="manageShow == true"
         @clickManage="clickManage"
@@ -33,12 +34,14 @@
         @clickDelete="clickDelete"
         :valueDetail="valueDetail"
         :valueManage="valueManage"
+        :valueView="view"
       />
       <!-- Mobile Top Bar -->
       <MobileTopbar
         id="mobile-topbar"
         @clickClearSearch="clickClearSearch"
         @pageReturn="pageReturn"
+        @point="point"
         @clickCreate="clickCreate"
         @clickDetail="clickDetail"
       />
@@ -65,6 +68,7 @@
             @clickDetail="clickDetail"
             :clearSearch="clearSearched"
             @clickClearSearch="clickClearSearch"
+            @point="point"
             :demoRole="role"
           />
           <!-- Top Bar -->
@@ -79,6 +83,8 @@
               @clickDiscount="clickDiscount"
               @clickManage="clickManage"
               @thisEvent="thisEvent"
+              @detail="detail"
+              @manage="manage"
               :discountSelect="select"
             />
           </div>
@@ -94,6 +100,7 @@
           <div v-if="select == 4 && !searchBar">
             <Eventpage
               @clickManage="clickManage"
+              @detail="detail"
               @pageEvent="pageEvent"
               @thisEvent="thisEvent"
             />
@@ -108,6 +115,14 @@
 
           <div v-if="select == 6 && !searchBar">
             <History />
+          </div>
+
+          <div v-if="select == 7 && !searchBar">
+            <AnalystPage />
+          </div>
+
+          <div v-if="select == 8 && !searchBar">
+            <ApproverPage @clickManage="clickManage" @viewShow="viewShow"/>
           </div>
         </div>
       </div>
@@ -188,6 +203,9 @@ import CreateDiscount from "@/components/admin/popup/CreateDiscount.vue";
 import EditUser from "@/components/admin/popup/EditUser.vue";
 import EditDatabase from "@/components/admin/popup/EditDatabase.vue";
 import WaitBox from "@/components/popup/WaitBox.vue";
+import AnalystPage from "@/components/AnalystPage.vue";
+import ApproverPage from "@/components/ApproverPage.vue";
+import PointDetail from "@/components/popup/PointDetail.vue";
 
 export default {
   name: "mainpage",
@@ -215,6 +233,9 @@ export default {
     EditDatabase,
     MobileTopbar,
     WaitBox,
+    AnalystPage,
+    ApproverPage,
+    PointDetail,
   },
   data() {
     return {
@@ -237,6 +258,8 @@ export default {
       deleteShow: false,
       valueDetail: false,
       valueManage: true,
+      pointPage: false,
+      view: false,
     };
   },
   computed: {
@@ -319,6 +342,12 @@ export default {
     manage(value) {
       this.valueManage = value;
       this.valueDetail = false;
+    },
+    point(value) {
+      this.pointPage = value;
+    },
+    viewShow(value) {
+      this.view = value;
     },
   },
 };

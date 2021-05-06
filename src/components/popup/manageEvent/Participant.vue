@@ -14,7 +14,14 @@
       <h1 class="title">Request ({{ requestedList.length }})</h1>
       <div class="large-box">
         <div v-for="(item, i) in requestedList" :key="i">
-          <Userbox :select="status" :user="item" :managePage="manageReturn" :detailPage="detailReturn" />
+          <Userbox
+            :select="status"
+            :event_id="event.event_id"
+            :user="item"
+            :managePage="manageReturn"
+            :detailPage="detailReturn"
+            @decrementList="decrementRequest"
+          />
         </div>
       </div>
     </div>
@@ -70,7 +77,18 @@ export default {
     Userbox,
   },
   created() {
-    if (this.status == 1 || this.status == 2) {
+    this.getEventParticipant();
+  },
+  watch: {
+    status: function() {
+      this.getEventParticipant();
+    },
+  },
+  methods: {
+    done() {
+      this.$emit("doneClick", false);
+    },
+    getEventParticipant() {
       EventService.getEventParticipantList(this.event.event_id).then((res) => {
         if (res) {
           this.joinedList = res.filter(
@@ -81,11 +99,14 @@ export default {
           );
         }
       });
-    }
-  },
-  methods: {
-    done() {
-      this.$emit("doneClick", false);
+    },
+    decrementRequest(user_id) {
+      let index = this.requestedList.findIndex(
+        (user) => (user.user_id = user_id)
+      );
+      if (index > -1) {
+        this.requestedList.splice(index, 1);
+      }
     },
   },
 };

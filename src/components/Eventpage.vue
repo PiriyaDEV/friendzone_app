@@ -100,8 +100,7 @@ export default {
           this.eventList = [];
         });
     },
-    moreDetailReturn(value) {
-      this.$emit("detailReturn", true);
+    detailReturn(value) {
       this.$emit("detail", true);
       this.$emit("thisEvent", this.event);
       this.$emit("clickManage", value);
@@ -126,5 +125,24 @@ export default {
 
 .event-flex-section {
   margin-bottom: 20px;
+}
+
+@media screen and (max-width: 1350px) {
+  #event-flex-box {
+    margin-right: 20px;
+    margin-left: 0px;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  #event-page {
+    margin-top: 0px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .event-flex-section {
+    margin-bottom: 0px;
+  }
 }
 </style>

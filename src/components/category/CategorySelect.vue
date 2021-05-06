@@ -52,4 +52,10 @@ export default {
   justify-content: flex-start;
   flex-wrap: wrap;
 }
+
+@media screen and (max-width: 414px) {
+  #category-list {
+    width: 100%;
+  }
+}
 </style>

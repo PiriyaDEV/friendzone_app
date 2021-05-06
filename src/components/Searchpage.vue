@@ -1,5 +1,8 @@
 <template>
   <div id="search-page" class="event-container">
+    <div id="mobile-filter">
+      <MobileFilter/>
+    </div>
     <div id="flex-section">
       <h1 id="searchtext" class="event-header">
         20 items match your search
@@ -69,6 +72,7 @@
 </template>
 
 <script>
+import MobileFilter from "@/components/MobileFilter.vue";
 import Filterbar from "@/components/Filterbar.vue";
 import EventFlex from "@/components/EventFlex.vue";
 import FriendFlex from "@/components/FriendFlex.vue";
@@ -82,8 +86,8 @@ export default {
       discountSelect: false,
       hovered: false,
       selected: "all",
-      eventList: 5,
-      joinList: 10,
+      eventList: 20,
+      joinList: 15,
       dataUser: [
         "05/20",
         "06/20",
@@ -107,6 +111,7 @@ export default {
     DiscountLongFlex,
     EventFlex,
     FriendFlex,
+    MobileFilter
   },
   methods: {
     friendClick() {
@@ -171,6 +176,10 @@ h1 {
   display: flex;
 }
 
+#mobile-filter {
+  display: none;
+}
+
 #searchtext {
   margin-top: 0px;
   font-size: 2em;
@@ -208,5 +217,32 @@ h1 {
 
 #flex-box {
   margin-top: 30px;
+}
+
+@media screen and (max-width: 880px) {
+  #search-page {
+    margin-top: 0px;
+    display: block;
+  }
+
+  #filterbar {
+    display: none;
+  }
+
+  #flex-section {
+    width: 100%;
+    margin-right: 0px;
+  }
+
+  #mobile-filter {
+    display: flex;
+    margin-bottom:20px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .menu-text{
+    font-size:1.6em;
+  }
 }
 </style>
