@@ -77,6 +77,7 @@
                 <div v-for="(event, i) in hostedEventShow" :key="i">
                   <EventFlex
                     :event="event"
+                    :host="true"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                     @manageReturn="manageReturn"
