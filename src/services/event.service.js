@@ -115,6 +115,20 @@ class EventService {
     return res.data;
   }
 
+  async addModerator(data) {
+    const res = await axios.post(API_URL + "addModerator", data, {
+      headers: authHeader(),
+    });
+    return res.data;
+  }
+
+  async removeModerator(data) {
+    const res = await axios.post(API_URL + "removeModerator", data, {
+      headers: authHeader(),
+    });
+    return res.data;
+  }
+
   async getEventGenderList(event_id) {
     const res = await axios.get(API_URL + "getEventGenderList/" + event_id, {
       headers: authHeader(),

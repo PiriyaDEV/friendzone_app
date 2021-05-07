@@ -77,10 +77,10 @@
                 <div v-for="(event, i) in hostedEventShow" :key="i">
                   <EventFlex
                     :event="event"
-                    :host="true"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                     @manageReturn="manageReturn"
+                    @detailReturn="detailReturn"
                     @thisEvent="thisEvent"
                   />
                 </div>
@@ -112,10 +112,10 @@
                 <div v-for="(event, i) in joinedEventShow" :key="i">
                   <EventFlex
                     :event="event"
-                    :joined="true"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                     @thisEvent="thisEvent"
+                    @manageReturn="manageReturn"
                     @detailReturn="detailReturn"
                   />
                 </div>
@@ -146,10 +146,10 @@
                 <div v-for="(event, i) in requestedEventShow" :key="i">
                   <EventFlex
                     :event="event"
-                    :requested="true"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                     @thisEvent="thisEvent"
+                    @manageReturn="manageReturn"
                     @detailReturn="detailReturn"
                   />
                 </div>
@@ -183,6 +183,7 @@
                     @clickRate="clickRate"
                     @checkRate="checkRate"
                     @thisEvent="thisEvent"
+                    @manageReturn="manageReturn"
                     @detailReturn="detailReturn"
                   />
                 </div>
@@ -304,7 +305,7 @@ export default {
     },
     interest: function() {
       if (this.interest == true) {
-        //this.interestedEventShow = [];
+        this.interestedEventShow = [];
         this.getInterestedEventList();
         this.interestFilter = "all";
         this.selectInterest = "menu-box-orange";
@@ -325,6 +326,7 @@ export default {
       } else this.selectDiscount = "menu-box-white";
     },
     hostFilter: function() {
+      this.hostedEventShow = [];
       if (this.hostFilter == "all") this.hostedEventShow = this.hostedEventList;
       else if (this.hostFilter == "pending") {
         this.hostedEventShow = this.hostedEventList.filter(
@@ -343,6 +345,7 @@ export default {
       }
     },
     joinFilter: function() {
+      this.joinedEventShow = [];
       if (this.joinFilter == "all") this.joinedEventShow = this.joinedEventList;
       else if (this.joinFilter == "ongoing") {
         this.joinedEventShow = this.joinedEventList.filter((event) => {
@@ -357,6 +360,7 @@ export default {
       }
     },
     requestFilter: function() {
+      this.requestedEventShow = [];
       if (this.requestFilter == "all")
         this.requestedEventShow = this.requestedEventList;
       else if (this.requestFilter == "pending") {
@@ -371,6 +375,7 @@ export default {
     },
     interestFilter: function() {
       let user = decode(localStorage.getItem("user"));
+      this.interestedEventShow = [];
       if (this.interestFilter == "all")
         this.interestedEventShow = this.interestedEventList;
       else if (this.interestFilter == "host") {

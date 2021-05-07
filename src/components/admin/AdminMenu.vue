@@ -7,7 +7,7 @@
         <div>
           <img id="logo" src="@/assets/longlogo.png" />
           <img
-            @click="zoneClick()"
+            @click="mainpageClick()"
             id="mobile-logo"
             style="cursor: pointer;"
             src="@/assets/friendzone-logo.png"

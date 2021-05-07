@@ -1,76 +1,103 @@
 <template>
-    <div :class="cssBox">
-      <div id="report-menu">
-        <div :class="cssMiddle">
-          <h1 id="menu-text-id" :class="cssMenuG">506</h1>
-          <h1 :class="cssMenuB">Suspect fake user</h1>
-          <h1 :class="cssMenuB">User</h1>
-          <h1 :class="cssMenuB">Fake User</h1>
-          <h1 v-if="approver" :class="cssMenuB">Raya.ya</h1>
-          <div id="pending-dot">
-            <span class="dot yellow"></span>
-            <h1 :class="cssMenuG">pending</h1>
-            <!-- <span class="dot green"></span> -->
-            <!-- <h1 class="menu-text">done</h1> -->
-          </div>
-        </div>
-        <div id="button-section">
-          <button :class="cssView" @click="viewClick()">View</button>
-          <!-- <button v-if="select == 3" class="button delete" >Invite</button> -->
+  <div :class="cssBox">
+    <div id="report-menu">
+      <div :class="cssMiddle">
+        <h1 id="menu-text-id" :class="cssMenuG">506</h1>
+        <h1 :class="cssMenuB">Suspect fake user</h1>
+        <!-- Here -->
+        <h1 :class="cssHideB">User</h1>
+        <!-- Here -->
+        <h1 :class="cssHideBadmin">Fake User</h1>
+        <h1 v-if="approver" :class="cssMenuB">Raya.ya</h1>
+        <div id="pending-dot">
+          <span class="dot yellow"></span>
+          <!-- Here -->
+          <h1 :class="cssHideG">pending</h1>
+          <!-- <span class="dot green"></span> -->
+          <!-- <h1 class="menu-text">done</h1> -->
         </div>
       </div>
+      <div id="button-section">
+        <button :class="cssView" @click="viewClick()">View</button>
+        <!-- <button v-if="select == 3" class="button delete" >Invite</button> -->
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-  props:["approver"],
+  props: ["approver"],
   computed: {
     cssMiddle() {
-      let general = "report-middle-menu"
-      let app = "report-middle-menu-approver"
-      if(this.approver == true) {
-        return app
+      let general = "report-middle-menu";
+      let app = "report-middle-menu-approver";
+      if (this.approver == true) {
+        return app;
       }
-      return general
+      return general;
     },
     cssBox() {
-      let general = "reportbox"
-      let app = "reportbox-approver"
-      if(this.approver == true) {
-        return app
+      let general = "reportbox";
+      let app = "reportbox-approver";
+      if (this.approver == true) {
+        return app;
       }
-      return general
+      return general;
     },
     cssView() {
-      let general = "button view"
-      let app = "button view-approver"
-      if(this.approver == true) {
-        return app
+      let general = "button view";
+      let app = "button view-approver";
+      if (this.approver == true) {
+        return app;
       }
-      return general
+      return general;
     },
     cssMenuG() {
-      let general = "menu-text"
-      let app = "menu-gray-approver"
-      if(this.approver == true) {
-        return app
+      let general = "menu-text";
+      let app = "menu-gray-approver";
+      if (this.approver == true) {
+        return app;
       }
-      return general
+      return general;
     },
     cssMenuB() {
-      let general = "menu-text"
-      let app = "menu-black-approver"
-      if(this.approver == true) {
-        return app
+      let general = "menu-text";
+      let app = "menu-black-approver";
+      if (this.approver == true) {
+        return app;
       }
-      return general
+      return general;
+    },
+    cssHideB() {
+      let general = "menu-text";
+      let app = "menu-black-approver approver-hide";
+      if (this.approver == true) {
+        return app;
+      }
+      return general;
+    },
+    cssHideG() {
+      let general = "menu-text approver-hide";
+      let app = "menu-gray-approver approver-hide";
+      if (this.approver == true) {
+        return app;
+      }
+      return general;
+    },
+    cssHideBadmin() {
+      let general = "menu-text approver-hide";
+      let app = "menu-black-approver approver-hide";
+      if (this.approver == true) {
+        return app;
+      }
+      return general;
     },
   },
   methods: {
     viewClick() {
-      this.$emit("viewReturn",true);
-    }
+      this.$emit("viewReturn", true);
+    },
   },
 };
 </script>
@@ -82,8 +109,8 @@ export default {
   margin: 10px 0px;
 }
 
-.reportbox-approver{
-  background-color:#FFFFFF;
+.reportbox-approver {
+  background-color: #ffffff;
   border-radius: 23px;
   margin: 10px 0px;
 }
@@ -103,18 +130,37 @@ export default {
   font-size: 1.5em;
   font-weight: 400;
   color: #b2b2b2;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0px 10px;
 }
 
-.menu-gray-approver{
+.approver-hide {
+  display: inherit;
+}
+
+.menu-gray-approver {
   font-size: 1.5em;
   font-weight: 400;
   color: #a0a0a0;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0px 10px;
 }
 
-.menu-black-approver{
+.menu-black-approver {
   font-size: 1.5em;
   font-weight: 400;
   color: #444444;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0px 10px;
 }
 
 #menu-text-id {
@@ -156,7 +202,6 @@ export default {
   background-color: inherit;
 }
 
-
 .dot {
   height: 6px;
   width: 6px;
@@ -176,5 +221,42 @@ export default {
 #pending-dot {
   display: flex;
   align-items: center;
+}
+
+@media screen and (max-width: 690px) {
+  .approver-hide {
+    display: none;
+  }
+
+  .report-middle-menu-approver {
+    grid-template-columns: 25% 40% 25% 10%;
+  }
+
+  .report-middle-menu {
+    grid-template-columns: 25% 40% 25% 10%;
+  }
+
+  #menu-text-id {
+    padding: 0px 20px 0px 30px;
+  }
+
+  .menu-gray-approver,
+  .menu-black-approver,.menu-text {
+    font-size: 1.3em;
+  }
+
+  .view-approver {
+    margin-left: 10px;
+  }
+
+  .button {
+    font-size: 1.3em;
+    font-weight: 500;
+    padding: 2px 7px;
+  }
+
+  .history-text {
+    font-size: 1.5em;
+  }
 }
 </style>

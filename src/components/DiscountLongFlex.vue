@@ -92,6 +92,10 @@ export default {
   color: #444444;
   font-size: 1.75em;
   font-weight: 450;
+  /* max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
 }
 
 .discount-description {
@@ -102,6 +106,10 @@ export default {
   margin-bottom: 0px;
   font-size: 1.5em;
   font-weight: 400;
+  /* max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
 }
 
 #title-section {
@@ -150,5 +158,6 @@ export default {
   align-items: center;
   justify-content: flex-end;
   padding: 20px 15px 0px;
+  /* padding: 50px 15px 0px; */
 }
 </style>

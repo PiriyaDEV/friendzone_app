@@ -122,7 +122,7 @@
           </div>
 
           <div v-if="select == 8 && !searchBar">
-            <ApproverPage @clickManage="clickManage" @viewShow="viewShow"/>
+            <ApproverPage @clickManage="clickManage" @viewShow="viewShow" />
           </div>
         </div>
       </div>
@@ -153,7 +153,7 @@
       <CreateDiscount v-if="createShow" @clickCreate="clickCreate" />
 
       <!-- Mobile Top Bar -->
-      <MobileTopbar id="mobile-topbar" />
+      <MobileTopbar id="mobile-topbar" :admin="true" @clickDetail="clickDetail"  @pageReturnAdmin="pageReturnAdmin"/>
       <!-- Mobile Top Bar -->
 
       <div id="mainpage-background" class="section">
@@ -357,7 +357,7 @@ export default {
 #mainpage,
 #mainpage-admin {
   /* background-image: url("../assets/harryfer-background.jpg"); */
-  overflow-y: scroll;
+  overflow-y: auto;
   height: auto;
   width: 100vw;
   height: 100vh;

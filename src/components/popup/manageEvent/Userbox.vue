@@ -62,29 +62,39 @@
       </div>
 
       <div v-if="managePage" id="button-section">
-        <button v-if="select == 1" class="button moderator">
-          Move to Participant
-        </button>
-        <button v-if="select == 1" class="button moderator">
-          Move to Moderator
-        </button>
-        <button v-if="select == 1" class="button delete">Delete</button>
+        <div v-if="select == 1 && !user.host">
+          <button
+            v-if="showModButton"
+            @click="addModerator()"
+            class="button participant"
+          >
+            Move to Moderator
+          </button>
+          <button v-else @click="removeModerator()" class="button moderator">
+            Move to Participant
+          </button>
+        </div>
+
+        <!-- <button v-if="select == 1" class="button delete">Delete</button> -->
         <button v-if="select == 3" class="button delete">Invite</button>
-        <button
-          v-if="select == 2"
-          @click="declineRequest()"
-          class="button decline"
-        >
+        <div v-if="select == 2">
+          <button @click="declineRequest()" class="button decline">
+            Decline
+          </button>
+          <button @click="approveRequest()" class="button approve">
+            Approve
+          </button>
+        </div>
+
+        <!-- <button>Click</button> -->
+      </div>
+      <div v-if="isMod">
+        <button @click="declineRequest()" class="button decline">
           Decline
         </button>
-        <button
-          v-if="select == 2"
-          @click="approveRequest()"
-          class="button approve"
-        >
+        <button @click="approveRequest()" class="button approve">
           Approve
         </button>
-        <!-- <button>Click</button> -->
       </div>
     </div>
   </div>
@@ -96,20 +106,46 @@ import EventService from "@/services/event.service";
 export default {
   data() {
     return {
+      showModButton: false,
       eventRole: "Participant",
     };
   },
-  props: ["select", "event_id", "user", "detailPage", "managePage", "admin"],
+  props: [
+    "select",
+    "event_id",
+    "isMod",
+    "user",
+    "detailPage",
+    "managePage",
+    "admin",
+  ],
   created() {
-    if (this.user.moderator != 0) this.eventRole = "Moderator";
-    else if (this.user.host == 1) this.eventRole = "Host";
+    console.log(this.isMod);
+    this.checkRole();
+    this.checkModButton();
+  },
+  watch: {
+    select: function() {
+      this.checkRole();
+    },
+    participant_id: function() {
+      this.checkModButton();
+    },
   },
   computed: {
     cssUserbox() {
       let userRole = "userbox";
-      let adminRole = "userbox-admin";
-      if (this.admin == true) {
-        return adminRole;
+      if (this.select == 1) {
+        let adminRole = "userbox-admin";
+        let HostRole = "userbox host-box";
+        let ModeratorRole = "userbox moderator-box";
+        if (this.admin == true) {
+          return adminRole;
+        } else if (this.user.host) {
+          return HostRole;
+        } else if (!this.showModButton) {
+          return ModeratorRole;
+        }
       }
       return userRole;
     },
@@ -131,6 +167,16 @@ export default {
     },
   },
   methods: {
+    checkRole() {
+      if (this.user.moderator != 0) this.eventRole = "Moderator";
+      else if (this.user.host == 1) this.eventRole = "Host";
+    },
+    checkModButton() {
+      if (this.select == 1) {
+        if (this.user.moderator == 0) this.showModButton = true;
+        else this.showModButton = false;
+      }
+    },
     approveRequest() {
       EventService.approveRequest({
         event_id: this.event_id,
@@ -159,6 +205,34 @@ export default {
           console.log("Error when decline the event");
         });
     },
+    addModerator() {
+      EventService.addModerator({
+        participant_id: this.user.event_participant_id,
+      })
+        .then((res) => {
+          if (res) {
+            this.showModButton = false;
+            this.eventRole = "Moderator";
+          }
+        })
+        .catch(() => {
+          console.log("Error when add new moderator");
+        });
+    },
+    removeModerator() {
+      EventService.removeModerator({
+        participant_id: this.user.event_participant_id,
+      })
+        .then((res) => {
+          if (res) {
+            this.showModButton = true;
+            this.eventRole = "Participant";
+          }
+        })
+        .catch(() => {
+          console.log("Error when remove the moderator");
+        });
+    },
   },
 };
 </script>
@@ -178,6 +252,14 @@ h1 {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
+}
+
+.host-box {
+  background-color: #ff8864 !important;
+}
+
+.moderator-box {
+  background-color: #ffc45c !important;
 }
 
 /* Admin */
@@ -247,8 +329,15 @@ h1 {
 }
 
 .moderator {
+  color: #ffc45c;
+  border: 1.5px solid #ffffff;
+  background-color: #ffffff;
+}
+
+.participant {
   color: #a0a0a0;
   border: 1.5px solid #a0a0a0;
+  background-color: transparent;
 }
 
 .decline {
@@ -268,11 +357,23 @@ h1 {
 }
 
 .rating-admin {
-  margin-left: 40px;
+  margin-left: 60px;
 }
 
 .star {
   width: 12px;
   margin-right: 1px;
+}
+
+@media screen and (max-width: 1650px) {
+  .rating-admin {
+    margin-left: 30px;
+  }
+}
+
+@media screen and (max-width: 1350px) {
+  .userbox-admin {
+    justify-content: center;
+  }
 }
 </style>

@@ -25,6 +25,7 @@
         </div>
       </div>
     </div>
+    <h1>{{interest}}</h1>
     <div class="button-section">
       <button class="back_button" @click="cancel()">Cancel</button>
       <button class="create_button" @click="save()">
@@ -37,10 +38,13 @@
 <script>
 import CategoryBox from "@/components/CategoryBox.vue";
 import CategoryService from "../../../services/category.service";
+// import EventService from "@/services/event.service";
+
 export default {
   data() {
     return {
       categoryList: null,
+      interest: [],
     };
   },
   props: ["profileDetail"],
@@ -58,17 +62,15 @@ export default {
     clicktest(ev, i) {
       console.log(i + 1);
       this.categoryList[i].status = !this.categoryList[i].status;
-      console.log(this.categoryList[0].status);
-      console.log(this.categoryList[1].status);
-      console.log(this.categoryList[2].status);
-      console.log(this.categoryList[3].status);
-      console.log(this.categoryList[4].status);
-      console.log(this.categoryList[5].status);
-      console.log(this.categoryList[6].status);
     },
     cancel() {
       this.$emit("showBack", false);
     },
+    // getInterest() {
+    //   EventService.getUserCateogryInterestEvent().then((res) => {
+    //       this.interest = res;
+    //   });
+    // }
   },
 };
 </script>

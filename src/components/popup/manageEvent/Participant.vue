@@ -6,7 +6,13 @@
       </h1>
       <div class="large-box">
         <div v-for="(item, i) in joinedList" :key="i">
-          <Userbox :select="status" :user="item" :eventPage="eventReturn" />
+          <Userbox
+            :select="status"
+            :user="item"
+            :managePage="manageReturn"
+            :detailPage="detailReturn"
+            :eventPage="eventReturn"
+          />
         </div>
       </div>
     </div>
@@ -17,6 +23,7 @@
           <Userbox
             :select="status"
             :event_id="event.event_id"
+            :isMod="event.isMod"
             :user="item"
             :managePage="manageReturn"
             :detailPage="detailReturn"
@@ -41,13 +48,15 @@
         <h1 class="title">Followers ({{ joinedList.length }})</h1>
         <div class="small-box">
           <div v-for="(item, i) in eventList" :key="i">
-            <Userbox :select="status" />
+            <Userbox :select="status" :managePage="manageReturn"
+            :detailPage="detailReturn"/>
           </div>
         </div>
         <h1 class="title">Others ({{ joinedList.length }})</h1>
         <div class="small-box">
           <div v-for="(item, i) in eventList" :key="i">
-            <Userbox :select="status" />
+            <Userbox :select="status" :managePage="manageReturn"
+            :detailPage="detailReturn"/>
           </div>
         </div>
       </div>

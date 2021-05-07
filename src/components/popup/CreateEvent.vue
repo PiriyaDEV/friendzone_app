@@ -1,5 +1,6 @@
 <template>
-  <div id="create-event" class="popup">
+  <div>
+    <div id="create-event" class="popup">
     <div class="popup-section section">
       <div class="popup-form">
         <h1 class="header_title">CREATE NEW EVENT</h1>
@@ -366,10 +367,14 @@
         </div>
 
         <div class="button-section">
-          <button class="back_button" @click="createdReturn()">Cancel</button>
-          <button class="create_button" @click="ClickCreate()">
+          <div>
+            <button class="back_button" @click="createdReturn()">Cancel</button>
+          </div>
+           <div>
+            <button class="create_button" @click="ClickCreate()">
             Create Now
           </button>
+          </div>      
         </div>
 
         <img
@@ -380,6 +385,7 @@
         />
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -697,6 +703,10 @@ option {
   margin-top: 12px;
 }
 
+.date-section {
+  width: 100%;
+}
+
 #select-photo-inside {
   margin-top: 60px;
   margin-bottom: 60px;
@@ -726,5 +736,69 @@ option {
 
 .bio {
   padding-bottom: 31px;
+}
+
+@media screen and (max-width: 1024px) {
+  #create-event-section {
+  display: block;
+  }
+
+  #left, #right{
+    margin:0px;
+  }
+
+  .multiselect, .date-section, .time-section{
+    width:100% !important;
+  }
+
+  #participant-section{
+    margin-top:5px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+
+  .input_box,.input_textarea_box{
+    width:250px !important;
+  }
+
+  .create_button , .back_button{
+    width:120px !important;
+  }
+
+  .pictureUpload{
+    width:268px !important;
+    height:125px;
+  }
+
+  #select-photo-inside{
+    margin:40px 0px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .input_box,.input_textarea_box{
+    width:210px !important;
+  }
+
+  #participant-section{
+    display:block;
+  }
+
+  .input_participant{
+    width: calc(100% - 30px);
+  }
+
+  .input_age{
+    width:100%;
+  }
+
+  .create_button , .back_button{
+    width:110px !important;
+  }
+
+  .popup-form{
+    padding: 0px 40px !important;
+  }
 }
 </style>

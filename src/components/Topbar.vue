@@ -8,7 +8,7 @@
         <input
           type="text"
           class="search-input"
-          placeholder="find Event, friend, and discount"
+          placeholder="find event, friend, and discount"
           v-model="search"
         />
       </div>

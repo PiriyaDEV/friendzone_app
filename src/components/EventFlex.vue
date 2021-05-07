@@ -70,7 +70,7 @@
       <button @click="ratePartReturn()">
         RATE PARTICIPANTS
       </button>
-      <div id="pending-button">
+      <div class="pending-button">
         <button @click="rateEventReturn()">
           RATE THIS EVENT
         </button>
@@ -90,19 +90,30 @@
         MORE DETAIL
       </button>
       <div>
-        <div v-if="!showPending && !showJoined" id="join-button">
+        <div
+          v-if="!showPending && !showJoined && !showRejected"
+          id="join-button"
+        >
           <button @click="joinEvent()">JOIN NOW</button>
         </div>
-        <div v-if="showPending" id="pending-button">
-          <button @click="cancelRequest()">
-            JOIN PENDING<i
+        <div v-if="showPending" class="pending-button">
+          <button id="join-pending" @click="cancelRequest()">
+            <span>JOIN PENDING</span
+            ><i
+              id="icon-pending"
               style="margin-left:5px;"
               class="fa fa-hourglass-start"
             ></i>
+            <i id="icon-leave" style="margin-left:5px;" class="fa fa-times"></i>
           </button>
         </div>
-        <div v-if="showJoined" id="pending-button">
-          <button class="normal-cursor">
+        <div v-if="showRejected" class="pending-button">
+          <button class="red normal-cursor">
+            REJECTED<i style="margin-left:5px;" class="fa fa-ban"></i>
+          </button>
+        </div>
+        <div v-if="showJoined" class="pending-button">
+          <button class="normal-cursor green">
             JOINED<i style="margin-left:5px;" class="fa fa-check"></i>
           </button>
         </div>
@@ -123,30 +134,19 @@ export default {
       showEnded: false,
       showHost: false,
       showPending: false,
+      showRejected: false,
       showJoined: false,
     };
   },
   name: "EventFlex",
-  props: ["event", "joined", "requested"],
+  props: ["event"],
   created() {
-    let user = decode(localStorage.getItem("user"));
-    let currentTime = new Date().getTime();
-    if (currentTime > this.event.end_at) {
-      this.showButton = false;
-      this.showEnded = true;
-      this.showHost = false;
-    }
-    else if (this.event.user_id == user.user_id) {
-      this.showButton = false;
-      this.showEnded = false;
-      this.showHost = true;
-    }
-    if (this.joined) {
-      this.showJoined = true;
-    }
-    if (this.requested) {
-      this.showPending = true;
-    }
+    this.getCreate();
+  },
+  watch: {
+    event: function() {
+      this.getCreate();
+    },
   },
   methods: {
     rateEventReturn() {
@@ -195,6 +195,32 @@ export default {
         .catch(() => {
           console.log("Error when cancel the request");
         });
+    },
+    getCreate() {
+      let user = decode(localStorage.getItem("user"));
+      let currentTime = new Date().getTime();
+      this.showButton = true;
+      this.showEnded = false;
+      this.showHost = false;
+      this.showPending = false;
+      this.showRejected = false;
+      this.showJoined = false;
+      if (currentTime > this.event.end_at) {
+        this.showButton = false;
+        this.showEnded = true;
+        this.showHost = false;
+      } else if (this.event.user_id == user.user_id) {
+        this.showButton = false;
+        this.showEnded = false;
+        this.showHost = true;
+      }
+      if (this.event.participant_status == "ST11") {
+        this.showJoined = true;
+      } else if (this.event.participant_status == "ST13") {
+        this.showPending = true;
+      } else if (this.event.participant_status == "ST15") {
+        this.showRejected = true;
+      }
     },
   },
 };
@@ -354,7 +380,7 @@ export default {
   padding-bottom: 15px;
 }
 
-#pending-button > button {
+.pending-button > button {
   color: #ffffff;
   background-color: #a0a0a0;
   border: 1.75px solid #a0a0a0;
@@ -364,6 +390,38 @@ export default {
   padding: 3px 8px;
   margin: 0;
   border-radius: 16px;
+  transition: 0.3s;
+}
+
+#icon-leave {
+  display: none;
+}
+
+#join-pending:hover span {
+  display: none;
+}
+
+#join-pending:hover:before {
+  content: "CANCEL";
+}
+
+#join-pending:hover #icon-pending {
+  display: none;
+}
+
+#join-pending:hover #icon-leave {
+  display: block;
+}
+
+#join-pending:hover {
+  min-width: 86px;
+  background-color: #ffffff;
+  color: #a0a0a0;
+  border: 1.75px solid #a0a0a0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
 }
 
 #double-button {
@@ -417,5 +475,15 @@ export default {
 .full {
   color: #ff8864 !important;
   font-weight: 600 !important;
+}
+
+.red {
+  background-color: #ff6464 !important;
+  border: 1.75px solid #ff6464 !important;
+}
+
+.green {
+  background-color: #41bf3e !important;
+  border: 1.75px solid #41bf3e !important;
 }
 </style>
