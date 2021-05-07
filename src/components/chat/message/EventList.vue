@@ -1,14 +1,22 @@
 <template>
   <div id="message">
-    <img id="event-logo" :src="pic" />
-    <div>
+    <div id="event-logo">
+      <img :src="pic" />
+    </div>
+    <div id="event-info-box">
       <h1 id="eventname">
-        <span class="cut-text">{{ event.title }}</span> ({{ event.joined }}/{{
-          event.max_participant
-        }})
+        <div id="event-title">
+          <span>{{ event.title }}</span>
+        </div>
+        <div id="event-join">
+          ({{ event.joined }}/{{ event.max_participant }})
+        </div>
       </h1>
       <div id="message-section">
-        <h1 id="message-text">{{ event.message }}</h1>
+        <h1 v-if="myMessage" id="message-text">You : {{ event.message }}</h1>
+        <h1 v-else id="message-text">
+          {{ event.username }} : {{ event.message }}
+        </h1>
         <h1 id="time">{{ datetime }}</h1>
       </div>
     </div>
@@ -16,13 +24,20 @@
 </template>
 
 <script>
+import decode from "jwt-decode";
+
 export default {
   data() {
     return {
+      myMessage: false,
       datetime: "",
     };
   },
   created() {
+    let userData = decode(localStorage.getItem("user"));
+   if (this.event.participant_id == userData.user_id){
+     this.myMessage = true;
+   }
     if (this.event.created) {
       let createTime = new Date(this.event.created);
       let currentTime = new Date();
@@ -68,7 +83,7 @@ export default {
 </script>
 
 <style scoped>
-#event-logo {
+#event-logo > img {
   border-radius: 50%;
   width: 34px;
   height: 34px;
@@ -92,6 +107,28 @@ export default {
   font-size: 1.85em;
   color: #444444;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#event-info-box {
+  width: 100%;
+}
+
+#event-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#event-join {
+  margin-left: 10px;
+}
+
+#event-title,
+#message-text {
+  max-width: 170px;
 }
 
 #message-text {
@@ -99,7 +136,6 @@ export default {
   font-size: 1.5em;
   font-weight: 400;
   color: #a0a0a0;
-  max-width: 100px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -123,6 +159,11 @@ export default {
   #eventname {
     font-size: 1.6em;
   }
+
+  #event-title,
+  #message-text {
+    max-width: 140px;
+  }
 }
 
 @media screen and (max-width: 880px) {
@@ -132,15 +173,13 @@ export default {
     padding: 10px;
   }
 
+  #event-title,
   #message-text {
-    max-width: 100%;
+    max-width: 110px;
   }
 
-  .cut-text {
-    max-width: 100px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  #event-info-box {
+    padding-right: 10px;
   }
 }
 </style>

@@ -4,10 +4,13 @@
       <div class="popup-form">
         <div id="profile-section" class="section">
           <div id="left">
-            <div v-if="!profile_pic" id="profile-frame">
+            <div v-if="cancel || !edit && !save" id="profile-frame">
               <img id="profile-pic" :src="showprofile_pic" />
             </div>
-            <div v-if="profile_pic">
+            <div v-if="!profile_pic && edit" id="profile-frame">
+              <img id="profile-pic" :src="showprofile_pic" />
+            </div>
+            <div v-if="!cancel && profile_pic">
               <img
                 id="profile-pic"
                 class="pictureUpload"
@@ -143,6 +146,8 @@
           <EditProfile
             v-if="interestShow == false && changePassword == false"
             @editReturn="editReturn"
+            :usernameAfter="username"
+            :bioAfter="bio"
             :edit="edit"
             :user="user"
             :role="demoRole"
@@ -182,6 +187,7 @@ export default {
       profile_pic: "",
       username: "",
       bio: "",
+      cancel: false,
       months: [
         "January",
         "February",
@@ -197,6 +203,7 @@ export default {
         "December",
       ],
       edit: false,
+      save: false,
       interestShow: false,
       changePassword: false,
     };
@@ -239,11 +246,15 @@ export default {
     },
     clickEdit() {
       this.edit = true;
+      this.cancel = false;
+      this.profile_pic = "";
       this.interestShow = false;
       this.changePassword = false;
     },
     editReturn(value) {
       this.edit = value;
+      this.cancel = true;
+      this.profile_pic.imageURL = "";
     },
     clickInterest() {
       this.interestShow = true;
@@ -261,8 +272,16 @@ export default {
     },
     saveUser(value) {
       this.edit = false;
-       UserService.editUser(value)
-       UserService.uploadProfile(this.profile_pic.formData)
+      this.save = true;
+      UserService.editUser(value).then((res) => {
+          if (res) {
+            UserService.uploadProfile(this.profile_pic.formData).then((res) => {
+              if (res) {
+                window.location.href = "/mainpage";
+              }
+            });
+          }
+        });
     },
   },
 };

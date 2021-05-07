@@ -140,9 +140,9 @@ export default {
   }
 }
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
   .event-flex-section {
     margin-bottom: 0px;
   }
-}
+} */
 </style>

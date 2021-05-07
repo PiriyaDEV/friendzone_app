@@ -5,9 +5,7 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style scoped>
@@ -19,5 +17,11 @@ export default {
 
 #analyst-title {
   margin-top: 0px;
+}
+
+@media screen and (max-width: 880px) {
+  #analyst {
+    margin-top: 0px;
+  }
 }
 </style>

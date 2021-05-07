@@ -24,6 +24,8 @@ export default {
   data() {
     return {
       chatList: [],
+      interval: null,
+      time: null,
     };
   },
   created() {
@@ -34,11 +36,32 @@ export default {
         this.$emit("chatListLength", this.chatList.length);
       }
     });
+    this.interval = setInterval(() => {
+      // Concise way to format time according to system locale.
+      // In my case this returns "3:48:00 am"
+      this.time = Intl.DateTimeFormat(navigator.language, {
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      }).format();
+    }, this.refresh);
+  },
+  watch: {
+    time: function() {
+       this.getList()
+    }
   },
   methods: {
     getChat(value) {
       this.$emit("eventChat", value);
     },
+    getList() {
+      ChatService.getChatList().then((res) => {
+      if (res) {
+        this.chatList = res;
+      }
+    });
+    }
   },
 };
 </script>
@@ -67,7 +90,7 @@ div::-webkit-scrollbar {
   }
 
   #list-box {
-    padding: 0px 15px;
+    padding: 12px 15px;
   }
 }
 

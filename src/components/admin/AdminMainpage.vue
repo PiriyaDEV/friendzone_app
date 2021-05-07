@@ -33,7 +33,7 @@
                   <h1 id="menu-text-id" class="menu-text">ID</h1>
                   <h1 class="menu-text">TITLE</h1>
                   <h1 class="menu-text">TYPE</h1>
-                  <h1 class="menu-text">CAREGORIES</h1>
+                  <h1 class="menu-text report-cat">CAREGORIES</h1>
                   <h1 class="menu-text">STATUS</h1>
                 </div>
                 <div id="space-button"></div>
@@ -52,9 +52,27 @@
             </div>
             <div id="black-box">
               <div id="black-menu">
-                <h1 @click="adminClick()" style="cursor: pointer;" :class="cssAdmin">Admin</h1>
-                <h1 @click="analystClick()" style="cursor: pointer;" :class="cssAnalyst">Analyst</h1>
-                <h1 @click="approverClick()" style="cursor: pointer;" :class="cssApprover">Approver</h1>
+                <h1
+                  @click="adminClick()"
+                  style="cursor: pointer;"
+                  :class="cssAdmin"
+                >
+                  Admin
+                </h1>
+                <h1
+                  @click="analystClick()"
+                  style="cursor: pointer;"
+                  :class="cssAnalyst"
+                >
+                  Analyst
+                </h1>
+                <h1
+                  @click="approverClick()"
+                  style="cursor: pointer;"
+                  :class="cssApprover"
+                >
+                  Approver
+                </h1>
               </div>
               <div id="userbox">
                 <div v-show="Admin" v-for="(item, i) in testList" :key="i">
@@ -67,7 +85,6 @@
                   <Userbox :select="2" :user="item" :admin="true" />
                 </div>
               </div>
-              
             </div>
           </div>
         </div>
@@ -215,34 +232,34 @@ export default {
       this.Admin = false;
       this.Analyst = false;
       this.Approver = true;
-    }
+    },
   },
   computed: {
     cssAdmin() {
-      let select = "selected"
-      let unselect = ""
-      if(this.Admin == true){
-        return select
+      let select = "selected";
+      let unselect = "";
+      if (this.Admin == true) {
+        return select;
       }
-      return unselect
+      return unselect;
     },
     cssAnalyst() {
-      let select = "selected"
-      let unselect = ""
-      if(this.Analyst == true){
-        return select
+      let select = "selected";
+      let unselect = "";
+      if (this.Analyst == true) {
+        return select;
       }
-      return unselect  
+      return unselect;
     },
     cssApprover() {
-      let select = "selected"
-      let unselect = ""
-      if(this.Approver == true){
-        return select
+      let select = "selected";
+      let unselect = "";
+      if (this.Approver == true) {
+        return select;
       }
-      return unselect  
-    }
-  }  
+      return unselect;
+    },
+  },
 };
 </script>
 
@@ -251,6 +268,7 @@ export default {
   margin-top: 110px;
   margin-bottom: 30px;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .title {
@@ -260,7 +278,7 @@ export default {
 #flex-select {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 #middle-column {
@@ -390,13 +408,18 @@ export default {
 #report-box {
   overflow-y: auto;
   overflow-x: hidden;
-  height: 260px;
-  padding-right:15px;
+  height: 278px;
+  padding-right: 15px;
+}
+
+div::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
 }
 
 #black-box {
   margin-top: 10px;
-  width: 330px;
+  width: 450px;
   height: 280px;
   border: none;
   background-color: #626262;
@@ -429,7 +452,112 @@ export default {
   background: #ffffff;
 }
 
-.namerole{
-  width:100% !important;
+.namerole {
+  width: 100% !important;
+}
+
+@media screen and (max-width: 1650px) {
+  #black-box {
+    width: 330px;
+  }
+}
+
+@media screen and (max-width: 1350px) {
+  #middle-column {
+    display: block;
+  }
+
+  #black-menu {
+  justify-content: space-between;
+  }
+
+  .flex-title {
+    font-size: 2em;
+  }
+
+  .flex-subtitle {
+    font-size: 1.5em;
+  }
+
+  #employee {
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+
+  #black-box {
+    width: calc(100% - 20px);
+  }
+
+  .flex-box {
+    width: 200px;
+    height: 65px;
+    padding: 20px;
+  }
+
+  #flex-role,
+  #flex-discount {
+    margin-right: 0px;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  #admin-mainpage {
+    margin-top: 0px;
+  }
+
+  .flex-title {
+    font-size: 2.75em;
+  }
+
+  .flex-subtitle {
+    font-size: 1.85em;
+  }
+
+  #flex-discount,
+  #flex-role,
+  #flex-edit {
+    background-position: center;
+  }
+
+  #black-box {
+    border-radius: 4px;
+  }
+
+  #flex-select {
+    display: block;
+  }
+
+  .flex-box {
+    width: calc(100% - 40px);
+    border-radius: 20px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  #report-middle-menu {
+    grid-template-columns: 25% 40% 20% 15%;
+  }
+
+  .menu-text {
+    font-size: 1.2em;
+  }
+
+  #report-box{
+    padding-right:5px;
+  }
+
+  #space-button {
+    width: 61px;
+  }
+
+  .report-cat{
+    display:none;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .flex-box {
+    height: 45px;
+  }
 }
 </style>

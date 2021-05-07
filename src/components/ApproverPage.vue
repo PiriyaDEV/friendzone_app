@@ -22,8 +22,8 @@
       <div id="approver-middle-menu">
         <h1 id="menu-text-id" class="menu-text">ID</h1>
         <h1 class="menu-text">TITLE</h1>
-        <h1 class="menu-text">LOCATION</h1>
-        <h1 class="menu-text">START DATE</h1>
+        <h1 class="menu-text approver-hide">LOCATION</h1>
+        <h1 class="menu-text approver-hide">START DATE</h1>
         <h1 class="menu-text">HOST NAME</h1>
         <h1 class="menu-text">STATUS</h1>
       </div>
@@ -32,7 +32,7 @@
 
     <div id="report-box">
       <div v-for="(item, i) in eventList" :key="i">
-        <ReportBox :approver="true" @viewReturn="viewReturn"/>
+        <ReportBox :approver="true" @viewReturn="viewReturn" />
       </div>
     </div>
   </div>
@@ -45,16 +45,16 @@ export default {
   data() {
     return {
       eventList: 30,
-    }
+    };
   },
-  components:{
-    ReportBox
+  components: {
+    ReportBox,
   },
   methods: {
-      viewReturn(value) {
-          this.$emit("viewShow",value)
-          this.$emit("clickManage",value)
-      }
+    viewReturn(value) {
+      this.$emit("viewShow", value);
+      this.$emit("clickManage", value);
+    },
   },
 };
 </script>
@@ -72,7 +72,7 @@ export default {
 
 #approver-title-box {
   margin-bottom: 20px;
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: space-between;
 }
@@ -82,17 +82,17 @@ export default {
   align-items: center;
 }
 
-#history-box{
-  background: #E3E3E3;
+#history-box {
+  background: #e3e3e3;
   border-radius: 6px;
-  padding:3px 8px;
+  padding: 3px 8px;
 }
 
-.history-text{
-  font-size:1.6em;
-  color:#A0A0A0;
-  font-weight:400;
-  padding:0px 8px;
+.history-text {
+  font-size: 1.6em;
+  color: #a0a0a0;
+  font-weight: 400;
+  padding: 0px 8px;
 }
 
 #select-event {
@@ -107,9 +107,8 @@ export default {
 
 /* Menu */
 #space-button {
-  width: 80px;
+  width: 70px;
 }
-
 
 #approver-menu {
   align-items: center;
@@ -134,5 +133,46 @@ export default {
   font-weight: 400;
   color: #444444;
   margin-bottom: 0px;
+  padding: 0px 2px;
+}
+
+.approver-hide {
+  display: inherit;
+}
+
+@media screen and (max-width: 880px) {
+  #approver {
+    margin-top: 0px;
+    margin-bottom: 20px;
+  }
+
+  #approver-title-box {
+    display: block;
+  }
+
+  #history-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 15px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  .approver-hide {
+    display: none;
+  }
+
+  #approver-middle-menu {
+    grid-template-columns: 25% 40% 25% 10%;
+  }
+
+  .menu-text {
+    font-size: 1.2em;
+  }
+
+  #space-button {
+    width: 75px;
+  }
 }
 </style>

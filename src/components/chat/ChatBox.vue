@@ -36,7 +36,6 @@
         </div>
       </div>
     </div>
-
     <div id="sending-box">
       <div id="sending-section">
         <input
@@ -64,6 +63,8 @@ export default {
   name: "chatbox",
   data() {
     return {
+      interval: null,
+      time: null,
       messages: [],
       headChat: [],
       messagesMe: [],
@@ -72,7 +73,7 @@ export default {
       tempUserID: "",
       inputMessage: "",
       countUser: 0,
-      clock: 0,
+      refresh: 5000,
       day: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     };
   },
@@ -92,9 +93,21 @@ export default {
 
       this.getChatData();
     },
+    time: function() {
+      this.getChatData();
+    },
   },
   created() {
-    setInterval(this.clock++, 1000);
+    this.getChatData();
+    this.interval = setInterval(() => {
+      // Concise way to format time according to system locale.
+      // In my case this returns "3:48:00 am"
+      this.time = Intl.DateTimeFormat(navigator.language, {
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      }).format();
+    }, this.refresh);
   },
   destroyed() {
     clearInterval();
@@ -195,7 +208,8 @@ export default {
 }
 
 div::-webkit-scrollbar {
-  display: none;
+  width: 3px;
+  padding-bottom: 30px;
 }
 
 .large-text {
@@ -219,6 +233,7 @@ div::-webkit-scrollbar {
   text-align: center;
   border: none;
   border-radius: 24px;
+  margin-top: 10px;
 }
 
 #date > h1 {
@@ -229,7 +244,7 @@ div::-webkit-scrollbar {
 
 #message-container {
   background-color: #ffffff;
-  padding: 10px 20px 7px 15px;
+  padding: 5px 20px 7px 15px;
   height: 400px;
   overflow-y: auto;
   box-shadow: inset 0px -14px 8px -11px #0000000d;

@@ -364,7 +364,8 @@ button {
 .event-flex-section {
   display: flex;
   align-items: center;
-  overflow-y: hidden;
+  overflow-y: auto;
+  overflow-x: auto;
   width: 100%;
   /* margin-bottom: 20px; */
 }
@@ -474,15 +475,6 @@ button {
   }
 }
 
-@media screen and (max-width: 1080px) {
-  .back_button,
-  .create_button {
-    width: 200px;
-    margin: 20px 0px;
-    font-size: 1.75em;
-  }
-}
-
 @media screen and (max-width: 1920px) {
   .page-container,
   .navbar-container {
@@ -532,6 +524,15 @@ button {
   }
 }
 
+@media screen and (max-width: 1080px) {
+  .back_button,
+  .create_button {
+    width: 200px;
+    margin: 20px 0px;
+    font-size: 1.75em;
+  }
+}
+
 @media screen and (max-width: 1024px) {
   .page-container,
   .navbar-container {
@@ -540,6 +541,19 @@ button {
     padding-left: 20px;
     padding-right: 20px;
   }
+
+  .popup-section {
+  overflow-y:auto;
+  align-items: flex-start !important;
+  }
+
+  .popup-form{
+    margin:50px 0px;
+  }
+
+  /* .popup{
+    overflow-y:auto;
+  } */
 }
 
 @media screen and (max-width: 880px) {
@@ -585,7 +599,8 @@ button {
   }
 
   div::-webkit-scrollbar {
-    display: none;
+    height: 5px;
+    width: 5px;
   }
 }
 @media screen and (max-width: 767px) {
@@ -703,6 +718,10 @@ button {
   .event-header {
     font-size: 3em;
   }
+
+  .popup-form{
+    margin:20px 0px;
+  }
 }
 
 @media screen and (max-width: 450px) {
@@ -713,7 +732,7 @@ button {
 
   #event-flex-box,
   #discount-flex-box {
-    width: 325px;
+    width: 285px;
   }
 }
 
@@ -760,6 +779,11 @@ button {
   .navbar-container {
     width: 355px;
     max-width: 355px;
+  }
+
+  #event-flex-box,
+  #discount-flex-box {
+    width: 235px;
   }
 }
 

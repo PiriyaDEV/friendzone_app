@@ -1,10 +1,6 @@
 <template>
   <div id="message">
-    <img
-      v-if="newId == true"
-      id="profile-logo"
-      :src="pic"
-    />
+    <img v-if="newId == true" id="profile-logo" :src="pic" />
     <div>
       <h1 v-if="newId == true" id="username">
         {{ chat.username }}
@@ -19,7 +15,7 @@
 <script>
 import WhiteMessage from "@/components/chat/message/WhiteMessage.vue";
 export default {
-  props: ["chat", "nextUserId" , "previousUserId"],
+  props: ["chat", "nextUserId", "previousUserId"],
   data() {
     return {
       nextId: "",
@@ -32,16 +28,16 @@ export default {
     WhiteMessage,
   },
   created() {
-    if (this.nextUserId == null) {
-      if(this.previousUserId.user_id !== this.chat.user_id) {
+    if (this.previousUserId == null) {
+      this.newId = true;
+    } else if (this.nextUserId == null) {
+      if (this.previousUserId.user_id !== this.chat.user_id) {
         this.newId = true;
       } else {
         this.sameUser = true;
       }
-    } else if(this.previousUserId == null) {
-      this.newId = true;
     } else {
-      if(this.previousUserId.user_id !== this.chat.user_id) {
+      if (this.previousUserId.user_id !== this.chat.user_id) {
         this.newId = true;
       } else {
         this.sameUser = true;
@@ -82,9 +78,9 @@ export default {
 
 @media screen and (max-width: 490px) {
   #profile-logo {
-  width: 25px;
-  height: 25px;
-  margin-top: 13px;
-}
+    width: 25px;
+    height: 25px;
+    margin-top: 13px;
+  }
 }
 </style>

@@ -16,7 +16,7 @@
             <h1 id="menu-text-id" class="menu-text">ID</h1>
             <h1 class="menu-text">TITLE</h1>
             <h1 class="menu-text">TYPE</h1>
-            <h1 class="menu-text">CAREGORIES</h1>
+            <h1 class="menu-text report-cat">CAREGORIES</h1>
             <h1 class="menu-text">STATUS</h1>
           </div>
           <div id="space-button"></div>
@@ -106,5 +106,29 @@ export default {
 
 #space-button {
   width: 68px;
+}
+
+@media screen and (max-width: 880px) {
+  #admin-report {
+    margin-top: 0px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  #report-middle-menu {
+    grid-template-columns: 25% 40% 20% 15%;
+  }
+
+  .menu-text {
+    font-size: 1.2em;
+  }
+
+  #space-button {
+    width: 42px;
+  }
+
+  .report-cat{
+    display:none;
+  }
 }
 </style>
