@@ -69,7 +69,7 @@
             <!-- Input -->
 
             <!-- Input -->
-            <div class="number-box">
+            <div class="number-box box-computer">
               <h2 class="input_title">
                 Point Required<span class="orange-color"> *</span>
               </h2>
@@ -357,6 +357,19 @@
             <!-- Input -->
 
             <!-- Input -->
+            <div class="number-box box-tablet">
+              <h2 class="input_title">
+                Point Required<span class="orange-color"> *</span>
+              </h2>
+              <div class="number">
+                <span class="minus">-</span>
+                <input type="text" value="1" />
+                <span class="plus">+</span>
+              </div>
+            </div>
+            <!-- Input -->
+
+            <!-- Input -->
             <div class="number-box">
               <h2 class="input_title">
                 Limit buy per user<span class="orange-color"> *</span>
@@ -431,6 +444,14 @@ export default {
 
 #to {
   padding: 0px 5px;
+}
+
+.box-computer {
+  display: flex !important;
+}
+
+.box-tablet {
+  display: none !important;
 }
 
 .description {
@@ -614,5 +635,103 @@ option {
   color: #444444;
   padding: 3px 0px;
   width: 100px;
+}
+
+@media screen and (max-width: 1024px) {
+  #create-discount-section {
+    display: block;
+  }
+
+  #left,
+  #right {
+    margin: 0px;
+  }
+
+  .date-section,
+  .time-section {
+    width: 100% !important;
+  }
+
+  #participant-section {
+    margin-top: 5px;
+  }
+
+  .box-computer {
+    display: none !important;
+  }
+
+  .box-tablet {
+    display: flex !important;
+  }
+
+  .number-box{
+    justify-content: space-between !important;
+  }
+
+  .number > input{
+    width:150px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+
+  .input_box,.input_textarea_box{
+    width:250px !important;
+  }
+
+  .create_button , .back_button{
+    width:120px !important;
+  }
+
+  .pictureUpload{
+    width:268px !important;
+    height:125px;
+  }
+
+  #select-photo-inside{
+    margin:40px 0px;
+  }
+
+  .number > input{
+    width:65px;
+    font-size:1.75em;
+    padding:6px 0px;
+    margin-left:0px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .input_box,.input_textarea_box{
+    width:210px !important;
+  }
+
+  .minus,.plus{
+    padding: 2px 5px;
+    font-size:2.5em;
+  }
+
+  .number > input{
+    width:50px;
+  }
+
+  #participant-section{
+    display:block;
+  }
+
+  .input_participant{
+    width: calc(100% - 30px);
+  }
+
+  .input_age{
+    width:100%;
+  }
+
+  .create_button , .back_button{
+    width:110px !important;
+  }
+
+  .popup-form{
+    padding: 0px 40px !important;
+  }
 }
 </style>
