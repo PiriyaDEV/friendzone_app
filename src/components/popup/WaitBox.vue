@@ -108,4 +108,10 @@ export default {
     padding: 0px 40px !important;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .create_button , .back_button{
+    width:165px !important;
+  }
+}
 </style>
