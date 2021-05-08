@@ -2,9 +2,10 @@
   <div id="discount-popup" class="popup">
     <div class="popup-section section">
       <div class="popup-form">
-        <h1 id="header" class="header_title">
+        <h1 id="header" class="header_title" v-if="!checkUsed">
           DISCOUNT DETAILS
         </h1>
+        <div v-if="checkUsed" style="height: 50px"></div>
 
         <div class="section">
           <img
@@ -13,18 +14,28 @@
           />
         </div>
 
-        <h1 id="title">
-          FREE popcorn and soft drink
+        <div class="section">
+          <div id="info-box">
+            <h1 id="title">FREE popcorn and soft drink</h1>
+
+            <h1 class="detail">
+              1 free big popcorn and 1 big glass of soft drink of your selection
+              <br v-if="!checkUsed" />
+              <br v-if="!checkUsed" />
+              <span v-if="!checkUsed">
+                NOTE : Can be used at any branch of Minor Cineplex (Except
+                ICONSIAM)</span
+              >
+            </h1>
+          </div>
+        </div>
+
+        <h1 id="confirm" v-if="checkUsed">
+          Do you confirm to <br />
+          use the discount?
         </h1>
 
-        <h1 class="detail">
-          1 free big popcorn and 1 big glass of soft drink of your selection
-          <br />
-          <br />
-          NOTE : Can be used at any branch of Minor Cineplex (Except ICONSIAM)
-        </h1>
-
-        <div id="condition">
+        <div id="condition" v-if="!checkUsed">
           <div class="left">
             <h1 v-if="clickFromYourZone == true" class="header_description">
               Bought on
@@ -45,13 +56,39 @@
 
         <!-- Button -->
         <div v-if="clickFromYourZone == true" id="button">
-          <button>Use Now</button>
+          <button
+            class="create_button"
+            v-if="!checkUsed && !confirmUsed"
+            @click="clickUseNow()"
+          >
+            Use Now
+          </button>
+          <button
+            class="create_button used"
+            v-if="confirmUsed"
+          >
+            Used
+          </button>
+          <div v-if="checkUsed" class="section double-button">
+            <div id="button-container">
+              <div>
+                <button class="create_button" @click="clickConfirmUse()">
+                  Confirm
+                </button>
+              </div>
+              <div>
+                <button class="back_button" @click="cancelUse()">Cancel</button>
+              </div>
+            </div>
+          </div>
         </div>
         <div v-else id="button">
-          <button>Buy with point</button>
+          <button class="create_button">Buy with point</button>
         </div>
 
-        <h1 id="caution">Please show this page to officer before use</h1>
+        <h1 id="caution" v-if="!checkUsed">
+          Please show this page to officer before use
+        </h1>
 
         <img
           @click="cancelDiscount()"
@@ -66,11 +103,27 @@
 
 <script>
 export default {
+  data() {
+    return {
+      checkUsed: false,
+      confirmUsed: false
+    };
+  },
   props: ["clickFromYourZone"],
   methods: {
     cancelDiscount() {
       this.$emit("clickDiscount", false);
       this.$emit("clickDiscount2", false);
+    },
+    clickUseNow() {
+      this.checkUsed = true;
+    },
+    clickConfirmUse() {
+      this.confirmUsed = true;
+      this.checkUsed = false;
+    },
+    cancelUse() {
+      this.checkUsed = false;
     },
   },
 };
@@ -84,7 +137,7 @@ h1 {
 #title,
 .detail,
 #caution {
-  max-width: 250px;
+  width: 100%;
 }
 
 #title {
@@ -104,6 +157,14 @@ h1 {
   margin: 10px 0px 0px 0px;
 }
 
+.double-button > div > div > button {
+  margin: 0px 0px 10px 0px !important;
+}
+
+.double-button {
+  margin-bottom: 20px;
+}
+
 #caution {
   font-size: 1.5em;
   font-weight: 400;
@@ -111,6 +172,14 @@ h1 {
   margin: 0px;
   padding-bottom: 20px;
   text-align: center;
+}
+
+#confirm {
+  font-size: 2.75em;
+  color: #444444;
+  font-weight: 500;
+  text-align: center;
+  margin: 10px 0px 0px 0px;
 }
 
 .header_description {
@@ -127,7 +196,7 @@ h1 {
 
 #condition {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .left {
@@ -135,8 +204,8 @@ h1 {
 }
 
 .discount-pic {
-  width: 230px;
   height: 180px;
+  width: 250px;
   object-fit: cover;
   border-radius: 19px;
   border: 3px solid #444444;
@@ -154,21 +223,51 @@ h1 {
   margin: 10px 0px 0px 0px;
 }
 
-#button {
-  margin: 15px 0px;
+.create_button{
+  margin: 20px 0px 15px 0px;
 }
 
-#button > button {
-  color: #ffffff;
-  background-color: #ff8864;
-  width: 100%;
-  text-align: center;
-  font-family: "Atten-Round-New";
-  font-size: 2.25em;
-  font-weight: 600;
-  border: none;
-  padding: 7px 15px;
-  margin: 0;
-  border-radius: 16px;
+.create_button,
+.back_button {
+  width: 100% !important;
+}
+
+#button {
+  display: flex;
+  justify-content: center;
+}
+
+.double-button {
+  margin-top: 20px;
+}
+
+.used{
+  background-color: #a0a0a0 !important;
+}
+
+#info-box,#button-container {
+  width: 250px;
+}
+
+@media screen and (max-width: 690px) {
+  #title,
+  .detail,
+  #caution {
+    max-width: 100% !important;
+  }
+
+  .discount-pic {
+    width: 230px !important;
+  }
+
+  #info-box {
+  width: 230px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .popup-form{
+    padding: 0px 40px !important;
+  }
 }
 </style>
