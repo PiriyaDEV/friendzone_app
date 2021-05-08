@@ -61,7 +61,7 @@
                   <h1 class="info_data">harryferr@gmail.com</h1>
                 </div>
                 <div class="info-column" v-if="editUser == false">
-                  <h1 class="info_title">Phonenumber</h1>
+                  <h1 class="info_title">Phone</h1>
                   <h1 class="info_data">0879902345</h1>
                 </div>
                 <div class="info-column" v-if="editUser == false">
@@ -76,9 +76,9 @@
                 <div v-if="editUser == false" class="info-column-roles">
                   <h1 class="info_title">Roles</h1>
                   <div>
-                    <h1 class="info_data">User</h1>
-                    <h1 class="info_data">Approver</h1>
-                    <h1 class="info_data">Analyst</h1>
+                    <!-- <h1 class="info_data">User</h1> -->
+                    <!-- <h1 class="info_data">Approver</h1> -->
+                    <!-- <h1 class="info_data">Analyst</h1> -->
                     <h1 class="info_data">Admin</h1>
                   </div>
                 </div>
@@ -86,9 +86,7 @@
             </div>
 
             <div v-if="editUser == true">
-              <h2 class="input_title">
-                Select roles
-              </h2>
+              <h2 class="input_title">Select roles</h2>
 
               <div id="role-section">
                 <div :class="cssUser">
@@ -130,19 +128,19 @@
 
             <div v-if="editUser == false" id="verticle-button">
               <div>
-                <button id="back_button" @click="editReturn()">Cancle</button>
+                <button class="back_button" @click="editReturn()">
+                  Cancle
+                </button>
               </div>
 
               <div>
-                <button id="next_button" @click="clickNext()">Next</button>
+                <button class="create_button" @click="clickNext()">Next</button>
               </div>
             </div>
 
             <div v-if="editUser == true" id="double_button">
-              <button id="back_button" @click="clickBack()">Back</button>
-              <button id="next_button" @click="clickDone()">
-                Done
-              </button>
+              <button class="back_button" @click="clickBack()">Back</button>
+              <button class="create_button" @click="clickDone()">Done</button>
             </div>
           </div>
           <img
@@ -156,7 +154,7 @@
         <div v-if="editUser == true" id="delete-box" class="popup-form">
           <h1 class="input_title" id="delete-text">
             Want to delete this account?<span
-              style="cursor:pointer;"
+              style="cursor: pointer"
               class="orange-color"
             >
               Banned</span
@@ -280,7 +278,7 @@ export default {
 }
 
 #searchbox {
-  padding-bottom: 25px;
+  padding-bottom: 15px;
   width: 100%;
 }
 
@@ -306,7 +304,7 @@ export default {
 }
 
 #user_info {
-  margin-top: 20px;
+  margin: 20px 0px;
 }
 
 #info-box {
@@ -337,17 +335,17 @@ export default {
 }
 
 .info-column-roles {
-  align-items: top;
+  align-items: center;
 }
 
 .info_title {
-  font-size: 1.75em;
+  font-size: 1.6em;
   color: #444444;
   font-weight: 600;
 }
 
 .info_data {
-  font-size: 1.5em;
+  font-size: 1.6em;
   color: #444444;
   font-weight: 400;
 }
@@ -378,27 +376,20 @@ export default {
   font-weight: 500;
 }
 
-#back_button {
-  color: #ff8864;
-  background-color: #ffffff;
-  border: 2px solid #ff8864;
-}
-
-#next_button {
-  color: #ffffff;
-  background-color: #ff8864;
-  border: 2px solid #ff8864;
-}
-
 #double_button {
   display: flex;
+  margin-top: 20px;
 }
 
-#double_button > #back_button {
+#verticle-button {
+  margin-top: 10px;
+}
+
+#double_button > .back_button {
   margin-right: 10px;
 }
 
-#double_button > #next_button {
+#double_button > .create_button {
   margin-left: 10px;
 }
 
@@ -454,5 +445,53 @@ export default {
   font-size: 1.85em;
   color: #444444;
   font-weight: 500;
+}
+
+.create_button,
+.back_button {
+  width: 100% !important;
+}
+
+.create_button,
+.back_button {
+  margin: 0px 0px 10px 0px;
+}
+
+@media screen and (max-width: 1024px) {
+  .popup-form {
+    margin: 50px 0px 20px 0px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  #info-box-notfound,
+  #info-box {
+    width: 250px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  #info-box-notfound,
+  #info-box {
+    width: 230px;
+  }
+
+  .role-text{
+    font-size:1.6em;
+  }
+
+  .fa-check{
+    font-size: 2em;
+  }
+
+  .icon{
+    width:20px;
+    height:20px;
+  }
+
+  .popup-form {
+    padding-right: 30px !important;
+    padding-left: 30px !important;
+  }
 }
 </style>
