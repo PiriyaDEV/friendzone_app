@@ -271,6 +271,7 @@ h2 {
 @media screen and (max-width: 525px) {
     #friend-flex {
       width:340px;
+      margin-right:0px;
     }
 }
 
@@ -282,7 +283,13 @@ h2 {
 
 @media screen and (max-width: 450px) {
    #friend-flex {
-      width:285px;
+      width:252px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+   #friend-flex {
+      width:235px;
     }
 }
 </style>
