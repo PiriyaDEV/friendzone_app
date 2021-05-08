@@ -62,9 +62,7 @@
             v-model="selected"
             required
           >
-            <option value="" disabled selected hidden>
-              select type
-            </option>
+            <option value="" disabled selected hidden>select type</option>
             <option
               v-for="(category, index) in categoryList"
               :key="index"
@@ -87,9 +85,7 @@
             v-model="selected"
             required
           >
-            <option value="" disabled selected hidden>
-              select report
-            </option>
+            <option value="" disabled selected hidden>select report</option>
             <option
               v-for="(category, index) in categoryList"
               :key="index"
@@ -112,9 +108,7 @@
             v-model="selected"
             required
           >
-            <option value="" disabled selected hidden>
-              select report
-            </option>
+            <option value="" disabled selected hidden>select report</option>
             <option
               v-for="(category, index) in categoryList"
               :key="index"
@@ -158,9 +152,7 @@
         <!-- Input -->
         <div class="button-section">
           <button class="back_button" @click="cancel()">Cancel</button>
-          <button class="create_button" @click="save()">
-            Save
-          </button>
+          <button class="create_button" @click="save()">Save</button>
         </div>
       </div>
     </div>
@@ -387,5 +379,39 @@ option {
 .input_box {
   width: calc(100% - 30px) !important;
   margin-top: 10px !important;
+}
+
+@media screen and (max-width: 1024px) {
+  #report-list {
+    display: block;
+  }
+
+  .button-section {
+    margin-top: 10px;
+  }
+
+  #left {
+    margin: 0px;
+    height: 200px;
+  }
+
+  #right {
+    margin: 20px 0px 0px 0px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  #left {
+    width: 250px;
+  }
+
+  #report-title-section > div {
+    width: 70px;
+  }
+
+  div::-webkit-scrollbar {
+    height: 3px;
+    width: 3px;
+  }
 }
 </style>
