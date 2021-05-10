@@ -33,12 +33,12 @@ export default {
   data() {
     return {
       chat: [],
-      showChat: 0,
+      showChat: 0
     };
   },
   components: {
     ChatBox,
-    GroupList,
+    GroupList
   },
   methods: {
     eventChat(value) {
@@ -46,8 +46,8 @@ export default {
     },
     chatListLength(value) {
       this.showChat = value;
-    },
-  },
+    }
+  }
 };
 </script>
 

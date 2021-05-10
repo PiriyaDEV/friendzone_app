@@ -16,7 +16,7 @@ let months = [
   "Sep",
   "Oct",
   "Nov",
-  "Dec",
+  "Dec"
 ];
 
 class EventService {
@@ -31,7 +31,7 @@ class EventService {
           role_id: userData.role_id,
           event: data.event,
           gender_id: data.gender_id,
-          category_id: data.category_id,
+          category_id: data.category_id
         },
         { headers: authHeader() }
       )
@@ -43,7 +43,7 @@ class EventService {
   uploadEventPic(formData, event_id) {
     return axios
       .post(API_URL + "uploadEventPic?event_id=" + event_id, formData, {
-        headers: authHeader(),
+        headers: authHeader()
       })
       .then((response) => {
         console.log("response " + response);
@@ -62,10 +62,10 @@ class EventService {
       {
         user_id: user.user_id,
         event_id: data.event_id,
-        interest: data.interest,
+        interest: data.interest
       },
       {
-        headers: authHeader(),
+        headers: authHeader()
       }
     );
     return res.data;
@@ -77,10 +77,10 @@ class EventService {
       API_URL + "joinEvent",
       {
         user_id: user.user_id,
-        event_id: event_id,
+        event_id: event_id
       },
       {
-        headers: authHeader(),
+        headers: authHeader()
       }
     );
     return res.data;
@@ -92,10 +92,10 @@ class EventService {
       API_URL + "cancelRequest",
       {
         user_id: user.user_id,
-        event_id: event_id,
+        event_id: event_id
       },
       {
-        headers: authHeader(),
+        headers: authHeader()
       }
     );
     return res.data;
@@ -103,42 +103,42 @@ class EventService {
 
   async approveRequest(data) {
     const res = await axios.post(API_URL + "approveRequest", data, {
-      headers: authHeader(),
+      headers: authHeader()
     });
     return res.data;
   }
 
   async declineRequest(data) {
     const res = await axios.post(API_URL + "declineRequest", data, {
-      headers: authHeader(),
+      headers: authHeader()
     });
     return res.data;
   }
 
   async addModerator(data) {
     const res = await axios.post(API_URL + "addModerator", data, {
-      headers: authHeader(),
+      headers: authHeader()
     });
     return res.data;
   }
 
   async removeModerator(data) {
     const res = await axios.post(API_URL + "removeModerator", data, {
-      headers: authHeader(),
+      headers: authHeader()
     });
     return res.data;
   }
 
   async getEventGenderList(event_id) {
     const res = await axios.get(API_URL + "getEventGenderList/" + event_id, {
-      headers: authHeader(),
+      headers: authHeader()
     });
     return res.data;
   }
 
   async getEventCategoryList(event_id) {
     const res = await axios.get(API_URL + "getEventCategoryList/" + event_id, {
-      headers: authHeader(),
+      headers: authHeader()
     });
     return res.data;
   }
@@ -147,7 +147,7 @@ class EventService {
     const res = await axios.get(
       API_URL + "getEventParticipantList/" + event_id,
       {
-        headers: authHeader(),
+        headers: authHeader()
       }
     );
 
@@ -168,7 +168,7 @@ class EventService {
         "&user_id=" +
         user.user_id,
       {
-        headers: authHeader(),
+        headers: authHeader()
       }
     );
 
@@ -178,7 +178,7 @@ class EventService {
   async getHostedEvent() {
     let user = decode(localStorage.getItem("user"));
     const res = await axios.get(API_URL + "getHostedEvent/" + user.user_id, {
-      headers: authHeader(),
+      headers: authHeader()
     });
 
     await res.data.forEach((event) => {
@@ -210,7 +210,7 @@ class EventService {
   async getJoinedEvent() {
     let user = decode(localStorage.getItem("user"));
     const res = await axios.get(API_URL + "getJoinedEvent/" + user.user_id, {
-      headers: authHeader(),
+      headers: authHeader()
     });
 
     await res.data.forEach((event) => {
@@ -242,7 +242,7 @@ class EventService {
   async getRequestedEvent() {
     let user = decode(localStorage.getItem("user"));
     const res = await axios.get(API_URL + "getRequestedEvent/" + user.user_id, {
-      headers: authHeader(),
+      headers: authHeader()
     });
 
     await res.data.forEach((event) => {
@@ -276,7 +276,7 @@ class EventService {
     const res = await axios.get(
       API_URL + "getInterestedEvent/" + user.user_id,
       {
-        headers: authHeader(),
+        headers: authHeader()
       }
     );
 
@@ -311,7 +311,7 @@ class EventService {
     const res = await axios.get(
       API_URL + "getUserCateogryInterestEvent/" + user.user_id,
       {
-        headers: authHeader(),
+        headers: authHeader()
       }
     );
 
@@ -346,7 +346,7 @@ class EventService {
     const res = await axios.get(
       API_URL + "getEventByCategory/" + user.user_id + "/" + category_id,
       {
-        headers: authHeader(),
+        headers: authHeader()
       }
     );
 
@@ -371,6 +371,23 @@ class EventService {
         event.date = `${startDate} ${months[startMonth]} ${startYear}`;
       else
         event.date = `${startDate} ${months[startMonth]} ${startYear} - ${endDate} ${months[endMonth]} ${endYear}`;
+    });
+
+    return res.data;
+  }
+
+  async getApproverList() {
+      const res = await axios.get(API_URL + "getApproverList", {
+      headers: authHeader()
+    });
+
+    await res.data.forEach((event) => {
+      event.event_pic = API_URL + "displayPic/" + event.event_id;
+      let start_at = new Date(event.start_at);
+      let startDate = start_at.getDate();
+      let startMonth = start_at.getMonth();
+      let startYear = start_at.getFullYear();
+      event.date = `${startDate} ${months[startMonth]} ${startYear}`;
     });
 
     return res.data;

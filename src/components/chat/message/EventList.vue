@@ -12,7 +12,7 @@
           ({{ event.joined }}/{{ event.max_participant }})
         </div>
       </h1>
-      <div id="message-section">
+      <div v-if="event.message" id="message-section">
         <h1 v-if="myMessage" id="message-text">You : {{ event.message }}</h1>
         <h1 v-else id="message-text">
           {{ event.username }} : {{ event.message }}
@@ -30,14 +30,16 @@ export default {
   data() {
     return {
       myMessage: false,
-      datetime: "",
+      datetime: ""
     };
   },
   created() {
-    let userData = decode(localStorage.getItem("user"));
-   if (this.event.participant_id == userData.user_id){
-     this.myMessage = true;
-   }
+    if (this.event.message) {
+      let userData = decode(localStorage.getItem("user"));
+      if (this.event.participant_id == userData.user_id) {
+        this.myMessage = true;
+      }
+    }
     if (this.event.created) {
       let createTime = new Date(this.event.created);
       let currentTime = new Date();
@@ -77,8 +79,8 @@ export default {
     pic() {
       let link = "http://localhost:8080/api/event/displayPic/";
       return link + this.event.event_id;
-    },
-  },
+    }
+  }
 };
 </script>
 

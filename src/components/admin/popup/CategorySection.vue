@@ -31,7 +31,9 @@
               <div v-if="selected">
                 <!-- not change -->
                 <TypeBox
-                  v-if="!newNameCategory && !newColorCategory && !newIconCategory"
+                  v-if="
+                    !newNameCategory && !newColorCategory && !newIconCategory
+                  "
                   :nameCategory="selected.category_name"
                   :icon="selected.icon_white"
                   :colorCode="selected.color_code"
@@ -39,7 +41,9 @@
                   id="typebox"
                 />
                 <div
-                  v-if="!newNameCategory && !newColorCategory && !newIconCategory"
+                  v-if="
+                    !newNameCategory && !newColorCategory && !newIconCategory
+                  "
                   style="margin-top:15px;"
                 >
                   <TypeBox
@@ -53,7 +57,9 @@
                 <!-- not change -->
                 <!-- change Name Only -->
                 <TypeBox
-                  v-if="newNameCategory && !newColorCategory && !newIconCategory"
+                  v-if="
+                    newNameCategory && !newColorCategory && !newIconCategory
+                  "
                   :nameCategory="changeName"
                   :icon="selected.icon_white"
                   :colorCode="selected.color_code"
@@ -61,7 +67,9 @@
                   id="typebox"
                 />
                 <div
-                  v-if="newNameCategory && !newColorCategory && !newIconCategory"
+                  v-if="
+                    newNameCategory && !newColorCategory && !newIconCategory
+                  "
                   style="margin-top:15px;"
                 >
                   <TypeBox
@@ -75,7 +83,9 @@
                 <!-- change Name Only -->
                 <!-- change Color Only -->
                 <TypeBox
-                  v-if="newColorCategory && !newNameCategory && !newIconCategory"
+                  v-if="
+                    newColorCategory && !newNameCategory && !newIconCategory
+                  "
                   :nameCategory="selected.category_name"
                   :icon="selected.icon_white"
                   :colorCode="changeColor"
@@ -83,7 +93,9 @@
                   id="typebox"
                 />
                 <div
-                  v-if="newColorCategory && !newNameCategory && !newIconCategory"
+                  v-if="
+                    newColorCategory && !newNameCategory && !newIconCategory
+                  "
                   style="margin-top:15px;"
                 >
                   <TypeBox
@@ -97,7 +109,9 @@
                 <!-- change Color Only -->
                 <!-- change Icon Only -->
                 <TypeBox
-                  v-if="newIconCategory && !newNameCategory && !newColorCategory"
+                  v-if="
+                    newIconCategory && !newNameCategory && !newColorCategory
+                  "
                   :nameCategory="selected.category_name"
                   :icon="changeIconWhite"
                   :colorCode="selected.color_code"
@@ -105,7 +119,9 @@
                   id="typebox"
                 />
                 <div
-                  v-if="newIconCategory && !newNameCategory && !newColorCategory"
+                  v-if="
+                    newIconCategory && !newNameCategory && !newColorCategory
+                  "
                   style="margin-top:15px;"
                 >
                   <TypeBox
@@ -256,7 +272,10 @@
             <div class="button-section">
               <Upload v-model="newIconWhite">
                 <div slot="activator" class="select-photo-inside">
-                  <img id="addphoto" src="@/assets/icon/icons8-add-image-96.png" />
+                  <img
+                    id="addphoto"
+                    src="@/assets/icon/icons8-add-image-96.png"
+                  />
                   <h1 v-if="!newIconWhite" class="upload">upload white icon</h1>
                   <h1 v-if="newIconWhite" class="upload">uploaded</h1>
                 </div>
@@ -265,7 +284,10 @@
             <div style="margin-top:10px;" class="button-section">
               <Upload v-model="newIconBlack">
                 <div slot="activator" class="select-photo-inside">
-                  <img id="addphoto" src="@/assets/icon/icons8-add-image-96.png" />
+                  <img
+                    id="addphoto"
+                    src="@/assets/icon/icons8-add-image-96.png"
+                  />
                   <h1 v-if="!newIconBlack" class="upload">upload dark icon</h1>
                   <h1 v-if="newIconBlack" class="upload">uploaded</h1>
                 </div>
@@ -301,182 +323,182 @@
         <div id="left">
           <div id="result-add" class="section">
             <div>
-                <!-- not change -->
+              <!-- not change -->
+              <TypeBox
+                v-if="!nameAdd && !colorAdd && !iconAdd"
+                :nameCategory="defaultName"
+                :icon="categoryList[1].icon_white"
+                :colorCode="defaultColor"
+                :bgcolorCode="defaultColor"
+                id="typebox"
+              />
+              <div
+                v-if="!nameAdd && !colorAdd && !iconAdd"
+                style="margin-top:15px;"
+              >
                 <TypeBox
-                  v-if="!nameAdd && !colorAdd && !iconAdd"
                   :nameCategory="defaultName"
-                  :icon="categoryList[1].icon_white"
-                  :colorCode="defaultColor"
-                  :bgcolorCode="defaultColor"
-                  id="typebox"
+                  :icon="categoryList[1].icon_black"
+                  :colorCode="GreyColor"
+                  :bgcolorCode="WhiteColor"
+                  id="typebox-dark"
                 />
-                <div
-                  v-if="!nameAdd && !colorAdd && !iconAdd"
-                  style="margin-top:15px;"
-                >
-                  <TypeBox
-                    :nameCategory="defaultName"
-                    :icon="categoryList[1].icon_black"
-                    :colorCode="GreyColor"
-                    :bgcolorCode="WhiteColor"
-                    id="typebox-dark"
-                  />
-                </div>
-                <!-- not change -->
-                <!-- change Name Only -->
+              </div>
+              <!-- not change -->
+              <!-- change Name Only -->
+              <TypeBox
+                v-if="nameAdd && !colorAdd && !iconAdd"
+                :nameCategory="addNewName"
+                :icon="categoryList[1].icon_white"
+                :colorCode="defaultColor"
+                :bgcolorCode="defaultColor"
+                id="typebox"
+              />
+              <div
+                v-if="nameAdd && !colorAdd && !iconAdd"
+                style="margin-top:15px;"
+              >
                 <TypeBox
-                  v-if="nameAdd && !colorAdd && !iconAdd"
                   :nameCategory="addNewName"
-                  :icon="categoryList[1].icon_white"
-                  :colorCode="defaultColor"
-                  :bgcolorCode="defaultColor"
-                  id="typebox"
+                  :icon="categoryList[1].icon_black"
+                  :colorCode="GreyColor"
+                  :bgcolorCode="WhiteColor"
+                  id="typebox-dark"
                 />
-                <div
-                  v-if="nameAdd && !colorAdd && !iconAdd"
-                  style="margin-top:15px;"
-                >
-                  <TypeBox
-                    :nameCategory="addNewName"
-                    :icon="categoryList[1].icon_black"
-                    :colorCode="GreyColor"
-                    :bgcolorCode="WhiteColor"
-                    id="typebox-dark"
-                  />
-                </div>
-                <!-- change Name Only -->
-                <!-- change Color Only -->
+              </div>
+              <!-- change Name Only -->
+              <!-- change Color Only -->
+              <TypeBox
+                v-if="colorAdd && !nameAdd && !iconAdd"
+                :nameCategory="defaultName"
+                :icon="categoryList[1].icon_white"
+                :colorCode="addNewColor"
+                :bgcolorCode="addNewColor"
+                id="typebox"
+              />
+              <div
+                v-if="colorAdd && !nameAdd && !iconAdd"
+                style="margin-top:15px;"
+              >
                 <TypeBox
-                  v-if="colorAdd && !nameAdd && !iconAdd"
                   :nameCategory="defaultName"
-                  :icon="categoryList[1].icon_white"
-                  :colorCode="addNewColor"
-                  :bgcolorCode="addNewColor"
-                  id="typebox"
+                  :icon="categoryList[1].icon_black"
+                  :colorCode="GreyColor"
+                  :bgcolorCode="WhiteColor"
+                  id="typebox-dark"
                 />
-                <div
-                  v-if="colorAdd && !nameAdd && !iconAdd"
-                  style="margin-top:15px;"
-                >
-                  <TypeBox
-                    :nameCategory="defaultName"
-                    :icon="categoryList[1].icon_black"
-                    :colorCode="GreyColor"
-                    :bgcolorCode="WhiteColor"
-                    id="typebox-dark"
-                  />
-                </div>
-                <!-- change Color Only -->
-                <!-- change Icon Only -->
+              </div>
+              <!-- change Color Only -->
+              <!-- change Icon Only -->
+              <TypeBox
+                v-if="iconAdd && !nameAdd && !colorAdd"
+                :nameCategory="defaultName"
+                :icon="addNewIconWhite"
+                :colorCode="defaultColor"
+                :bgcolorCode="defaultColor"
+                id="typebox"
+              />
+              <div
+                v-if="iconAdd && !nameAdd && !colorAdd"
+                style="margin-top:15px;"
+              >
                 <TypeBox
-                  v-if="iconAdd && !nameAdd && !colorAdd"
                   :nameCategory="defaultName"
-                  :icon="addNewIconWhite"
-                  :colorCode="defaultColor"
-                  :bgcolorCode="defaultColor"
-                  id="typebox"
+                  :icon="addNewIconBlack"
+                  :colorCode="GreyColor"
+                  :bgcolorCode="WhiteColor"
+                  id="typebox-dark"
                 />
-                <div
-                  v-if="iconAdd && !nameAdd && !colorAdd"
-                  style="margin-top:15px;"
-                >
-                  <TypeBox
-                    :nameCategory="defaultName"
-                    :icon="addNewIconBlack"
-                    :colorCode="GreyColor"
-                    :bgcolorCode="WhiteColor"
-                    id="typebox-dark"
-                  />
-                </div>
-                <!-- change Icon Only -->
-                <!-- change name and Color -->
+              </div>
+              <!-- change Icon Only -->
+              <!-- change name and Color -->
+              <TypeBox
+                v-if="colorAdd && nameAdd && !iconAdd"
+                :nameCategory="addNewName"
+                :icon="categoryList[1].icon_white"
+                :colorCode="addNewColor"
+                :bgcolorCode="addNewColor"
+                id="typebox"
+              />
+              <div
+                v-if="colorAdd && nameAdd && !iconAdd"
+                style="margin-top:15px;"
+              >
                 <TypeBox
-                  v-if="colorAdd && nameAdd && !iconAdd"
                   :nameCategory="addNewName"
-                  :icon="categoryList[1].icon_white"
-                  :colorCode="addNewColor"
-                  :bgcolorCode="addNewColor"
-                  id="typebox"
+                  :icon="categoryList[1].icon_black"
+                  :colorCode="GreyColor"
+                  :bgcolorCode="WhiteColor"
+                  id="typebox-dark"
                 />
-                <div
-                  v-if="colorAdd && nameAdd && !iconAdd"
-                  style="margin-top:15px;"
-                >
-                  <TypeBox
-                    :nameCategory="addNewName"
-                    :icon="categoryList[1].icon_black"
-                    :colorCode="GreyColor"
-                    :bgcolorCode="WhiteColor"
-                    id="typebox-dark"
-                  />
-                </div>
-                <!-- change name and Color -->
-                <!-- change name and Icon -->
+              </div>
+              <!-- change name and Color -->
+              <!-- change name and Icon -->
+              <TypeBox
+                v-if="!colorAdd && nameAdd && iconAdd"
+                :nameCategory="addNewName"
+                :icon="addNewIconWhite"
+                :colorCode="defaultColor"
+                :bgcolorCode="defaultColor"
+                id="typebox"
+              />
+              <div
+                v-if="!colorAdd && nameAdd && iconAdd"
+                style="margin-top:15px;"
+              >
                 <TypeBox
-                  v-if="!colorAdd && nameAdd && iconAdd"
                   :nameCategory="addNewName"
-                  :icon="addNewIconWhite"
-                  :colorCode="defaultColor"
-                  :bgcolorCode="defaultColor"
-                  id="typebox"
+                  :icon="addNewIconBlack"
+                  :colorCode="GreyColor"
+                  :bgcolorCode="WhiteColor"
+                  id="typebox-dark"
                 />
-                <div
-                  v-if="!colorAdd && nameAdd && iconAdd"
-                  style="margin-top:15px;"
-                >
-                  <TypeBox
-                    :nameCategory="addNewName"
-                    :icon="addNewIconBlack"
-                    :colorCode="GreyColor"
-                    :bgcolorCode="WhiteColor"
-                    id="typebox-dark"
-                  />
-                </div>
-                <!-- change name and Icon -->
-                <!-- change color and Icon -->
+              </div>
+              <!-- change name and Icon -->
+              <!-- change color and Icon -->
+              <TypeBox
+                v-if="colorAdd && !nameAdd && iconAdd"
+                :nameCategory="defaultName"
+                :icon="addNewIconWhite"
+                :colorCode="addNewColor"
+                :bgcolorCode="addNewColor"
+                id="typebox"
+              />
+              <div
+                v-if="colorAdd && !nameAdd && iconAdd"
+                style="margin-top:15px;"
+              >
                 <TypeBox
-                  v-if="colorAdd && !nameAdd && iconAdd"
                   :nameCategory="defaultName"
-                  :icon="addNewIconWhite"
-                  :colorCode="addNewColor"
-                  :bgcolorCode="addNewColor"
-                  id="typebox"
+                  :icon="addNewIconBlack"
+                  :colorCode="GreyColor"
+                  :bgcolorCode="WhiteColor"
+                  id="typebox-dark"
                 />
-                <div
-                  v-if="colorAdd && !nameAdd && iconAdd"
-                  style="margin-top:15px;"
-                >
-                  <TypeBox
-                    :nameCategory="defaultName"
-                    :icon="addNewIconBlack"
-                    :colorCode="GreyColor"
-                    :bgcolorCode="WhiteColor"
-                    id="typebox-dark"
-                  />
-                </div>
-                <!-- change color and Icon -->
-                <!-- change All -->
+              </div>
+              <!-- change color and Icon -->
+              <!-- change All -->
+              <TypeBox
+                v-if="colorAdd && nameAdd && iconAdd"
+                :nameCategory="addNewName"
+                :icon="addNewIconWhite"
+                :colorCode="addNewColor"
+                :bgcolorCode="addNewColor"
+                id="typebox"
+              />
+              <div
+                v-if="colorAdd && nameAdd && iconAdd"
+                style="margin-top:15px;"
+              >
                 <TypeBox
-                  v-if="colorAdd && nameAdd && iconAdd"
                   :nameCategory="addNewName"
-                  :icon="addNewIconWhite"
-                  :colorCode="addNewColor"
-                  :bgcolorCode="addNewColor"
-                  id="typebox"
+                  :icon="addNewIconBlack"
+                  :colorCode="GreyColor"
+                  :bgcolorCode="WhiteColor"
+                  id="typebox-dark"
                 />
-                <div
-                  v-if="colorAdd && nameAdd && iconAdd"
-                  style="margin-top:15px;"
-                >
-                  <TypeBox
-                    :nameCategory="addNewName"
-                    :icon="addNewIconBlack"
-                    :colorCode="GreyColor"
-                    :bgcolorCode="WhiteColor"
-                    id="typebox-dark"
-                  />
-                </div>
-                <!-- change All -->
+              </div>
+              <!-- change All -->
             </div>
           </div>
         </div>
@@ -527,7 +549,10 @@
             <div class="button-section">
               <Upload v-model="addIconWhite">
                 <div slot="activator" class="select-photo-inside">
-                  <img id="addphoto" src="@/assets/icon/icons8-add-image-96.png" />
+                  <img
+                    id="addphoto"
+                    src="@/assets/icon/icons8-add-image-96.png"
+                  />
                   <h1 v-if="!addIconWhite" class="upload">upload white icon</h1>
                   <h1 v-if="addIconWhite" class="upload">uploaded</h1>
                 </div>
@@ -536,7 +561,10 @@
             <div style="margin-top:10px;" class="button-section">
               <Upload v-model="addIconBlack">
                 <div slot="activator" class="select-photo-inside">
-                  <img id="addphoto" src="@/assets/icon/icons8-add-image-96.png" />
+                  <img
+                    id="addphoto"
+                    src="@/assets/icon/icons8-add-image-96.png"
+                  />
                   <h1 v-if="!addIconBlack" class="upload">upload dark icon</h1>
                   <h1 v-if="addIconBlack" class="upload">uploaded</h1>
                 </div>
@@ -547,7 +575,6 @@
             </div>
           </div>
           <!-- Input -->
-
         </div>
       </div>
       <div class="button-section">
@@ -563,17 +590,17 @@
 <script>
 import CategoryService from "../../../services/category.service";
 import TypeBox from "@/components/category/TypeBox.vue";
-import Upload from "@/components/UploadPic.vue"
+import Upload from "@/components/UploadPic.vue";
 
 export default {
-  props:["Case"],
+  props: ["Case"],
   data() {
     return {
       categoryList: null,
-      newIconWhite:"",
-      newIconBlack:"",
-      changeIconWhite:"",
-      changeIconBlack:"",
+      newIconWhite: "",
+      newIconBlack: "",
+      changeIconWhite: "",
+      changeIconBlack: "",
       selected: "",
       newName: "",
       newColor: "",
@@ -587,12 +614,12 @@ export default {
       nameAdd: false,
       colorAdd: false,
       iconAdd: false,
-      addNewName:"",
-      addNewColor:"",
-      addNewIconWhite:"",
-      addNewIconBlack:"",
-      addIconWhite:"",
-      addIconBlack:"",
+      addNewName: "",
+      addNewColor: "",
+      addNewIconWhite: "",
+      addNewIconBlack: "",
+      addIconWhite: "",
+      addIconBlack: "",
       defaultName: "Add name",
       defaultColor: "#f11111",
       defaultIcon: "@/assets/icon/coin.png",
@@ -636,7 +663,7 @@ export default {
     reIcon() {
       this.changeIconWhite = this.newIconWhite.imageURL;
       this.changeIconBlack = this.newIconBlack.imageURL;
-      this.newIconCategory = true
+      this.newIconCategory = true;
     },
     addNameCategory() {
       this.nameAdd = true;
@@ -647,8 +674,8 @@ export default {
     addIcon() {
       this.iconAdd = true;
       this.addNewIconWhite = this.addIconWhite.imageURL;
-      this.addNewIconBlack = this.addIconBlack.imageURL
-    }
+      this.addNewIconBlack = this.addIconBlack.imageURL;
+    },
   },
 };
 </script>

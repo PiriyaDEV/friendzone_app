@@ -193,6 +193,7 @@
               <div>
                 <h2 class="input_title">Comment</h2>
                 <textarea
+                  v-model="comment"
                   class="input_textarea_box bio"
                   maxlength="256"
                   size="256"
@@ -233,9 +234,11 @@ export default {
   data() {
     return {
       selected: "",
+      invalidSelected: false,
+      rating: 0,
+      invalidRating: false,
       participantList: [],
       showRating: [false, false, false, false, false],
-      rating: 0,
       participant: "",
       start_at: "",
       end_at: "",
@@ -253,8 +256,8 @@ export default {
         "Sep",
         "Oct",
         "Nov",
-        "Dec",
-      ],
+        "Dec"
+      ]
     };
   },
   created() {
@@ -325,13 +328,12 @@ export default {
       this.$emit("clickShowed", false);
     },
     test() {
-      alert(this.selected);
       for (let i = 0; i < 5; i++) {
         if (this.showRating[i]) this.rating++;
       }
-      console.log(this.rating);
-    },
-  },
+      console.log("Participant : " + this.selected + "\nRating : " + this.rating);
+    }
+  }
 };
 </script>
 

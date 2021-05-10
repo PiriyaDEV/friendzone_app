@@ -21,11 +21,11 @@ export default {
       nextId: "",
       previousId: "",
       sameUser: false,
-      newId: false,
+      newId: false
     };
   },
   components: {
-    WhiteMessage,
+    WhiteMessage
   },
   created() {
     if (this.previousUserId == null) {
@@ -48,8 +48,8 @@ export default {
     pic() {
       let link = "http://localhost:8080/api/user/displayPic/";
       return link + this.chat.user_id;
-    },
-  },
+    }
+  }
 };
 </script>
 

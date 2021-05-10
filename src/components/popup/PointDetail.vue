@@ -62,8 +62,8 @@ export default {
   methods: {
     pointClick() {
       this.$emit("point", false);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -110,9 +110,9 @@ export default {
 }
 
 div::-webkit-scrollbar {
-    height: 5px;
-    width: 5px;
-  }
+  height: 5px;
+  width: 5px;
+}
 
 #transaction {
   margin-bottom: 15px;
@@ -162,46 +162,46 @@ div::-webkit-scrollbar {
 }
 
 @media screen and (max-width: 1024px) {
-  .popup-form{
+  .popup-form {
     margin: 50px 0px 20px 0px;
   }
 }
 
 @media screen and (max-width: 690px) {
-  #yellow-box{
-    padding:30px 100px;
+  #yellow-box {
+    padding: 30px 100px;
   }
 
-  #point{
-    font-size:3em;
+  #point {
+    font-size: 3em;
   }
 
-  #coin-logo{
+  #coin-logo {
     width: 25px;
     height: 25px;
   }
 }
 
 @media screen and (max-width: 490px) {
-  .popup-form{
+  .popup-form {
     padding-right: 30px !important;
     padding-left: 30px !important;
   }
 
-  #transaction-box{
-    width:240px;
+  #transaction-box {
+    width: 240px;
   }
 
-  .transaction-text{
-    font-size:1.5em;
+  .transaction-text {
+    font-size: 1.5em;
   }
 
-  .transaction-info{
+  .transaction-info {
     font-size: 1.3em;
   }
 
-  #yellow-box{
-    padding:20px 0px;
+  #yellow-box {
+    padding: 20px 0px;
   }
 }
 </style>

@@ -106,7 +106,7 @@ export default {};
 }
 
 @media screen and (max-width: 440px) {
-.homepage-description {
+  .homepage-description {
     width: 350px !important;
   }
 

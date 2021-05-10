@@ -165,7 +165,7 @@ export default {
   data() {
     return {
       categoryList: null,
-      selected: "",
+      selected: ""
     };
   },
   created() {
@@ -178,8 +178,8 @@ export default {
   methods: {
     back() {
       this.$emit("reportReturn", false);
-    },
-  },
+    }
+  }
 };
 </script>
 

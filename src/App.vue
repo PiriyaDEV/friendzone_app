@@ -543,12 +543,12 @@ button {
   }
 
   .popup-section {
-  overflow-y:auto;
-  align-items: flex-start !important;
+    overflow-y: auto;
+    align-items: flex-start !important;
   }
 
-  .popup-form{
-    margin:50px 0px;
+  .popup-form {
+    margin: 50px 0px;
   }
 
   /* .popup{
@@ -719,8 +719,8 @@ button {
     font-size: 3em;
   }
 
-  .popup-form{
-    margin:20px 0px;
+  .popup-form {
+    margin: 20px 0px;
   }
 }
 

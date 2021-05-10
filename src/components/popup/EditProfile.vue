@@ -121,18 +121,18 @@ export default {
   data() {
     return {};
   },
-  props: ["user", "role", "edit", "usernameAfter","bioAfter"],
+  props: ["user", "role", "edit", "usernameAfter", "bioAfter"],
   created() {},
   methods: {
     cancel() {
       this.$emit("editReturn", false);
     },
     save() {
-      this.user.bio = this.bioAfter
+      this.user.bio = this.bioAfter;
       this.user.username = this.usernameAfter;
       this.$emit("saveUser", this.user);
-    },
-  },
+    }
+  }
 };
 </script>
 

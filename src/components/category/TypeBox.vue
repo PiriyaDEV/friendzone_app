@@ -12,7 +12,7 @@
 <script>
 export default {
   methods: {},
-  props: ["nameCategory", "icon", "colorCode", "bgcolorCode"],
+  props: ["nameCategory", "icon", "colorCode", "bgcolorCode"]
 };
 </script>
 

@@ -121,14 +121,14 @@ export default {
   props: ["categoryReport"],
   data() {
     return {
-      user_selected: "",
+      user_selected: ""
     };
   },
   methods: {
     reportReturn() {
       this.$emit("clickReport", false);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -225,7 +225,8 @@ option {
   margin-top: 2px;
 }
 
-.back_button, .create_button{
+.back_button,
+.create_button {
   width: 170px !important;
 }
 
@@ -247,26 +248,29 @@ option {
 }
 
 @media screen and (max-width: 690px) {
-
-  .input_box,.input_textarea_box{
-    width:250px !important;
+  .input_box,
+  .input_textarea_box {
+    width: 250px !important;
   }
 
-  .create_button , .back_button{
-    width:120px !important;
+  .create_button,
+  .back_button {
+    width: 120px !important;
   }
 }
 
 @media screen and (max-width: 490px) {
-  .input_box,.input_textarea_box{
-    width:210px !important;
+  .input_box,
+  .input_textarea_box {
+    width: 210px !important;
   }
 
-  .create_button , .back_button{
-    width:110px !important;
+  .create_button,
+  .back_button {
+    width: 110px !important;
   }
 
-  .popup-form{
+  .popup-form {
     padding: 0px 40px !important;
   }
 }

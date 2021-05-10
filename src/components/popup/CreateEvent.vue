@@ -1,391 +1,395 @@
 <template>
   <div>
     <div id="create-event" class="popup">
-    <div class="popup-section section">
-      <div class="popup-form">
-        <h1 class="header_title">CREATE NEW EVENT</h1>
-        <div id="create-event-section">
-          <div id="left">
-            <!-- Input -->
-            <div>
-              <h2 class="input_title">
-                Event Picture<span class="orange-color"> *</span>
-              </h2>
-              <div id="select-photo-section" class="section">
-                <Upload v-model="event_pic">
-                  <div
-                    v-if="!event_pic"
-                    slot="activator"
-                    id="select-photo-inside"
-                    class="section"
-                  >
-                    <img
-                      id="addphoto"
-                      src="@/assets/icon/icons8-add-image-96.png"
-                    />
-                    <h1 class="upload">upload photo</h1>
-                  </div>
-                  <div v-else slot="activator">
-                    <img
-                      class="pictureUpload"
-                      style="position: relative"
-                      :src="event_pic.imageURL"
-                      alt="event_pic"
-                    />
-                  </div>
-                </Upload>
+      <div class="popup-section section">
+        <div class="popup-form">
+          <h1 class="header_title">CREATE NEW EVENT</h1>
+          <div id="create-event-section">
+            <div id="left">
+              <!-- Input -->
+              <div>
+                <h2 class="input_title">
+                  Event Picture<span class="orange-color"> *</span>
+                </h2>
+                <div id="select-photo-section" class="section">
+                  <Upload v-model="event_pic">
+                    <div
+                      v-if="!event_pic"
+                      slot="activator"
+                      id="select-photo-inside"
+                      class="section"
+                    >
+                      <img
+                        id="addphoto"
+                        src="@/assets/icon/icons8-add-image-96.png"
+                      />
+                      <h1 class="upload">upload photo</h1>
+                    </div>
+                    <div v-else slot="activator">
+                      <img
+                        class="pictureUpload"
+                        style="position: relative"
+                        :src="event_pic.imageURL"
+                        alt="event_pic"
+                      />
+                    </div>
+                  </Upload>
+                </div>
               </div>
-            </div>
-            <!-- Input -->
+              <!-- Input -->
 
-            <!-- Input -->
-            <div>
-              <h2 class="input_title">
-                Title<span class="orange-color"> *</span>
-              </h2>
-              <input
-                v-model="event.title"
-                class="input_box"
-                type="text"
-                maxlength="64"
-                size="64"
-                placeholder="enter your event title"
-              />
-            </div>
-            <!-- Input -->
-
-            <!-- Input -->
-            <div>
-              <h2 class="input_title">
-                Description<span class="orange-color"> *</span>
-              </h2>
-              <textarea
-                class="input_textarea_box bio"
-                maxlength="256"
-                size="256"
-                name="bio"
-                placeholder="enter your event description"
-                v-model="event.description"
-              >
-              </textarea>
-            </div>
-            <!-- Input -->
-
-            <!-- Input -->
-            <div>
-              <h2 class="input_title">
-                Location<span class="orange-color"> *</span>
-              </h2>
-              <input
-                v-model="event.location"
-                class="input_box"
-                type="text"
-                maxlength="30"
-                size="30"
-                placeholder="enter your location"
-              />
-            </div>
-            <!-- Input -->
-          </div>
-          <div id="right">
-            <!-- Input -->
-            <div>
-              <h2 class="input_title">
-                Start On<span class="orange-color"> *</span>
-              </h2>
-              <div class="date-section">
+              <!-- Input -->
+              <div>
+                <h2 class="input_title">
+                  Title<span class="orange-color"> *</span>
+                </h2>
                 <input
-                  id="day"
-                  class="date_box_popup"
+                  v-model="event.title"
+                  class="input_box"
                   type="text"
-                  pattern="[0-9]*"
-                  maxlength="2"
-                  size="2"
-                  v-model="date_start.day"
-                  placeholder="day"
-                />
-                <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
-                <input
-                  id="month"
-                  style="margin-left: 10px"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="2"
-                  size="2"
-                  v-model="date_start.month"
-                  placeholder="month"
-                />
-                <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
-                <input
-                  id="year"
-                  style="margin-left: 10px"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="4"
-                  size="4"
-                  v-model="date_start.year"
-                  placeholder="year"
+                  maxlength="64"
+                  size="64"
+                  placeholder="enter your event title"
                 />
               </div>
-              <div class="time-section">
-                <input
-                  id="h1"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="1"
-                  size="1"
-                  v-model="date_start.h1"
-                  placeholder="0"
-                />
-                <input
-                  id="h2"
-                  style="margin-left: 10px"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="1"
-                  size="1"
-                  v-model="date_start.h2"
-                  placeholder="0"
-                />
-                <h1
-                  style="
-                    font-size: 3em;
-                    margin-top: 5px;
-                    margin-left: 10px;
-                    color: #e3e3e3;
-                  "
+              <!-- Input -->
+
+              <!-- Input -->
+              <div>
+                <h2 class="input_title">
+                  Description<span class="orange-color"> *</span>
+                </h2>
+                <textarea
+                  class="input_textarea_box bio"
+                  maxlength="256"
+                  size="256"
+                  name="bio"
+                  placeholder="enter your event description"
+                  v-model="event.description"
                 >
-                  :
-                </h1>
+                </textarea>
+              </div>
+              <!-- Input -->
+
+              <!-- Input -->
+              <div>
+                <h2 class="input_title">
+                  Location<span class="orange-color"> *</span>
+                </h2>
                 <input
-                  id="m1"
-                  style="margin-left: 10px"
-                  class="date_box_popup"
+                  v-model="event.location"
+                  class="input_box"
                   type="text"
-                  pattern="[0-9]*"
-                  maxlength="1"
-                  size="1"
-                  v-model="date_start.m1"
-                  placeholder="0"
-                />
-                <input
-                  id="m2"
-                  style="margin-left: 10px"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="1"
-                  size="1"
-                  v-model="date_start.m2"
-                  placeholder="0"
+                  maxlength="30"
+                  size="30"
+                  placeholder="enter your location"
                 />
               </div>
+              <!-- Input -->
             </div>
-            <!-- Input -->
-
-            <!-- Input -->
-            <div>
-              <h2 class="input_title">End On</h2>
-              <div class="date-section">
-                <input
-                  id="day"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="2"
-                  size="2"
-                  v-model="date_end.day"
-                  placeholder="day"
-                />
-                <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
-                <input
-                  id="month"
-                  style="margin-left: 10px"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="2"
-                  size="2"
-                  v-model="date_end.month"
-                  placeholder="month"
-                />
-                <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
-                <input
-                  id="year"
-                  style="margin-left: 10px"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="4"
-                  size="4"
-                  v-model="date_end.year"
-                  placeholder="year"
-                />
-              </div>
-              <div class="time-section">
-                <input
-                  id="h1"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="1"
-                  size="1"
-                  v-model="date_end.h1"
-                  placeholder="0"
-                />
-                <input
-                  id="h2"
-                  style="margin-left: 10px"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="1"
-                  size="1"
-                  v-model="date_end.h2"
-                  placeholder="0"
-                />
-                <h1
-                  style="
-                    font-size: 3em;
-                    margin-top: 5px;
-                    margin-left: 10px;
-                    color: #e3e3e3;
-                  "
-                >
-                  :
-                </h1>
-                <input
-                  id="m1"
-                  style="margin-left: 10px"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="1"
-                  size="1"
-                  v-model="date_end.m1"
-                  placeholder="0"
-                />
-                <input
-                  id="m2"
-                  style="margin-left: 10px"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="1"
-                  size="1"
-                  v-model="date_end.m2"
-                  placeholder="0"
-                />
-              </div>
-            </div>
-            <!-- Input -->
-
-            <!-- Input -->
-            <div>
-              <h2 class="input_title">
-                Preferred Participant Gender<span class="orange-color"> *</span>
-              </h2>
-              <multiselect
-                v-model="gender_value"
-                placeholder="select your preferred gender"
-                label="name"
-                track-by="code"
-                :options="gender_options"
-                :multiple="true"
-              ></multiselect>
-            </div>
-            <!-- Input -->
-
-            <!-- Input -->
-            <div>
-              <h2 class="input_title">
-                Event Category<span class="orange-color"> *</span>
-              </h2>
-              <multiselect
-                v-model="category_value"
-                placeholder="select event category"
-                label="name"
-                track-by="code"
-                :options="category_options"
-                :multiple="true"
-                :max="3"
-              ></multiselect>
-            </div>
-            <!-- Input -->
-
-            <div>
-              <div id="participant-section">
-                <!-- Input -->
-                <div>
-                  <h2 class="input_title">
-                    Max Participants<span class="orange-color"> *</span>
-                  </h2>
+            <div id="right">
+              <!-- Input -->
+              <div>
+                <h2 class="input_title">
+                  Start On<span class="orange-color"> *</span>
+                </h2>
+                <div class="date-section">
                   <input
-                    v-model="event.max_participant"
-                    class="input_participant"
+                    id="day"
+                    class="date_box_popup"
                     type="text"
+                    pattern="[0-9]*"
                     maxlength="2"
                     size="2"
-                    placeholder="Max amount"
+                    v-model="date_start.day"
+                    placeholder="day"
+                  />
+                  <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
+                  <input
+                    id="month"
+                    style="margin-left: 10px"
+                    class="date_box_popup"
+                    type="text"
+                    pattern="[0-9]*"
+                    maxlength="2"
+                    size="2"
+                    v-model="date_start.month"
+                    placeholder="month"
+                  />
+                  <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
+                  <input
+                    id="year"
+                    style="margin-left: 10px"
+                    class="date_box_popup"
+                    type="text"
+                    pattern="[0-9]*"
+                    maxlength="4"
+                    size="4"
+                    v-model="date_start.year"
+                    placeholder="year"
                   />
                 </div>
-                <!-- Input -->
+                <div class="time-section">
+                  <input
+                    id="h1"
+                    class="date_box_popup"
+                    type="text"
+                    pattern="[0-9]*"
+                    maxlength="1"
+                    size="1"
+                    v-model="date_start.h1"
+                    placeholder="0"
+                  />
+                  <input
+                    id="h2"
+                    style="margin-left: 10px"
+                    class="date_box_popup"
+                    type="text"
+                    pattern="[0-9]*"
+                    maxlength="1"
+                    size="1"
+                    v-model="date_start.h2"
+                    placeholder="0"
+                  />
+                  <h1
+                    style="
+                    font-size: 3em;
+                    margin-top: 5px;
+                    margin-left: 10px;
+                    color: #e3e3e3;
+                  "
+                  >
+                    :
+                  </h1>
+                  <input
+                    id="m1"
+                    style="margin-left: 10px"
+                    class="date_box_popup"
+                    type="text"
+                    pattern="[0-9]*"
+                    maxlength="1"
+                    size="1"
+                    v-model="date_start.m1"
+                    placeholder="0"
+                  />
+                  <input
+                    id="m2"
+                    style="margin-left: 10px"
+                    class="date_box_popup"
+                    type="text"
+                    pattern="[0-9]*"
+                    maxlength="1"
+                    size="1"
+                    v-model="date_start.m2"
+                    placeholder="0"
+                  />
+                </div>
+              </div>
+              <!-- Input -->
 
-                <!-- Input -->
-                <div>
-                  <h2 class="input_title">
-                    Age Limits<span class="orange-color"> *</span>
-                  </h2>
-                  <div class="section">
+              <!-- Input -->
+              <div>
+                <h2 class="input_title">End On</h2>
+                <div class="date-section">
+                  <input
+                    id="day"
+                    class="date_box_popup"
+                    type="text"
+                    pattern="[0-9]*"
+                    maxlength="2"
+                    size="2"
+                    v-model="date_end.day"
+                    placeholder="day"
+                  />
+                  <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
+                  <input
+                    id="month"
+                    style="margin-left: 10px"
+                    class="date_box_popup"
+                    type="text"
+                    pattern="[0-9]*"
+                    maxlength="2"
+                    size="2"
+                    v-model="date_end.month"
+                    placeholder="month"
+                  />
+                  <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
+                  <input
+                    id="year"
+                    style="margin-left: 10px"
+                    class="date_box_popup"
+                    type="text"
+                    pattern="[0-9]*"
+                    maxlength="4"
+                    size="4"
+                    v-model="date_end.year"
+                    placeholder="year"
+                  />
+                </div>
+                <div class="time-section">
+                  <input
+                    id="h1"
+                    class="date_box_popup"
+                    type="text"
+                    pattern="[0-9]*"
+                    maxlength="1"
+                    size="1"
+                    v-model="date_end.h1"
+                    placeholder="0"
+                  />
+                  <input
+                    id="h2"
+                    style="margin-left: 10px"
+                    class="date_box_popup"
+                    type="text"
+                    pattern="[0-9]*"
+                    maxlength="1"
+                    size="1"
+                    v-model="date_end.h2"
+                    placeholder="0"
+                  />
+                  <h1
+                    style="
+                    font-size: 3em;
+                    margin-top: 5px;
+                    margin-left: 10px;
+                    color: #e3e3e3;
+                  "
+                  >
+                    :
+                  </h1>
+                  <input
+                    id="m1"
+                    style="margin-left: 10px"
+                    class="date_box_popup"
+                    type="text"
+                    pattern="[0-9]*"
+                    maxlength="1"
+                    size="1"
+                    v-model="date_end.m1"
+                    placeholder="0"
+                  />
+                  <input
+                    id="m2"
+                    style="margin-left: 10px"
+                    class="date_box_popup"
+                    type="text"
+                    pattern="[0-9]*"
+                    maxlength="1"
+                    size="1"
+                    v-model="date_end.m2"
+                    placeholder="0"
+                  />
+                </div>
+              </div>
+              <!-- Input -->
+
+              <!-- Input -->
+              <div>
+                <h2 class="input_title">
+                  Preferred Participant Gender<span class="orange-color">
+                    *</span
+                  >
+                </h2>
+                <multiselect
+                  v-model="gender_value"
+                  placeholder="select your preferred gender"
+                  label="name"
+                  track-by="code"
+                  :options="gender_options"
+                  :multiple="true"
+                ></multiselect>
+              </div>
+              <!-- Input -->
+
+              <!-- Input -->
+              <div>
+                <h2 class="input_title">
+                  Event Category<span class="orange-color"> *</span>
+                </h2>
+                <multiselect
+                  v-model="category_value"
+                  placeholder="select event category"
+                  label="name"
+                  track-by="code"
+                  :options="category_options"
+                  :multiple="true"
+                  :max="3"
+                ></multiselect>
+              </div>
+              <!-- Input -->
+
+              <div>
+                <div id="participant-section">
+                  <!-- Input -->
+                  <div>
+                    <h2 class="input_title">
+                      Max Participants<span class="orange-color"> *</span>
+                    </h2>
                     <input
-                      v-model="event.min_age"
-                      class="input_age"
+                      v-model="event.max_participant"
+                      class="input_participant"
                       type="text"
                       maxlength="2"
                       size="2"
-                      placeholder="min"
-                    />
-                    <h1 class="input_title" id="to">to</h1>
-                    <input
-                      v-model="event.max_age"
-                      class="input_age"
-                      type="text"
-                      maxlength="2"
-                      size="2"
-                      placeholder="max"
+                      placeholder="Max amount"
                     />
                   </div>
+                  <!-- Input -->
+
+                  <!-- Input -->
+                  <div>
+                    <h2 class="input_title">
+                      Age Limits<span class="orange-color"> *</span>
+                    </h2>
+                    <div class="section">
+                      <input
+                        v-model="event.min_age"
+                        class="input_age"
+                        type="text"
+                        maxlength="2"
+                        size="2"
+                        placeholder="min"
+                      />
+                      <h1 class="input_title" id="to">to</h1>
+                      <input
+                        v-model="event.max_age"
+                        class="input_age"
+                        type="text"
+                        maxlength="2"
+                        size="2"
+                        placeholder="max"
+                      />
+                    </div>
+                  </div>
+                  <!-- Input -->
                 </div>
-                <!-- Input -->
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="button-section">
-          <div>
-            <button class="back_button" @click="createdReturn()">Cancel</button>
+          <div class="button-section">
+            <div>
+              <button class="back_button" @click="createdReturn()">
+                Cancel
+              </button>
+            </div>
+            <div>
+              <button class="create_button" @click="ClickCreate()">
+                Create Now
+              </button>
+            </div>
           </div>
-           <div>
-            <button class="create_button" @click="ClickCreate()">
-            Create Now
-          </button>
-          </div>      
-        </div>
 
-        <img
-          @click="createdReturn()"
-          style="cursor: pointer"
-          class="close"
-          src="@/assets/icon/icons8-multiply-96.png"
-        />
+          <img
+            @click="createdReturn()"
+            style="cursor: pointer"
+            class="close"
+            src="@/assets/icon/icons8-multiply-96.png"
+          />
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -442,23 +446,23 @@ export default {
         end_at: "",
         max_participant: "",
         min_age: "",
-        max_age: "",
+        max_age: ""
       }),
       gender_value: [],
       gender_options: [],
       category_value: [],
-      category_options: [],
+      category_options: []
     };
   },
   components: {
     Multiselect,
-    Upload,
+    Upload
   },
   methods: {
     addTag(newTag) {
       const tag = {
         name: newTag,
-        code: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000),
+        code: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000)
       };
       this.options.push(tag);
       this.value.push(tag);
@@ -510,7 +514,7 @@ export default {
       EventService.create({
         event: this.event,
         gender_id: this.genderList,
-        category_id: this.categoryList,
+        category_id: this.categoryList
       }).then(
         (res) => {
           if (res.event_id) {
@@ -529,7 +533,7 @@ export default {
           console.log(error.message);
         }
       );
-    },
+    }
   },
   mounted() {
     $(document).ready(function() {
@@ -565,7 +569,7 @@ export default {
         });
       }
     });
-  },
+  }
 };
 </script>
 
@@ -740,64 +744,70 @@ option {
 
 @media screen and (max-width: 1024px) {
   #create-event-section {
-  display: block;
+    display: block;
   }
 
-  #left, #right{
-    margin:0px;
+  #left,
+  #right {
+    margin: 0px;
   }
 
-  .multiselect, .date-section, .time-section{
-    width:100% !important;
+  .multiselect,
+  .date-section,
+  .time-section {
+    width: 100% !important;
   }
 
-  #participant-section{
-    margin-top:5px;
+  #participant-section {
+    margin-top: 5px;
   }
 }
 
 @media screen and (max-width: 690px) {
-
-  .input_box,.input_textarea_box{
-    width:250px !important;
+  .input_box,
+  .input_textarea_box {
+    width: 250px !important;
   }
 
-  .create_button , .back_button{
-    width:120px !important;
+  .create_button,
+  .back_button {
+    width: 120px !important;
   }
 
-  .pictureUpload{
-    width:268px !important;
-    height:125px;
+  .pictureUpload {
+    width: 268px !important;
+    height: 125px;
   }
 
-  #select-photo-inside{
-    margin:40px 0px;
+  #select-photo-inside {
+    margin: 40px 0px;
   }
 }
 
 @media screen and (max-width: 490px) {
-  .input_box,.input_textarea_box{
-    width:210px !important;
+  .input_box,
+  .input_textarea_box {
+    width: 210px !important;
   }
 
-  #participant-section{
-    display:block;
+  #participant-section {
+    display: block;
   }
 
-  .input_participant{
+  .input_participant {
     width: calc(100% - 30px);
   }
 
-  .input_age{
-    width:100%;
+  .input_age {
+    width: 100%;
   }
 
-  .create_button , .back_button{
-    width:110px !important;
+  .create_button,
+  .back_button {
+    width: 110px !important;
   }
 
-  .popup-form{
+  .popup-form {
     padding: 0px 40px !important;
   }
 }

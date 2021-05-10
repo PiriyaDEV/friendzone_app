@@ -14,49 +14,49 @@ const routes = [
   {
     path: "/",
     name: "Homepage",
-    component: Homepage,
+    component: Homepage
   },
   {
     path: "/register",
     name: "Register",
-    component: Register,
+    component: Register
   },
   {
     path: "/login",
     name: "Login",
-    component: Login,
+    component: Login
   },
   {
     path: "/mainpage",
     name: "Mainpage",
-    component: Mainpage,
+    component: Mainpage
   },
   {
     path: "/backup",
     name: "Backup",
-    component: Backup,
+    component: Backup
   },
   {
     path: "/profileSetting",
     name: "ProfileSetting",
-    component: ProfileSetting,
+    component: ProfileSetting
   },
   {
     path: "/interestSelect",
     name: "InterestSelect",
-    component: InterestSelect,
+    component: InterestSelect
   },
   {
     path: "/popup",
     name: "Popup",
-    component: Popup,
-  },
+    component: Popup
+  }
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes,
+  routes
 });
 
 export default router;

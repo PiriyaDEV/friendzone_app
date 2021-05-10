@@ -135,7 +135,7 @@ export default {
           status_id: "ST13",
           moderator: "0",
           host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
         },
         {
           event_participant_id: "EP000016",
@@ -144,7 +144,7 @@ export default {
           status_id: "ST13",
           moderator: "0",
           host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
         },
         {
           event_participant_id: "EP000016",
@@ -153,7 +153,7 @@ export default {
           status_id: "ST13",
           moderator: "0",
           host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
         },
         {
           event_participant_id: "EP000016",
@@ -162,7 +162,7 @@ export default {
           status_id: "ST13",
           moderator: "0",
           host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
         },
         {
           event_participant_id: "EP000016",
@@ -171,7 +171,7 @@ export default {
           status_id: "ST13",
           moderator: "0",
           host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
         },
         {
           event_participant_id: "EP000016",
@@ -180,7 +180,7 @@ export default {
           status_id: "ST13",
           moderator: "0",
           host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
         },
         {
           event_participant_id: "EP000016",
@@ -189,7 +189,7 @@ export default {
           status_id: "ST13",
           moderator: "0",
           host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
         },
         {
           event_participant_id: "EP000016",
@@ -198,15 +198,15 @@ export default {
           status_id: "ST13",
           moderator: "0",
           host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003",
-        },
-      ],
+          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
+        }
+      ]
     };
   },
   components: {
     DiscountFlex,
     ReportBox,
-    Userbox,
+    Userbox
   },
   methods: {
     editReturn() {
@@ -232,7 +232,7 @@ export default {
       this.Admin = false;
       this.Analyst = false;
       this.Approver = true;
-    },
+    }
   },
   computed: {
     cssAdmin() {
@@ -258,8 +258,8 @@ export default {
         return select;
       }
       return unselect;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -468,7 +468,7 @@ div::-webkit-scrollbar {
   }
 
   #black-menu {
-  justify-content: space-between;
+    justify-content: space-between;
   }
 
   .flex-title {
@@ -542,16 +542,16 @@ div::-webkit-scrollbar {
     font-size: 1.2em;
   }
 
-  #report-box{
-    padding-right:5px;
+  #report-box {
+    padding-right: 5px;
   }
 
   #space-button {
     width: 61px;
   }
 
-  .report-cat{
-    display:none;
+  .report-cat {
+    display: none;
   }
 }
 

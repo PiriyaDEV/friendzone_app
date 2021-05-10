@@ -89,14 +89,14 @@ export default {
   data() {
     return {
       eye: true,
-      passwordFieldType: "password",
+      passwordFieldType: "password"
     };
   },
   methods: {
     back() {
       this.$emit("showBack", false);
-    },
-  },
+    }
+  }
 };
 </script>
 

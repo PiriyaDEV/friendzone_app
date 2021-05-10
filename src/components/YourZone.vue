@@ -263,7 +263,7 @@ export default {
       requestedEventList: [],
       interestedEventShow: [],
       interestedEventList: [],
-      eventListLongFlex: 10,
+      eventListLongFlex: 10
     };
   },
   props: ["discountSelect"],
@@ -384,11 +384,11 @@ export default {
           (event) => event.user_id == user.user_id
         );
       }
-    },
+    }
   },
   components: {
     EventFlex,
-    DiscountLongFlex,
+    DiscountLongFlex
   },
   created() {
     this.getHostedEventList();
@@ -462,7 +462,7 @@ export default {
         .catch(() => {
           this.interestedEventShow = [];
         });
-    },
+    }
   },
   computed: {
     checkStatus() {
@@ -470,8 +470,8 @@ export default {
         return true;
       }
       return false;
-    },
-  },
+    }
+  }
 };
 </script>
 

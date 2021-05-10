@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <h1>{{interest}}</h1>
+    <h1>{{ interest }}</h1>
     <div class="button-section">
       <button class="back_button" @click="cancel()">Cancel</button>
       <button class="create_button" @click="save()">
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       categoryList: null,
-      interest: [],
+      interest: []
     };
   },
   props: ["profileDetail"],
@@ -56,7 +56,7 @@ export default {
     });
   },
   components: {
-    CategoryBox,
+    CategoryBox
   },
   methods: {
     clicktest(ev, i) {
@@ -65,13 +65,13 @@ export default {
     },
     cancel() {
       this.$emit("showBack", false);
-    },
+    }
     // getInterest() {
     //   EventService.getUserCateogryInterestEvent().then((res) => {
     //       this.interest = res;
     //   });
     // }
-  },
+  }
 };
 </script>
 

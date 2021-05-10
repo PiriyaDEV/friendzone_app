@@ -109,14 +109,14 @@ export default {
         { name: "festival / concert" },
         { name: "education" },
         { name: "sport" },
-        { name: "game" },
+        { name: "game" }
       ],
       selectedCategories: [""],
       GenderData: [{ name: "male" }, { name: "female" }, { name: "lgbtq+" }],
       selectedGender: [""],
       AgeData: [
         { name: "specific age range" },
-        { name: "specific start date" },
+        { name: "specific start date" }
       ],
       selectedAge: [""],
       DiscountData: [
@@ -124,11 +124,11 @@ export default {
         { name: "point < 1000" },
         { name: "point < 5000" },
         { name: "point < 10000" },
-        { name: "point < 100000" },
+        { name: "point < 100000" }
       ],
-      selectedDiscount: [""],
+      selectedDiscount: [""]
     };
-  },
+  }
 };
 </script>
 

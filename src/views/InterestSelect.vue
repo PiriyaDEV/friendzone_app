@@ -52,13 +52,13 @@ export default {
   name: "interest",
   data() {
     return {
-      categoryList: null,
+      categoryList: null
     };
   },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    },
+    }
   },
   created() {
     CategoryService.getCategoryList().then((res) => {
@@ -75,7 +75,7 @@ export default {
     }
   },
   components: {
-    CategoryBox,
+    CategoryBox
   },
   methods: {
     clickStart() {
@@ -105,8 +105,8 @@ export default {
       console.log(this.categoryList[4].status);
       console.log(this.categoryList[5].status);
       console.log(this.categoryList[6].status);
-    },
-  },
+    }
+  }
 };
 </script>
 

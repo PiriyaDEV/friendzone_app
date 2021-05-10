@@ -44,18 +44,18 @@ import ReportBox from "@/components/admin/report/ReportBox.vue";
 export default {
   data() {
     return {
-      eventList: 30,
+      eventList: 30
     };
   },
   components: {
-    ReportBox,
+    ReportBox
   },
   methods: {
     viewReturn(value) {
       this.$emit("viewShow", value);
       this.$emit("clickManage", value);
-    },
-  },
+    }
+  }
 };
 </script>
 

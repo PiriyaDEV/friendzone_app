@@ -15,7 +15,7 @@
         placeholder="select specific filter"
         track-by="name"
         label="name"
-        >
+      >
         <span slot="noResult">Sorry, No filter founded.</span>
       </multiselect>
       <!-- <pre class="language-json"><code>{{ value  }}</code></pre> -->
@@ -27,14 +27,14 @@
 import Multiselect from "vue-multiselect";
 export default {
   components: {
-    Multiselect,
+    Multiselect
   },
   data() {
     return {
       options: [
         {
           groupname: "FRIENDS",
-          data: [{ name: "not following" }, { name: "following" }],
+          data: [{ name: "not following" }, { name: "following" }]
         },
         {
           groupname: "EVENTS (CATEGORIES)",
@@ -45,8 +45,8 @@ export default {
             { name: "festival / concert" },
             { name: "education" },
             { name: "sport" },
-            { name: "game" },
-          ],
+            { name: "game" }
+          ]
         },
         {
           groupname: "EVENTS (OTHERS)",
@@ -55,8 +55,8 @@ export default {
             { name: "female" },
             { name: "lgbtq+" },
             { name: "specific age range" },
-            { name: "specific start date" },
-          ],
+            { name: "specific start date" }
+          ]
         },
         {
           groupname: "DISCOUNT",
@@ -65,26 +65,27 @@ export default {
             { name: "point < 1000" },
             { name: "point < 5000" },
             { name: "point < 10000" },
-            { name: "point < 100000" },
-          ],
-        },
+            { name: "point < 100000" }
+          ]
+        }
       ],
-      value: [],
+      value: []
     };
-  },
+  }
 };
 </script>
 
 <style scoped>
-.multiselect,#filter-select {
+.multiselect,
+#filter-select {
   width: 100% !important;
 }
 
 #filter {
-    display: flex;
-    align-items: center;
-    width:100%;
-  }
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
 
 #filter-icon {
   display: flex;

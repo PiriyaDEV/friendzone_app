@@ -177,7 +177,7 @@ export default {
       approver: false,
       analyst: false,
       admin: false,
-      role: "User",
+      role: "User"
     };
   },
   methods: {
@@ -218,7 +218,7 @@ export default {
       this.admin = !this.admin;
       this.approver = false;
       this.analyst = false;
-    },
+    }
   },
   computed: {
     cssUser() {
@@ -264,8 +264,8 @@ export default {
         return select;
       }
       return unselect;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -476,17 +476,17 @@ export default {
     width: 230px;
   }
 
-  .role-text{
-    font-size:1.6em;
+  .role-text {
+    font-size: 1.6em;
   }
 
-  .fa-check{
+  .fa-check {
     font-size: 2em;
   }
 
-  .icon{
-    width:20px;
-    height:20px;
+  .icon {
+    width: 20px;
+    height: 20px;
   }
 
   .popup-form {

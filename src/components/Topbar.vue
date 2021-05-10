@@ -21,7 +21,7 @@
         class="section"
       >
         <img id="coin-logo" src="@/assets/icon/coin.png" />
-        <h1 class="black-color" id="bar-value">{{point.point}}</h1>
+        <h1 class="black-color" id="bar-value">{{ point.point }}</h1>
       </div>
 
       <div id="mail-box">
@@ -73,7 +73,7 @@ export default {
     PointTransactionService.getPoint().then((res) => {
       if (res) {
         this.point = res;
-        console.log(this.point)
+        console.log(this.point);
       }
     });
   },
@@ -86,15 +86,15 @@ export default {
       if (this.clearSearch == true) {
         this.search = "";
       }
-    },
+    }
   },
   methods: {
     detailReturn() {
       this.$emit("clickDetail", true);
     },
     pointClick() {
-      this.$emit("point",true);
-    },
+      this.$emit("point", true);
+    }
   },
   computed: {
     cssBlackground() {
@@ -104,8 +104,8 @@ export default {
         return user;
       }
       return admin;
-    },
-  },
+    }
+  }
 };
 </script>
 

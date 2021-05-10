@@ -9,7 +9,10 @@
             class="popup-form"
           >
             <h1 id="header" class="header_title">EDIT DATABASE</h1>
-            <button class="back_button edit_button" @click="clickEditCategory()">
+            <button
+              class="back_button edit_button"
+              @click="clickEditCategory()"
+            >
               EDIT CATEGORIES
             </button>
             <button class="back_button edit_button" @click="clickEditReport()">
@@ -52,12 +55,12 @@ import EditCategory from "@/components/admin/popup/EditCategory.vue";
 export default {
   components: {
     EditReport,
-    EditCategory,
+    EditCategory
   },
   data() {
     return {
       editCategory: false,
-      editReport: false,
+      editReport: false
     };
   },
   methods: {
@@ -78,8 +81,8 @@ export default {
     },
     editReturn(value) {
       this.editReport = value;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -92,12 +95,12 @@ export default {
   text-align: center;
 }
 
-.back_button{
+.back_button {
   width: 100% !important;
   margin: 10px 0px;
 }
 
-.edit_button{
+.edit_button {
   color: #444444 !important;
   border: 2px solid #b1b1b1 !important;
   font-weight: 400 !important;
@@ -106,7 +109,7 @@ export default {
 
 @media screen and (max-width: 490px) {
   #edit-database-popup {
-  padding: 20px 40px 30px 40px !important;
+    padding: 20px 40px 30px 40px !important;
   }
 }
 </style>

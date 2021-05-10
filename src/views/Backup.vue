@@ -5,10 +5,12 @@
         <div class="header">
           <div class="navbar-container">
             <input v-model="checkedBox" type="checkbox" name="" id="check" />
-            <div class="logo-container" 
-                 style="cursor: pointer;" 
-                 href="#mainpage"
-                 v-smooth-scroll="{ duration: 1000, updateHistory: false }">
+            <div
+              class="logo-container"
+              style="cursor: pointer;"
+              href="#mainpage"
+              v-smooth-scroll="{ duration: 1000, updateHistory: false }"
+            >
               <img src="@/assets/Navbar/Nav_Logo.png" />
             </div>
 
@@ -23,7 +25,7 @@
                     <a
                       href="#mainpage"
                       v-smooth-scroll="{ duration: 1000, updateHistory: false }"
-                      >{{$t('navbar.home')}}</a
+                      >{{ $t("navbar.home") }}</a
                     >
                   </li>
 
@@ -37,9 +39,9 @@
                       v-smooth-scroll="{
                         duration: 1000,
                         offset: -100,
-                        updateHistory: false,
+                        updateHistory: false
                       }"
-                      >{{$t('navbar.about')}}</a
+                      >{{ $t("navbar.about") }}</a
                     >
                   </li>
                   <li
@@ -52,9 +54,9 @@
                       v-smooth-scroll="{
                         duration: 1000,
                         offset: -150,
-                        updateHistory: false,
+                        updateHistory: false
                       }"
-                      >{{$t('navbar.ticket')}}</a
+                      >{{ $t("navbar.ticket") }}</a
                     >
                   </li>
 
@@ -68,9 +70,9 @@
                       v-smooth-scroll="{
                         duration: 1000,
                         offset: -150,
-                        updateHistory: false,
+                        updateHistory: false
                       }"
-                      >{{$t('navbar.souvenir')}}</a
+                      >{{ $t("navbar.souvenir") }}</a
                     >
                   </li>
 
@@ -84,9 +86,9 @@
                       v-smooth-scroll="{
                         duration: 1000,
                         offset: 20,
-                        updateHistory: false,
+                        updateHistory: false
                       }"
-                      >{{$t('navbar.faqs')}}</a
+                      >{{ $t("navbar.faqs") }}</a
                     >
                   </li>
 
@@ -98,7 +100,7 @@
                     <a
                       href="#footer_section"
                       v-smooth-scroll="{ duration: 1000, updateHistory: false }"
-                      >{{$t('navbar.contact')}}</a
+                      >{{ $t("navbar.contact") }}</a
                     >
                   </li>
                 </ul>
@@ -117,7 +119,7 @@
                   href="https://www.lazada.co.th/products/poker-card-i1658396589-s5927300183.html?spm=a2o4m.searchlist.list.7.7e4c5fc142RRwn&search=1"
                   target="_blank"
                 >
-                  <a>{{$t('navbar.shop')}}</a>
+                  <a>{{ $t("navbar.shop") }}</a>
                   <img
                     style="margin-left: 8px; width: 21px"
                     src="@/assets/Navbar/Icon_Shop.png"
@@ -125,7 +127,9 @@
 
                 <!-- Login -->
                 <div v-show="!login" id="login_text">
-                  <router-link to="/login" @click="unCheck(checkedBox)"
+                  <router-link
+                    to="/login"
+                    @click="unCheck(checkedBox)"
                     style="
                       display: flex;
                       justify-content: center;
@@ -133,14 +137,16 @@
                       font-size: 2em;
                     "
                     class="btn transparent"
-                    >{{$t('navbar.loginThai')}}</router-link
+                    >{{ $t("navbar.loginThai") }}</router-link
                   >
                 </div>
                 <!-- Login -->
 
                 <!-- Username -->
                 <div v-show="login" id="login_text">
-                  <router-link to="/profile" @click="unCheck(checkedBox)"
+                  <router-link
+                    to="/profile"
+                    @click="unCheck(checkedBox)"
                     style="
                       display: flex;
                       justify-content: center;
@@ -150,14 +156,14 @@
                     "
                     href="/profile"
                     class="btn transparent"
-                    >{{firstName}}</router-link
+                    >{{ firstName }}</router-link
                   >
                 </div>
                 <!-- Username -->
 
                 <a style="margin: 0px; padding: 0px">
                   <div
-                    @click="unCheck(checkedBox),switchLocal()"
+                    @click="unCheck(checkedBox), switchLocal()"
                     id="changelag"
                     style="
                       display: flex;
@@ -168,9 +174,9 @@
                       cursor:pointer;
                     "
                   >
-                    <span >EN</span>
+                    <span>EN</span>
                     <span style="margin-left: 6px; margin-right: 6px">|</span>
-                    <span >TH</span>
+                    <span>TH</span>
                   </div>
                 </a>
               </div>
@@ -190,8 +196,7 @@
         </main>
       </body>
     </div>
-    <div v-show="checkedBox" @click="unCheck(checkedBox)" id="blankSpace">
-    </div>
+    <div v-show="checkedBox" @click="unCheck(checkedBox)" id="blankSpace"></div>
   </div>
 </template>
 
@@ -207,32 +212,31 @@ export default {
     return {
       login: false,
       firstName: null,
-      checkedBox: false,
-    }
+      checkedBox: false
+    };
   },
   created() {
     let data = decode(localStorage.getItem("user"));
-    if(data.exp < new Date().getTime()/1000) {
+    if (data.exp < new Date().getTime() / 1000) {
       localStorage.removeItem("user");
-      localStorage.removeItem("firstName")
+      localStorage.removeItem("firstName");
       this.$store.dispatch("auth/logout");
     }
     try {
       this.firstName = localStorage.getItem("firstName");
-    }
-    catch(e) {
+    } catch (e) {
       this.login = false;
     }
-    if(this.firstName) {
+    if (this.firstName) {
       this.login = true;
-      this.firstName = this.firstName + '.';
+      this.firstName = this.firstName + ".";
     }
   },
   methods: {
     unCheck() {
       this.checkedBox = false;
     },
-    changeLang(){
+    changeLang() {
       alert("This feature is under development");
     },
     switchLocal() {
@@ -240,16 +244,15 @@ export default {
       if (lang == "en") {
         this.$i18n.locale = "th";
         localStorage.removeItem("lang");
-        localStorage.setItem("lang","th");
-        }
-      else {
+        localStorage.setItem("lang", "th");
+      } else {
         this.$i18n.locale = "en";
         localStorage.removeItem("lang");
-        localStorage.setItem("lang","en");
-        }
+        localStorage.setItem("lang", "en");
+      }
     }
   }
-}
+};
 </script>
 
 <style scoped>

@@ -32,7 +32,7 @@ class AuthService {
     const res = await axios.post(URL + "checkUniqueExists", {
       username: user.username,
       email: user.email,
-      phone: user.phone,
+      phone: user.phone
     });
     if (res) {
       return res.data;

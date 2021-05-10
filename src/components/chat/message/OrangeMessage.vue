@@ -13,7 +13,7 @@
 export default {
   data() {
     return {
-      time: "",
+      time: ""
     };
   },
   props: ["chat"],
@@ -29,7 +29,7 @@ export default {
         .getMinutes()
         .toString()
         .padStart(2, "0");
-  },
+  }
 };
 </script>
 
@@ -91,14 +91,14 @@ export default {
     padding: 3px 9px;
   }
 
-  #orange-message{
-    margin-top:6px;
+  #orange-message {
+    margin-top: 6px;
   }
 
   #time {
-  margin-top: 17px;
-  font-size:1.3em;
-  margin-right: 5px;
+    margin-top: 17px;
+    font-size: 1.3em;
+    margin-right: 5px;
   }
 }
 </style>

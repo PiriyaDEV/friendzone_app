@@ -107,7 +107,7 @@ export default {
   data() {
     return {
       showModButton: false,
-      eventRole: "Participant",
+      eventRole: "Participant"
     };
   },
   props: [
@@ -117,7 +117,7 @@ export default {
     "user",
     "detailPage",
     "managePage",
-    "admin",
+    "admin"
   ],
   created() {
     console.log(this.isMod);
@@ -130,7 +130,7 @@ export default {
     },
     participant_id: function() {
       this.checkModButton();
-    },
+    }
   },
   computed: {
     cssUserbox() {
@@ -164,7 +164,7 @@ export default {
         return adminRole;
       }
       return userRole;
-    },
+    }
   },
   methods: {
     checkRole() {
@@ -180,7 +180,7 @@ export default {
     approveRequest() {
       EventService.approveRequest({
         event_id: this.event_id,
-        user_id: this.user.user_id,
+        user_id: this.user.user_id
       })
         .then((res) => {
           if (res) {
@@ -194,7 +194,7 @@ export default {
     declineRequest() {
       EventService.declineRequest({
         event_id: this.event_id,
-        user_id: this.user.user_id,
+        user_id: this.user.user_id
       })
         .then((res) => {
           if (res) {
@@ -207,7 +207,7 @@ export default {
     },
     addModerator() {
       EventService.addModerator({
-        participant_id: this.user.event_participant_id,
+        participant_id: this.user.event_participant_id
       })
         .then((res) => {
           if (res) {
@@ -221,7 +221,7 @@ export default {
     },
     removeModerator() {
       EventService.removeModerator({
-        participant_id: this.user.event_participant_id,
+        participant_id: this.user.event_participant_id
       })
         .then((res) => {
           if (res) {
@@ -232,8 +232,8 @@ export default {
         .catch(() => {
           console.log("Error when remove the moderator");
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -21,7 +21,11 @@
 
         <div @click="reportWebReturn()" class="report-box">
           <div class="img-box">
-            <img class="icon" src="@/assets/icon/icons8-website-100.png" alt="" />
+            <img
+              class="icon"
+              src="@/assets/icon/icons8-website-100.png"
+              alt=""
+            />
           </div>
           <h1 class="choice-text">Web</h1>
         </div>
@@ -44,8 +48,8 @@ export default {
     reportWebReturn() {
       this.$emit("clickReport", true);
       this.$emit("checkReport", 3);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -71,9 +75,9 @@ export default {
 
 #box-section {
   margin-top: 50px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .icon {
@@ -90,62 +94,62 @@ export default {
 
 @media screen and (max-width: 1920px) {
   .report-box {
-  padding: 20px 80px; 
+    padding: 20px 80px;
   }
 }
 
 @media screen and (max-width: 1440px) {
   .report-box {
-  padding: 20px 40px; 
+    padding: 20px 40px;
   }
 }
 
 @media screen and (max-width: 880px) {
   #report {
-    width:auto;
+    width: auto;
     height: auto;
   }
 
-  .icon{
-    width:50px;
+  .icon {
+    width: 50px;
   }
 
   .report-box {
-  padding: 15px 40px; 
-  margin-bottom:20px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+    padding: 15px 40px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  #box-section{
-    display:block;
-    margin-top:35px;
+  #box-section {
+    display: block;
+    margin-top: 35px;
   }
 
-  .choice-text{
-    padding-left:30px;
+  .choice-text {
+    padding-left: 30px;
   }
 
-  .img-box{
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  .img-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  #report-section{
-    width:100%;
+  #report-section {
+    width: 100%;
   }
 }
 
 @media screen and (max-width: 490px) {
-    .icon{
-    width:30px;
+  .icon {
+    width: 30px;
   }
 
-  .choice-text{
-    padding-left:15px;
-    font-size:2.75em;
+  .choice-text {
+    padding-left: 15px;
+    font-size: 2.75em;
   }
 }
 </style>

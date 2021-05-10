@@ -105,10 +105,10 @@ export default {
     return {
       showTitle: true,
       eventList: [],
-      categorySelected: false,
+      categorySelected: false
     };
   },
-  props: ["idCategorySelected","nameCategorySelected"],
+  props: ["idCategorySelected", "nameCategorySelected"],
   created() {
     this.getCategory();
   },
@@ -126,7 +126,7 @@ export default {
       EventService.getEventByCategory(this.idCategorySelected)
         .then((res) => {
           if (res) {
-            console.log("terst"+this.idCategorySelected)
+            console.log("terst" + this.idCategorySelected);
             this.eventList = res;
           }
         })
@@ -139,11 +139,11 @@ export default {
     },
     manageReturn(value) {
       this.$emit("manageReturn", value);
-    },
+    }
   },
   components: {
-    EventFlex,
-  },
+    EventFlex
+  }
 };
 </script>
 

@@ -35,8 +35,8 @@ export default {
         return beforeStart;
       }
       return afterStart;
-    },
-  },
+    }
+  }
 };
 </script>
 
