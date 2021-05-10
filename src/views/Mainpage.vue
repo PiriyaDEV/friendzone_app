@@ -122,7 +122,7 @@
           </div>
 
           <div v-if="select == 8 && !searchBar">
-            <ApproverPage @clickManage="clickManage" @viewShow="viewShow" />
+            <ApproverPage @clickManage="clickManage" @viewShow="viewShow"  @viewData="viewData"/>
           </div>
         </div>
       </div>
@@ -264,7 +264,7 @@ export default {
       valueDetail: false,
       valueManage: true,
       pointPage: false,
-      view: false
+      view: false,
     };
   },
   computed: {
@@ -343,17 +343,24 @@ export default {
     detail(value) {
       this.valueDetail = value;
       this.valueManage = false;
+      this.view = false;
     },
     manage(value) {
       this.valueManage = value;
       this.valueDetail = false;
+      this.view = false;
     },
     point(value) {
       this.pointPage = value;
     },
     viewShow(value) {
       this.view = value;
-    }
+    },
+    viewData(value) {
+      this.eventData = value;
+      this.valueManage = false;
+      this.valueDetail = false;
+    },
   }
 };
 </script>

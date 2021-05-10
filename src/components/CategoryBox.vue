@@ -17,8 +17,15 @@
 </template>
 
 <script>
+
 export default {
   props: ["nameCategory", "icon", "colorCode", "status", "profileDetail"],
+  data() {
+    return {
+    }
+  },
+  created() {
+  },
   computed: {
     cssBox() {
       let afterStart = "category-box";

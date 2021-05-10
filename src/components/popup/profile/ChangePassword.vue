@@ -77,9 +77,7 @@
 
     <div class="button-section">
       <button class="back_button" @click="back()">Cancel</button>
-      <button class="create_button">
-        Save
-      </button>
+      <button class="create_button">Save</button>
     </div>
   </div>
 </template>
@@ -89,14 +87,14 @@ export default {
   data() {
     return {
       eye: true,
-      passwordFieldType: "password"
+      passwordFieldType: "password",
     };
   },
   methods: {
     back() {
       this.$emit("showBack", false);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -106,8 +104,8 @@ export default {
   border: 1.75px solid #e3e3e3;
   padding: 10px 0px 20px 0px;
   max-height: 300px;
+  margin-bottom: 15px;
   overflow-y: auto;
-  width: 100%;
 }
 
 #header_title {
@@ -133,5 +131,24 @@ export default {
 #password_box {
   display: flex;
   align-items: center;
+}
+
+@media screen and (max-width: 1024px) {
+  #change-password {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  .input_box,
+  .input_textarea_box {
+    width: 210px !important;
+  }
+
+  .create_button,
+  .back_button {
+    width: 120px !important;
+  }
 }
 </style>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import decode from "jwt-decode";
 
 const URL = "http://localhost:8080/api/category/";
 
@@ -15,6 +16,13 @@ class CategoryService {
         URL + "displayIcon?category_id=" + category.category_id + "&type=black";
       category.status = false;
     });
+    return categoryList;
+  }
+
+  async getCategoryFromUserID() {
+    let userData = decode(localStorage.getItem("user"));
+    const res = await axios.get(URL + "getCategoryFromUserID/" + userData.user_id);
+    var categoryList = res.data;
     return categoryList;
   }
 }

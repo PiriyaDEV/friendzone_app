@@ -175,6 +175,43 @@ class EventService {
     return res.data;
   }
 
+  async submitReviewParticipant(data) {
+    let user = decode(localStorage.getItem("user"));
+    const res = await axios.post(
+      API_URL + "createParticipantReview",
+      {
+        event_id: data.event_id,
+        user_id: user.user_id,
+        participant_id: data.participant_id,
+        rating: data.rating,
+        comment: data.comment
+      },
+      {
+        headers: authHeader()
+      }
+    );
+
+    return res.data;
+  }
+
+  async submitReviewEvent(data) {
+    let user = decode(localStorage.getItem("user"));
+    const res = await axios.post(
+      API_URL + "createEventReview",
+      {
+        event_id: data.event_id,
+        user_id: user.user_id,
+        rating: data.rating,
+        comment: data.comment
+      },
+      {
+        headers: authHeader()
+      }
+    );
+
+    return res.data;
+  }
+
   async getHostedEvent() {
     let user = decode(localStorage.getItem("user"));
     const res = await axios.get(API_URL + "getHostedEvent/" + user.user_id, {
@@ -377,7 +414,7 @@ class EventService {
   }
 
   async getApproverList() {
-      const res = await axios.get(API_URL + "getApproverList", {
+    const res = await axios.get(API_URL + "getApproverList", {
       headers: authHeader()
     });
 
@@ -391,6 +428,21 @@ class EventService {
     });
 
     return res.data;
+  }
+
+  async getEventCount() {
+    const res = await axios.get(API_URL + "getEventCount");
+    return res.data;
+  }
+
+  async approving(event_id, approve) {
+    await axios
+      .post(API_URL + "approving",{event_id, approve },{
+        headers: authHeader()
+      })
+      .then((res) => {
+        return res.data;
+      });
   }
 }
 

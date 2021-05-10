@@ -8,9 +8,7 @@
         <h1 v-if="valueDetail && !valueView" id="header" class="header_title">
           EVENT DETAIL
         </h1>
-        <h1 v-if="valueView" id="header" class="header_title">
-          REVIEW EVENT
-        </h1>
+        <h1 v-if="valueView" id="header" class="header_title">REVIEW EVENT</h1>
 
         <div v-if="valueView" id="menu">
           <h1 class="menu-text">Event Details</h1>
@@ -27,7 +25,7 @@
         </div>
         <hr id="bar" />
 
-        <div v-if="valueView">
+        <div v-if="valueView" class="event-box">
           <EventInfo
             v-if="eventDetail == true"
             :event="Event"
@@ -38,7 +36,7 @@
             :view="valueView"
           />
         </div>
-        <div v-else>
+        <div v-else class="event-box">
           <EventInfo
             v-if="eventDetail == true"
             :event="Event"
@@ -77,13 +75,13 @@ export default {
       participants: false,
       request: false,
       invite: false,
-      valueShow: 1
+      valueShow: 1,
     };
   },
   props: ["Event", "valueDetail", "valueManage", "valueView"],
   components: {
     EventInfo,
-    Participant
+    Participant,
   },
   methods: {
     cancelManage() {
@@ -122,7 +120,7 @@ export default {
     },
     deleteReturn(value) {
       this.$emit("clickDelete", value);
-    }
+    },
   },
   computed: {
     cssEventDetail() {
@@ -156,8 +154,8 @@ export default {
         return select;
       }
       return deselect;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -195,5 +193,43 @@ h1 {
 .selected {
   font-weight: 600;
   border-bottom: 5px solid #fe8864;
+}
+
+@media screen and (max-width: 1024px) {
+  #manage_event {
+    min-width: inherit;
+  }
+
+  .event-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .menu-text {
+    font-size: 2em;
+    padding: 0px 6.5px 7px 6.5px;
+  }
+
+  #bar {
+    margin-top: -14px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+
+  #bar {
+    margin-top: -11px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .popup-form {
+    padding: 0px 40px !important;
+  }
+
+  .menu-text {
+    font-size: 1.55em;
+  }
 }
 </style>

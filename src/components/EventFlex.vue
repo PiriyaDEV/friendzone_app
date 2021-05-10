@@ -29,6 +29,13 @@
     </div>
     <!-- User -->
 
+    <!-- Rating -->
+    <div v-if="showEnded && event.rating" id="rating-box">
+      <h1 v-if="Number.isInteger(event.rating)">Rating {{ event.rating }}/5</h1>
+      <h1 v-else>Rating {{ event.rating.toFixed(1) }}/5</h1>
+    </div>
+    <!-- Rating -->
+
     <!-- Date -->
     <div id="date-box">
       <h1>
@@ -485,5 +492,23 @@ export default {
 .green {
   background-color: #1ed32c !important;
   border: 1.75px solid #1ed32c !important;
+}
+
+#rating-box{
+  border:none;
+  border-radius:10px;
+  background-color: #ffc45c;
+  position:absolute;
+  left:40px;
+  top:13px;
+  box-shadow: 0px 3px 30px #0000000D;
+}
+
+#rating-box > h1{
+  font-size:1.4em;
+  margin:0px;
+  padding: 3px 10px;
+  color: #ffffff;
+  font-weight:500;
 }
 </style>

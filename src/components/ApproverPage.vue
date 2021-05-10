@@ -12,9 +12,9 @@
       </div>
 
       <div id="history-box">
-        <h1 class="history-text">Approved (534)</h1>
-        <h1 class="history-text">Disapproved (51)</h1>
-        <h1 class="history-text">Pending (34)</h1>
+        <h1 class="history-text">{{ this.eventStatusList[0] }}</h1>
+        <h1 class="history-text">{{ this.eventStatusList[1] }}</h1>
+        <h1 class="history-text">{{ this.eventStatusList[2] }}</h1>
       </div>
     </div>
 
@@ -31,8 +31,13 @@
     </div>
 
     <div id="report-box">
-      <div v-for="(item, i) in eventList" :key="i">
-        <ReportBox :approver="true" @viewReturn="viewReturn" />
+      <div v-for="(event, i) in eventList" :key="i">
+        <ReportBox
+          :approver="true"
+          @viewReturn="viewReturn"
+          :event="event"
+          @viewData="viewData"
+        />
       </div>
     </div>
   </div>
@@ -40,12 +45,37 @@
 
 <script>
 import ReportBox from "@/components/admin/report/ReportBox.vue";
+import EventService from "../services/event.service";
 
 export default {
   data() {
     return {
-      eventList: 30
+      eventList: [],
+      eventStatusList: []
     };
+  },
+  created() {
+    EventService.getApproverList().then((res) => {
+      if (res) {
+        this.eventList = res;
+      }
+    });
+    EventService.getEventCount().then((res) => {
+      if (res) {
+        for(let i = 0 ; i < res.length ; i++ )
+        {
+          if (res[i].status_id === "ST03")
+            this.eventStatusList[i] = `Approved (${res[i].count})`;
+          if (res[i].status_id === "ST15")
+            this.eventStatusList[i] = `Disapproved (${res[i].count})`;
+          if (res[i].status_id === "ST13")
+            this.eventStatusList[i] = `Pending (${res[i].count})`;
+        }
+        
+
+      }
+
+    });
   },
   components: {
     ReportBox
@@ -54,6 +84,9 @@ export default {
     viewReturn(value) {
       this.$emit("viewShow", value);
       this.$emit("clickManage", value);
+    },
+    viewData(value) {
+      this.$emit("viewData", value);
     }
   }
 };

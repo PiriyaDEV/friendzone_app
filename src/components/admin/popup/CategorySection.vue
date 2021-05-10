@@ -12,9 +12,7 @@
               v-model="selected"
               required
             >
-              <option value="" disabled selected hidden>
-                select category
-              </option>
+              <option value="" disabled selected hidden>select category</option>
               <option
                 v-for="(category, index) in categoryList"
                 :key="index"
@@ -34,6 +32,7 @@
                   v-if="
                     !newNameCategory && !newColorCategory && !newIconCategory
                   "
+                  :admin="true"
                   :nameCategory="selected.category_name"
                   :icon="selected.icon_white"
                   :colorCode="selected.color_code"
@@ -44,9 +43,10 @@
                   v-if="
                     !newNameCategory && !newColorCategory && !newIconCategory
                   "
-                  style="margin-top:15px;"
+                  style="margin-top: 15px"
                 >
                   <TypeBox
+                    :admin="true"
                     :nameCategory="selected.category_name"
                     :icon="selected.icon_black"
                     :colorCode="GreyColor"
@@ -60,6 +60,7 @@
                   v-if="
                     newNameCategory && !newColorCategory && !newIconCategory
                   "
+                  :admin="true"
                   :nameCategory="changeName"
                   :icon="selected.icon_white"
                   :colorCode="selected.color_code"
@@ -70,9 +71,10 @@
                   v-if="
                     newNameCategory && !newColorCategory && !newIconCategory
                   "
-                  style="margin-top:15px;"
+                  style="margin-top: 15px"
                 >
                   <TypeBox
+                    :admin="true"
                     :nameCategory="changeName"
                     :icon="selected.icon_black"
                     :colorCode="GreyColor"
@@ -86,6 +88,7 @@
                   v-if="
                     newColorCategory && !newNameCategory && !newIconCategory
                   "
+                  :admin="true"
                   :nameCategory="selected.category_name"
                   :icon="selected.icon_white"
                   :colorCode="changeColor"
@@ -96,9 +99,10 @@
                   v-if="
                     newColorCategory && !newNameCategory && !newIconCategory
                   "
-                  style="margin-top:15px;"
+                  style="margin-top: 15px"
                 >
                   <TypeBox
+                    :admin="true"
                     :nameCategory="selected.category_name"
                     :icon="selected.icon_black"
                     :colorCode="GreyColor"
@@ -112,6 +116,7 @@
                   v-if="
                     newIconCategory && !newNameCategory && !newColorCategory
                   "
+                  :admin="true"
                   :nameCategory="selected.category_name"
                   :icon="changeIconWhite"
                   :colorCode="selected.color_code"
@@ -122,9 +127,10 @@
                   v-if="
                     newIconCategory && !newNameCategory && !newColorCategory
                   "
-                  style="margin-top:15px;"
+                  style="margin-top: 15px"
                 >
                   <TypeBox
+                    :admin="true"
                     :nameCategory="selected.category_name"
                     :icon="changeIconBlack"
                     :colorCode="GreyColor"
@@ -136,6 +142,7 @@
                 <!-- change name and Color -->
                 <TypeBox
                   v-if="newColorCategory && newNameCategory && !newIconCategory"
+                  :admin="true"
                   :nameCategory="changeName"
                   :icon="selected.icon_white"
                   :colorCode="changeColor"
@@ -144,9 +151,10 @@
                 />
                 <div
                   v-if="newColorCategory && newNameCategory && !newIconCategory"
-                  style="margin-top:15px;"
+                  style="margin-top: 15px"
                 >
                   <TypeBox
+                    :admin="true"
                     :nameCategory="changeName"
                     :icon="selected.icon_black"
                     :colorCode="GreyColor"
@@ -158,6 +166,7 @@
                 <!-- change name and Icon -->
                 <TypeBox
                   v-if="!newColorCategory && newNameCategory && newIconCategory"
+                  :admin="true"
                   :nameCategory="changeName"
                   :icon="changeIconWhite"
                   :colorCode="selected.color_code"
@@ -166,9 +175,10 @@
                 />
                 <div
                   v-if="!newColorCategory && newNameCategory && newIconCategory"
-                  style="margin-top:15px;"
+                  style="margin-top: 15px"
                 >
                   <TypeBox
+                    :admin="true"
                     :nameCategory="changeName"
                     :icon="changeIconBlack"
                     :colorCode="GreyColor"
@@ -180,6 +190,7 @@
                 <!-- change color and Icon -->
                 <TypeBox
                   v-if="newColorCategory && !newNameCategory && newIconCategory"
+                  :admin="true"
                   :nameCategory="selected.category_name"
                   :icon="changeIconWhite"
                   :colorCode="changeColor"
@@ -188,9 +199,10 @@
                 />
                 <div
                   v-if="newColorCategory && !newNameCategory && newIconCategory"
-                  style="margin-top:15px;"
+                  style="margin-top: 15px"
                 >
                   <TypeBox
+                    :admin="true"
                     :nameCategory="selected.category_name"
                     :icon="changeIconBlack"
                     :colorCode="GreyColor"
@@ -202,6 +214,7 @@
                 <!-- change All -->
                 <TypeBox
                   v-if="newColorCategory && newNameCategory && newIconCategory"
+                  :admin="true"
                   :nameCategory="changeName"
                   :icon="changeIconWhite"
                   :colorCode="changeColor"
@@ -210,9 +223,10 @@
                 />
                 <div
                   v-if="newColorCategory && newNameCategory && newIconCategory"
-                  style="margin-top:15px;"
+                  style="margin-top: 15px"
                 >
                   <TypeBox
+                    :admin="true"
                     :nameCategory="changeName"
                     :icon="changeIconBlack"
                     :colorCode="GreyColor"
@@ -247,9 +261,7 @@
 
           <!-- Input -->
           <div>
-            <h2 class="input_title">
-              Change Color
-            </h2>
+            <h2 class="input_title">Change Color</h2>
             <div class="button-section">
               <input
                 class="input_box"
@@ -281,7 +293,7 @@
                 </div>
               </Upload>
             </div>
-            <div style="margin-top:10px;" class="button-section">
+            <div style="margin-top: 10px" class="button-section">
               <Upload v-model="newIconBlack">
                 <div slot="activator" class="select-photo-inside">
                   <img
@@ -313,9 +325,7 @@
       </div>
       <div class="button-section">
         <button class="back_button" @click="cancel()">Cancel</button>
-        <button class="create_button" @click="save()">
-          Save
-        </button>
+        <button class="create_button" @click="save()">Save</button>
       </div>
     </div>
     <div v-if="!Case">
@@ -334,7 +344,7 @@
               />
               <div
                 v-if="!nameAdd && !colorAdd && !iconAdd"
-                style="margin-top:15px;"
+                style="margin-top: 15px"
               >
                 <TypeBox
                   :nameCategory="defaultName"
@@ -356,7 +366,7 @@
               />
               <div
                 v-if="nameAdd && !colorAdd && !iconAdd"
-                style="margin-top:15px;"
+                style="margin-top: 15px"
               >
                 <TypeBox
                   :nameCategory="addNewName"
@@ -378,7 +388,7 @@
               />
               <div
                 v-if="colorAdd && !nameAdd && !iconAdd"
-                style="margin-top:15px;"
+                style="margin-top: 15px"
               >
                 <TypeBox
                   :nameCategory="defaultName"
@@ -400,7 +410,7 @@
               />
               <div
                 v-if="iconAdd && !nameAdd && !colorAdd"
-                style="margin-top:15px;"
+                style="margin-top: 15px"
               >
                 <TypeBox
                   :nameCategory="defaultName"
@@ -422,7 +432,7 @@
               />
               <div
                 v-if="colorAdd && nameAdd && !iconAdd"
-                style="margin-top:15px;"
+                style="margin-top: 15px"
               >
                 <TypeBox
                   :nameCategory="addNewName"
@@ -444,7 +454,7 @@
               />
               <div
                 v-if="!colorAdd && nameAdd && iconAdd"
-                style="margin-top:15px;"
+                style="margin-top: 15px"
               >
                 <TypeBox
                   :nameCategory="addNewName"
@@ -466,7 +476,7 @@
               />
               <div
                 v-if="colorAdd && !nameAdd && iconAdd"
-                style="margin-top:15px;"
+                style="margin-top: 15px"
               >
                 <TypeBox
                   :nameCategory="defaultName"
@@ -488,7 +498,7 @@
               />
               <div
                 v-if="colorAdd && nameAdd && iconAdd"
-                style="margin-top:15px;"
+                style="margin-top: 15px"
               >
                 <TypeBox
                   :nameCategory="addNewName"
@@ -524,9 +534,7 @@
 
           <!-- Input -->
           <div>
-            <h2 class="input_title">
-              Add Color
-            </h2>
+            <h2 class="input_title">Add Color</h2>
             <div class="button-section">
               <input
                 class="input_box"
@@ -558,7 +566,7 @@
                 </div>
               </Upload>
             </div>
-            <div style="margin-top:10px;" class="button-section">
+            <div style="margin-top: 10px" class="button-section">
               <Upload v-model="addIconBlack">
                 <div slot="activator" class="select-photo-inside">
                   <img
@@ -579,9 +587,7 @@
       </div>
       <div class="button-section">
         <button class="back_button" @click="cancel()">Cancel</button>
-        <button class="create_button" @click="save()">
-          Save
-        </button>
+        <button class="create_button" @click="save()">Save</button>
       </div>
     </div>
   </div>
@@ -626,7 +632,7 @@ export default {
     };
   },
   watch: {
-    selected: function() {
+    selected: function () {
       this.newNameCategory = false;
       this.newColorCategory = false;
       this.newIconCategory = false;
@@ -852,5 +858,67 @@ option {
 
 #delete {
   margin-top: 15px;
+}
+
+@media screen and (max-width: 1024px) {
+  #category-section {
+    display: block;
+  }
+
+  #left,
+  #right {
+    margin: 0px;
+  }
+
+  .input_box {
+    width: 100% !important;
+  }
+
+  .select-photo-inside {
+    width: 400px;
+  }
+
+  #result,
+  #result-add {
+    width: 100%;
+    height: 145px;
+    margin-bottom: 20px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  .input_box,
+  .input_textarea_box {
+    width: 160px !important;
+  }
+
+  .select-photo-inside {
+    width: 170px;
+  }
+
+  .create_button,
+  .back_button {
+    width: 120px !important;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .create_button,
+  .back_button {
+    width: 110px !important;
+  }
+
+  .input_box,
+  .input_textarea_box {
+    width: 130px !important;
+  }
+
+  .select-photo-inside {
+    width: 140px;
+  }
+
+  .popup-form {
+    padding: 0px 40px !important;
+  }
 }
 </style>

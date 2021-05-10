@@ -2,7 +2,9 @@
   <div id="eventinfo">
     <div id="info-section">
       <div id="left">
-        <img id="event-image" :src="event.event_pic" alt="" />
+        <div id="image-box">
+          <img id="event-image" :src="event.event_pic" alt="" />
+        </div>
         <div class="info-box">
           <div>
             <h1 class="info-title">Title</h1>
@@ -37,19 +39,21 @@
             <h1 class="info-text">{{ end_at }}</h1>
           </div>
         </div>
-        <div id="info-flex-box">
-          <h1 class="info-title">Participant Gender</h1>
-          <div id="select-box">
-            <div v-for="(item, i) in genderList" :key="i">
-              <h1 class="info-text">{{ item.gender_name }}</h1>
+        <div id="info-flex-box-section">
+          <div id="info-flex-box">
+            <h1 class="info-title">Participant Gender</h1>
+            <div id="select-box">
+              <div v-for="(item, i) in genderList" :key="i">
+                <h1 class="info-text">{{ item.gender_name }}</h1>
+              </div>
             </div>
           </div>
-        </div>
-        <div id="info-flex-box" style="margin-top:10px;">
-          <h1 class="info-title">Event Category</h1>
-          <div id="select-box">
-            <div v-for="(item, i) in categoryList" :key="i">
-              <h1 class="info-text">{{ item.category_name }}</h1>
+          <div id="info-flex-box" style="margin-top: 10px">
+            <h1 class="info-title">Event Category</h1>
+            <div id="select-box">
+              <div v-for="(item, i) in categoryList" :key="i">
+                <h1 class="info-text">{{ item.category_name }}</h1>
+              </div>
             </div>
           </div>
         </div>
@@ -71,9 +75,7 @@
     <div v-if="!view">
       <div v-if="manageReturn" class="button-section">
         <button class="back_button" @click="deleteClick()">Delete Event</button>
-        <button class="create_button" @click="done()">
-          Done
-        </button>
+        <button class="create_button" @click="done()">Done</button>
       </div>
       <div id="single-button">
         <button v-if="detailReturn" class="create_button" @click="done()">
@@ -82,9 +84,26 @@
       </div>
     </div>
 
+    <div
+      v-if="event.status_id !== this.statusCheck && view == true"
+      id="spacer"
+    ></div>
+
     <div v-if="view == true" class="button-section">
-      <button id="disapprove_button" class="back_button">Disapprove</button>
-      <button id="approve_button" class="back_button">
+      <button
+        v-if="event.status_id == this.statusCheck"
+        id="disapprove_button"
+        class="back_button"
+        @click="approve(false)"
+      >
+        Disapprove
+      </button>
+      <button
+        v-if="event.status_id == this.statusCheck"
+        id="approve_button"
+        class="back_button"
+        @click="approve(true)"
+      >
         Approve
       </button>
     </div>
@@ -97,6 +116,7 @@ import EventService from "@/services/event.service";
 export default {
   data() {
     return {
+      statusCheck: "ST13",
       start_at: "",
       end_at: "",
       categoryList: [],
@@ -168,6 +188,11 @@ export default {
     },
     deleteClick() {
       this.$emit("deleteReturn", true);
+    },
+    approve(boolean) {
+      EventService.approving(this.event.event_id, boolean).then(() => {
+          this.$emit("doneClick", false);
+      });
     }
   }
 };
@@ -214,6 +239,10 @@ h1 {
   object-fit: cover;
   border: 2px solid #444444;
   border-radius: 9px;
+}
+
+#spacer {
+  height: 30px;
 }
 
 .info-title,
@@ -267,5 +296,61 @@ h1 {
 #approve_button {
   border: 2px solid #1ed32c !important;
   color: #1ed32c;
+}
+
+@media screen and (max-width: 1024px) {
+  #info-section {
+    display: block;
+  }
+
+  #left,
+  #right {
+    margin: 0px;
+    width: 100%;
+  }
+
+  #image-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .info-box {
+    grid-template-columns: 50% 50%;
+  }
+
+  .create_button,
+  .back_button {
+    width: 150px !important;
+  }
+
+  #event-image {
+    width: 330px;
+    height: 190px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  .create_button,
+  .back_button {
+    width: 120px !important;
+  }
+
+  #event-image {
+    width: 300px;
+    height: 170px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .popup-form {
+    padding: 0px 40px !important;
+  }
+
+  #event-image {
+    width: 250px;
+    height: 150px;
+  }
 }
 </style>
