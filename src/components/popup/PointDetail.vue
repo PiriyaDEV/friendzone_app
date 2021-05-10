@@ -109,6 +109,11 @@ export default {
   display: flex;
 }
 
+div::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+  }
+
 #transaction {
   margin-bottom: 15px;
 }
@@ -154,5 +159,49 @@ export default {
   padding-bottom: 7px;
   color: #444444;
   cursor: pointer;
+}
+
+@media screen and (max-width: 1024px) {
+  .popup-form{
+    margin: 50px 0px 20px 0px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  #yellow-box{
+    padding:30px 100px;
+  }
+
+  #point{
+    font-size:3em;
+  }
+
+  #coin-logo{
+    width: 25px;
+    height: 25px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .popup-form{
+    padding-right: 30px !important;
+    padding-left: 30px !important;
+  }
+
+  #transaction-box{
+    width:240px;
+  }
+
+  .transaction-text{
+    font-size:1.5em;
+  }
+
+  .transaction-info{
+    font-size: 1.3em;
+  }
+
+  #yellow-box{
+    padding:20px 0px;
+  }
 }
 </style>

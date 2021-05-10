@@ -101,8 +101,8 @@
         <!-- Input -->
 
         <div class="button-section">
-          <button id="back_button" @click="reportReturn()">Cancel</button>
-          <button id="create_button" @click="ClickCreate()">Report</button>
+          <button class="back_button" @click="reportReturn()">Cancel</button>
+          <button class="create_button" @click="ClickCreate()">Report</button>
         </div>
         <img
           @click="reportReturn()"
@@ -225,36 +225,8 @@ option {
   margin-top: 2px;
 }
 
-#back_button {
-  color: #ff8864;
-  font-size: 2.5em;
-  font-family: "Atten-Round-New";
-  text-align: center;
-  width: 170px;
-  padding: 9px 0px;
-  background-color: #ffffff;
-  border-radius: 35px;
-  border: 2px solid #ff8864;
-  margin-top: 30px;
-  transition: 0.3s;
-  margin-bottom: 30px;
-  font-weight: 500;
-}
-
-#create_button {
-  color: #ffffff;
-  font-size: 2.5em;
-  font-family: "Atten-Round-New";
-  text-align: center;
-  width: 170px;
-  padding: 9px 0px;
-  background-color: #ff8864;
-  border-radius: 35px;
-  border: none;
-  margin-top: 30px;
-  transition: 0.3s;
-  margin-bottom: 30px;
-  font-weight: 500;
+.back_button, .create_button{
+  width: 170px !important;
 }
 
 .input_textarea_box {
@@ -272,5 +244,30 @@ option {
 
 .bio {
   padding-bottom: 50px;
+}
+
+@media screen and (max-width: 690px) {
+
+  .input_box,.input_textarea_box{
+    width:250px !important;
+  }
+
+  .create_button , .back_button{
+    width:120px !important;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .input_box,.input_textarea_box{
+    width:210px !important;
+  }
+
+  .create_button , .back_button{
+    width:110px !important;
+  }
+
+  .popup-form{
+    padding: 0px 40px !important;
+  }
 }
 </style>

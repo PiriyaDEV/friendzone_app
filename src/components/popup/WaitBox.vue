@@ -15,7 +15,7 @@
           <h1 id="event-title">Title : Chai Miang Chiang Mai</h1>
         </div>
 
-        <!-- <div class="section">
+        <!-- <div id="mobile-done" class="section">
           <button class="back_button" @click="createdReturn()">Done</button>
         </div> -->
 
@@ -85,5 +85,33 @@ export default {
 
 .double-button {
   margin-bottom: 20px;
+}
+
+@media screen and (max-width: 1024px) {
+  #info{
+    margin:0px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  #event-title{
+    font-size:1.75em;
+  }
+
+  #mobile-done{
+    margin-top:10px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .popup-form{
+    padding: 0px 40px !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .create_button , .back_button{
+    width:165px !important;
+  }
 }
 </style>

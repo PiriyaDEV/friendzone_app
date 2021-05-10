@@ -9,13 +9,13 @@
             class="popup-form"
           >
             <h1 id="header" class="header_title">EDIT DATABASE</h1>
-            <button id="edit_button" @click="clickEditCategory()">
+            <button class="back_button edit_button" @click="clickEditCategory()">
               EDIT CATEGORIES
             </button>
-            <button id="edit_button" @click="clickEditReport()">
+            <button class="back_button edit_button" @click="clickEditReport()">
               EDIT REPORT
             </button>
-            <button id="cancel_button" @click="editReturn()">Cancle</button>
+            <button class="back_button" @click="editReturn()">Cancel</button>
             <img
               @click="close()"
               style="cursor: pointer"
@@ -92,29 +92,21 @@ export default {
   text-align: center;
 }
 
-#cancel_button,
-#edit_button {
-  font-family: "Atten-Round-New";
-  text-align: center;
-  width: 100%;
-  padding: 9px 0px;
-  border-radius: 35px;
-  margin-top: 10px;
-  background-color: #ffffff;
-  transition: 0.3s;
+.back_button{
+  width: 100% !important;
+  margin: 10px 0px;
 }
 
-#edit_button {
-  font-size: 1.75em;
-  color: #444444;
-  font-weight: 400;
-  border: 2px solid #b1b1b1;
+.edit_button{
+  color: #444444 !important;
+  border: 2px solid #b1b1b1 !important;
+  font-weight: 400 !important;
+  margin: 5px 0px;
 }
-#cancel_button {
-  margin-top: 25px;
-  font-size: 2em;
-  color: #ff8864;
-  font-weight: 500;
-  border: 2px solid #ff8864;
+
+@media screen and (max-width: 490px) {
+  #edit-database-popup {
+  padding: 20px 40px 30px 40px !important;
+  }
 }
 </style>
