@@ -8,9 +8,11 @@ class CategoryService {
 
     var categoryList = res.data;
 
-    await categoryList.forEach(category => {
-      category.icon_white = URL + "displayIcon?category_id=" + category.category_id + "&type=white";
-      category.icon_black = URL + "displayIcon?category_id=" + category.category_id + "&type=black";
+    await categoryList.forEach((category) => {
+      category.icon_white =
+        URL + "displayIcon?category_id=" + category.category_id + "&type=white";
+      category.icon_black =
+        URL + "displayIcon?category_id=" + category.category_id + "&type=black";
       category.status = false;
     });
     return categoryList;

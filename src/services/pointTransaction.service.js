@@ -1,7 +1,6 @@
 import axios from "axios";
 import decode from "jwt-decode";
 
-
 const URL = "http://localhost:8080/api/point/";
 
 class PointTransactionService {

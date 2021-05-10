@@ -71,14 +71,13 @@ export default {
     },
     clickDiscount() {
       this.$emit("clickDiscountLongFlex", true);
-    },
+    }
   },
-  props: ["statusYourZone"],
+  props: ["statusYourZone"]
 };
 </script>
 
 <style scoped>
-
 .discount-pic {
   width: 100%;
   height: 130px;

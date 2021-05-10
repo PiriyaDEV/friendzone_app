@@ -45,7 +45,7 @@ export const auth = {
           return Promise.reject(error);
         }
       );
-    },
+    }
   },
   mutations: {
     loginSuccess(state, user) {
@@ -68,6 +68,6 @@ export const auth = {
     },
     Isuserrestore(state) {
       state.status.loggedIn = true;
-    },
-  },
+    }
+  }
 };

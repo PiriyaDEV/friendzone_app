@@ -135,7 +135,7 @@ export default {
       showHost: false,
       showPending: false,
       showRejected: false,
-      showJoined: false,
+      showJoined: false
     };
   },
   name: "EventFlex",
@@ -146,7 +146,7 @@ export default {
   watch: {
     event: function() {
       this.getCreate();
-    },
+    }
   },
   methods: {
     rateEventReturn() {
@@ -171,7 +171,7 @@ export default {
       this.event.interest = !this.event.interest;
       EventService.updateInterestEvent({
         event_id: this.event.event_id,
-        interest: this.event.interest,
+        interest: this.event.interest
       });
     },
     joinEvent() {
@@ -221,8 +221,8 @@ export default {
       } else if (this.event.participant_status == "ST15") {
         this.showRejected = true;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -478,12 +478,12 @@ export default {
 }
 
 .red {
-  background-color: #ff6464 !important;
-  border: 1.75px solid #ff6464 !important;
+  background-color: #fd6363 !important;
+  border: 1.75px solid #fd6363 !important;
 }
 
 .green {
-  background-color: #41bf3e !important;
-  border: 1.75px solid #41bf3e !important;
+  background-color: #1ed32c !important;
+  border: 1.75px solid #1ed32c !important;
 }
 </style>

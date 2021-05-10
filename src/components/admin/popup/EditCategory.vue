@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       categoryList: null,
-      caseCategory: true,
+      caseCategory: true
     };
   },
   created() {
@@ -56,7 +56,7 @@ export default {
     });
   },
   components: {
-    CategorySection,
+    CategorySection
   },
   methods: {
     back() {
@@ -67,24 +67,24 @@ export default {
     },
     addNew() {
       this.caseCategory = false;
-    },
+    }
   },
   computed: {
     cssEdit() {
-      let select = "menu-text selected"
-      let unselect = "menu-text"
-      if(this.caseCategory == true) {
-        return select
+      let select = "menu-text selected";
+      let unselect = "menu-text";
+      if (this.caseCategory == true) {
+        return select;
       }
-      return unselect
+      return unselect;
     },
     cssAdd() {
-      let select = "menu-text selected"
-      let unselect = "menu-text"
-      if(this.caseCategory == false) {
-        return select
+      let select = "menu-text selected";
+      let unselect = "menu-text";
+      if (this.caseCategory == false) {
+        return select;
       }
-      return unselect
+      return unselect;
     }
   }
 };

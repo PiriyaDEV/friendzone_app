@@ -63,10 +63,7 @@
           >
             Use Now
           </button>
-          <button
-            class="create_button used"
-            v-if="confirmUsed"
-          >
+          <button class="create_button used" v-if="confirmUsed">
             Used
           </button>
           <div v-if="checkUsed" class="section double-button">
@@ -124,8 +121,8 @@ export default {
     },
     cancelUse() {
       this.checkUsed = false;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -223,7 +220,7 @@ h1 {
   margin: 10px 0px 0px 0px;
 }
 
-.create_button{
+.create_button {
   margin: 20px 0px 15px 0px;
 }
 
@@ -241,11 +238,12 @@ h1 {
   margin-top: 20px;
 }
 
-.used{
+.used {
   background-color: #a0a0a0 !important;
 }
 
-#info-box,#button-container {
+#info-box,
+#button-container {
   width: 250px;
 }
 
@@ -261,12 +259,12 @@ h1 {
   }
 
   #info-box {
-  width: 230px;
+    width: 230px;
   }
 }
 
 @media screen and (max-width: 490px) {
-  .popup-form{
+  .popup-form {
     padding: 0px 40px !important;
   }
 }

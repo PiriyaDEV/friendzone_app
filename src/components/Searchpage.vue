@@ -1,7 +1,7 @@
 <template>
   <div id="search-page" class="event-container">
     <div id="mobile-filter">
-      <MobileFilter/>
+      <MobileFilter />
     </div>
     <div id="flex-section">
       <h1 id="searchtext" class="event-header">
@@ -98,12 +98,12 @@ export default {
         "11/20",
         "12/20",
         "13/20",
-        "14/20",
+        "14/20"
       ],
       dataDate: "14 Oct 2021 - 15 Oct 2021",
       dataTitle: "Chai Miang Chiang Mai Camp with Aj.Harryfer",
       dataLocation: "Localhost Resort Chiang Mai, Thailand",
-      dataHost: "pd.piriya",
+      dataHost: "pd.piriya"
     };
   },
   components: {
@@ -128,7 +128,7 @@ export default {
       this.friendSelect = false;
       this.eventSelect = false;
       this.discountSelect = true;
-    },
+    }
   },
   computed: {
     cssFriend() {
@@ -154,8 +154,8 @@ export default {
         return select;
       }
       return deselect;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -236,13 +236,13 @@ h1 {
 
   #mobile-filter {
     display: flex;
-    margin-bottom:20px;
+    margin-bottom: 20px;
   }
 }
 
 @media screen and (max-width: 490px) {
-  .menu-text{
-    font-size:1.6em;
+  .menu-text {
+    font-size: 1.6em;
   }
 }
 </style>

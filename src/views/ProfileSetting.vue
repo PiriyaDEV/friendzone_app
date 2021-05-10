@@ -212,11 +212,11 @@ export default {
       invalidGender: false,
       alertGender: "",
       invalidProfilePic: false,
-      alertProfilePic: "",
+      alertProfilePic: ""
     };
   },
   components: {
-    Upload,
+    Upload
   },
   watch: {
     phone: function() {
@@ -230,12 +230,12 @@ export default {
         this.alertPhone = "phone number is invalid";
       }
       if (!this.phone) this.invalidPhone = false;
-    },
+    }
   },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    },
+    }
   },
   created() {
     GenderService.getGenderList().then((res) => {
@@ -340,8 +340,8 @@ export default {
           } else this.invalidPhone = res.exist;
         });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

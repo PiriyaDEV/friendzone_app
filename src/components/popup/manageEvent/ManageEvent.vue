@@ -12,7 +12,7 @@
           REVIEW EVENT
         </h1>
 
-        <div v-if="valueView"  id="menu">
+        <div v-if="valueView" id="menu">
           <h1 class="menu-text">Event Details</h1>
         </div>
         <div v-if="!valueView" id="menu">
@@ -27,36 +27,36 @@
         </div>
         <hr id="bar" />
 
-      <div v-if="valueView">
-         <EventInfo
-          v-if="eventDetail == true"
-          :event="Event"
-          @doneClick="doneClick"
-          @deleteReturn="deleteReturn"
-          :detailReturn="valueDetail"
-          :manageReturn="valueManage"
-          :view="valueView"
-        />
-      </div>
-      <div v-else>
-        <EventInfo
-          v-if="eventDetail == true"
-          :event="Event"
-          @doneClick="doneClick"
-          @deleteReturn="deleteReturn"
-          :detailReturn="valueDetail"
-          :manageReturn="valueManage"
-        />
+        <div v-if="valueView">
+          <EventInfo
+            v-if="eventDetail == true"
+            :event="Event"
+            @doneClick="doneClick"
+            @deleteReturn="deleteReturn"
+            :detailReturn="valueDetail"
+            :manageReturn="valueManage"
+            :view="valueView"
+          />
+        </div>
+        <div v-else>
+          <EventInfo
+            v-if="eventDetail == true"
+            :event="Event"
+            @doneClick="doneClick"
+            @deleteReturn="deleteReturn"
+            :detailReturn="valueDetail"
+            :manageReturn="valueManage"
+          />
 
-        <Participant
-          v-else
-          :status="valueShow"
-          :event="Event"
-          @doneClick="doneClick"
-          :detailReturn="valueDetail"
-          :manageReturn="valueManage"
-        />
-      </div>
+          <Participant
+            v-else
+            :status="valueShow"
+            :event="Event"
+            @doneClick="doneClick"
+            :detailReturn="valueDetail"
+            :manageReturn="valueManage"
+          />
+        </div>
         <img
           @click="cancelManage()"
           style="cursor: pointer"
@@ -77,13 +77,13 @@ export default {
       participants: false,
       request: false,
       invite: false,
-      valueShow: 1,
+      valueShow: 1
     };
   },
-  props: ["Event", "valueDetail", "valueManage","valueView"],
+  props: ["Event", "valueDetail", "valueManage", "valueView"],
   components: {
     EventInfo,
-    Participant,
+    Participant
   },
   methods: {
     cancelManage() {
@@ -122,7 +122,7 @@ export default {
     },
     deleteReturn(value) {
       this.$emit("clickDelete", value);
-    },
+    }
   },
   computed: {
     cssEventDetail() {
@@ -156,8 +156,8 @@ export default {
         return select;
       }
       return deselect;
-    },
-  },
+    }
+  }
 };
 </script>
 

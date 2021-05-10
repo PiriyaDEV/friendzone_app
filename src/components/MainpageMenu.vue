@@ -246,7 +246,7 @@ export default {
       reportselect: false,
       signoutselect: false,
       analystselect: false,
-      approverselect: false,
+      approverselect: false
     };
   },
   methods: {
@@ -359,7 +359,7 @@ export default {
       (this.reportselect = false), (this.signoutselect = false);
       this.$emit("clickClearSearch", true);
       this.$emit("pageReturn", 8);
-    },
+    }
   },
   computed: {
     zonebox() {
@@ -505,8 +505,8 @@ export default {
         return select;
       }
       return unselect;
-    },
-  },
+    }
+  }
 };
 </script>
 

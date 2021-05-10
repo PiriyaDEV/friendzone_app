@@ -87,7 +87,7 @@
           />
         </div>
       </div>
-      <div v-else  id="mobile-container" class="event-container">
+      <div v-else id="mobile-container" class="event-container">
         <div id="left">
           <Slide :closeOnNavigation="true">
             <a @click="mainpageClick()" id="yourzone" class="menu-box">
@@ -172,13 +172,13 @@ import PointTransactionService from "../services/pointTransaction.service";
 
 export default {
   components: {
-    Slide,
+    Slide
   },
   props: ["admin"],
   data() {
     return {
       user: new User({ username: "", profile_pic: "" }),
-      point: "",
+      point: ""
     };
   },
   created() {
@@ -247,7 +247,7 @@ export default {
       this.$emit("pageReturnAdmin", 4);
     }
   },
-  computed: {},
+  computed: {}
 };
 </script>
 

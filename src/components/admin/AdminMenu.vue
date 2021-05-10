@@ -126,11 +126,7 @@
         <!-- Report -->
 
         <!-- Sign out -->
-        <div
-          @click="signoutClick()"
-          :class="signoutbox"
-          class="bottom-menu"
-        >
+        <div @click="signoutClick()" :class="signoutbox" class="bottom-menu">
           <div>
             <img
               v-show="signoutselect == false"
@@ -165,7 +161,7 @@ export default {
       discountselect: false,
       userselect: false,
       reportselect: false,
-      signoutselect: false,
+      signoutselect: false
     };
   },
   methods: {
@@ -221,7 +217,7 @@ export default {
       this.userselect = false;
       this.reportselect = false;
       (this.signoutselect = true), AuthService.logout();
-    },
+    }
   },
   computed: {
     mainpagebox() {
@@ -319,8 +315,8 @@ export default {
         return select;
       }
       return unselect;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -388,7 +384,6 @@ export default {
   padding-top: 30px;
   justify-content: center;
 }
-
 
 #nav-container {
   display: block;

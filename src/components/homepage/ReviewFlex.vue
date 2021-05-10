@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  props: ["comment", "username", "userRole"],
+  props: ["comment", "username", "userRole"]
 };
 </script>
 
@@ -71,38 +71,37 @@ export default {
 }
 
 @media (min-width: 1920px) {
-#review-flex {
-  width: 350px;
-}
-
+  #review-flex {
+    width: 350px;
+  }
 }
 
 @media screen and (max-width: 1080px) {
   #review-flex {
-  width: 200px;
-}
+    width: 200px;
+  }
 
-.comment {
-  height: 170px;
-}
+  .comment {
+    height: 170px;
+  }
 }
 
 @media screen and (max-width: 870px) {
-#review-flex {
-  width: 400px;
-}
-.comment {
-  height: 100px;
-}
+  #review-flex {
+    width: 400px;
+  }
+  .comment {
+    height: 100px;
+  }
 }
 
 @media screen and (max-width: 540px) {
   #review-flex {
-  width: 200px;
-}
+    width: 200px;
+  }
 
-.comment {
-  height: 170px;
-}
+  .comment {
+    height: 170px;
+  }
 }
 </style>

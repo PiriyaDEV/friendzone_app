@@ -23,11 +23,11 @@ export default {
     errorDialog: null,
     errorText: "",
     uploadFieldName: "file",
-    maxSize: 100000,
+    maxSize: 100000
   }),
   props: {
     // Use "value" to enable using v-model
-    value: Object,
+    value: Object
   },
   methods: {
     launchFilePicker() {
@@ -57,7 +57,7 @@ export default {
           this.$emit("input", { formData, imageURL });
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>

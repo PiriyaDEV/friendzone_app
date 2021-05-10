@@ -8,24 +8,23 @@
               <h1 class="homepage-title">LOVED BY COMMUNITY</h1>
             </div>
             <div id="subtitle-box">
-               <h2 class="homepage-description">
-              here the comment from our lovely users
-            </h2>
+              <h2 class="homepage-description">
+                here the comment from our lovely users
+              </h2>
             </div>
           </div>
         </div>
         <div id="review-box">
           <div id="review-section">
-          <div v-for="(item, i) in 3" :key="i">
-            <ReviewFlex
-              :comment="data[i].comment"
-              :username="data[i].username"
-              :userRole="data[i].userRole"
-            />
+            <div v-for="(item, i) in 3" :key="i">
+              <ReviewFlex
+                :comment="data[i].comment"
+                :username="data[i].username"
+                :userRole="data[i].userRole"
+              />
+            </div>
           </div>
         </div>
-        </div>
-        
       </div>
     </div>
   </div>
@@ -41,26 +40,26 @@ export default {
           comment:
             "I used to be lonely play online games all alone, but now I have more than 100 friends from this app, Love it <3",
           username: "bm.worachot",
-          userRole: "who was once a solo gamer",
+          userRole: "who was once a solo gamer"
         },
         {
           comment:
             "Thanks to this app, I survive !! Almost starving to death, there was no one come to my temple since COVID-19 outbreak. After created an event ‘This meal for monks,’ a lot came to offer food, Thank you so much ",
           username: "luangpor.harry",
-          userRole: "monk from Pad temple",
+          userRole: "monk from Pad temple"
         },
         {
           comment:
             "This is more than just a friend finding application, you can use it for organize and promote event such as meeting, concert, or even make and off-season offering of robes and other needs to monks",
           username: "pd.piriya",
-          userRole: "organizer",
-        },
-      ],
+          userRole: "organizer"
+        }
+      ]
     };
   },
   components: {
-    ReviewFlex,
-  },
+    ReviewFlex
+  }
 };
 </script>
 
@@ -90,8 +89,8 @@ export default {
 
 @media screen and (max-width: 1080px) {
   #review-section {
-  justify-content: space-evenly
-}
+    justify-content: space-evenly;
+  }
 }
 
 @media screen and (max-width: 1070px) {
@@ -120,15 +119,15 @@ export default {
 }
 
 @media screen and (max-width: 870px) {
-#review-section{
-  display:block;
-}
+  #review-section {
+    display: block;
+  }
 
-#review-box{
-  display:flex;
-  justify-content: center;
-  align-items:center;
-}
+  #review-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 @media screen and (max-width: 540px) {
@@ -143,10 +142,9 @@ export default {
     width: 400px !important;
   }
 
-  .homepage-title,.homepage-description {
+  .homepage-title,
+  .homepage-description {
     width: 300px !important;
   }
-
 }
-
 </style>

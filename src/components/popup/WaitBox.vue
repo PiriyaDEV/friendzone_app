@@ -49,9 +49,9 @@
 export default {
   methods: {
     cancel() {
-      this.$emit("back",true);
-    },
-  },
+      this.$emit("back", true);
+    }
+  }
 };
 </script>
 
@@ -88,30 +88,31 @@ export default {
 }
 
 @media screen and (max-width: 1024px) {
-  #info{
-    margin:0px;
+  #info {
+    margin: 0px;
   }
 }
 
 @media screen and (max-width: 690px) {
-  #event-title{
-    font-size:1.75em;
+  #event-title {
+    font-size: 1.75em;
   }
 
-  #mobile-done{
-    margin-top:10px;
+  #mobile-done {
+    margin-top: 10px;
   }
 }
 
 @media screen and (max-width: 490px) {
-  .popup-form{
+  .popup-form {
     padding: 0px 40px !important;
   }
 }
 
 @media screen and (max-width: 600px) {
-  .create_button , .back_button{
-    width:165px !important;
+  .create_button,
+  .back_button {
+    width: 165px !important;
   }
 }
 </style>

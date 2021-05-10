@@ -74,12 +74,12 @@ export default {
       inputMessage: "",
       countUser: 0,
       refresh: 5000,
-      day: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      day: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     };
   },
   components: {
     UserMessage,
-    OrangeMessage,
+    OrangeMessage
   },
   props: ["event_id", "showChat"],
   watch: {
@@ -95,7 +95,7 @@ export default {
     },
     time: function() {
       this.getChatData();
-    },
+    }
   },
   created() {
     this.getChatData();
@@ -105,7 +105,7 @@ export default {
       this.time = Intl.DateTimeFormat(navigator.language, {
         hour: "numeric",
         minute: "numeric",
-        second: "numeric",
+        second: "numeric"
       }).format();
     }, this.refresh);
   },
@@ -127,7 +127,7 @@ export default {
       if (this.inputMessage) {
         ChatService.create({
           event_id: this.event_id,
-          message: this.inputMessage,
+          message: this.inputMessage
         })
           .then((res) => {
             if (res.message == "chat created") {
@@ -175,8 +175,8 @@ export default {
           }
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

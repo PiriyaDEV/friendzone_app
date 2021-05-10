@@ -81,14 +81,13 @@
         </button>
       </div>
     </div>
-  
+
     <div v-if="view == true" class="button-section">
       <button id="disapprove_button" class="back_button">Disapprove</button>
       <button id="approve_button" class="back_button">
         Approve
       </button>
     </div>
-
   </div>
 </template>
 
@@ -114,11 +113,11 @@ export default {
         "Sep",
         "Oct",
         "Nov",
-        "Dec",
-      ],
+        "Dec"
+      ]
     };
   },
-  props: ["event", "eventReturn","manageReturn","detailReturn","view"],
+  props: ["event", "eventReturn", "manageReturn", "detailReturn", "view"],
   created() {
     EventService.getEventGenderList(this.event.event_id).then((res) => {
       if (res) {
@@ -169,8 +168,8 @@ export default {
     },
     deleteClick() {
       this.$emit("deleteReturn", true);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -260,13 +259,13 @@ h1 {
   padding: 3px 18px;
 }
 
-#disapprove_button{
-border:2px solid #FD6363 !important;
-color: #FD6363;
+#disapprove_button {
+  border: 2px solid #fd6363 !important;
+  color: #fd6363;
 }
 
-#approve_button{
-border:2px solid #1ED32C !important;
-color: #1ED32C;
+#approve_button {
+  border: 2px solid #1ed32c !important;
+  color: #1ed32c;
 }
 </style>

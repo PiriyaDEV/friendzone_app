@@ -225,13 +225,13 @@ export default {
       invalidPasswordConfirm: false,
       alertPasswordConfirm: "",
       invalidDate: false,
-      alertDate: "",
+      alertDate: ""
     };
   },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    },
+    }
   },
   created() {
     if (this.loggedIn) {
@@ -349,7 +349,7 @@ export default {
         this.alertDate = "you must be 13 years or older";
       }
       if (!this.year) this.invalidDate = false;
-    },
+    }
   },
   methods: {
     goMainpage() {
@@ -398,7 +398,7 @@ export default {
         this.birthdate = {
           day: this.day,
           month: this.month,
-          year: this.year,
+          year: this.year
         };
         this.$store.state.user.username = this.username;
         this.$store.state.user.email = this.email;
@@ -428,7 +428,7 @@ export default {
           } else this.invalidEmail = res.exist;
         });
       }
-    },
+    }
   },
   mounted() {
     if ($(window).width() > 600) {
@@ -450,7 +450,7 @@ export default {
         }
       });
     });
-  },
+  }
 };
 </script>
 

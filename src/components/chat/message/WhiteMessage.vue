@@ -16,7 +16,7 @@
 export default {
   data() {
     return {
-      time: "",
+      time: ""
     };
   },
   props: ["chat", "sameId"],
@@ -32,7 +32,7 @@ export default {
         .getMinutes()
         .toString()
         .padStart(2, "0");
-  },
+  }
 };
 </script>
 
@@ -72,7 +72,7 @@ export default {
 #message-box {
   display: flex;
   justify-content: center;
-  align-items:flex-end;
+  align-items: flex-end;
 }
 
 @media screen and (max-width: 490px) {

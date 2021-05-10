@@ -19,13 +19,13 @@ import ChatService from "../../services/chat.service";
 export default {
   name: "grouplist",
   components: {
-    EventList,
+    EventList
   },
   data() {
     return {
       chatList: [],
       interval: null,
-      time: null,
+      time: null
     };
   },
   created() {
@@ -42,13 +42,13 @@ export default {
       this.time = Intl.DateTimeFormat(navigator.language, {
         hour: "numeric",
         minute: "numeric",
-        second: "numeric",
+        second: "numeric"
       }).format();
     }, this.refresh);
   },
   watch: {
     time: function() {
-       this.getList()
+      this.getList();
     }
   },
   methods: {
@@ -57,12 +57,12 @@ export default {
     },
     getList() {
       ChatService.getChatList().then((res) => {
-      if (res) {
-        this.chatList = res;
-      }
-    });
+        if (res) {
+          this.chatList = res;
+        }
+      });
     }
-  },
+  }
 };
 </script>
 

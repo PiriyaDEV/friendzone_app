@@ -92,13 +92,13 @@ export default {
       invalidIdentification: false,
       alertIdentification: "",
       invalidPassword: false,
-      alertPassword: "",
+      alertPassword: ""
     };
   },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    },
+    }
   },
   created() {
     if (this.loggedIn) {
@@ -121,7 +121,7 @@ export default {
         this.$store
           .dispatch("auth/login", {
             identification: this.identification,
-            password: this.password,
+            password: this.password
           })
           .then(
             () => {
@@ -136,8 +136,8 @@ export default {
             }
           );
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

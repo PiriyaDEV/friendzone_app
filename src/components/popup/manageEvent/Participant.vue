@@ -48,15 +48,21 @@
         <h1 class="title">Followers ({{ joinedList.length }})</h1>
         <div class="small-box">
           <div v-for="(item, i) in eventList" :key="i">
-            <Userbox :select="status" :managePage="manageReturn"
-            :detailPage="detailReturn"/>
+            <Userbox
+              :select="status"
+              :managePage="manageReturn"
+              :detailPage="detailReturn"
+            />
           </div>
         </div>
         <h1 class="title">Others ({{ joinedList.length }})</h1>
         <div class="small-box">
           <div v-for="(item, i) in eventList" :key="i">
-            <Userbox :select="status" :managePage="manageReturn"
-            :detailPage="detailReturn"/>
+            <Userbox
+              :select="status"
+              :managePage="manageReturn"
+              :detailPage="detailReturn"
+            />
           </div>
         </div>
       </div>
@@ -78,12 +84,12 @@ export default {
       eventList: 2,
       joinedList: [],
       requestedList: [],
-      search: "",
+      search: ""
     };
   },
   props: ["status", "event", "manageReturn", "detailReturn"],
   components: {
-    Userbox,
+    Userbox
   },
   created() {
     this.getEventParticipant();
@@ -91,7 +97,7 @@ export default {
   watch: {
     status: function() {
       this.getEventParticipant();
-    },
+    }
   },
   methods: {
     done() {
@@ -116,8 +122,8 @@ export default {
       if (index > -1) {
         this.requestedList.splice(index, 1);
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

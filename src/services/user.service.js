@@ -13,7 +13,7 @@ class UserService {
         {
           id: id,
           oldPassword: oldPassword,
-          newPassword: newPassword,
+          newPassword: newPassword
         },
         { headers: authHeader() }
       )
@@ -35,7 +35,7 @@ class UserService {
           firstname: user.firstname,
           lastname: user.lastname,
           phone: user.phone,
-          bio: user.bio,
+          bio: user.bio
         },
         { headers: authHeader() }
       )
@@ -48,7 +48,7 @@ class UserService {
     let userData = decode(localStorage.getItem("user"));
     return axios
       .post(API_URL + "uploadPic/img?user_id=" + userData.user_id, formData, {
-        headers: authHeader(),
+        headers: authHeader()
       })
       .then((response) => {
         console.log("response " + response);
@@ -67,10 +67,10 @@ class UserService {
         API_URL + "updateUserCategory",
         {
           user_id: userData.user_id,
-          category_id: userCategory,
+          category_id: userCategory
         },
         {
-          headers: authHeader(),
+          headers: authHeader()
         }
       )
       .then((response) => {
@@ -88,7 +88,7 @@ class UserService {
     let res;
     try {
       res = await axios.get(API_URL + "getUsername/" + user.user_id, {
-        headers: authHeader(),
+        headers: authHeader()
       });
     } catch {
       AuthService.logout();
@@ -100,7 +100,7 @@ class UserService {
   async getUserDetail() {
     let user = decode(localStorage.getItem("user"));
     const res = await axios.get(API_URL + "getUserDetail/" + user.user_id, {
-      headers: authHeader(),
+      headers: authHeader()
     });
     res.data.profile_pic = API_URL + "displayPic/" + user.user_id;
     return res.data;

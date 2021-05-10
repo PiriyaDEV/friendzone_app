@@ -10,12 +10,12 @@ import Gender from "../models/gender";
 export default new Vuex.Store({
   state: {
     user: new User(""),
-    gender: new Gender(""),
+    gender: new Gender("")
   },
   mutations: {},
   actions: {},
   modules: {
     auth,
-    profile,
-  },
+    profile
+  }
 });

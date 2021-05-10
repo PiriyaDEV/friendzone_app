@@ -153,7 +153,12 @@
       <CreateDiscount v-if="createShow" @clickCreate="clickCreate" />
 
       <!-- Mobile Top Bar -->
-      <MobileTopbar id="mobile-topbar" :admin="true" @clickDetail="clickDetail"  @pageReturnAdmin="pageReturnAdmin"/>
+      <MobileTopbar
+        id="mobile-topbar"
+        :admin="true"
+        @clickDetail="clickDetail"
+        @pageReturnAdmin="pageReturnAdmin"
+      />
       <!-- Mobile Top Bar -->
 
       <div id="mainpage-background" class="section">
@@ -235,7 +240,7 @@ export default {
     WaitBox,
     AnalystPage,
     ApproverPage,
-    PointDetail,
+    PointDetail
   },
   data() {
     return {
@@ -259,13 +264,13 @@ export default {
       valueDetail: false,
       valueManage: true,
       pointPage: false,
-      view: false,
+      view: false
     };
   },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    },
+    }
   },
   created() {
     if (!this.loggedIn) {
@@ -348,8 +353,8 @@ export default {
     },
     viewShow(value) {
       this.view = value;
-    },
-  },
+    }
+  }
 };
 </script>
 

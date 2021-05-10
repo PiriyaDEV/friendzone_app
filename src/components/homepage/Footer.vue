@@ -50,21 +50,21 @@ export default {};
 }
 
 @media screen and (max-width: 540px) {
- #footer-container,#term{
-   display:block;
- } 
+  #footer-container,
+  #term {
+    display: block;
+  }
 
- #logo-box{
-   display: flex;
-  align-items: center;
-  justify-content:center;
-  margin-bottom:20px;
+  #logo-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
 
- }
-
- .term-text{
-   padding:10px 0px;
-   text-align: center;
- }
+  .term-text {
+    padding: 10px 0px;
+    text-align: center;
+  }
 }
 </style>

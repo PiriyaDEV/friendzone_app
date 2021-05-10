@@ -24,8 +24,8 @@ export default {
   methods: {
     Onclick() {
       this.$emit("clickDiscountFlex", true);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -108,8 +108,8 @@ export default {
     margin-top: 5px;
   }
 
-  .cover{
-    width:125px;
+  .cover {
+    width: 125px;
   }
 
   .discount-title,
@@ -123,8 +123,8 @@ export default {
     height: 118px;
   }
 
-  #coin-icon{
-    width:20px;
+  #coin-icon {
+    width: 20px;
     height: 20px;
   }
 
@@ -136,8 +136,8 @@ export default {
     margin-top: 5px;
   }
 
-  .cover{
-    width:85px;
+  .cover {
+    width: 85px;
   }
 
   .discount-title,

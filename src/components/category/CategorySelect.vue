@@ -22,11 +22,11 @@ import CategoryService from "../../services/category.service";
 export default {
   name: "category-select",
   components: {
-    TypeBox,
+    TypeBox
   },
   data() {
     return {
-      categoryList: null,
+      categoryList: null
     };
   },
   created() {
@@ -41,8 +41,8 @@ export default {
       this.$emit("idReturn", this.categoryList[i].category_id);
       this.$emit("nameReturn", this.categoryList[i].category_name);
       this.$emit("categoryClick", true);
-    },
-  },
+    }
+  }
 };
 </script>
 

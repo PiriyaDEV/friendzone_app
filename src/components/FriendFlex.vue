@@ -98,9 +98,9 @@ export default {
         gender: "",
         profile_pic: "",
         birthdate: "",
-        bio: "",
+        bio: ""
       }),
-      fullname: "",
+      fullname: ""
     };
   },
   created() {
@@ -111,7 +111,7 @@ export default {
         this.fullname = this.user.firstname + " " + this.user.lastname;
       }
     });
-  },
+  }
 };
 </script>
 
@@ -219,77 +219,77 @@ h2 {
 }
 
 @media screen and (max-width: 880px) {
-    #friend-flex {
-      width:204px;
-    }
+  #friend-flex {
+    width: 204px;
+  }
 }
 
 @media screen and (max-width: 800px) {
   #friend-flex {
-      width:314px;
-    }
+    width: 314px;
+  }
 
-    #top{
-      justify-content: flex-start;
-    }
+  #top {
+    justify-content: flex-start;
+  }
 
-    #right{
-      margin-left:25px;
-    }
+  #right {
+    margin-left: 25px;
+  }
 }
 
 @media screen and (max-width: 768px) {
-    #friend-flex {
-      width:284px;
-    }
+  #friend-flex {
+    width: 284px;
+  }
 }
 
 @media screen and (max-width: 690px) {
-    #friend-flex {
-      width:264px;
-    }
+  #friend-flex {
+    width: 264px;
+  }
 }
 
 @media screen and (max-width: 650px) {
   #friend-flex {
-      width:244px;
-    }
+    width: 244px;
+  }
 }
 
 @media screen and (max-width: 600px) {
   #friend-flex {
-      width:224px;
-    }
+    width: 224px;
+  }
 }
 
 @media screen and (max-width: 570px) {
   #friend-flex {
-      width:204px;
-    }
+    width: 204px;
+  }
 }
 
 @media screen and (max-width: 525px) {
-    #friend-flex {
-      width:340px;
-      margin-right:0px;
-    }
+  #friend-flex {
+    width: 340px;
+    margin-right: 0px;
+  }
 }
 
 @media screen and (max-width: 490px) {
   #friend-flex {
-      width:320px;
-    }
+    width: 320px;
+  }
 }
 
 @media screen and (max-width: 450px) {
-   #friend-flex {
-      width:252px;
-    }
+  #friend-flex {
+    width: 252px;
+  }
 }
 
 @media screen and (max-width: 375px) {
-   #friend-flex {
-      width:235px;
-    }
+  #friend-flex {
+    width: 235px;
+  }
 }
 </style>

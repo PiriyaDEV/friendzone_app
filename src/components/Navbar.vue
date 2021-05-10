@@ -32,7 +32,7 @@ export default {
   name: "navbar",
   data() {
     return {
-      checkedBox: false,
+      checkedBox: false
     };
   },
   methods: {
@@ -44,8 +44,8 @@ export default {
     },
     goLogin() {
       window.location.href = "/login";
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -26,7 +26,7 @@ export const profile = {
           return Promise.reject(error);
         }
       );
-    },
+    }
   },
   mutations: {
     getSuccess(state, user) {
@@ -36,6 +36,6 @@ export const profile = {
     editSuccess(state, user) {
       state.user = user;
       state.status.loggedIn = true;
-    },
-  },
+    }
+  }
 };

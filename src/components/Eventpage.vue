@@ -63,7 +63,7 @@ export default {
       categoryList: null,
       categorySelected: false,
       idCategorySelected: "",
-      nameCategorySelected: "",
+      nameCategorySelected: ""
     };
   },
   created() {
@@ -77,7 +77,7 @@ export default {
   components: {
     EventFlex,
     EventCategory,
-    CategorySelect,
+    CategorySelect
   },
   methods: {
     categoryClick(value) {
@@ -107,8 +107,8 @@ export default {
     },
     thisEvent(value) {
       this.$emit("thisEvent", value);
-    },
-  },
+    }
+  }
 };
 </script>
 

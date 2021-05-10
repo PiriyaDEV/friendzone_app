@@ -71,12 +71,12 @@ export default {
       hovered: false,
       selected: "all",
       eventList: 5,
-      joinList: 10,
+      joinList: 10
     };
   },
   components: {
     DiscountFlex,
-    DiscountLongFlex,
+    DiscountLongFlex
   },
   methods: {
     clickDiscountLongFlex(value) {
@@ -84,8 +84,8 @@ export default {
     },
     clickDiscountFlex(value) {
       this.$emit("clickDiscount2", value);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -119,20 +119,20 @@ export default {
 }
 
 @media screen and (max-width: 768px) {
-  #list-container{
-    margin-bottom:10px;
+  #list-container {
+    margin-bottom: 10px;
   }
 }
 
 @media screen and (max-width: 880px) {
   #discount-page {
-  margin-top: 0px;
+    margin-top: 0px;
   }
 }
 
 @media screen and (max-width: 490px) {
   #banner > img {
-  height:135px;
-}
+    height: 135px;
+  }
 }
 </style>
