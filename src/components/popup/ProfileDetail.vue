@@ -4,7 +4,7 @@
       <div class="popup-form">
         <div id="profile-section" class="section">
           <div id="left">
-            <div v-if="cancel || !edit && !save" id="profile-frame">
+            <div v-if="cancel || (!edit && !save)" id="profile-frame">
               <img id="profile-pic" :src="showprofile_pic" />
             </div>
             <div v-if="!profile_pic && edit" id="profile-frame">
@@ -19,7 +19,7 @@
                 alt="profile_pic"
               />
             </div>
-            <div style="position:relative;" v-if="edit">
+            <div style="position: relative" v-if="edit">
               <Upload v-model="profile_pic">
                 <div id="upload-photo" slot="activator">
                   <img src="@/assets/icon/icons8-add-image-96.png" />
@@ -29,17 +29,34 @@
           </div>
 
           <div id="right">
-            <h1 v-if="!edit" id="name_title">{{ user.username }}</h1>
-            <input
-              v-else
-              class="input_username_box"
-              type="text"
-              maxlength="30"
-              size="30"
-              name="name"
-              autocomplete="off"
-              v-model="username"
-            />
+            <div id="username-box">
+              <h1 v-if="!edit" id="name_title">{{ user.username }}</h1>
+              <input
+                v-else
+                class="input_username_box"
+                type="text"
+                maxlength="30"
+                size="30"
+                name="name"
+                autocomplete="off"
+                v-model="username"
+              />
+            </div>
+
+            <div id="bio-mobile">
+              <h1 v-if="!edit" id="bio">{{ user.bio }}</h1>
+              <textarea
+                v-else
+                class="input_bio_box"
+                type="text"
+                maxlength="256"
+                size="256"
+                name="name"
+                autocomplete="off"
+                v-model="bio"
+              >
+              </textarea>
+            </div>
 
             <div id="double-flex">
               <!-- Rating -->
@@ -97,27 +114,29 @@
             </div>
 
             <!-- Follower -->
-            <div id="follower">
-              <div class="verticle-box">
-                <h1 class="number-box">2</h1>
-                <h1 class="title-box">Host</h1>
-              </div>
-              <div class="verticle-box">
-                <h1 class="number-box">5</h1>
-                <h1 class="title-box">Joined</h1>
-              </div>
-              <div class="verticle-box">
-                <h1 class="number-box">12</h1>
-                <h1 class="title-box">Follower</h1>
-              </div>
-              <div class="verticle-box">
-                <h1 class="number-box">17</h1>
-                <h1 class="title-box">Following</h1>
+            <div id="follower-section">
+              <div id="follower">
+                <div class="verticle-box">
+                  <h1 class="number-box">2</h1>
+                  <h1 class="title-box">Host</h1>
+                </div>
+                <div class="verticle-box">
+                  <h1 class="number-box">5</h1>
+                  <h1 class="title-box">Joined</h1>
+                </div>
+                <div class="verticle-box">
+                  <h1 class="number-box">12</h1>
+                  <h1 class="title-box">Follower</h1>
+                </div>
+                <div class="verticle-box">
+                  <h1 class="number-box">17</h1>
+                  <h1 class="title-box">Following</h1>
+                </div>
               </div>
             </div>
             <!-- Follower -->
 
-            <div>
+            <div id="bio-default">
               <h1 v-if="!edit" id="bio">{{ user.bio }}</h1>
               <textarea
                 v-else
@@ -132,12 +151,18 @@
               </textarea>
             </div>
 
-            <div id="profile-button">
-              <button @click="clickEdit()">
-                EDIT PROFILE
-              </button>
-              <button @click="clickInterest()">INTERESTED</button>
-              <button @click="clickPassword()">CHANGE PASSWORD</button>
+            <div id="profile-button-section">
+              <div id="profile-button">
+                <div>
+                  <button @click="clickEdit()">EDIT PROFILE</button>
+                </div>
+                <div>
+                  <button @click="clickInterest()">INTERESTED</button>
+                </div>
+                <div>
+                  <button @click="clickPassword()">CHANGE PASSWORD</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -274,14 +299,14 @@ export default {
       this.edit = false;
       this.save = true;
       UserService.editUser(value).then((res) => {
-          if (res) {
-            UserService.uploadProfile(this.profile_pic.formData).then((res) => {
-              if (res) {
-                window.location.href = "/mainpage";
-              }
-            });
-          }
-        });
+        if (res) {
+          UserService.uploadProfile(this.profile_pic.formData).then((res) => {
+            if (res) {
+              window.location.href = "/mainpage";
+            }
+          });
+        }
+      });
     },
   },
 };
@@ -392,12 +417,16 @@ export default {
   padding-left: 10px;
 }
 
+#bio-mobile {
+  display: none;
+}
+
 #profile-button {
   margin-top: 10px;
   padding-bottom: 15px;
 }
 
-#profile-button > button,
+#profile-button > div > button,
 #switch-button > button {
   background-color: #ffffff;
   font-family: "Atten-Round-New";
@@ -407,7 +436,7 @@ export default {
   margin: 0px;
 }
 
-#profile-button > button {
+#profile-button > div > button {
   color: #ff8864;
   border: 2px solid #ff8864;
   border-radius: 16px;
@@ -483,5 +512,172 @@ export default {
 #upload-photo > img {
   width: 22px;
   height: 22px;
+}
+
+@media screen and (max-width: 1024px) {
+  #profile-section {
+    display: block;
+  }
+
+  #upload-photo {
+    bottom: -70px;
+    right: 0px;
+  }
+
+  #profile-button {
+    padding: 0px;
+    margin: 20px 0px;
+  }
+
+  .input_username_box,
+  .input_bio_box {
+    width: 100%;
+  }
+
+  #left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+  }
+
+  #profile-frame {
+    width: 140px;
+    height: 140px;
+  }
+
+  #double-flex {
+    justify-content: space-around;
+  }
+
+  #bio-mobile {
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+
+  #bio-default {
+    display: none;
+  }
+
+  #name_title {
+    text-align: center;
+  }
+
+  #left,
+  #right {
+    margin-right: 0px;
+    margin-left: 0px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  #profile-frame,
+  #profile-pic {
+    width: 100px;
+    height: 100px;
+  }
+
+  #upload-photo > img{
+    width: 20px;
+    height: 20px;
+  }
+
+  #upload-photo {
+    bottom: -60px;
+    right: 0px;
+  }
+
+  #double-flex {
+    display: block;
+    margin-bottom: 0px;
+  }
+
+  .input_username_box,
+  .input_bio_box {
+    width: 200px;
+  }
+
+  #follower-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #follower {
+    flex-wrap: wrap;
+    width: 180px;
+    justify-content: center;
+  }
+
+  .popup-form {
+    padding: 0px 40px !important;
+  }
+
+  .verticle-box {
+    width: 40px;
+    margin: 10px;
+  }
+
+  #username-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .number-box {
+    font-size: 2em;
+  }
+
+  .title-box {
+    font-size: 1.6em;
+  }
+
+  #rating {
+    justify-content: center;
+  }
+
+  #profile-button > div > button {
+    width: 100%;
+  }
+
+  #profile-button > div > button:nth-child(1),
+  #profile-button > div > button:nth-child(1) {
+    margin-bottom: 10px;
+  }
+
+  #bio {
+    width: 150px;
+  }
+
+  #switch-button {
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #profile-button {
+    display: block;
+    margin: 0px;
+  }
+
+  #profile-button-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #switch-button > button {
+    width: 170px;
+    margin: 10px 0px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .popup-form {
+    padding: 0px 20px !important;
+  }
 }
 </style>

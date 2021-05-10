@@ -69,7 +69,7 @@
     </div>
 
     <div id="button">
-      <button @click="done()">Done</button>
+      <button class="create_button" @click="done()">Done</button>
     </div>
   </div>
 </template>
@@ -138,25 +138,13 @@ h1 {
 
 #participant {
   margin-top: 5px;
+  width: 100%;
 }
 
 #button {
   display: flex;
   justify-content: flex-end;
-  margin: 30px 0px;
-}
-
-#button > button {
-  color: #ffffff;
-  background-color: #ff8864;
-  text-align: center;
-  font-family: "Atten-Round-New";
-  font-size: 2.25em;
-  font-weight: 450;
-  border: none;
-  padding: 9px 100px;
-  margin: 0;
-  border-radius: 24px;
+  margin: 30px 0px 0px 0px;
 }
 
 .left-inner-addon {
@@ -210,5 +198,11 @@ i {
 .large-box {
   height: 300px;
   overflow-y: auto;
+}
+
+@media screen and (max-width: 690px) {
+  .search-input{
+    font-size: 1.3em !important;
+  }
 }
 </style>

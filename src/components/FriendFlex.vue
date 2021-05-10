@@ -77,7 +77,8 @@
 
     <!-- Button -->
     <div id="button">
-      <button>FOLLOWING</button>
+      <button v-if="following"  id="following_button">FOLLOWING</button>
+      <button id="follow_button">FOLLOW</button>
     </div>
     <!-- Button -->
   </div>
@@ -98,9 +99,10 @@ export default {
         gender: "",
         profile_pic: "",
         birthdate: "",
-        bio: ""
+        bio: "",
       }),
-      fullname: ""
+      fullname: "",
+      following: false,
     };
   },
   created() {
@@ -206,7 +208,19 @@ h2 {
   padding-bottom: 7px;
 }
 
-#button > button {
+#follow_button{
+  color: #ffffff;
+  border: 2px solid #ff8864;
+  background-color: #ff8864;
+  font-family: "Atten-Round-New";
+  font-size: 1.25em;
+  font-weight: 550;
+  padding: 7px 15px;
+  margin: 4px 0px 0px 0px;
+  border-radius: 16px;
+}
+
+#following_button{
   color: #ff8864;
   border: 2px solid #ff8864;
   background-color: #ffffff;

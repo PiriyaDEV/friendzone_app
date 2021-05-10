@@ -16,6 +16,7 @@
             <!-- Rating -->
             <div :class="cssRate">
               <h2 class="black-color title">Rating</h2>
+              <h2 class="black-color title">{{ user.rating }}</h2>
               <div id="star-box" class="section">
                 <!-- Star -->
                 <div>
@@ -68,10 +69,12 @@
             @click="addModerator()"
             class="button participant"
           >
-            Move to Moderator
+            <span class="move-default">Move to Moderator</span>
+            <span class="move-mobile">Moderator</span>
           </button>
           <button v-else @click="removeModerator()" class="button moderator">
-            Move to Participant
+            <span class="move-default">Move to Participant</span>
+            <span class="move-mobile">Participant</span>
           </button>
         </div>
 
@@ -125,10 +128,10 @@ export default {
     this.checkModButton();
   },
   watch: {
-    select: function() {
+    select: function () {
       this.checkRole();
     },
-    participant_id: function() {
+    participant_id: function () {
       this.checkModButton();
     }
   },
@@ -279,6 +282,10 @@ h1 {
   border: none;
 }
 
+.move-mobile {
+  display: none;
+}
+
 #profile-frame {
   border-radius: 50%;
   display: flex;
@@ -374,6 +381,80 @@ h1 {
 @media screen and (max-width: 1350px) {
   .userbox-admin {
     justify-content: center;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .namerole {
+    width: 300px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  .namerole {
+    display: flex;
+    align-items: center;
+  }
+
+  .rating > h2{
+    display: none;
+  }
+
+  .button {
+    padding: 2px 5px;
+    font-size: 1.2em;
+  }
+
+  #box-info {
+    width: 250px;
+  }
+
+  .namerole > .title:nth-child(2) {
+    margin-left: 10px;
+  }
+
+  #profile-frame {
+    margin-right: 20px;
+  }
+
+  #profile-pic {
+    width: 25px;
+    height: 25px;
+  }
+
+  .title {
+    font-size: 1.5em;
+  }
+
+  .move-mobile {
+    display: block;
+  }
+
+  .move-default {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .popup-form {
+    padding: 0px 40px !important;
+  }
+
+  .button {
+    padding: 2px;
+    font-size: 1.2em;
+  }
+
+  .title {
+    font-size: 1.25em;
+  }
+
+  #profile-frame {
+    margin-right: 10px;
+  }
+
+  #box-info {
+    width: 155px;
   }
 }
 </style>

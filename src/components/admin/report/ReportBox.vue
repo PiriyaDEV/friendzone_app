@@ -2,17 +2,17 @@
   <div :class="cssBox">
     <div id="report-menu">
       <div :class="cssMiddle">
-        <h1 id="menu-text-id" :class="cssMenuG">506</h1>
-        <h1 :class="cssMenuB">Suspect fake user</h1>
+        <h1 id="menu-text-id" :class="cssMenuG">{{event.event_id}}</h1>
+        <h1 :class="cssMenuB">{{event.title}}</h1>
         <!-- Here -->
-        <h1 :class="cssHideB">User</h1>
+        <h1 :class="cssHideB">{{event.location}}</h1>
         <!-- Here -->
-        <h1 :class="cssHideBadmin">Fake User</h1>
-        <h1 v-if="approver" :class="cssMenuB">Raya.ya</h1>
+        <h1 :class="cssHideBadmin">{{event.date}}</h1>
+        <h1 v-if="approver" :class="cssMenuB">{{event.username}}</h1>
         <div id="pending-dot">
-          <span class="dot yellow"></span>
+          <span :class="cssPending"></span>
           <!-- Here -->
-          <h1 :class="cssHideG">pending</h1>
+          <h1 :class="cssHideG">{{pending}}</h1>
           <!-- <span class="dot green"></span> -->
           <!-- <h1 class="menu-text">done</h1> -->
         </div>
@@ -27,8 +27,30 @@
 
 <script>
 export default {
-  props: ["approver"],
+  props: ["approver","event"],
   computed: {
+    cssPending() {
+      let red ="dot red"
+      let green ="dot green"
+      let yellow ="dot yellow"
+      if(this.event.status_id == "ST03") {
+         return green
+      } else if(this.event.status_id == "ST15") {
+         return red
+      }
+      return yellow
+    },
+    pending() {
+      let red ="Rejected"
+      let green ="Approved"
+      let yellow ="Pending"
+      if(this.event.status_id == "ST03") {
+         return green
+      } else if(this.event.status_id == "ST15") {
+         return red
+      }
+      return yellow
+    },
     cssMiddle() {
       let general = "report-middle-menu";
       let app = "report-middle-menu-approver";
@@ -97,6 +119,7 @@ export default {
   methods: {
     viewClick() {
       this.$emit("viewReturn", true);
+      this.$emit("viewData", this.event)
     },
   },
 };
@@ -216,6 +239,10 @@ export default {
 
 .yellow {
   background-color: #ffba1d;
+}
+
+.red {
+  background-color: #fd6363;
 }
 
 #pending-dot {

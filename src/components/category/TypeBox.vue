@@ -3,7 +3,7 @@
     <div class="icon-box" v-bind:style="{ backgroundColor: bgcolorCode }">
       <img class="category-icon" :src="icon" />
     </div>
-    <div id="text-box">
+    <div id="text-box" :class="cssBox">
       <h1 v-bind:style="{ color: colorCode }">{{ nameCategory }}</h1>
     </div>
   </div>
@@ -12,7 +12,17 @@
 <script>
 export default {
   methods: {},
-  props: ["nameCategory", "icon", "colorCode", "bgcolorCode"]
+  props: ["nameCategory", "icon", "colorCode", "bgcolorCode", "admin"],
+  computed: {
+    cssBox() {
+      let adminBox = "box-admin";
+      let no = "";
+      if (this.admin) {
+        return adminBox;
+      }
+      return no;
+    }
+  }
 };
 </script>
 
@@ -106,6 +116,12 @@ export default {
   #text-box {
     width: 222px;
   }
+
+  .box-admin {
+    width: 100px !important;
+    padding-left: 10px !important;
+    font-size:0.8em !important;
+  }
 }
 
 @media screen and (max-width: 650px) {
@@ -118,6 +134,7 @@ export default {
   #text-box {
     width: 182px;
   }
+
 }
 
 @media screen and (max-width: 570px) {
@@ -136,6 +153,7 @@ export default {
     padding-left: 10px;
   }
 
+
   #text-box > h1 {
     font-size: 1.5em;
   }
@@ -145,6 +163,8 @@ export default {
   #text-box {
     width: 144px;
   }
+
+
 }
 
 @media screen and (max-width: 450px) {
@@ -166,6 +186,7 @@ export default {
     justify-content: flex-start;
     margin-bottom: 10px;
   }
+
 
   #category-list {
     width: 100%;

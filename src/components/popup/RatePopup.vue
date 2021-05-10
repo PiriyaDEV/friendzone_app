@@ -74,7 +74,9 @@
               <!-- Input -->
               <div v-if="checkParticipants == true">
                 <h2 class="input_title">
-                  Participants<span class="orange-color"> *</span>
+                  Participants<span class="orange-color">
+                    * {{ alertSelected }}</span
+                  >
                 </h2>
                 <select
                   name="gender"
@@ -89,8 +91,9 @@
                     v-for="(participant, i) in participantList"
                     :key="i"
                     :value="participant.event_participant_id"
-                    >{{ participant.username }}</option
                   >
+                    {{ participant.username }}
+                  </option>
                 </select>
               </div>
               <!-- Input -->
@@ -98,7 +101,7 @@
               <!-- Input -->
               <div>
                 <h2 class="input_title">
-                  Rating<span class="orange-color"> *</span>
+                  Rating<span class="orange-color"> * {{ alertRating }}</span>
                 </h2>
                 <div class="section">
                   <!-- Star -->
@@ -209,7 +212,7 @@
 
         <div class="button-section">
           <button class="back_button" @click="rateReturn()">Cancel</button>
-          <button class="create_button" @click="test()">
+          <button class="create_button" @click="submitReview()">
             Submit Rating
           </button>
         </div>
@@ -235,8 +238,10 @@ export default {
     return {
       selected: "",
       invalidSelected: false,
+      alertSelected: "",
       rating: 0,
       invalidRating: false,
+      alertRating: "",
       participantList: [],
       showRating: [false, false, false, false, false],
       participant: "",
@@ -327,11 +332,59 @@ export default {
     rateReturn() {
       this.$emit("clickShowed", false);
     },
-    test() {
+    submitReview() {
+      this.rating = 0;
       for (let i = 0; i < 5; i++) {
         if (this.showRating[i]) this.rating++;
       }
-      console.log("Participant : " + this.selected + "\nRating : " + this.rating);
+      if (this.rating == 0) {
+        this.invalidRating = true;
+        this.alertRating = "must be at least 1";
+      }
+      if (this.checkParticipants) {
+        if (!this.selected) {
+          this.invalidSelected = true;
+          this.alertSelected = "select participant to review";
+        } else if (this.selected && this.rating > 0) {
+          let review = {
+            event_id: this.event.event_id,
+            participant_id: this.selected,
+            rating: this.rating,
+            comment: this.comment
+          };
+          EventService.submitReviewParticipant(review).then((res) => {
+            if (res) {
+              let index = this.participantList.findIndex(
+                (participant) =>
+                  (participant.event_participant_id = this.selected)
+              );
+              if (index > -1) {
+                this.participantList.splice(index, 1);
+              }
+              if (this.participantList.length == 0) {
+                this.rateReturn();
+              } else {
+                this.selected = "";
+                this.showRating = [false, false, false, false, false];
+                this.comment = "";
+              }
+            }
+          });
+        }
+      } else {
+        if (this.rating > 0) {
+          let review = {
+            event_id: this.event.event_id,
+            rating: this.rating,
+            comment: this.comment
+          };
+          EventService.submitReviewEvent(review).then((res) => {
+            if (res) {
+              this.rateReturn();
+            }
+          });
+        }
+      }
     }
   }
 };
@@ -497,5 +550,65 @@ option {
 
 .bio {
   padding-bottom: 140px;
+}
+
+@media screen and (max-width: 1024px) {
+  .rate-popup-section {
+    display: block;
+  }
+
+  #left,
+  #right {
+    margin: 0px;
+  }
+
+  #event-detail {
+    width: calc(100% - 50px);
+  }
+
+  .create_button,
+  .back_button {
+    width: 140px !important;
+  }
+
+  .star {
+    width: 30px;
+  }
+
+  #rate-detail {
+    width: 100%;
+  }
+
+  .bio {
+    padding-bottom: 120px;
+    width: 300px;
+    /* calc(100% - 30px) */
+  }
+}
+
+@media screen and (max-width: 690px) {
+  .create_button,
+  .back_button {
+    width: 120px !important;
+  }
+
+  .bio {
+    width: 250px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .bio {
+    width: 210px;
+  }
+
+  .create_button,
+  .back_button {
+    width: 110px !important;
+  }
+
+  .popup-form {
+    padding: 0px 40px !important;
+  }
 }
 </style>

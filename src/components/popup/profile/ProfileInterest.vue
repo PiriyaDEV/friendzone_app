@@ -1,36 +1,36 @@
 <template>
-  <div>
-    <div id="profile_interest">
-      <h1 id="header_title">PICK YOUR INTEREST</h1>
-      <div id="term">
-        <p>
-          We <span style="color: #ff8864">recommend</span> you to choose
-          <span style="color: #ff8864">at least 1</span> <br />so we can suggest
-          an event you might interested in.
-        </p>
-      </div>
+  <div id="interest-box">
+    <div>
+      <div id="profile_interest">
+        <h1 id="header_title">PICK YOUR INTEREST</h1>
+        <div id="term">
+          <p>
+            We <span style="color: #ff8864">recommend</span> you to choose
+            <span style="color: #ff8864">at least 1</span> <br />so we can
+            suggest an event you might interested in.
+          </p>
+        </div>
 
-      <div class="section">
-        <div id="category-list">
-          <div v-for="(item, i) in categoryList" :key="i">
-            <CategoryBox
-              @click.native="clicktest($event, i)"
-              :nameCategory="categoryList[i].category_name"
-              :icon="categoryList[i].icon_black"
-              :colorCode="categoryList[i].color_code"
-              :status="categoryList[i].status"
-              :profileDetail="profileDetail"
-            />
+        <div class="section">
+          <div id="category-list">
+            <div v-for="(item, i) in categoryList" :key="i">
+              <CategoryBox
+                @click.native="clicktest($event, i)"
+                :nameCategory="categoryList[i].category_name"
+                :icon="categoryList[i].icon_black"
+                :colorCode="categoryList[i].color_code"
+                :status="categoryList[i].status"
+                :profileDetail="profileDetail"
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <h1>{{ interest }}</h1>
-    <div class="button-section">
-      <button class="back_button" @click="cancel()">Cancel</button>
-      <button class="create_button" @click="save()">
-        Save
-      </button>
+      <h1>{{ interest }}</h1>
+      <div class="button-section">
+        <button class="back_button" @click="cancel()">Cancel</button>
+        <button class="create_button" @click="save()">Save</button>
+      </div>
     </div>
   </div>
 </template>
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       categoryList: null,
-      interest: []
+      interest: [],
     };
   },
   props: ["profileDetail"],
@@ -56,7 +56,7 @@ export default {
     });
   },
   components: {
-    CategoryBox
+    CategoryBox,
   },
   methods: {
     clicktest(ev, i) {
@@ -65,13 +65,13 @@ export default {
     },
     cancel() {
       this.$emit("showBack", false);
-    }
+    },
     // getInterest() {
     //   EventService.getUserCateogryInterestEvent().then((res) => {
     //       this.interest = res;
     //   });
     // }
-  }
+  },
 };
 </script>
 
@@ -115,8 +115,39 @@ export default {
   max-width: 500px;
 }
 
+div::-webkit-scrollbar {
+  height: 3px;
+  width: 3px;
+}
+
 .back_button,
 .create_button {
   margin: 10px 0px 25px 0px !important;
+}
+
+@media screen and (max-width: 1024px) {
+  #category-list {
+    display: block;
+  }
+
+  .create_button,
+  .back_button {
+    width: 170px !important;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  #profile_interest {
+    margin-top: 10px;
+  }
+
+  #term{
+    display: none;
+  }
+
+  .create_button,
+  .back_button {
+    width: 125px !important;
+  }
 }
 </style>

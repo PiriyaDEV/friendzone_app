@@ -111,5 +111,9 @@ export default {
   #edit-database-popup {
     padding: 20px 40px 30px 40px !important;
   }
+  .popup-form{
+    padding: 0px 30px !important;
+  }
 }
+
 </style>

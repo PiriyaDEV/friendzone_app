@@ -21,12 +21,8 @@
 
     <div>
       <div id="menu">
-        <h1 @click="edit()" :class="cssEdit">
-          Edit Category
-        </h1>
-        <h1 @click="addNew()" :class="cssAdd">
-          Add New Category
-        </h1>
+        <h1 @click="edit()" :class="cssEdit">Edit Category</h1>
+        <h1 @click="addNew()" :class="cssAdd">Add New Category</h1>
       </div>
       <hr id="bar" />
 
@@ -45,7 +41,7 @@ export default {
   data() {
     return {
       categoryList: null,
-      caseCategory: true
+      caseCategory: true,
     };
   },
   created() {
@@ -56,7 +52,7 @@ export default {
     });
   },
   components: {
-    CategorySection
+    CategorySection,
   },
   methods: {
     back() {
@@ -67,7 +63,7 @@ export default {
     },
     addNew() {
       this.caseCategory = false;
-    }
+    },
   },
   computed: {
     cssEdit() {
@@ -85,8 +81,8 @@ export default {
         return select;
       }
       return unselect;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -182,5 +178,29 @@ h1 {
 .selected {
   font-weight: 600;
   border-bottom: 5px solid #fe8864;
+}
+
+@media screen and (max-width: 1024px) {
+  #category-list-box {
+    width: 420px;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  #category-list-box {
+    width: 250px;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .popup-form {
+    padding: 0px 40px !important;
+  }
+
+  #category-list-box {
+    width: 220px;
+    display: block;
+  }
 }
 </style>
