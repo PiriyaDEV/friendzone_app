@@ -11,7 +11,7 @@
         <h1 v-if="valueView" id="header" class="header_title">REVIEW EVENT</h1>
 
         <div v-if="valueView" id="menu">
-          <h1 class="menu-text">Event Details</h1>
+          <h1 class="menu-text selected">Event Details</h1>
         </div>
         <div v-if="!valueView" id="menu">
           <h1 @click="clickEventDetail()" :class="cssEventDetail">
@@ -34,6 +34,7 @@
             :detailReturn="valueDetail"
             :manageReturn="valueManage"
             :view="valueView"
+            @updateStatus="updateStatus"
           />
         </div>
         <div v-else class="event-box">
@@ -75,13 +76,13 @@ export default {
       participants: false,
       request: false,
       invite: false,
-      valueShow: 1,
+      valueShow: 1
     };
   },
   props: ["Event", "valueDetail", "valueManage", "valueView"],
   components: {
     EventInfo,
-    Participant,
+    Participant
   },
   methods: {
     cancelManage() {
@@ -121,6 +122,9 @@ export default {
     deleteReturn(value) {
       this.$emit("clickDelete", value);
     },
+    updateStatus(value) {
+      this.$emit("updateStatus",value);
+    }
   },
   computed: {
     cssEventDetail() {
@@ -154,8 +158,8 @@ export default {
         return select;
       }
       return deselect;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -217,7 +221,6 @@ h1 {
 }
 
 @media screen and (max-width: 690px) {
-
   #bar {
     margin-top: -11px;
   }

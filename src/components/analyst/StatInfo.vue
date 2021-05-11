@@ -275,4 +275,24 @@ export default {};
 .yellow-color {
   color: #ffc661 !important;
 }
+
+@media screen and (max-width: 690px) {
+  #stat-section{
+    display: block;
+  }
+
+  #stat-report{
+    margin-right:0px;
+    width:calc(100% - 40px);
+  }
+
+  #stat-right{
+    width:calc(100% - 5px);
+    margin-top:20px;
+  }
+
+  #stat-discount{
+    margin-top:20px;
+  }
+}
 </style>

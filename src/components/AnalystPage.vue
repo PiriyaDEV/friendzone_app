@@ -86,7 +86,7 @@ export default {
 #right {
   margin-left: 10px;
   padding: 15px 20px;
-  width: 420px;
+  width: 520px;
 }
 
 .white-box {
@@ -188,9 +188,47 @@ div::-webkit-scrollbar {
   height: 3px;
   width: 5px;
 }
+
+@media screen and (max-width: 1920px) {
+  #right{
+    width:420px;
+  }
+}
+
+@media screen and (max-width: 1350px) {
+  #analyst-section{
+    display: block;
+  }
+
+  #right,#left{
+    margin-right:0px;
+    margin-left:0px;
+  }
+
+  #right{
+    margin-top:20px;
+    width:calc(100% - 40px);
+  }
+}
+
 @media screen and (max-width: 880px) {
   #analyst {
     margin-top: 0px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  #yellow-block-container{
+    display: block;
+  }
+
+  .yellow-block {
+    width:calc(100% - 40px);
+    padding: 10px 20px;
+  }
+
+  .yellow-block:nth-child(2),.yellow-block:nth-child(3){
+    margin-top:20px;
   }
 }
 </style>

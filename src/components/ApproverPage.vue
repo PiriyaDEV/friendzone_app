@@ -3,18 +3,18 @@
     <div id="approver-title-box">
       <div>
         <h1 id="approver-title" class="event-header">APPROVER</h1>
-        <select id="select-event">
-          <option value="all">Recent</option>
+        <select id="select-event" v-model="filter">
+          <option value="all">All</option>
           <option value="pending">Pending</option>
-          <option value="ongoing">On Going</option>
-          <option value="ended">Ended</option>
+          <option value="approved">Approved</option>
+          <option value="disapproved">Disapproved</option>
         </select>
       </div>
 
       <div id="history-box">
-        <h1 class="history-text">{{ this.eventStatusList[0] }}</h1>
-        <h1 class="history-text">{{ this.eventStatusList[1] }}</h1>
-        <h1 class="history-text">{{ this.eventStatusList[2] }}</h1>
+        <h1 class="history-text">Approved ({{ approved }})</h1>
+        <h1 class="history-text">Disapproved ({{ disapproved }})</h1>
+        <h1 class="history-text">Pending ({{ pending }})</h1>
       </div>
     </div>
 
@@ -31,11 +31,12 @@
     </div>
 
     <div id="report-box">
-      <div v-for="(event, i) in eventList" :key="i">
+      <div v-for="(event, i) in eventListShow" :key="i">
         <ReportBox
           :approver="true"
           @viewReturn="viewReturn"
           :event="event"
+          :statusEvent="statusEvent"
           @viewData="viewData"
         />
       </div>
@@ -48,33 +49,64 @@ import ReportBox from "@/components/admin/report/ReportBox.vue";
 import EventService from "../services/event.service";
 
 export default {
+  props: ["statusEvent"],
   data() {
     return {
+      filter: "all",
+      eventListShow: [],
       eventList: [],
-      eventStatusList: []
+      approved: 0,
+      disapproved: 0,
+      pending: 0
     };
   },
-  created() {
-    EventService.getApproverList().then((res) => {
-      if (res) {
-        this.eventList = res;
+  watch: {
+    statusEvent: function() {
+      if (this.statusEvent.status_id == "ST03") {
+        this.approved++;
+        this.pending--;
+      } else if (this.statusEvent.status_id == "ST15") {
+        this.disapproved++;
+        this.pending--;
       }
-    });
+    },
+    filter: function() {
+      this.eventListShow = [];
+      if (this.filter == "all") this.eventListShow = this.eventList;
+      else if (this.filter == "pending") {
+        this.eventListShow = this.eventList.filter((event) => {
+          return event.status_id == "ST13";
+        });
+      } else if (this.filter == "approved") {
+        this.eventListShow = this.eventList.filter((event) => {
+          return event.status_id == "ST03";
+        });
+      } else if (this.filter == "disapproved") {
+        this.eventListShow = this.eventList.filter((event) => {
+          return event.status_id == "ST15";
+        });
+      }
+    }
+  },
+  created() {
+    EventService.getApproverList()
+      .then((res) => {
+        if (res) {
+          this.filter = "pending";
+          this.eventList = res;
+        }
+      })
+      .catch(() => {
+        this.eventListShow = [];
+      });
     EventService.getEventCount().then((res) => {
       if (res) {
-        for(let i = 0 ; i < res.length ; i++ )
-        {
-          if (res[i].status_id === "ST03")
-            this.eventStatusList[i] = `Approved (${res[i].count})`;
-          if (res[i].status_id === "ST15")
-            this.eventStatusList[i] = `Disapproved (${res[i].count})`;
-          if (res[i].status_id === "ST13")
-            this.eventStatusList[i] = `Pending (${res[i].count})`;
+        for (let i = 0; i < res.length; i++) {
+          if (res[i].status_id === "ST03") this.approved = res[i].count;
+          if (res[i].status_id === "ST15") this.disapproved = res[i].count;
+          if (res[i].status_id === "ST13") this.pending = res[i].count;
         }
-        
-
       }
-
     });
   },
   components: {

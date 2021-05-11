@@ -2,17 +2,17 @@
   <div :class="cssBox">
     <div id="report-menu">
       <div :class="cssMiddle">
-        <h1 id="menu-text-id" :class="cssMenuG">{{event.event_id}}</h1>
-        <h1 :class="cssMenuB">{{event.title}}</h1>
+        <h1 id="menu-text-id" :class="cssMenuG">{{ event.event_id }}</h1>
+        <h1 :class="cssMenuB">{{ event.title }}</h1>
         <!-- Here -->
-        <h1 :class="cssHideB">{{event.location}}</h1>
+        <h1 :class="cssHideB">{{ event.location }}</h1>
         <!-- Here -->
-        <h1 :class="cssHideBadmin">{{event.date}}</h1>
-        <h1 v-if="approver" :class="cssMenuB">{{event.username}}</h1>
+        <h1 :class="cssHideBadmin">{{ event.date }}</h1>
+        <h1 v-if="approver" :class="cssMenuB">{{ event.username }}</h1>
         <div id="pending-dot">
           <span :class="cssPending"></span>
           <!-- Here -->
-          <h1 :class="cssHideG">{{pending}}</h1>
+          <h1 :class="cssHideG">{{ pending }}</h1>
           <!-- <span class="dot green"></span> -->
           <!-- <h1 class="menu-text">done</h1> -->
         </div>
@@ -27,29 +27,36 @@
 
 <script>
 export default {
-  props: ["approver","event"],
+  props: ["approver", "event", "statusEvent"],
+  watch: {
+    statusEvent: function() {
+      if (this.event.event_id == this.statusEvent.event_id) {
+        this.event.status_id = this.statusEvent.status_id;
+      }
+    }
+  },
   computed: {
     cssPending() {
-      let red ="dot red"
-      let green ="dot green"
-      let yellow ="dot yellow"
-      if(this.event.status_id == "ST03") {
-         return green
-      } else if(this.event.status_id == "ST15") {
-         return red
+      let red = "dot red";
+      let green = "dot green";
+      let yellow = "dot yellow";
+      if (this.event.status_id == "ST03") {
+        return green;
+      } else if (this.event.status_id == "ST15") {
+        return red;
       }
-      return yellow
+      return yellow;
     },
     pending() {
-      let red ="Rejected"
-      let green ="Approved"
-      let yellow ="Pending"
-      if(this.event.status_id == "ST03") {
-         return green
-      } else if(this.event.status_id == "ST15") {
-         return red
+      let red = "Rejected";
+      let green = "Approved";
+      let yellow = "Pending";
+      if (this.event.status_id == "ST03") {
+        return green;
+      } else if (this.event.status_id == "ST15") {
+        return red;
       }
-      return yellow
+      return yellow;
     },
     cssMiddle() {
       let general = "report-middle-menu";
@@ -114,14 +121,14 @@ export default {
         return app;
       }
       return general;
-    },
+    }
   },
   methods: {
     viewClick() {
       this.$emit("viewReturn", true);
-      this.$emit("viewData", this.event)
-    },
-  },
+      this.$emit("viewData", this.event);
+    }
+  }
 };
 </script>
 
@@ -268,7 +275,8 @@ export default {
   }
 
   .menu-gray-approver,
-  .menu-black-approver,.menu-text {
+  .menu-black-approver,
+  .menu-text {
     font-size: 1.3em;
   }
 
