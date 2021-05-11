@@ -131,8 +131,8 @@ export default {
       this.user.bio = this.bioAfter;
       this.user.username = this.usernameAfter;
       this.$emit("saveUser", this.user);
-    },
-  },
+    }
+  }
 };
 </script>
 
