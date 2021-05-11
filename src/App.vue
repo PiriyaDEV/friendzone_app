@@ -462,6 +462,7 @@ button {
   max-width: 600px;
 }
 
+
 @media screen and (max-width: 2320px) {
   .event-container {
     width: 1540px;

@@ -16,43 +16,80 @@
             <!-- Rating -->
             <div :class="cssRate">
               <h2 class="black-color title">Rating</h2>
-              <h2 class="black-color title">{{ user.rating }}</h2>
               <div id="star-box" class="section">
                 <!-- Star -->
                 <div>
-                  <!-- <img class="star" src="@/assets/icon/icons8-star-96.png" /> -->
                   <img
+                    v-if="showRating[0]"
                     class="star"
                     src="@/assets/icon/icons8-star-96-orange.png"
+                  />
+                  <img
+                    v-else
+                    class="star"
+                    src="@/assets/icon/icons8-star-96.png"
                   />
                 </div>
                 <!-- Star -->
 
                 <!-- Star -->
                 <div>
-                  <img class="star" src="@/assets/icon/icons8-star-96.png" />
-                  <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
+                  <img
+                    v-if="showRating[1]"
+                    class="star"
+                    src="@/assets/icon/icons8-star-96-orange.png"
+                  />
+                  <img
+                    v-else
+                    class="star"
+                    src="@/assets/icon/icons8-star-96.png"
+                  />
                 </div>
                 <!-- Star -->
 
                 <!-- Star -->
                 <div>
-                  <img class="star" src="@/assets/icon/icons8-star-96.png" />
-                  <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
+                  <img
+                    v-if="showRating[2]"
+                    class="star"
+                    src="@/assets/icon/icons8-star-96-orange.png"
+                  />
+                  <img
+                    v-else
+                    class="star"
+                    src="@/assets/icon/icons8-star-96.png"
+                  />
                 </div>
                 <!-- Star -->
 
                 <!-- Star -->
                 <div>
-                  <img class="star" src="@/assets/icon/icons8-star-96.png" />
-                  <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
+                  <img
+                    v-if="showRating[3]"
+                    class="star"
+                    src="@/assets/icon/icons8-star-96-orange.png"
+                  />
+                  <img
+                    v-else
+                    class="star"
+                    src="@/assets/icon/icons8-star-96.png"
+                  />
                 </div>
+
                 <!-- Star -->
 
                 <!-- Star -->
                 <div>
-                  <img class="star" src="@/assets/icon/icons8-star-96.png" />
-                  <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
+                  <img
+                    v-if="showRating[4]"
+                    class="star"
+                    src="@/assets/icon/icons8-star-96-orange.png"
+                  />
+                  <img
+                    v-else
+                    class="star"
+                    src="@/assets/icon/icons8-star-96.png"
+                  />
                 </div>
                 <!-- Star -->
               </div>
@@ -109,6 +146,7 @@ import EventService from "@/services/event.service";
 export default {
   data() {
     return {
+      showRating: [false, false, false, false, false],
       showModButton: false,
       eventRole: "Participant"
     };
@@ -123,15 +161,15 @@ export default {
     "admin"
   ],
   created() {
-    console.log(this.isMod);
+    this.showRating.fill(true, 0, this.user.rating.toFixed(0));
     this.checkRole();
     this.checkModButton();
   },
   watch: {
-    select: function () {
+    select: function() {
       this.checkRole();
     },
-    participant_id: function () {
+    participant_id: function() {
       this.checkModButton();
     }
   },
@@ -396,7 +434,7 @@ h1 {
     align-items: center;
   }
 
-  .rating > h2{
+  .rating > h2 {
     display: none;
   }
 

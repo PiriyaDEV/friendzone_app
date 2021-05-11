@@ -462,7 +462,7 @@ export default {
 }
 
 .input_bio_box {
-  font-size: 2em;
+  font-size: 1.6em;
   font-weight: 400;
   color: #444444;
   padding: 5px 10px;

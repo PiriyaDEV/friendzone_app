@@ -191,7 +191,13 @@ export default {
     },
     approve(boolean) {
       EventService.approving(this.event.event_id, boolean).then(() => {
-          this.$emit("doneClick", false);
+        if(boolean){
+          this.$emit("updateStatus", {event_id : this.event.event_id, status_id : "ST03"});
+        }
+        else {
+          this.$emit("updateStatus", {event_id : this.event.event_id, status_id : "ST15"});
+        }
+        this.$emit("doneClick", false);
       });
     }
   }

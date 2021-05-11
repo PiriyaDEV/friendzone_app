@@ -26,10 +26,9 @@
           </div>
         </div>
       </div>
-      <h1>{{ interest }}</h1>
       <div class="button-section">
         <button class="back_button" @click="cancel()">Cancel</button>
-        <button class="create_button" @click="save()">Save</button>
+        <button class="create_button" @click="clickSave()">Save</button>
       </div>
     </div>
   </div>
@@ -38,13 +37,14 @@
 <script>
 import CategoryBox from "@/components/CategoryBox.vue";
 import CategoryService from "../../../services/category.service";
-// import EventService from "@/services/event.service";
+import UserService from "../../../services/user.service";
 
 export default {
   data() {
     return {
       categoryList: null,
       interest: [],
+      interestList: []
     };
   },
   props: ["profileDetail"],
@@ -52,26 +52,61 @@ export default {
     CategoryService.getCategoryList().then((res) => {
       if (res) {
         this.categoryList = res;
+        CategoryService.getCategoryFromUserID().then((res) => {
+          if (res) {
+            this.interest = res;
+            this.interestData();
+          }
+        });
       }
     });
   },
   components: {
-    CategoryBox,
+    CategoryBox
   },
   methods: {
     clicktest(ev, i) {
-      console.log(i + 1);
       this.categoryList[i].status = !this.categoryList[i].status;
     },
     cancel() {
       this.$emit("showBack", false);
     },
-    // getInterest() {
-    //   EventService.getUserCateogryInterestEvent().then((res) => {
-    //       this.interest = res;
-    //   });
-    // }
-  },
+    interestData() {
+      for (let i = 0; i < this.categoryList.length; i++) {
+        let check = false;
+        for (let j = 0; j < this.interest.length; j++) {
+          if (
+            this.categoryList[i].category_name == this.interest[j].category_name
+          ) {
+            this.interestList[i] = true;
+            check = true;
+          }
+        }
+        if (check == false) {
+          this.interestList[i] = false;
+        }
+        this.categoryList[i].status = this.interestList[i];
+      }
+    },
+    clickSave() {
+      var category_id = [];
+
+      this.categoryList.forEach((category) => {
+        if (category.status) {
+          category_id.push(category.category_id);
+        }
+      });
+
+      if (category_id.length > 0) {
+        UserService.updateUserCategory(category_id).then((res) => {
+          console.log(res)
+          //if (res) window.location.href = "/mainpage";
+        });
+      } else {
+        window.location.href = "/mainpage";
+      }
+    }
+  }
 };
 </script>
 
@@ -141,7 +176,7 @@ div::-webkit-scrollbar {
     margin-top: 10px;
   }
 
-  #term{
+  #term {
     display: none;
   }
 

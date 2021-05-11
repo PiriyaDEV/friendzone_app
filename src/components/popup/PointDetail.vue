@@ -13,7 +13,7 @@
               <div>
                 <div class="section">
                   <img id="coin-logo" src="@/assets/icon/coin.png" />
-                  <h1 id="point">2500</h1>
+                  <h1 id="point">{{ point.point }}</h1>
                 </div>
                 <h1 id="your-balance">Your Balance</h1>
               </div>
@@ -28,24 +28,26 @@
           </div>
           <div id="bottom-section" class="popup-form">
             <div id="menu">
-              <h1 @click="clickEventDetail()" class="menu-text">
+              <h1 @click="clickEventDetail()" class="menu-text selected">
                 Point Log
               </h1>
             </div>
             <hr id="bar" />
 
             <div id="transaction-box">
-              <div v-for="(item, i) in 20" :key="i">
+              <div v-for="(pointLog, i) in pointLogList" :key="i">
                 <div id="transaction">
                   <div class="transaction-flex">
                     <h1 class="transaction-text black-color">
-                      FREE popcorn and soft drink
+                      {{ pointLog.title }}
                     </h1>
-                    <h1 class="transaction-text red-color">- 3000 P</h1>
+                    <h1 :class="cssPoint">
+                      {{ pointLog.point }}
+                    </h1>
                   </div>
                   <div class="transaction-flex">
-                    <h1 class="transaction-info">Buy discount</h1>
-                    <h1 class="transaction-info">24 Apr 2021</h1>
+                    <h1 class="transaction-info">{{ pointLog.description }}</h1>
+                    <h1 class="transaction-info">{{ pointLog.date }}</h1>
                   </div>
                 </div>
               </div>
@@ -58,7 +60,38 @@
 </template>
 
 <script>
+import PointTransactionService from "../../services/pointTransaction.service";
+
 export default {
+  data() {
+    return {
+      point: "",
+      pointLogList: []
+    };
+  },
+  computed: {
+    cssPoint() {
+      let positive = "transaction-text green-color";
+      let negative = "transaction-text red-color";
+      if (this.pointLogList[0].positive) {
+        return positive;
+      }
+      return negative;
+    }
+  },
+  created() {
+    PointTransactionService.getPoint().then((res) => {
+      if (res) {
+        this.point = res;
+      }
+    });
+    PointTransactionService.getPointLog().then((res) => {
+      if (res) {
+        this.pointLogList = res;
+        console.log(this.pointLogList[0].positive);
+      }
+    });
+  },
   methods: {
     pointClick() {
       this.$emit("point", false);
@@ -159,6 +192,11 @@ div::-webkit-scrollbar {
   padding-bottom: 7px;
   color: #444444;
   cursor: pointer;
+}
+
+.selected {
+  font-weight: 600;
+  border-bottom: 5px solid #fe8864;
 }
 
 @media screen and (max-width: 1024px) {

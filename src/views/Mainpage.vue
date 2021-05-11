@@ -35,6 +35,7 @@
         :valueDetail="valueDetail"
         :valueManage="valueManage"
         :valueView="view"
+        @updateStatus="updateStatus"
       />
       <!-- Mobile Top Bar -->
       <MobileTopbar
@@ -122,7 +123,12 @@
           </div>
 
           <div v-if="select == 8 && !searchBar">
-            <ApproverPage @clickManage="clickManage" @viewShow="viewShow"  @viewData="viewData"/>
+            <ApproverPage
+              @clickManage="clickManage"
+              @viewShow="viewShow"
+              @viewData="viewData"
+              :statusEvent="statusEvent"
+            />
           </div>
         </div>
       </div>
@@ -265,6 +271,7 @@ export default {
       valueManage: true,
       pointPage: false,
       view: false,
+      statusEvent: null,
     };
   },
   computed: {
@@ -361,6 +368,9 @@ export default {
       this.valueManage = false;
       this.valueDetail = false;
     },
+    updateStatus(value) {
+      this.statusEvent = value;
+    }
   }
 };
 </script>

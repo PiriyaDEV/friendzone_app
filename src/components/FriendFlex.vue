@@ -77,7 +77,8 @@
 
     <!-- Button -->
     <div id="button">
-      <button v-if="following"  id="following_button">FOLLOWING</button>
+      <button id="block_button">BLOCK</button>
+      <button v-if="following" id="following_button">FOLLOWING</button>
       <button id="follow_button">FOLLOW</button>
     </div>
     <!-- Button -->
@@ -99,10 +100,10 @@ export default {
         gender: "",
         profile_pic: "",
         birthdate: "",
-        bio: "",
+        bio: ""
       }),
       fullname: "",
-      following: false,
+      following: false
     };
   },
   created() {
@@ -203,33 +204,40 @@ h2 {
 }
 
 #button {
-  text-align: right;
+  /* text-align: right; */
   margin-top: 10px;
   padding-bottom: 7px;
+  display: flex;
+  justify-content: space-between;
 }
 
-#follow_button{
+#follow_button,
+#following_button,
+#block_button {
+  font-family: "Atten-Round-New";
+  font-size: 1.25em;
+  font-weight: 500;
+  padding: 4px 23px;
+  margin: 4px 0px 0px 0px;
+  border-radius: 16px;
+}
+
+#follow_button {
   color: #ffffff;
-  border: 2px solid #ff8864;
+  border: 1.75px solid #ff8864;
   background-color: #ff8864;
-  font-family: "Atten-Round-New";
-  font-size: 1.25em;
-  font-weight: 550;
-  padding: 7px 15px;
-  margin: 4px 0px 0px 0px;
-  border-radius: 16px;
 }
 
-#following_button{
+#following_button {
   color: #ff8864;
-  border: 2px solid #ff8864;
+  border: 1.75px solid #ff8864;
   background-color: #ffffff;
-  font-family: "Atten-Round-New";
-  font-size: 1.25em;
-  font-weight: 550;
-  padding: 7px 15px;
-  margin: 4px 0px 0px 0px;
-  border-radius: 16px;
+}
+
+#block_button {
+  color: #a0a0a0;
+  border: 1.75px solid #a0a0a0;
+  background-color: #ffffff;
 }
 
 @media screen and (max-width: 880px) {
