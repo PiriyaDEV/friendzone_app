@@ -17,11 +17,19 @@
           <h1 @click="clickEventDetail()" :class="cssEventDetail">
             Event Details
           </h1>
-          <h1 @click="clickParticipants()" :class="cssParticipants">
+          <h1
+            v-if="!eventPending "
+            @click="clickParticipants()"
+            :class="cssParticipants"
+          >
             Participants
           </h1>
-          <h1 @click="clickRequest()" :class="cssRequest">Request</h1>
-          <h1 @click="clickInvite()" :class="cssInvite">Invite</h1>
+          <h1 v-if="!eventPending && !showEnd" @click="clickRequest()" :class="cssRequest">
+            Request
+          </h1>
+          <h1 v-if="!eventPending && !showEnd" @click="clickInvite()" :class="cssInvite">
+            Invite
+          </h1>
         </div>
         <hr id="bar" />
 
@@ -30,7 +38,6 @@
             v-if="eventDetail == true"
             :event="Event"
             @doneClick="doneClick"
-            @deleteReturn="deleteReturn"
             :detailReturn="valueDetail"
             :manageReturn="valueManage"
             :view="valueView"
@@ -42,9 +49,9 @@
             v-if="eventDetail == true"
             :event="Event"
             @doneClick="doneClick"
-            @deleteReturn="deleteReturn"
             :detailReturn="valueDetail"
             :manageReturn="valueManage"
+            :endShow="showEnd"
           />
 
           <Participant
@@ -54,6 +61,7 @@
             @doneClick="doneClick"
             :detailReturn="valueDetail"
             :manageReturn="valueManage"
+            :endShow="showEnd"
           />
         </div>
         <img
@@ -79,7 +87,7 @@ export default {
       valueShow: 1
     };
   },
-  props: ["Event", "valueDetail", "valueManage", "valueView"],
+  props: ["Event", "valueDetail", "valueManage", "valueView", "eventPending","showEnd"],
   components: {
     EventInfo,
     Participant
@@ -119,11 +127,8 @@ export default {
     doneClick(value) {
       this.$emit("clickManage", value);
     },
-    deleteReturn(value) {
-      this.$emit("clickDelete", value);
-    },
     updateStatus(value) {
-      this.$emit("updateStatus",value);
+      this.$emit("updateStatus", value);
     }
   },
   computed: {
@@ -222,13 +227,17 @@ h1 {
 
 @media screen and (max-width: 690px) {
   #bar {
-    margin-top: -11px;
+    margin-top: -14px;
   }
 }
 
 @media screen and (max-width: 490px) {
   .popup-form {
     padding: 0px 40px !important;
+  }
+
+  #bar {
+    margin-top: -11px;
   }
 
   .menu-text {

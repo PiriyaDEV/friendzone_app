@@ -2,7 +2,7 @@
   <div>
     <!-- User -->
     <div v-if="role == 1" id="mainpage">
-      <CreateEvent v-if="createShow == true" @clickCreate="clickCreate" />
+      <CreateEvent v-if="createShow == true" @clickCreate="clickCreate" @informationShow="informationShow" />
       <RatePopup
         v-if="rateShow == true"
         @clickShowed="clickShowed"
@@ -13,6 +13,8 @@
         v-if="detailShow == true"
         @clickDetail="clickDetail"
         @demoAdmin="demoAdmin"
+        :dataUser="dataUser"
+        :findUser="findUser"
         :demoRole="role"
       />
       <ReportPopup
@@ -31,10 +33,11 @@
         v-if="manageShow == true"
         @clickManage="clickManage"
         :Event="eventData"
-        @clickDelete="clickDelete"
         :valueDetail="valueDetail"
         :valueManage="valueManage"
         :valueView="view"
+        :eventPending="eventPending"
+        :showEnd="showEnd"
         @updateStatus="updateStatus"
       />
       <!-- Mobile Top Bar -->
@@ -46,7 +49,7 @@
         @clickCreate="clickCreate"
         @clickDetail="clickDetail"
       />
-      <WaitBox v-if="deleteShow == true" @back="back" />
+      <WaitBox v-if="information == true"/>
       <!-- Mobile Top Bar -->
       <link
         rel="stylesheet"
@@ -86,6 +89,9 @@
               @thisEvent="thisEvent"
               @detail="detail"
               @manage="manage"
+              @pendingShow="pendingShow"
+              @userProfile="userProfile"
+              @onEvent="onEvent"
               :discountSelect="select"
             />
           </div>
@@ -272,6 +278,11 @@ export default {
       pointPage: false,
       view: false,
       statusEvent: null,
+      findUser: false,
+      dataUser: "",
+      eventPending: false,
+      showEnd: false,
+      information: false,
     };
   },
   computed: {
@@ -293,6 +304,7 @@ export default {
     },
     clickDetail(value) {
       this.detailShow = value;
+      this.findUser = false
     },
     clickCreate(value) {
       this.createShow = value;
@@ -311,14 +323,6 @@ export default {
     },
     checkReport(value) {
       this.selectReportShow = value;
-    },
-    clickDelete(value) {
-      this.deleteShow = value;
-      this.manageShow = false;
-    },
-    back(value) {
-      this.manageShow = value;
-      this.deleteShow = false;
     },
     searchData(value) {
       this.searchBar = value;
@@ -370,6 +374,23 @@ export default {
     },
     updateStatus(value) {
       this.statusEvent = value;
+    },
+    userProfile(value) {
+      this.dataUser = value;
+      this.findUser = true;
+      this.detailShow = true;
+    },
+    pendingShow(value) {
+      this.eventPending = value;
+      this.showEnd = false;
+    },
+    onEvent(value) {
+      this.showEnd = value;
+      this.eventPending = false;
+    },
+    informationShow(value) {
+      this.information = value;
+      this.createShow = false;
     }
   }
 };

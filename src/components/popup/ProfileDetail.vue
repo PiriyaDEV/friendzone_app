@@ -225,20 +225,20 @@ export default {
         "September",
         "October",
         "November",
-        "December",
+        "December"
       ],
       edit: false,
       save: false,
       interestShow: false,
-      changePassword: false,
+      changePassword: false
     };
   },
-  props: ["demoRole"],
+  props: ["demoRole", "findUser", "dataUser"],
   components: {
     EditProfile,
     Upload,
     ProfileInterest,
-    ChangePassword,
+    ChangePassword
   },
   created() {
     UserService.getUserDetail().then((res) => {
@@ -307,8 +307,8 @@ export default {
           });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -551,7 +551,8 @@ export default {
   }
 
   #bio-mobile {
-    display: block;
+    display: flex;
+    justify-content: center;
     text-align: center;
     width: 100%;
   }
@@ -578,7 +579,11 @@ export default {
     height: 100px;
   }
 
-  #upload-photo > img{
+  #name_title {
+    padding-top: 15px;
+  }
+
+  #upload-photo > img {
     width: 20px;
     height: 20px;
   }
@@ -616,7 +621,7 @@ export default {
   }
 
   .verticle-box {
-    width: 40px;
+    width: 50px;
     margin: 10px;
   }
 

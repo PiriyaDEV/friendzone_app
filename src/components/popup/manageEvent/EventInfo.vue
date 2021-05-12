@@ -74,7 +74,10 @@
 
     <div v-if="!view">
       <div v-if="manageReturn" class="button-section">
-        <button class="back_button" @click="deleteClick()">Delete Event</button>
+        <button v-if="endShow" class="back_button">End Event</button>
+        <button v-else class="back_button">
+          Delete Event
+        </button>
         <button class="create_button" @click="done()">Done</button>
       </div>
       <div id="single-button">
@@ -137,7 +140,7 @@ export default {
       ]
     };
   },
-  props: ["event", "eventReturn", "manageReturn", "detailReturn", "view"],
+  props: ["event", "eventReturn", "manageReturn", "detailReturn", "view","endShow"],
   created() {
     EventService.getEventGenderList(this.event.event_id).then((res) => {
       if (res) {
@@ -186,16 +189,22 @@ export default {
     done() {
       this.$emit("doneClick", false);
     },
-    deleteClick() {
-      this.$emit("deleteReturn", true);
-    },
     approve(boolean) {
-      EventService.approving(this.event.event_id, boolean).then(() => {
-        if(boolean){
-          this.$emit("updateStatus", {event_id : this.event.event_id, status_id : "ST03"});
-        }
-        else {
-          this.$emit("updateStatus", {event_id : this.event.event_id, status_id : "ST15"});
+      EventService.approving(
+        this.event.event_id,
+        this.event.host_id,
+        boolean
+      ).then(() => {
+        if (boolean) {
+          this.$emit("updateStatus", {
+            event_id: this.event.event_id,
+            status_id: "ST03"
+          });
+        } else {
+          this.$emit("updateStatus", {
+            event_id: this.event.event_id,
+            status_id: "ST15"
+          });
         }
         this.$emit("doneClick", false);
       });

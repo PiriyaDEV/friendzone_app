@@ -121,7 +121,7 @@ export default {
   data() {
     return {};
   },
-  props: ["user", "role", "edit", "usernameAfter", "bioAfter"],
+  props: ["user", "role", "edit", "usernameAfter", "bioAfter" ,"findUser", "dataUser"],
   created() {},
   methods: {
     cancel() {

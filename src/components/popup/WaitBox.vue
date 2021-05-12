@@ -2,24 +2,24 @@
   <div id="wait-box" class="popup">
     <div class="popup-section section">
       <div class="popup-form">
-        <!-- <h1 class="header_title">WAIT FOR APPROVAL</h1> -->
-        <h1 class="header_title">
+        <h1 class="header_title">WAIT FOR APPROVAL</h1>
+        <!-- <h1 class="header_title">
           DO YOU WANT TO <br />
           DELETE THIS EVENT?
-        </h1>
+        </h1> -->
         <div class="section">
-          <!-- <h1 id="info">
+          <h1 id="info">
             Your event is now wait in the lists for approval and the event will
             be post after get approved by approver
-          </h1> -->
-          <h1 id="event-title">Title : Chai Miang Chiang Mai</h1>
+          </h1>
+          <!-- <h1 id="event-title">Title : Chai Miang Chiang Mai</h1> -->
         </div>
 
-        <!-- <div id="mobile-done" class="section">
-          <button class="back_button" @click="createdReturn()">Done</button>
-        </div> -->
+        <div id="mobile-done" class="section">
+          <button class="back_button" @click="cancel()">Done</button>
+        </div>
 
-        <div class="section double-button">
+        <!-- <div class="section double-button">
           <div>
             <div>
               <button class="create_button" @click="createdReturn()">
@@ -32,7 +32,7 @@
               </button>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <img
           @click="cancel()"
@@ -49,7 +49,7 @@
 export default {
   methods: {
     cancel() {
-      this.$emit("back", true);
+      window.location.href = "/mainpage";
     }
   }
 };

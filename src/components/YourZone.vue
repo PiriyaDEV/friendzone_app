@@ -82,7 +82,10 @@
                     @checkRate="checkRate"
                     @manageReturn="manageReturn"
                     @detailReturn="detailReturn"
+                    @userProfile="userProfile"
                     @thisEvent="thisEvent"
+                    @pendingClick="pendingClick"
+                    @onEvent="onEvent"
                   />
                 </div>
               </div>
@@ -118,6 +121,7 @@
                     @thisEvent="thisEvent"
                     @manageReturn="manageReturn"
                     @detailReturn="detailReturn"
+                    @userProfile="userProfile"
                   />
                 </div>
               </div>
@@ -152,6 +156,7 @@
                     @thisEvent="thisEvent"
                     @manageReturn="manageReturn"
                     @detailReturn="detailReturn"
+                    @userProfile="userProfile"
                   />
                 </div>
               </div>
@@ -186,6 +191,7 @@
                     @thisEvent="thisEvent"
                     @manageReturn="manageReturn"
                     @detailReturn="detailReturn"
+                    @userProfile="userProfile"
                   />
                 </div>
               </div>
@@ -414,6 +420,15 @@ export default {
     },
     thisEvent(value) {
       this.$emit("thisEvent", value);
+    },
+    userProfile(value) {
+      this.$emit("userProfile", value);
+    },
+    pendingClick(value) {
+      this.$emit("pendingShow", value);
+    },
+    onEvent(value) {
+      this.$emit("onEvent",value)
     },
     getHostedEventList() {
       EventService.getHostedEvent()

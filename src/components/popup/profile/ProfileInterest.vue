@@ -89,18 +89,18 @@ export default {
       }
     },
     clickSave() {
-      var category_id = [];
+      var categoryInterest = [];
 
       this.categoryList.forEach((category) => {
-        if (category.status) {
-          category_id.push(category.category_id);
-        }
+        categoryInterest.push({
+          category_id: category.category_id,
+          interest: category.status
+        });
       });
 
-      if (category_id.length > 0) {
-        UserService.updateUserCategory(category_id).then((res) => {
-          console.log(res)
-          //if (res) window.location.href = "/mainpage";
+      if (categoryInterest.length > 0) {
+        UserService.updateUserCategory(categoryInterest).then((res) => {
+          if (res) window.location.href = "/mainpage";
         });
       } else {
         window.location.href = "/mainpage";
@@ -174,6 +174,7 @@ div::-webkit-scrollbar {
 @media screen and (max-width: 690px) {
   #profile_interest {
     margin-top: 10px;
+    margin-bottom: 15px;
   }
 
   #term {

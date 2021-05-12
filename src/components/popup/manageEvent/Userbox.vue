@@ -99,7 +99,7 @@
         </div>
       </div>
 
-      <div v-if="managePage" id="button-section">
+      <div v-if="managePage && !showEnd" id="button-section">
         <div v-if="select == 1 && !user.host">
           <button
             v-if="showModButton"
@@ -158,10 +158,15 @@ export default {
     "user",
     "detailPage",
     "managePage",
-    "admin"
+    "admin",
+    "showEnd"
   ],
   created() {
-    this.showRating.fill(true, 0, this.user.rating.toFixed(0));
+    if (this.user.rating > 0) {
+      this.showRating.fill(true, 0, this.user.rating.toFixed(0));
+    } else {
+      this.showRating.fill(true, 0, 5);
+    }
     this.checkRole();
     this.checkModButton();
   },

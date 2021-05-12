@@ -31,7 +31,7 @@
 
     <!-- Rating -->
     <div v-if="showEnded && event.rating" id="rating-box">
-      <h1 v-if="Number.isInteger(event.rating)">Rating {{ event.rating }}/5</h1>
+      <h1 v-if="Number.isInteger(event.rating)">RATING {{ event.rating }}/5</h1>
       <h1 v-else>Rating {{ event.rating.toFixed(1) }}/5</h1>
     </div>
     <!-- Rating -->
@@ -44,11 +44,49 @@
     </div>
     <!-- Date -->
 
-    <!-- Date -->
+    <!-- ShowBox -->
     <div v-if="showEnded" id="end-box">
       <h1>EVENT HAS ENDED</h1>
     </div>
-    <!-- Date -->
+    <!-- ShowBox -->
+
+    <!-- ShowBox -->
+    <div v-if="showApproving" id="wait-box">
+      <h1>
+        WAIT FOR APPROVING<i style="margin-left:5px;" class="fa fa-clock-o"></i>
+      </h1>
+    </div>
+    <!-- ShowBox -->
+
+    <!-- ShowBox -->
+    <div v-if="ongoingEvent" id="ongoing-box">
+      <h1>
+        EVENT IS ON-GOING<i
+          style="margin-left:5px;"
+          class="fa fa-play-circle-o"
+        ></i>
+      </h1>
+    </div>
+    <!-- ShowBox -->
+
+    <!-- ShowBox -->
+    <div v-if="showDeleted" id="delete-box">
+      <h1>
+        DELETED EVENT<i style="margin-left:5px;" class="fa fa-trash-o"></i>
+      </h1>
+    </div>
+    <!-- ShowBox -->
+
+    <!-- ShowBox -->
+    <div v-if="showEventRejected" id="delete-box">
+      <h1>
+        YOUR EVENT HAS BEEN REJECTED<i
+          style="margin-left:5px;"
+          class="fa fa-ban"
+        ></i>
+      </h1>
+    </div>
+    <!-- ShowBox -->
 
     <img class="event-pic" :src="event.event_pic" />
 
@@ -67,17 +105,24 @@
       <img id="profile-logo" :src="event.host_pic" />
       <h1>
         Hosted by
-        <span class="highlight-text">{{ event.username }}</span>
+        <span
+          @click="clickProfile()"
+          style="cursor: pointer;"
+          class="highlight-text"
+          >{{ event.username }}</span
+        >
       </h1>
     </div>
     <!-- Host -->
 
     <!-- Double Button -->
     <div v-if="showEnded" id="double-button">
-      <button @click="ratePartReturn()">
-        RATE PARTICIPANTS
-      </button>
-      <div class="pending-button">
+      <div :class="cssRateParticipantBtn">
+        <button @click="ratePartReturn()">
+          RATE PARTICIPANT
+        </button>
+      </div>
+      <div :class="cssRateEventBtn">
         <button @click="rateEventReturn()">
           RATE THIS EVENT
         </button>
@@ -139,10 +184,15 @@ export default {
     return {
       showButton: true,
       showEnded: false,
+      showApproving: false,
       showHost: false,
       showPending: false,
       showRejected: false,
-      showJoined: false
+      showJoined: false,
+      showEventRejected: false,
+      showDeleted: false,
+      ongoingEvent: false,
+      approveEvent: false
     };
   },
   name: "EventFlex",
@@ -155,20 +205,52 @@ export default {
       this.getCreate();
     }
   },
+  computed: {
+    cssRateParticipantBtn() {
+      let orange = "";
+      let grey = "pending-button block";
+      if (this.event.isParticipantRated) {
+        return grey;
+      } else {
+        return orange;
+      }
+    },
+    cssRateEventBtn() {
+      let orange = "";
+      let grey = "pending-button block";
+      if (this.event.isEventRated) {
+        return grey;
+      } else {
+        return orange;
+      }
+    }
+  },
   methods: {
+    clickProfile() {
+      this.$emit("userProfile", this.event.username);
+    },
     rateEventReturn() {
-      this.$emit("clickRate", true);
-      this.$emit("checkRate", false);
-      this.$emit("thisEvent", this.event);
+      if (!this.event.isEventRated) {
+        this.$emit("clickRate", true);
+        this.$emit("checkRate", false);
+        this.$emit("thisEvent", this.event);
+      }
     },
     ratePartReturn() {
-      this.$emit("clickRate", true);
-      this.$emit("checkRate", true);
-      this.$emit("thisEvent", this.event);
+      if (!this.event.isParticipantRated) {
+        this.$emit("clickRate", true);
+        this.$emit("checkRate", true);
+        this.$emit("thisEvent", this.event);
+      }
     },
     manageEventReturn() {
       this.$emit("manageReturn", true);
       this.$emit("thisEvent", this.event);
+      if (!this.approveEvent) {
+        this.$emit("pendingClick", true);
+      } else {
+        this.$emit("onEvent", this.ongoingEvent);
+      }
     },
     moreDetailReturn() {
       this.$emit("detailReturn", true);
@@ -208,14 +290,35 @@ export default {
       let currentTime = new Date().getTime();
       this.showButton = true;
       this.showEnded = false;
+      this.showApproving = false;
       this.showHost = false;
       this.showPending = false;
       this.showRejected = false;
       this.showJoined = false;
+      this.showEventRejected = false;
+      this.showDeleted = false;
+      this.ongoingEvent = false;
+      this.approveEvent = false;
+      if (this.event.status_id == "ST13") {
+        this.showApproving = true;
+      } else if (this.event.status_id == "ST07") {
+        this.showDeleted = true;
+      } else if (this.event.status_id == "ST15") {
+        this.showEventRejected = true;
+      } else if (this.event.status_id == "ST03") {
+        this.approveEvent = true;
+        if (currentTime > this.event.start_at) {
+          this.ongoingEvent = true;
+        }
+      }
       if (currentTime > this.event.end_at) {
         this.showButton = false;
         this.showEnded = true;
+        this.ongoingEvent = false;
         this.showHost = false;
+        this.showApproving = false;
+        this.showDeleted = false;
+        this.showEventRejected = false;
       } else if (this.event.user_id == user.user_id) {
         this.showButton = false;
         this.showEnded = false;
@@ -312,19 +415,54 @@ export default {
   border: 2px solid white;
 }
 
-#end-box {
+.block,
+.block > button {
+  cursor: default;
+}
+
+.block > button {
+  background-color: #a0a0a0 !important;
+  border: 1.75px solid #a0a0a0 !important;
+  color: #ffffff !important;
+}
+
+#end-box,
+#wait-box,
+#ongoing-box,
+#delete-box {
   padding: 5px 10px;
-  background-color: white;
   border-radius: 16px;
   text-align: center;
   position: absolute;
-  z-index: 3;
   top: 91px;
   left: 13px;
-  color: #ff8864;
+  z-index: 3;
 }
 
-#end-box > h1 {
+#end-box {
+  color: #ff8864;
+  background-color: white;
+}
+
+#wait-box {
+  color: #a0a0a0;
+  background-color: white;
+}
+
+#ongoing-box {
+  color: white;
+  background: transparent linear-gradient(180deg, #ffe164 0%, #ffc661 100%);
+}
+
+#delete-box {
+  color: #fd6363;
+  background-color: white;
+}
+
+#end-box > h1,
+#wait-box > h1,
+#ongoing-box > h1,
+#delete-box > h1 {
   margin: 0;
   font-size: 1em;
   font-weight: 500;
@@ -467,6 +605,7 @@ export default {
 
 #button > button,
 #double-button > button,
+#double-button > div > button,
 #single-button > button {
   color: #ff8864;
   border: 1.75px solid #ff8864;
@@ -494,21 +633,21 @@ export default {
   border: 1.75px solid #1ed32c !important;
 }
 
-#rating-box{
-  border:none;
-  border-radius:10px;
-  background-color: #ffc45c;
-  position:absolute;
-  left:40px;
-  top:13px;
-  box-shadow: 0px 3px 30px #0000000D;
+#rating-box {
+  border: none;
+  border-radius: 10px;
+  background: transparent linear-gradient(180deg, #ffe164 0%, #ffc661 100%);
+  position: absolute;
+  left: 40px;
+  top: 13px;
+  box-shadow: 0px 3px 30px #0000000d;
 }
 
-#rating-box > h1{
-  font-size:1.4em;
-  margin:0px;
-  padding: 3px 10px;
+#rating-box > h1 {
+  font-size: 1em;
+  margin: 0px;
+  padding: 4px 12px;
   color: #ffffff;
-  font-weight:500;
+  font-weight: 500;
 }
 </style>
