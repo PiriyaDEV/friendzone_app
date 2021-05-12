@@ -435,11 +435,15 @@ class EventService {
     return res.data;
   }
 
-  async approving(event_id, approve) {
+  async approving(event_id, host_id, approve) {
     await axios
-      .post(API_URL + "approving",{event_id, approve },{
-        headers: authHeader()
-      })
+      .post(
+        API_URL + "approving",
+        { event_id, host_id, approve },
+        {
+          headers: authHeader()
+        }
+      )
       .then((res) => {
         return res.data;
       });

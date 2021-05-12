@@ -524,7 +524,7 @@ export default {
             ).then((res) => {
               if (res) {
                 console.log(res);
-                window.location.href = "/mainpage";
+                this.$emit("informationShow",true)
               }
             });
           }

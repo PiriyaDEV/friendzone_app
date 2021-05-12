@@ -31,7 +31,7 @@
               </div>
 
               <h1 class="detail-text black-color">
-                Hosted <span class="orange-color">by {{ event.username }}</span>
+                Hosted by<span class="orange-color"> {{ event.username }}</span>
               </h1>
               <h1 class="detail-text black-color">
                 Start on : <span class="gray-color">{{ start_at }}</span>
@@ -237,6 +237,7 @@ export default {
   data() {
     return {
       selected: "",
+      comment: "",
       invalidSelected: false,
       alertSelected: "",
       rating: 0,
@@ -362,7 +363,7 @@ export default {
                 this.participantList.splice(index, 1);
               }
               if (this.participantList.length == 0) {
-                this.rateReturn();
+                this.$router.push("/");
               } else {
                 this.selected = "";
                 this.showRating = [false, false, false, false, false];
@@ -380,7 +381,7 @@ export default {
           };
           EventService.submitReviewEvent(review).then((res) => {
             if (res) {
-              this.rateReturn();
+              this.$router.push("/");
             }
           });
         }

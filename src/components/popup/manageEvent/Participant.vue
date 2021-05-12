@@ -12,6 +12,7 @@
             :managePage="manageReturn"
             :detailPage="detailReturn"
             :eventPage="eventReturn"
+            :showEnd="endShow"
           />
         </div>
       </div>
@@ -87,7 +88,7 @@ export default {
       search: ""
     };
   },
-  props: ["status", "event", "manageReturn", "detailReturn"],
+  props: ["status", "event", "manageReturn", "detailReturn","endShow"],
   components: {
     Userbox
   },

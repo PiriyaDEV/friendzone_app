@@ -77,6 +77,9 @@ import Filterbar from "@/components/Filterbar.vue";
 import EventFlex from "@/components/EventFlex.vue";
 import FriendFlex from "@/components/FriendFlex.vue";
 import DiscountLongFlex from "@/components/DiscountLongFlex.vue";
+import Search from "../models/search";
+import SearchService from "../services/search.service";
+
 export default {
   props: ["searchValue"],
   data() {
@@ -103,8 +106,22 @@ export default {
       dataDate: "14 Oct 2021 - 15 Oct 2021",
       dataTitle: "Chai Miang Chiang Mai Camp with Aj.Harryfer",
       dataLocation: "Localhost Resort Chiang Mai, Thailand",
-      dataHost: "pd.piriya"
+      dataHost: "pd.piriya",
+      searchCount: new Search(""),
+      search: "p"
     };
+  },
+  created() {
+    SearchService.getSearchCount(this.search).then((res) => {
+      if (res) {
+        this.searchCount = res;
+        this.searchCount.total =
+          this.searchCount.friends +
+          this.searchCount.events +
+          this.searchCount.discount;
+        console.log(this.searchCount)
+      }
+    });
   },
   components: {
     Filterbar,

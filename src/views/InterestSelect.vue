@@ -79,16 +79,16 @@ export default {
   },
   methods: {
     clickStart() {
-      var category_id = [];
+      var categoryInterest = [];
 
       this.categoryList.forEach((category) => {
         if (category.status) {
-          category_id.push(category.category_id);
+          categoryInterest.push({category_id: category.category_id, interest: true});
         }
       });
 
-      if (category_id.length > 0) {
-        UserService.updateUserCategory(category_id).then((res) => {
+      if (categoryInterest.length > 0) {
+        UserService.updateUserCategory(categoryInterest).then((res) => {
           if (res) window.location.href = "/mainpage";
         });
       } else {

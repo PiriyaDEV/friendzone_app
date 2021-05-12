@@ -60,14 +60,14 @@ class UserService {
       });
   }
 
-  updateUserCategory(userCategory) {
+  updateUserCategory(categoryInterest) {
     let userData = decode(localStorage.getItem("user"));
     return axios
       .post(
         API_URL + "updateUserCategory",
         {
           user_id: userData.user_id,
-          category_id: userCategory
+          categoryInterest: categoryInterest
         },
         {
           headers: authHeader()

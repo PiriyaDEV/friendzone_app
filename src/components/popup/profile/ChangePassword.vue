@@ -6,7 +6,7 @@
         <div>
           <!-- Input -->
           <div>
-            <h2 class="input_title">Password</h2>
+            <h2 class="input_title">Old Password</h2>
             <div id="password_box">
               <input
                 v-model="password"
@@ -14,7 +14,41 @@
                 :type="passwordFieldType"
                 maxlength="36"
                 size="36"
-                placeholder="enter your password"
+                placeholder="enter old password"
+                autocomplete="new-password"
+              />
+              <div>
+                <img
+                  v-show="eye == true"
+                  @click="(eye = !eye), switchVisibility()"
+                  class="icon"
+                  src="@/assets/icon-eye.png"
+                />
+                <img
+                  v-show="eye == false"
+                  @click="(eye = !eye), switchVisibility()"
+                  class="icon"
+                  src="@/assets/icon-eye-closed.png"
+                />
+              </div>
+            </div>
+            <h3 v-if="invalidPassword === true" class="invalid">
+              * {{ alertPassword }}
+            </h3>
+          </div>
+          <!-- Input -->
+
+          <!-- Input -->
+          <div>
+            <h2 class="input_title">New Password</h2>
+            <div id="password_box">
+              <input
+                v-model="password"
+                class="input_box"
+                :type="passwordFieldType"
+                maxlength="36"
+                size="36"
+                placeholder="enter new password"
                 autocomplete="new-password"
               />
               <div>
@@ -48,7 +82,7 @@
                 :type="passwordFieldType"
                 maxlength="36"
                 size="36"
-                placeholder="enter your password"
+                placeholder="enter new password"
                 autocomplete="new-password"
               />
               <div>

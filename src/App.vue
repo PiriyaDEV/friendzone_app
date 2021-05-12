@@ -36,8 +36,8 @@ input[type="password"]::-ms-clear {
 }
 
 div::-webkit-scrollbar {
-  height: 10px;
-  width: 10px;
+  height: 5px;
+  width: 5px;
   padding-bottom: 30px;
 }
 
