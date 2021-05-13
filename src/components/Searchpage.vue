@@ -5,18 +5,18 @@
     </div>
     <div id="flex-section">
       <h1 id="searchtext" class="event-header">
-        20 items match your search
+        {{searchUserList.length + searchEventList.length}} items match your search
         <span class="orange-color">“{{ searchValue }}”</span>
       </h1>
 
       <div id="menu">
-        <h1 @click="friendClick()" :class="cssFriend">FRIENDS (34)</h1>
-        <h1 @click="eventClick()" :class="cssEvent">EVENTS (12)</h1>
+        <h1 @click="friendClick()" :class="cssFriend">FRIENDS ({{searchUserList.length}})</h1>
+        <h1 @click="eventClick()" :class="cssEvent">EVENTS ({{searchEventList.length}})</h1>
         <h1 @click="discountClick()" :class="cssDiscount">DISCOUNT (30)</h1>
       </div>
       <hr id="bar" />
 
-      <div id="flex-box">
+      <div id="flex-box"></div>
         <div>
           <!-- Event -->
           <div id="container">
@@ -29,8 +29,8 @@
                 v-if="friendSelect == true"
                 class="list event-flex-wrap-section"
               >
-                <div v-for="(item, i) in eventList" :key="i">
-                  <FriendFlex />
+                <div v-for="(searchUser, i) in searchUserList" :key="i">
+                  <FriendFlex :searchUser="searchUser" />
                 </div>
               </div>
 
@@ -38,15 +38,15 @@
                 v-if="eventSelect == true"
                 class="list event-flex-wrap-section"
               >
-                <div v-for="(item, i) in eventList" :key="i">
+                <div v-for="(event, i) in searchEventList" :key="i">
                   <EventFlex
-                    :user="dataUser[i]"
-                    :date="dataDate"
-                    :title="dataTitle"
-                    :location="dataLocation"
-                    :host="dataHost"
+                    :event="event"
                     @clickRate="clickRate"
                     @checkRate="checkRate"
+                    @thisEvent="thisEvent"
+                    @manageReturn="manageReturn"
+                    @detailReturn="detailReturn"
+                    @userProfile="userProfile"
                   />
                 </div>
               </div>
@@ -63,7 +63,6 @@
           </div>
           <!-- Event -->
         </div>
-      </div>
     </div>
     <div id="filterbar">
       <Filterbar></Filterbar>
@@ -89,39 +88,12 @@ export default {
       discountSelect: false,
       hovered: false,
       selected: "all",
-      eventList: 20,
-      joinList: 15,
-      dataUser: [
-        "05/20",
-        "06/20",
-        "07/20",
-        "08/20",
-        "09/20",
-        "10/20",
-        "11/20",
-        "12/20",
-        "13/20",
-        "14/20"
-      ],
-      dataDate: "14 Oct 2021 - 15 Oct 2021",
-      dataTitle: "Chai Miang Chiang Mai Camp with Aj.Harryfer",
-      dataLocation: "Localhost Resort Chiang Mai, Thailand",
-      dataHost: "pd.piriya",
-      searchCount: new Search(""),
-      search: "p"
+      searchUserList: new Search.User(""),
+      searchEventList: new Search.Event(""),
     };
   },
   created() {
-    SearchService.getSearchCount(this.search).then((res) => {
-      if (res) {
-        this.searchCount = res;
-        this.searchCount.total =
-          this.searchCount.friends +
-          this.searchCount.events +
-          this.searchCount.discount;
-        console.log(this.searchCount)
-      }
-    });
+    this.functionGetApi(this.searchValue)
   },
   components: {
     Filterbar,
@@ -129,6 +101,11 @@ export default {
     EventFlex,
     FriendFlex,
     MobileFilter
+  },
+  watch: {
+    searchValue: function(searchValue) {
+      this.functionGetApi(searchValue)
+    },
   },
   methods: {
     friendClick() {
@@ -145,6 +122,19 @@ export default {
       this.friendSelect = false;
       this.eventSelect = false;
       this.discountSelect = true;
+    },
+    functionGetApi(value) {
+      SearchService.getSearchUser(value).then((res) => {
+      if (res) {
+        this.searchUserList = res;
+      }
+    });
+
+    SearchService.getSearchEvent(value).then((res) => {
+      if (res) {
+        this.searchEventList = res;
+      }
+    });
     }
   },
   computed: {

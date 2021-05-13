@@ -63,8 +63,11 @@
           <select id="select-event" v-model="hostFilter">
             <option value="all">All Events</option>
             <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
             <option value="ongoing">On Going</option>
             <option value="ended">Ended</option>
+            <option value="rejected">Rejected</option>
+            <option value="deleted">Deleted</option>
           </select>
         </div>
         <!-- HOST -->
@@ -339,6 +342,11 @@ export default {
         this.hostedEventShow = this.hostedEventList.filter(
           (event) => event.status_id == "ST13"
         );
+      } else if (this.hostFilter == "approved") {
+        this.hostedEventShow = this.hostedEventList.filter((event) => {
+          let currentTime = new Date().getTime();
+          return currentTime < event.start_at && event.status_id == "ST03";
+        });
       } else if (this.hostFilter == "ongoing") {
         this.hostedEventShow = this.hostedEventList.filter((event) => {
           let currentTime = new Date().getTime();
@@ -349,6 +357,14 @@ export default {
           let currentTime = new Date().getTime();
           return currentTime > event.end_at;
         });
+      } else if (this.hostFilter == "rejected") {
+        this.hostedEventShow = this.hostedEventList.filter(
+          (event) => event.status_id == "ST15"
+        );
+      } else if (this.hostFilter == "deleted") {
+        this.hostedEventShow = this.hostedEventList.filter(
+          (event) => event.status_id == "ST07"
+        );
       }
     },
     joinFilter: function() {
@@ -428,7 +444,7 @@ export default {
       this.$emit("pendingShow", value);
     },
     onEvent(value) {
-      this.$emit("onEvent",value)
+      this.$emit("onEvent", value);
     },
     getHostedEventList() {
       EventService.getHostedEvent()
@@ -458,8 +474,33 @@ export default {
       EventService.getRequestedEvent()
         .then((res) => {
           if (res) {
-            this.requestedEventShow = res;
-            this.requestedEventList = res;
+            if (res.length) {
+              let user = decode(localStorage.getItem("user"));
+              let currentTime = new Date().getTime();
+              res.forEach((event, index) => {
+                if (currentTime > event.start_at) {
+                  EventService.declineRequest({
+                    event_id: event.event_id,
+                    user_id: user.user_id
+                  })
+                    .then((res) => {
+                      if (res) {
+                        this.requestedEventShow[index].participant_status =
+                          res.status_id;
+                        this.requestedEventList[index].participant_status =
+                          res.status_id;
+                      }
+                    })
+                    .catch(() => {
+                      console.log(
+                        "Error when reject the request from event that is going on"
+                      );
+                    });
+                }
+              });
+              this.requestedEventShow = res;
+              this.requestedEventList = res;
+            }
           }
         })
         .catch(() => {

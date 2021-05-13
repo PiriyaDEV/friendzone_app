@@ -5,9 +5,9 @@
       src="https://media-cdn.tripadvisor.com/media/photo-s/0b/f4/9a/78/omakase.jpg"
     />
     <div id="text-box">
-      <h1 class="discount-title">Premium sashimi sushi for 4 people</h1>
+      <h1 class="discount-title">Premium sashimi sushi for 4 people Premium sashimi sushi for 4 people</h1>
       <h1 class="discount-description">
-        Extra sushi set for 4 people can be use only 1 per bills
+        Extra sushi set for 4 people can be use only 1 per bills Premium sashimi sushi for 4 people
       </h1>
       <div id="value">
         <div class="coin-section">
@@ -59,6 +59,12 @@ export default {
   font-size: 1.75em;
   font-weight: 450;
   color: #444444;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .coin-title {
@@ -79,10 +85,16 @@ export default {
 .discount-description {
   width: 200px;
   margin-top: 6px;
-  margin-bottom: 0px;
+  margin-bottom: 6px;
   font-size: 1.5em;
   font-weight: 400;
   color: #a0a0a0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 #coin-icon {

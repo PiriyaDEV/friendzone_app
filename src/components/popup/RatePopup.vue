@@ -563,10 +563,6 @@ option {
     margin: 0px;
   }
 
-  #event-detail {
-    width: calc(100% - 50px);
-  }
-
   .create_button,
   .back_button {
     width: 140px !important;
@@ -593,13 +589,17 @@ option {
     width: 120px !important;
   }
 
-  .bio {
+  .detail-text {
+    font-size: 1.6em;
+  }
+
+  .bio, #event-detail  {
     width: 250px;
   }
 }
 
 @media screen and (max-width: 490px) {
-  .bio {
+  .bio, #event-detail  {
     width: 210px;
   }
 
@@ -609,7 +609,7 @@ option {
   }
 
   .popup-form {
-    padding: 0px 40px !important;
+    padding: 0px 30px !important;
   }
 }
 </style>

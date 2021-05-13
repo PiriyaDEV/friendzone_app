@@ -5,10 +5,12 @@
         <div id="profile-section" class="section">
           <div id="left">
             <div v-if="cancel || (!edit && !save)" id="profile-frame">
-              <img id="profile-pic" :src="showprofile_pic" />
+              <img v-if="findUser == true && dataUser != user.username" id="profile-pic" src="@/assets/icon/icons8-add-image-96.png" />
+              <img v-else id="profile-pic" :src="showprofile_pic" />
             </div>
             <div v-if="!profile_pic && edit" id="profile-frame">
-              <img id="profile-pic" :src="showprofile_pic" />
+              <img v-if="findUser == true && dataUser != user.username" id="profile-pic" src="@/assets/icon/icons8-add-image-96.png" />
+              <img v-else id="profile-pic" :src="showprofile_pic" />
             </div>
             <div v-if="!cancel && profile_pic">
               <img
@@ -30,7 +32,10 @@
 
           <div id="right">
             <div id="username-box">
-              <h1 v-if="!edit" id="name_title">{{ user.username }}</h1>
+              <h1 v-if="!edit" id="name_title">
+                <span v-if="findUser == true && dataUser != user.username">{{ dataUser }}</span>
+                <span v-else>{{ user.username }}</span>
+              </h1>
               <input
                 v-else
                 class="input_username_box"
@@ -44,7 +49,10 @@
             </div>
 
             <div id="bio-mobile">
-              <h1 v-if="!edit" id="bio">{{ user.bio }}</h1>
+              <h1 v-if="!edit" id="bio">
+                <span  v-if="findUser == true && dataUser != user.username">{{ dataUser }} + bio</span>
+                <span v-else>{{ user.bio }}</span>
+              </h1>
               <textarea
                 v-else
                 class="input_bio_box"
@@ -105,11 +113,11 @@
               <!-- Rating -->
 
               <div v-if="demoRole == 1 && !edit" id="switch-button">
-                <button @click="clickDemoAdmin()">Switch to Admin</button>
+                <button v-if="(findUser == true && dataUser == user.username) || findUser == false" @click="clickDemoAdmin()">Switch to Admin</button>
               </div>
 
-              <div v-if="demoRole == 2 && !edit" id="switch-button">
-                <button @click="clickDemoAdmin()">Switch to User</button>
+              <div v-if="demoRole == 2 && !edit && dataUser != user.username" id="switch-button">
+                <button v-if="(findUser == true && dataUser == user.username) || findUser == false" @click="clickDemoAdmin()">Switch to User</button>
               </div>
             </div>
 
@@ -117,19 +125,23 @@
             <div id="follower-section">
               <div id="follower">
                 <div class="verticle-box">
-                  <h1 class="number-box">2</h1>
+                  <h1 v-if="findUser == true && dataUser != user.username" class="number-box">10</h1>
+                  <h1 v-else class="number-box">2</h1>
                   <h1 class="title-box">Host</h1>
                 </div>
                 <div class="verticle-box">
-                  <h1 class="number-box">5</h1>
+                  <h1 v-if="findUser == true && dataUser != user.username" class="number-box">10</h1>
+                  <h1 v-else class="number-box">2</h1>
                   <h1 class="title-box">Joined</h1>
                 </div>
                 <div class="verticle-box">
-                  <h1 class="number-box">12</h1>
+                  <h1 v-if="findUser == true && dataUser != user.username" class="number-box">1000</h1>
+                  <h1 v-else class="number-box">2</h1>
                   <h1 class="title-box">Follower</h1>
                 </div>
                 <div class="verticle-box">
-                  <h1 class="number-box">17</h1>
+                  <h1 v-if="findUser == true && dataUser != user.username" class="number-box">1000</h1>
+                  <h1 v-else class="number-box">2</h1>
                   <h1 class="title-box">Following</h1>
                 </div>
               </div>
@@ -137,7 +149,10 @@
             <!-- Follower -->
 
             <div id="bio-default">
-              <h1 v-if="!edit" id="bio">{{ user.bio }}</h1>
+              <h1 v-if="!edit" id="bio">
+                <span  v-if="findUser == true && dataUser != user.username">{{ dataUser }} + bio</span>
+                <span v-else>{{ user.bio }}</span>
+              </h1>
               <textarea
                 v-else
                 class="input_bio_box"
@@ -153,13 +168,13 @@
 
             <div id="profile-button-section">
               <div id="profile-button">
-                <div>
+                <div  v-if="(findUser == true && dataUser == user.username) || findUser == false">
                   <button @click="clickEdit()">EDIT PROFILE</button>
                 </div>
-                <div>
+                <div  v-if="(findUser == true && dataUser == user.username) || findUser == false"> 
                   <button @click="clickInterest()">INTERESTED</button>
                 </div>
-                <div>
+                <div  v-if="(findUser == true && dataUser == user.username) || findUser == false">
                   <button @click="clickPassword()">CHANGE PASSWORD</button>
                 </div>
               </div>
@@ -176,6 +191,8 @@
             :edit="edit"
             :user="user"
             :role="demoRole"
+            :findUser="findUser"
+            :dataUser="dataUser"
             @saveUser="saveUser"
           />
           <ProfileInterest

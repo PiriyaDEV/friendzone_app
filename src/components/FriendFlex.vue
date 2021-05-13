@@ -3,50 +3,91 @@
     <div id="top">
       <div>
         <div id="profile-frame">
-          <img id="profile-pic" :src="user.profile_pic" />
+           <img id="profile-pic" :src="profile_pic" />
         </div>
       </div>
       <div id="right">
-        <h1 id="name_title">{{ user.username }}</h1>
+        <h1 id="name_title">{{ searchUser.username }}</h1>
 
         <!-- Rating -->
         <div id="rating">
           <h2 class="black-color input_title">Rating</h2>
           <div style="margin-left: 5px" class="section">
             <!-- Star -->
-            <div>
-              <!-- <img class="star" src="@/assets/icon/icons8-star-96.png" /> -->
-              <img class="star" src="@/assets/icon/icons8-star-96-orange.png" />
-            </div>
-            <!-- Star -->
+                <div>
+                  <img
+                    v-if="showRating[0]"
+                    class="star"
+                    src="@/assets/icon/icons8-star-96-orange.png"
+                  />
+                  <img
+                    v-else
+                    class="star"
+                    src="@/assets/icon/icons8-star-96.png"
+                  />
+                </div>
+                <!-- Star -->
 
-            <!-- Star -->
-            <div>
-              <img class="star" src="@/assets/icon/icons8-star-96.png" />
-              <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
-            </div>
-            <!-- Star -->
+                <!-- Star -->
+                <div>
+                  <img
+                    v-if="showRating[1]"
+                    class="star"
+                    src="@/assets/icon/icons8-star-96-orange.png"
+                  />
+                  <img
+                    v-else
+                    class="star"
+                    src="@/assets/icon/icons8-star-96.png"
+                  />
+                </div>
+                <!-- Star -->
 
-            <!-- Star -->
-            <div>
-              <img class="star" src="@/assets/icon/icons8-star-96.png" />
-              <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
-            </div>
-            <!-- Star -->
+                <!-- Star -->
+                <div>
+                  <img
+                    v-if="showRating[2]"
+                    class="star"
+                    src="@/assets/icon/icons8-star-96-orange.png"
+                  />
+                  <img
+                    v-else
+                    class="star"
+                    src="@/assets/icon/icons8-star-96.png"
+                  />
+                </div>
+                <!-- Star -->
 
-            <!-- Star -->
-            <div>
-              <img class="star" src="@/assets/icon/icons8-star-96.png" />
-              <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
-            </div>
-            <!-- Star -->
+                <!-- Star -->
+                <div>
+                  <img
+                    v-if="showRating[3]"
+                    class="star"
+                    src="@/assets/icon/icons8-star-96-orange.png"
+                  />
+                  <img
+                    v-else
+                    class="star"
+                    src="@/assets/icon/icons8-star-96.png"
+                  />
+                </div>
 
-            <!-- Star -->
-            <div>
-              <img class="star" src="@/assets/icon/icons8-star-96.png" />
-              <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
-            </div>
-            <!-- Star -->
+                <!-- Star -->
+
+                <!-- Star -->
+                <div>
+                  <img
+                    v-if="showRating[4]"
+                    class="star"
+                    src="@/assets/icon/icons8-star-96-orange.png"
+                  />
+                  <img
+                    v-else
+                    class="star"
+                    src="@/assets/icon/icons8-star-96.png"
+                  />
+                </div>
+                <!-- Star -->
           </div>
         </div>
         <!-- Rating -->
@@ -55,23 +96,23 @@
 
     <div id="follower">
       <div class="follower-text">
-        <h1>2</h1>
+        <h1>{{searchUser.host}}</h1>
         <h2>Host</h2>
       </div>
       <div class="follower-text">
-        <h1>2</h1>
+        <h1>{{searchUser.Follower}}</h1>
         <h2>Follower</h2>
       </div>
       <div class="follower-text">
-        <h1>2</h1>
+        <h1>{{searchUser.Following}}</h1>
         <h2>Following</h2>
       </div>
     </div>
 
     <div>
       <h1 id="bio">
-        My name is Harryfer and I’m the best boyscout alive. I’m Thailand
-        representative to attend World Boyscout 2077 in Finland.
+        <span v-if="this.searchUser.bio != null">{{searchUser.bio}}</span>
+        <span v-else id="no-bio">No bio. Follow this user to know them more</span>
       </h1>
     </div>
 
@@ -86,34 +127,26 @@
 </template>
 
 <script>
-import User from "./../models/user";
-import UserService from "./../services/user.service";
+import User from "../models/user";
+
+
 export default {
+  props:["searchUser"],
   data() {
     return {
-      user: new User({
-        username: "",
-        email: "",
-        firstname: "",
-        lastname: "",
-        phone: "",
-        gender: "",
-        profile_pic: "",
-        birthdate: "",
-        bio: ""
-      }),
-      fullname: "",
-      following: false
+      showRating: [false, false, false, false, false],
+      user: new User(""),
+      following: false,
+      profile_pic: ""
     };
   },
   created() {
-    UserService.getUserDetail().then((res) => {
-      if (res) {
-        this.user = res;
-        console.log(this.user.bio);
-        this.fullname = this.user.firstname + " " + this.user.lastname;
-      }
-    });
+    if (this.searchUser.rating > 0) {
+      this.showRating.fill(true, 0, this.searchUser.rating.toFixed(0));
+    } else {
+      this.showRating.fill(true, 0, 5);
+    }
+    this.profile_pic = "http://localhost:8080/api/user/displayPic/" + this.searchUser.user_id
   }
 };
 </script>
@@ -123,6 +156,7 @@ export default {
   background-color: white;
   border-radius: 17px;
   width: 214px;
+  /* height: 250px; */
   max-height: 250px;
   margin-right: 20px;
   margin-bottom: 20px;
@@ -201,6 +235,11 @@ h2 {
   padding: 0px 5px;
   font-weight: 400;
   margin: 13px 0px 0px 0px;
+  height:48px;
+}
+
+#no-bio{
+  color: #a0a0a0 !important;
 }
 
 #button {

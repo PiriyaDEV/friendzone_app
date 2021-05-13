@@ -436,10 +436,26 @@ class EventService {
   }
 
   async approving(event_id, host_id, approve) {
+    let userData = decode(localStorage.getItem("user"));
+    let user_id = userData.user_id
     await axios
       .post(
         API_URL + "approving",
-        { event_id, host_id, approve },
+        { event_id, host_id, approve, user_id : user_id},
+        {
+          headers: authHeader()
+        }
+      )
+      .then((res) => {
+        return res.data;
+      });
+  }
+
+  async deleteEvent(event_id) {
+    await axios
+      .post(
+        API_URL + "deleteEvent",
+        {event_id : event_id},
         {
           headers: authHeader()
         }

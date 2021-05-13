@@ -2,7 +2,11 @@
   <div>
     <!-- User -->
     <div v-if="role == 1" id="mainpage">
-      <CreateEvent v-if="createShow == true" @clickCreate="clickCreate" @informationShow="informationShow" />
+      <CreateEvent
+        v-if="createShow == true"
+        @clickCreate="clickCreate"
+        @informationShow="informationShow"
+      />
       <RatePopup
         v-if="rateShow == true"
         @clickShowed="clickShowed"
@@ -32,6 +36,7 @@
       <ManageEvent
         v-if="manageShow == true"
         @clickManage="clickManage"
+        @confirmDelete="confirmDelete"
         :Event="eventData"
         :valueDetail="valueDetail"
         :valueManage="valueManage"
@@ -39,6 +44,7 @@
         :eventPending="eventPending"
         :showEnd="showEnd"
         @updateStatus="updateStatus"
+        @informationShow="informationShow"
       />
       <!-- Mobile Top Bar -->
       <MobileTopbar
@@ -46,10 +52,22 @@
         @clickClearSearch="clickClearSearch"
         @pageReturn="pageReturn"
         @point="point"
+        @notificationShow="notificationShow"
         @clickCreate="clickCreate"
         @clickDetail="clickDetail"
       />
-      <WaitBox v-if="information == true"/>
+      <WaitBox
+        v-if="information == true"
+        :waitShow="waitShow"
+        :confirmDeleteData="confirmDeleteData"
+        @informationShow="informationShow"
+      />
+
+      <Notification
+        v-if="notiShow == true"
+        @notificationShow="notificationShow"
+      />
+
       <!-- Mobile Top Bar -->
       <link
         rel="stylesheet"
@@ -73,6 +91,7 @@
             :clearSearch="clearSearched"
             @clickClearSearch="clickClearSearch"
             @point="point"
+            @notificationShow="notificationShow"
             :demoRole="role"
           />
           <!-- Top Bar -->
@@ -223,6 +242,7 @@ import WaitBox from "@/components/popup/WaitBox.vue";
 import AnalystPage from "@/components/AnalystPage.vue";
 import ApproverPage from "@/components/ApproverPage.vue";
 import PointDetail from "@/components/popup/PointDetail.vue";
+import Notification from "@/components/popup/notification/Notification.vue";
 
 export default {
   name: "mainpage",
@@ -252,7 +272,8 @@ export default {
     WaitBox,
     AnalystPage,
     ApproverPage,
-    PointDetail
+    PointDetail,
+    Notification
   },
   data() {
     return {
@@ -267,6 +288,7 @@ export default {
       discountShow2: false,
       searchBar: "",
       clearSearched: false,
+      confirmDeleteData: null,
       manageShow: false,
       editDatabaseShow: false,
       role: 1,
@@ -283,6 +305,8 @@ export default {
       eventPending: false,
       showEnd: false,
       information: false,
+      waitShow: "",
+      notiShow: false
     };
   },
   computed: {
@@ -304,7 +328,7 @@ export default {
     },
     clickDetail(value) {
       this.detailShow = value;
-      this.findUser = false
+      this.findUser = false;
     },
     clickCreate(value) {
       this.createShow = value;
@@ -388,9 +412,29 @@ export default {
       this.showEnd = value;
       this.eventPending = false;
     },
+    confirmDelete(value) {
+      this.confirmDeleteData = value;
+    },
     informationShow(value) {
       this.information = value;
-      this.createShow = false;
+      if (this.createShow == true) {
+        this.waitShow = "creat";
+      } else if (this.manageShow == true) {
+        if (this.showEnd == true) {
+          this.waitShow = "end";
+        } else {
+          this.waitShow = "delete";
+        }
+      }
+      if (value == false) {
+        this.manageShow = true;
+      } else {
+        this.createShow = false;
+        this.manageShow = false;
+      }
+    },
+    notificationShow(value) {
+      this.notiShow = value;
     }
   }
 };

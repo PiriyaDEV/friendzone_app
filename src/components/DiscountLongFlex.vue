@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="statusYourZone == true" id="discount-flex-box">
+    <div @click="clickDiscount()" id="discount-flex-box" style="cursor: pointer;">
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -13,52 +13,26 @@
 
       <div id="title-section">
         <h1 class="discount-title">
-          FREE popcorn and soft drink FREE popcorn and soft drink
+          This is a fucking new discount title name so why the another page doesn't not update wtf
         </h1>
         <h1 class="discount-description">
-          1 free big popcorn and 1 big glass of soft drink of your selection
+          This is a fucking new discount description name so why the another page doesn't not update wtf
         </h1>
       </div>
-
-      <!-- Button -->
-      <div id="button">
-        <button @click="moreDetail()">MORE DETAIL</button>
-      </div>
-      <!-- Button -->
-    </div>
-
-    <div
-      v-else
-      @click="clickDiscount()"
-      style="cursor:pointer;"
-      id="discount-flex-box"
-    >
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-      />
-
-      <img
-        class="discount-pic"
-        src="https://www-cms.majorcineplex.com/uploads/content/16217/cover_16217.jpg"
-      />
-
-      <div id="title-section">
-        <h1 class="discount-title">
-          FREE popcorn and soft drink FREE popcorn and soft drink
-        </h1>
-        <h1 class="discount-description">
-          1 free big popcorn and 1 big glass of soft drink of your selection
-        </h1>
-      </div>
-
-      <div id="coin-section">
+      
+      <div v-if="statusYourZone != true" id="coin-section">
         <div>
           <img id="coin-icon" src="@/assets/icon/coin.png" />
           <h1 class="coin-title">2500</h1>
         </div>
       </div>
+      <!-- Button -->
+      <div v-else id="button">
+        <button @click="moreDetail()">MORE DETAIL</button>
+      </div>
+      <!-- Button -->
     </div>
+
   </div>
 </template>
 
@@ -67,10 +41,14 @@ export default {
   name: "DiscountLongFlex",
   methods: {
     moreDetail() {
-      this.$emit("discountReturn", true);
+      if(this.statusYourZone == true) {
+        this.$emit("discountReturn", true);
+      }
     },
     clickDiscount() {
-      this.$emit("clickDiscountLongFlex", true);
+      if(!this.statusYourZone) {
+        this.$emit("clickDiscountLongFlex", true);
+      }
     }
   },
   props: ["statusYourZone"]
@@ -91,10 +69,13 @@ export default {
   color: #444444;
   font-size: 1.75em;
   font-weight: 450;
-  /* max-width: 100%;
-  white-space: nowrap;
+  text-overflow: ellipsis;
   overflow: hidden;
-  text-overflow: ellipsis; */
+  width: calc(100% - 30px);
+  line-height: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .discount-description {
@@ -105,10 +86,13 @@ export default {
   margin-bottom: 0px;
   font-size: 1.5em;
   font-weight: 400;
-  /* max-width: 100%;
-  white-space: nowrap;
+  text-overflow: ellipsis;
   overflow: hidden;
-  text-overflow: ellipsis; */
+  width: calc(100% - 30px);
+  line-height: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 #title-section {

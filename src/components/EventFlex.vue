@@ -80,10 +80,7 @@
     <!-- ShowBox -->
     <div v-if="showEventRejected" id="delete-box">
       <h1>
-        YOUR EVENT HAS BEEN REJECTED<i
-          style="margin-left:5px;"
-          class="fa fa-ban"
-        ></i>
+        EVENT HAS REJECTED<i style="margin-left:5px;" class="fa fa-ban"></i>
       </h1>
     </div>
     <!-- ShowBox -->
@@ -142,11 +139,8 @@
         MORE DETAIL
       </button>
       <div>
-        <div
-          v-if="!showPending && !showJoined && !showRejected"
-          id="join-button"
-        >
-          <button @click="joinEvent()">JOIN NOW</button>
+        <div v-if="!showPending && !showJoined && !showRejected">
+          <button :class="cssJoinNow" @click="joinEvent()">JOIN NOW</button>
         </div>
         <div v-if="showPending" class="pending-button">
           <button id="join-pending" @click="cancelRequest()">
@@ -215,6 +209,15 @@ export default {
         return orange;
       }
     },
+    cssJoinNow() {
+      let orange = "join-button";
+      let grey = "join-block";
+      if (this.ongoingEvent) {
+        return grey;
+      } else {
+        return orange;
+      }
+    },
     cssRateEventBtn() {
       let orange = "";
       let grey = "pending-button block";
@@ -264,15 +267,17 @@ export default {
       });
     },
     joinEvent() {
-      EventService.joinEvent(this.event.event_id)
-        .then((res) => {
-          if (res) {
-            this.showPending = true;
-          }
-        })
-        .catch(() => {
-          console.log("Error when joining the event");
-        });
+      if (!this.ongoingEvent) {
+        EventService.joinEvent(this.event.event_id)
+          .then((res) => {
+            if (res) {
+              this.showPending = true;
+            }
+          })
+          .catch(() => {
+            console.log("Error when joining the event");
+          });
+      }
     },
     cancelRequest() {
       EventService.cancelRequest(this.event.event_id)
@@ -538,6 +543,18 @@ export default {
   transition: 0.3s;
 }
 
+.join-block {
+  background-color: #a0a0a0;
+  border: 1.75px solid #a0a0a0;
+  color: #ffffff;
+  font-size: 1em;
+  font-weight: 550;
+  padding: 3px 15px;
+  margin: 0;
+  border-radius: 16px;
+  cursor:default;
+}
+
 #icon-leave {
   display: none;
 }
@@ -587,7 +604,7 @@ export default {
   margin-top: 15px;
 }
 
-#join-button > button {
+.join-button {
   color: #ffffff;
   background-color: #fe8864;
   border: 1.75px solid #ff8864;
