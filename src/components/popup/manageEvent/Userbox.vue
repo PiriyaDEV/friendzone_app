@@ -234,7 +234,7 @@ export default {
           }
         })
         .catch(() => {
-          console.log("Error when approve the event");
+          console.log("Error when approve the request");
         });
     },
     declineRequest() {
@@ -248,7 +248,7 @@ export default {
           }
         })
         .catch(() => {
-          console.log("Error when decline the event");
+          console.log("Error when decline the request");
         });
     },
     addModerator() {

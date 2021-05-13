@@ -74,14 +74,16 @@
 
     <div v-if="!view">
       <div v-if="manageReturn" class="button-section">
-        <button v-if="endShow" class="back_button">End Event</button>
-        <button v-else class="back_button">
+        <button v-if="endShow" @click="deleteClick()" class="back_button">
+          End Event
+        </button>
+        <button v-if="!endShow && event.status_id != 'ST07'" @click="deleteClick()" class="back_button">
           Delete Event
         </button>
-        <button class="create_button" @click="done()">Done</button>
+        <button v-if="event.status_id != 'ST07'" class="create_button" @click="done()">Done</button>
       </div>
       <div id="single-button">
-        <button v-if="detailReturn" class="create_button" @click="done()">
+        <button v-if="detailReturn || event.status_id == 'ST07'" class="create_button" @click="done()">
           Done
         </button>
       </div>
@@ -136,11 +138,18 @@ export default {
         "Sep",
         "Oct",
         "Nov",
-        "Dec"
-      ]
+        "Dec",
+      ],
     };
   },
-  props: ["event", "eventReturn", "manageReturn", "detailReturn", "view","endShow"],
+  props: [
+    "event",
+    "eventReturn",
+    "manageReturn",
+    "detailReturn",
+    "view",
+    "endShow",
+  ],
   created() {
     EventService.getEventGenderList(this.event.event_id).then((res) => {
       if (res) {
@@ -198,18 +207,21 @@ export default {
         if (boolean) {
           this.$emit("updateStatus", {
             event_id: this.event.event_id,
-            status_id: "ST03"
+            status_id: "ST03",
           });
         } else {
           this.$emit("updateStatus", {
             event_id: this.event.event_id,
-            status_id: "ST15"
+            status_id: "ST15",
           });
         }
         this.$emit("doneClick", false);
       });
-    }
-  }
+    },
+    deleteClick() {
+      this.$emit("information", true);
+    },
+  },
 };
 </script>
 
@@ -350,6 +362,11 @@ h1 {
   .create_button,
   .back_button {
     width: 120px !important;
+  }
+
+  .info-text,
+  .info-description {
+    font-size: 1.6em;
   }
 
   #event-image {

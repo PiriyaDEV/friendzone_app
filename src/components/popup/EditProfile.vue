@@ -5,7 +5,8 @@
         <div class="information-box">
           <h1 class="info-title black-color">Name</h1>
           <h1 v-if="!edit" class="info-text">
-            {{ user.firstname }} {{ user.lastname }}
+            <span v-if="findUser == true && dataUser != user.username">{{ dataUser }} {{ dataUser }}</span>
+            <span v-else>{{ user.firstname }} {{ user.lastname }}</span>
           </h1>
           <div v-if="edit" id="name-section">
             <input
@@ -29,7 +30,10 @@
         </div>
         <div v-if="role == 1" class="information-box">
           <h1 class="info-title black-color">Birthdate</h1>
-          <h1 v-if="!edit" class="info-text">{{ user.birthdate }}</h1>
+          <h1 v-if="!edit" class="info-text">
+            <span v-if="findUser == true && dataUser != user.username">{{ dataUser }} 10 12 2000</span>
+            <span v-else>{{ user.birthdate }}</span>
+          </h1>
           <input
             v-if="edit"
             class="input_profile_box disable"
@@ -43,7 +47,10 @@
         </div>
         <div v-if="role == 2" class="information-box">
           <h1 class="info-title black-color">Birthdate</h1>
-          <h1 v-if="!edit" class="info-text">{{ user.birthdate }}</h1>
+          <h1 v-if="!edit" class="info-text">
+            <span v-if="findUser == true && dataUser != user.username">{{ dataUser }} 10 12 2000</span>
+            <span v-else>{{ user.birthdate }}</span>
+          </h1>
           <input
             v-if="edit"
             class="input_profile_box"
@@ -54,7 +61,7 @@
             v-model="user.birthdate"
           />
         </div>
-        <div class="information-box">
+        <div v-if="(findUser == true && dataUser == user.username) || findUser == false" class="information-box">
           <h1 class="info-title black-color">Email</h1>
           <h1 v-if="!edit" class="info-text">{{ user.email }}</h1>
           <input
@@ -67,7 +74,7 @@
             v-model="user.email"
           />
         </div>
-        <div class="information-box">
+        <div v-if="(findUser == true && dataUser == user.username) || findUser == false" class="information-box">
           <h1 class="info-title black-color">Phone</h1>
           <h1 v-if="!edit" class="info-text">{{ user.phone }}</h1>
           <input
@@ -82,7 +89,10 @@
         </div>
         <div v-if="role == 1" class="information-box">
           <h1 class="info-title black-color">Gender</h1>
-          <h1 v-if="!edit" class="info-text">{{ user.gender }}</h1>
+          <h1 v-if="!edit" class="info-text">
+            <span v-if="findUser == true && dataUser != user.username">{{ dataUser }} Male</span>
+            <span v-else>{{ user.gender }}</span>
+          </h1>
           <input
             v-if="edit"
             class="input_profile_box disable"

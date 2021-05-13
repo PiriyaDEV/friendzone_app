@@ -17,19 +17,11 @@
           <h1 @click="clickEventDetail()" :class="cssEventDetail">
             Event Details
           </h1>
-          <h1
-            v-if="!eventPending "
-            @click="clickParticipants()"
-            :class="cssParticipants"
-          >
+          <h1 v-if="!eventPending " @click="clickParticipants()" :class="cssParticipants">
             Participants
           </h1>
-          <h1 v-if="!eventPending && !showEnd" @click="clickRequest()" :class="cssRequest">
-            Request
-          </h1>
-          <h1 v-if="!eventPending && !showEnd" @click="clickInvite()" :class="cssInvite">
-            Invite
-          </h1>
+          <h1 v-if="!eventPending && !showEnd"  @click="clickRequest()" :class="cssRequest">Request</h1>
+          <h1 v-if="!eventPending && !showEnd"  @click="clickInvite()" :class="cssInvite">Invite</h1>
         </div>
         <hr id="bar" />
 
@@ -49,6 +41,7 @@
             v-if="eventDetail == true"
             :event="Event"
             @doneClick="doneClick"
+            @information="information"
             :detailReturn="valueDetail"
             :manageReturn="valueManage"
             :endShow="showEnd"
@@ -84,13 +77,13 @@ export default {
       participants: false,
       request: false,
       invite: false,
-      valueShow: 1
+      valueShow: 1,
     };
   },
-  props: ["Event", "valueDetail", "valueManage", "valueView", "eventPending","showEnd"],
+  props: ["Event", "valueDetail", "valueManage","eventPending","valueView","showEnd"],
   components: {
     EventInfo,
-    Participant
+    Participant,
   },
   methods: {
     cancelManage() {
@@ -127,8 +120,9 @@ export default {
     doneClick(value) {
       this.$emit("clickManage", value);
     },
-    updateStatus(value) {
-      this.$emit("updateStatus", value);
+    information(value) {
+      this.$emit("confirmDelete", {event_id: this.Event.event_id, title: this.Event.title});
+      this.$emit("informationShow",value)
     }
   },
   computed: {
@@ -163,8 +157,8 @@ export default {
         return select;
       }
       return deselect;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -209,6 +203,10 @@ h1 {
     min-width: inherit;
   }
 
+  .popup-form {
+    margin: 50px 20px !important;
+  }
+
   .event-box {
     display: flex;
     justify-content: center;
@@ -226,18 +224,16 @@ h1 {
 }
 
 @media screen and (max-width: 690px) {
+
   #bar {
-    margin-top: -14px;
+    margin-top: -11px;
   }
 }
 
 @media screen and (max-width: 490px) {
   .popup-form {
-    padding: 0px 40px !important;
-  }
-
-  #bar {
-    margin-top: -11px;
+    padding: 0px 30px !important;
+    margin: 50px 10px !important;
   }
 
   .menu-text {

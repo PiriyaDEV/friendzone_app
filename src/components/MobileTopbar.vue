@@ -77,6 +77,7 @@
             src="@/assets/icon/coin.png"
           />
           <img
+            @click="notiClick()"
             id="mail-logo"
             src="@/assets/icon/icons8-important-mail-96@2x.png"
           />
@@ -149,6 +150,7 @@
             src="@/assets/icon/coin.png"
           />
           <img
+            @click="notiClick()"
             id="mail-logo"
             src="@/assets/icon/icons8-important-mail-96@2x.png"
           />
@@ -245,7 +247,11 @@ export default {
     },
     userClick() {
       this.$emit("pageReturnAdmin", 4);
-    }
+    },
+    notiClick() {
+      console.log("test")
+      this.$emit("notificationShow", true);
+    },
   },
   computed: {}
 };

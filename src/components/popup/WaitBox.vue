@@ -2,27 +2,35 @@
   <div id="wait-box" class="popup">
     <div class="popup-section section">
       <div class="popup-form">
-        <h1 class="header_title">WAIT FOR APPROVAL</h1>
-        <!-- <h1 class="header_title">
+        <h1 v-if="waitShow == `create`" class="header_title">
+          WAIT FOR APPROVAL
+        </h1>
+        <h1 v-if="waitShow == `delete`" class="header_title">
           DO YOU WANT TO <br />
           DELETE THIS EVENT?
-        </h1> -->
+        </h1>
+        <h1 v-if="waitShow == `end`" class="header_title">
+          DO YOU WANT TO <br />
+          END THIS EVENT?
+        </h1>
         <div class="section">
-          <h1 id="info">
+          <h1 v-if="waitShow == `create`" id="info">
             Your event is now wait in the lists for approval and the event will
             be post after get approved by approver
           </h1>
-          <!-- <h1 id="event-title">Title : Chai Miang Chiang Mai</h1> -->
+          <h1 v-if="waitShow != `create`" id="event-title">
+            Title : {{ confirmDeleteData.title }}
+          </h1>
         </div>
 
-        <div id="mobile-done" class="section">
-          <button class="back_button" @click="cancel()">Done</button>
+        <div v-if="waitShow == `create`" id="mobile-done" class="section">
+          <button class="back_button" @click="exit()">Done</button>
         </div>
 
-        <!-- <div class="section double-button">
+        <div v-if="waitShow != `create`" class="section double-button">
           <div>
             <div>
-              <button class="create_button" @click="createdReturn()">
+              <button class="create_button" @click="deleteEvent()">
                 Confirm
               </button>
             </div>
@@ -32,10 +40,10 @@
               </button>
             </div>
           </div>
-        </div> -->
+        </div>
 
         <img
-          @click="cancel()"
+          @click="exit()"
           style="cursor: pointer"
           class="close"
           src="@/assets/icon/icons8-multiply-96.png"
@@ -46,10 +54,28 @@
 </template>
 
 <script>
+import EventService from "@/services/event.service";
+
 export default {
+  props: ["waitShow", "confirmDeleteData"],
+  data() {
+    return {};
+  },
   methods: {
+    exit() {
+      this.$router.push("/");
+    },
     cancel() {
-      window.location.href = "/mainpage";
+      this.$emit("informationShow", false);
+    },
+    deleteEvent() {
+      EventService.deleteEvent(this.confirmDeleteData.event_id)
+        .then(() => {
+          this.$router.push("/");
+        })
+        .catch(() => {
+          console.log("Error when delete the event");
+        });
     }
   }
 };
