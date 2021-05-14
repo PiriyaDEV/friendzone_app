@@ -150,11 +150,6 @@
             src="@/assets/icon/coin.png"
           />
           <img
-            @click="notiClick()"
-            id="mail-logo"
-            src="@/assets/icon/icons8-important-mail-96@2x.png"
-          />
-          <img
             @click="detailReturn()"
             id="profile-logo"
             :src="user.profile_pic"

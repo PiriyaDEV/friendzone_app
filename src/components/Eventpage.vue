@@ -3,6 +3,10 @@
     <div v-if="categorySelected == false">
       <h1 id="event-title" class="event-header">SUGGESTED</h1>
 
+      <div>
+        <NoInformation v-if="eventList.length == 0" />
+      </div>
+
       <div id="event-page-section">
         <!-- Event -->
         <div class="event-section">
@@ -15,6 +19,9 @@
                     @thisEvent="thisEvent"
                     :event="event"
                     :eventPage="true"
+                    @pendingClick="pendingClick"
+                    @onEvent="onEvent"
+                    @userProfile="userProfile"
                   />
                 </div>
               </div>
@@ -39,6 +46,7 @@
         @categoryClick="categoryClick"
         @detailReturn="detailReturn"
         @thisEvent="thisEvent"
+        @userProfile="userProfile"
         :nameCategorySelected="nameCategorySelected"
         :idCategorySelected="idCategorySelected"
       ></EventCategory>
@@ -47,6 +55,7 @@
 </template>
 
 <script>
+import NoInformation from "@/components/NoInformation.vue";
 import EventFlex from "@/components/EventFlex.vue";
 import EventCategory from "@/components/EventCategory.vue";
 import CategorySelect from "@/components/category/CategorySelect.vue";
@@ -77,9 +86,13 @@ export default {
   components: {
     EventFlex,
     EventCategory,
-    CategorySelect
+    CategorySelect,
+    NoInformation
   },
   methods: {
+    userProfile(value) {
+      this.$emit("userProfile", value);
+    },
     categoryClick(value) {
       this.categorySelected = value;
     },
@@ -88,6 +101,12 @@ export default {
     },
     nameReturn(value) {
       this.nameCategorySelected = value;
+    },
+    pendingClick(value) {
+      this.$emit("pendingShow", value);
+    },
+    onEvent(value) {
+      this.$emit("onEvent", value);
     },
     getEventList() {
       EventService.getUserCateogryInterestEvent()

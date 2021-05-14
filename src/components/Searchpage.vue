@@ -5,64 +5,81 @@
     </div>
     <div id="flex-section">
       <h1 id="searchtext" class="event-header">
-        {{searchUserList.length + searchEventList.length}} items match your search
+        {{ searchUserList.length + searchEventList.length }} items match your
+        search
         <span class="orange-color">“{{ searchValue }}”</span>
       </h1>
 
       <div id="menu">
-        <h1 @click="friendClick()" :class="cssFriend">FRIENDS ({{searchUserList.length}})</h1>
-        <h1 @click="eventClick()" :class="cssEvent">EVENTS ({{searchEventList.length}})</h1>
+        <h1 @click="friendClick()" :class="cssFriend">
+          FRIENDS ({{ searchUserList.length }})
+        </h1>
+        <h1 @click="eventClick()" :class="cssEvent">
+          EVENTS ({{ searchEventList.length }})
+        </h1>
         <h1 @click="discountClick()" :class="cssDiscount">DISCOUNT (30)</h1>
       </div>
       <hr id="bar" />
 
       <div id="flex-box"></div>
-        <div>
-          <!-- Event -->
-          <div id="container">
+      <div>
+        <!-- Event -->
+        <div id="container">
+          <div
+            @mouseover="hovered = true"
+            @mouseleave="hovered = false"
+            class="search-flex-container"
+          >
             <div
-              @mouseover="hovered = true"
-              @mouseleave="hovered = false"
-              class="search-flex-container"
+              v-if="friendSelect == true"
+              class="list event-flex-wrap-section"
             >
-              <div
-                v-if="friendSelect == true"
-                class="list event-flex-wrap-section"
-              >
-                <div v-for="(searchUser, i) in searchUserList" :key="i">
-                  <FriendFlex :searchUser="searchUser" />
-                </div>
-              </div>
+              <!-- No Information -->
+              <NoInformation v-if="searchUserList.length == 0" />
+              <!-- No Information -->
 
-              <div
-                v-if="eventSelect == true"
-                class="list event-flex-wrap-section"
-              >
-                <div v-for="(event, i) in searchEventList" :key="i">
-                  <EventFlex
-                    :event="event"
-                    @clickRate="clickRate"
-                    @checkRate="checkRate"
-                    @thisEvent="thisEvent"
-                    @manageReturn="manageReturn"
-                    @detailReturn="detailReturn"
-                    @userProfile="userProfile"
-                  />
-                </div>
+              <div v-for="(searchUser, i) in searchUserList" :key="i">
+                <FriendFlex :searchUser="searchUser" @showProfile="showProfile" />
               </div>
+            </div>
 
-              <div
-                v-if="discountSelect == true"
-                class="list event-flex-wrap-section"
-              >
-                <div v-for="(item, i) in eventList" :key="i">
-                  <DiscountLongFlex />
-                </div>
+            <div
+              v-if="eventSelect == true"
+              class="list event-flex-wrap-section"
+            >
+              <!-- No Information -->
+              <NoInformation v-if="searchEventList.length == 0" />
+              <!-- No Information -->
+
+              <div v-for="(event, i) in searchEventList" :key="i">
+                <EventFlex
+                  :event="event"
+                  @clickRate="clickRate"
+                  @checkRate="checkRate"
+                  @thisEvent="thisEvent"
+                  @manageReturn="manageReturn"
+                  @detailReturn="detailReturn"
+                  @showProfile="showProfile"
+                />
+              </div>
+            </div>
+
+            <div
+              v-if="discountSelect == true"
+              class="list event-flex-wrap-section"
+            >
+              <!-- No Information -->
+              <NoInformation v-if="eventList.length == 0" />
+              <!-- No Information -->
+
+              <div v-for="(item, i) in eventList" :key="i">
+                <DiscountLongFlex />
               </div>
             </div>
           </div>
-          <!-- Event -->
         </div>
+        <!-- Event -->
+      </div>
     </div>
     <div id="filterbar">
       <Filterbar></Filterbar>
@@ -76,8 +93,8 @@ import Filterbar from "@/components/Filterbar.vue";
 import EventFlex from "@/components/EventFlex.vue";
 import FriendFlex from "@/components/FriendFlex.vue";
 import DiscountLongFlex from "@/components/DiscountLongFlex.vue";
-import Search from "../models/search";
 import SearchService from "../services/search.service";
+import NoInformation from "@/components/NoInformation.vue";
 
 export default {
   props: ["searchValue"],
@@ -88,24 +105,27 @@ export default {
       discountSelect: false,
       hovered: false,
       selected: "all",
-      searchUserList: new Search.User(""),
-      searchEventList: new Search.Event(""),
+      searchUserList: [],
+      searchEventList: []
     };
   },
   created() {
-    this.functionGetApi(this.searchValue)
+    this.functionGetApi(this.searchValue);
   },
   components: {
     Filterbar,
     DiscountLongFlex,
     EventFlex,
     FriendFlex,
+    NoInformation,
     MobileFilter
   },
   watch: {
     searchValue: function(searchValue) {
-      this.functionGetApi(searchValue)
-    },
+      this.searchUserList = [];
+      this.searchEventList = [];
+      this.functionGetApi(searchValue);
+    }
   },
   methods: {
     friendClick() {
@@ -123,18 +143,30 @@ export default {
       this.eventSelect = false;
       this.discountSelect = true;
     },
+    showProfile(value) {
+      console.log(value)
+      this.$emit("userProfile",value)
+    },
     functionGetApi(value) {
-      SearchService.getSearchUser(value).then((res) => {
-      if (res) {
-        this.searchUserList = res;
-      }
-    });
+      SearchService.getSearchUser(value)
+        .then((res) => {
+          if (res) {
+            this.searchUserList = res;
+          }
+        })
+        .catch(() => {
+          this.searchUserList = [];
+        });
 
-    SearchService.getSearchEvent(value).then((res) => {
-      if (res) {
-        this.searchEventList = res;
-      }
-    });
+      SearchService.getSearchEvent(value)
+        .then((res) => {
+          if (res) {
+            this.searchEventList = res;
+          }
+        })
+        .catch(() => {
+          this.searchEventList = [];
+        });
     }
   },
   computed: {

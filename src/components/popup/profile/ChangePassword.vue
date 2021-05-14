@@ -9,7 +9,7 @@
             <h2 class="input_title">Old Password</h2>
             <div id="password_box">
               <input
-                v-model="password"
+                v-model="passwordOld"
                 class="input_box"
                 :type="passwordFieldType"
                 maxlength="36"
@@ -32,8 +32,8 @@
                 />
               </div>
             </div>
-            <h3 v-if="invalidPassword === true" class="invalid">
-              * {{ alertPassword }}
+            <h3 v-if="invalidPasswordOld === true" class="invalid">
+              * {{ alertPasswordOld }}
             </h3>
           </div>
           <!-- Input -->
@@ -43,7 +43,7 @@
             <h2 class="input_title">New Password</h2>
             <div id="password_box">
               <input
-                v-model="password"
+                v-model="passwordNew"
                 class="input_box"
                 :type="passwordFieldType"
                 maxlength="36"
@@ -66,8 +66,8 @@
                 />
               </div>
             </div>
-            <h3 v-if="invalidPassword === true" class="invalid">
-              * {{ alertPassword }}
+            <h3 v-if="invalidPasswordNew === true" class="invalid">
+              * {{ alertPasswordNew }}
             </h3>
           </div>
           <!-- Input -->
@@ -111,22 +111,106 @@
 
     <div class="button-section">
       <button class="back_button" @click="back()">Cancel</button>
-      <button class="create_button">Save</button>
+      <button class="create_button" @click="save()">Save</button>
     </div>
   </div>
 </template>
 
 <script>
+import UserService from "@/services/user.service";
+
 export default {
   data() {
     return {
+      passwordOld: "",
+      passwordNew: "",
+      passwordConfirm: "",
       eye: true,
-      passwordFieldType: "password"
+      passwordFieldType: "password",
+      invalidPasswordOld: false,
+      alertPasswordOld: "",
+      invalidPasswordNew: false,
+      alertPasswordNew: "",
+      invalidPasswordConfirm: false,
+      alertPasswordConfirm: ""
     };
+  },
+  watch: {
+    passwordOld: function() {
+      this.invalidPasswordOld = false;
+    },
+    passwordNew: function() {
+      this.invalidPasswordNew = false;
+      if (this.passwordNew.length < 8) {
+        this.invalidPasswordNew = true;
+        this.alertPasswordNew = "password must have at least 8 characters";
+      } else if (!/\d/.test(this.passwordNew)) {
+        this.invalidPasswordNew = true;
+        this.alertPasswordNew = "password must have at least 1 number";
+      } else if (!/[a-z]/.test(this.passwordNew)) {
+        this.invalidPasswordNew = true;
+        this.alertPasswordNew = "password must have at least 1 lowercase";
+      } else if (!/[A-Z]/.test(this.passwordNew)) {
+        this.invalidPasswordNew = true;
+        this.alertPasswordNew = "password must have at least 1 uppercase";
+      } else if (!/[^A-Za-z0-9]/.test(this.passwordNew)) {
+        this.invalidPasswordNew = true;
+        this.alertPasswordNew =
+          "password must have at least 1 special characters";
+      }
+      if (!this.passwordNew) this.invalidPasswordNew = false;
+    },
+    passwordConfirm: function() {
+      this.invalidPasswordConfirm = false;
+      if (this.passwordNew != this.passwordConfirm) {
+        this.invalidPasswordConfirm = true;
+        this.alertPasswordConfirm = "password does not match";
+      }
+      if (!this.passwordConfirm) this.invalidPasswordConfirm = false;
+    }
   },
   methods: {
     back() {
       this.$emit("showBack", false);
+    },
+    switchVisibility() {
+      this.passwordFieldType =
+        this.passwordFieldType === "password" ? "text" : "password";
+    },
+    save() {
+      if (!this.passwordOld) {
+        this.invalidPasswordOld = true;
+        this.alertPasswordOld = "old password required";
+      }
+      if (!this.passwordNew) {
+        this.invalidPasswordNew = true;
+        this.alertPasswordNew = "new password required";
+      }
+      if (!this.passwordConfirm) {
+        this.invalidPasswordConfirm = true;
+        this.alertPasswordConfirm = "confirm password required";
+      }
+      if (
+        !this.invalidPasswordOld &&
+        !this.invalidPasswordNew &&
+        !this.invalidPasswordConfirm
+      ) {
+        UserService.changePassword({
+          oldPassword: this.passwordOld,
+          newPassword: this.passwordNew
+        })
+          .then((res) => {
+            if (res.message == "Password Changed!")
+              this.$emit("showBack", false);
+            else if (res.message == "Invalid Password!") {
+              this.invalidPasswordOld = true;
+              this.alertPasswordOld = "invalid password";
+            }
+          })
+          .catch(() => {
+            console.log("Error when change new password");
+          });
+      }
     }
   }
 };
@@ -147,6 +231,14 @@ export default {
   margin: 0px;
   color: #444444;
   text-align: center;
+}
+
+.invalid {
+  margin: -1px 0px 0px 0px;
+  padding: 0;
+  font-size: 1.5em;
+  color: #ff8864;
+  font-weight: 300;
 }
 
 .back_button,

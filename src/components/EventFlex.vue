@@ -258,6 +258,11 @@ export default {
     moreDetailReturn() {
       this.$emit("detailReturn", true);
       this.$emit("thisEvent", this.event);
+      if (!this.approveEvent) {
+        this.$emit("pendingClick", true);
+      } else {
+        this.$emit("onEvent", this.ongoingEvent);
+      }
     },
     interestEvent() {
       this.event.interest = !this.event.interest;
@@ -552,7 +557,7 @@ export default {
   padding: 3px 15px;
   margin: 0;
   border-radius: 16px;
-  cursor:default;
+  cursor: default;
 }
 
 #icon-leave {

@@ -6,20 +6,21 @@ import AuthService from "./auth.service";
 const API_URL = "http://localhost:8080/api/user/";
 
 class UserService {
-  changePassword(id, oldPassword, newPassword) {
-    return axios
-      .post(
-        API_URL + "changePassword",
-        {
-          id: id,
-          oldPassword: oldPassword,
-          newPassword: newPassword
-        },
-        { headers: authHeader() }
-      )
-      .then((response) => {
-        return response.data;
-      });
+  async changePassword(data) {
+    let userData = decode(localStorage.getItem("user"));
+    let res = await axios.post(
+      API_URL + "changePassword",
+      {
+        user_id: userData.user_id,
+        oldPassword: data.oldPassword,
+        newPassword: data.newPassword
+      },
+      {
+        headers: authHeader()
+      }
+    );
+
+    return await res.data;
   }
 
   editUser(user) {
@@ -104,6 +105,26 @@ class UserService {
     });
     res.data.profile_pic = API_URL + "displayPic/" + user.user_id;
     return res.data;
+  }
+
+  async following(following_id) {
+    let user = decode(localStorage.getItem("user"));
+    const res = await axios.post(API_URL + "following/", {
+      follower_id: user.user_id,
+      following_id: following_id
+    });
+
+    return await res.data;
+  }
+
+  async unFollowing(following_id) {
+    let user = decode(localStorage.getItem("user"));
+    const res = await axios.post(API_URL + "unfollowing/", {
+      follower_id: user.user_id,
+      following_id: following_id
+    });
+
+    return await res.data;
   }
 }
 

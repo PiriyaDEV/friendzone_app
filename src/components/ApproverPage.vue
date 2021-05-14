@@ -8,6 +8,7 @@
           <option value="pending">Pending</option>
           <option value="approved">Approved</option>
           <option value="disapproved">Disapproved</option>
+          <option value="deleted">Deleted</option>
         </select>
       </div>
 
@@ -18,7 +19,7 @@
       </div>
     </div>
 
-    <div id="approver-menu">
+    <div v-if="eventListShow.length" id="approver-menu">
       <div id="approver-middle-menu">
         <h1 id="menu-text-id" class="menu-text">ID</h1>
         <h1 class="menu-text">TITLE</h1>
@@ -28,6 +29,10 @@
         <h1 class="menu-text">STATUS</h1>
       </div>
       <div id="space-button"></div>
+    </div>
+
+    <div>
+      <NoInformation v-if="eventListShow.length == 0" />
     </div>
 
     <div id="report-box">
@@ -45,6 +50,7 @@
 </template>
 
 <script>
+import NoInformation from "@/components/NoInformation.vue";
 import ReportBox from "@/components/admin/report/ReportBox.vue";
 import EventService from "../services/event.service";
 
@@ -85,6 +91,10 @@ export default {
         this.eventListShow = this.eventList.filter((event) => {
           return event.status_id == "ST15";
         });
+      } else if (this.filter == "deleted") {
+        this.eventListShow = this.eventList.filter((event) => {
+          return event.status_id == "ST07";
+        });
       }
     }
   },
@@ -110,7 +120,8 @@ export default {
     });
   },
   components: {
-    ReportBox
+    ReportBox,
+    NoInformation
   },
   methods: {
     viewReturn(value) {

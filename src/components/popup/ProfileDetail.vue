@@ -5,11 +5,19 @@
         <div id="profile-section" class="section">
           <div id="left">
             <div v-if="cancel || (!edit && !save)" id="profile-frame">
-              <img v-if="findUser == true && dataUser != user.username" id="profile-pic" src="@/assets/icon/icons8-add-image-96.png" />
+              <img
+                v-if="findUser == true && dataUser != user.username"
+                id="profile-pic"
+                :src="profile_User"
+              />
               <img v-else id="profile-pic" :src="showprofile_pic" />
             </div>
             <div v-if="!profile_pic && edit" id="profile-frame">
-              <img v-if="findUser == true && dataUser != user.username" id="profile-pic" src="@/assets/icon/icons8-add-image-96.png" />
+              <img
+                v-if="findUser == true && dataUser != user.username"
+                id="profile-pic"
+                :src="profile_User"
+              />
               <img v-else id="profile-pic" :src="showprofile_pic" />
             </div>
             <div v-if="!cancel && profile_pic">
@@ -29,11 +37,12 @@
               </Upload>
             </div>
           </div>
-
           <div id="right">
             <div id="username-box">
               <h1 v-if="!edit" id="name_title">
-                <span v-if="findUser == true && dataUser != user.username">{{ dataUser }}</span>
+                <span v-if="findUser == true && dataUser != user.username">{{
+                  dataUser
+                }}</span>
                 <span v-else>{{ user.username }}</span>
               </h1>
               <input
@@ -50,7 +59,9 @@
 
             <div id="bio-mobile">
               <h1 v-if="!edit" id="bio">
-                <span  v-if="findUser == true && dataUser != user.username">{{ dataUser }} + bio</span>
+                <span v-if="findUser == true && dataUser != user.username">{{
+                  searchUserList.bio
+                }}</span>
                 <span v-else>{{ user.bio }}</span>
               </h1>
               <textarea
@@ -73,51 +84,107 @@
                 <div style="margin-left: 5px" class="section">
                   <!-- Star -->
                   <div>
-                    <!-- <img class="star" src="@/assets/icon/icons8-star-96.png" /> -->
                     <img
+                      v-if="showRating[0]"
                       class="star"
                       src="@/assets/icon/icons8-star-96-orange.png"
+                    />
+                    <img
+                      v-else
+                      class="star"
+                      src="@/assets/icon/icons8-star-96.png"
                     />
                   </div>
                   <!-- Star -->
 
                   <!-- Star -->
                   <div>
-                    <img class="star" src="@/assets/icon/icons8-star-96.png" />
-                    <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
+                    <img
+                      v-if="showRating[1]"
+                      class="star"
+                      src="@/assets/icon/icons8-star-96-orange.png"
+                    />
+                    <img
+                      v-else
+                      class="star"
+                      src="@/assets/icon/icons8-star-96.png"
+                    />
                   </div>
                   <!-- Star -->
 
                   <!-- Star -->
                   <div>
-                    <img class="star" src="@/assets/icon/icons8-star-96.png" />
-                    <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
+                    <img
+                      v-if="showRating[2]"
+                      class="star"
+                      src="@/assets/icon/icons8-star-96-orange.png"
+                    />
+                    <img
+                      v-else
+                      class="star"
+                      src="@/assets/icon/icons8-star-96.png"
+                    />
                   </div>
                   <!-- Star -->
 
                   <!-- Star -->
                   <div>
-                    <img class="star" src="@/assets/icon/icons8-star-96.png" />
-                    <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
+                    <img
+                      v-if="showRating[3]"
+                      class="star"
+                      src="@/assets/icon/icons8-star-96-orange.png"
+                    />
+                    <img
+                      v-else
+                      class="star"
+                      src="@/assets/icon/icons8-star-96.png"
+                    />
                   </div>
+
                   <!-- Star -->
 
                   <!-- Star -->
                   <div>
-                    <img class="star" src="@/assets/icon/icons8-star-96.png" />
-                    <!-- <img class="star" src="@/assets/icon/icons8-star-96-orange.png" /> -->
+                    <img
+                      v-if="showRating[4]"
+                      class="star"
+                      src="@/assets/icon/icons8-star-96-orange.png"
+                    />
+                    <img
+                      v-else
+                      class="star"
+                      src="@/assets/icon/icons8-star-96.png"
+                    />
                   </div>
                   <!-- Star -->
                 </div>
               </div>
               <!-- Rating -->
-
               <div v-if="demoRole == 1 && !edit" id="switch-button">
-                <button v-if="(findUser == true && dataUser == user.username) || findUser == false" @click="clickDemoAdmin()">Switch to Admin</button>
+                <button
+                  v-if="
+                    (findUser == true && dataUser == user.username) ||
+                      findUser == false
+                  "
+                  @click="clickDemoAdmin()"
+                >
+                  Switch to Admin
+                </button>
               </div>
 
-              <div v-if="demoRole == 2 && !edit && dataUser != user.username" id="switch-button">
-                <button v-if="(findUser == true && dataUser == user.username) || findUser == false" @click="clickDemoAdmin()">Switch to User</button>
+              <div
+                v-if="demoRole == 2 && !edit && dataUser != user.username"
+                id="switch-button"
+              >
+                <button
+                  v-if="
+                    (findUser == true && dataUser == user.username) ||
+                      findUser == false
+                  "
+                  @click="clickDemoAdmin()"
+                >
+                  Switch to User
+                </button>
               </div>
             </div>
 
@@ -125,23 +192,43 @@
             <div id="follower-section">
               <div id="follower">
                 <div class="verticle-box">
-                  <h1 v-if="findUser == true && dataUser != user.username" class="number-box">10</h1>
-                  <h1 v-else class="number-box">2</h1>
+                  <h1
+                    v-if="findUser == true && dataUser != user.username"
+                    class="number-box"
+                  >
+                    {{ searchUserList.host }}
+                  </h1>
+                  <h1 v-else class="number-box">{{ user.host }}</h1>
                   <h1 class="title-box">Host</h1>
                 </div>
                 <div class="verticle-box">
-                  <h1 v-if="findUser == true && dataUser != user.username" class="number-box">10</h1>
-                  <h1 v-else class="number-box">2</h1>
+                  <h1
+                    v-if="findUser == true && dataUser != user.username"
+                    class="number-box"
+                  >
+                    {{ searchUserList.joined }}
+                  </h1>
+                  <h1 v-else class="number-box">{{ user.joined }}</h1>
                   <h1 class="title-box">Joined</h1>
                 </div>
                 <div class="verticle-box">
-                  <h1 v-if="findUser == true && dataUser != user.username" class="number-box">1000</h1>
-                  <h1 v-else class="number-box">2</h1>
+                  <h1
+                    v-if="findUser == true && dataUser != user.username"
+                    class="number-box"
+                  >
+                    {{ searchUserList.follower }}
+                  </h1>
+                  <h1 v-else class="number-box">{{ user.follower }}</h1>
                   <h1 class="title-box">Follower</h1>
                 </div>
                 <div class="verticle-box">
-                  <h1 v-if="findUser == true && dataUser != user.username" class="number-box">1000</h1>
-                  <h1 v-else class="number-box">2</h1>
+                  <h1
+                    v-if="findUser == true && dataUser != user.username"
+                    class="number-box"
+                  >
+                    {{ searchUserList.following }}
+                  </h1>
+                  <h1 v-else class="number-box">{{ user.following }}</h1>
                   <h1 class="title-box">Following</h1>
                 </div>
               </div>
@@ -150,7 +237,9 @@
 
             <div id="bio-default">
               <h1 v-if="!edit" id="bio">
-                <span  v-if="findUser == true && dataUser != user.username">{{ dataUser }} + bio</span>
+                <span v-if="findUser == true && dataUser != user.username">{{
+                  searchUserList.bio
+                }}</span>
                 <span v-else>{{ user.bio }}</span>
               </h1>
               <textarea
@@ -165,23 +254,43 @@
               >
               </textarea>
             </div>
-
             <div id="profile-button-section">
               <div id="profile-button">
-                <div  v-if="(findUser == true && dataUser == user.username) || findUser == false">
+                <div
+                  v-if="
+                    (findUser == true && dataUser == user.username) ||
+                      findUser == false
+                  "
+                >
                   <button @click="clickEdit()">EDIT PROFILE</button>
                 </div>
-                <div  v-if="(findUser == true && dataUser == user.username) || findUser == false"> 
+                <div
+                  v-if="
+                    (findUser == true && dataUser == user.username) ||
+                      findUser == false
+                  "
+                >
                   <button @click="clickInterest()">INTERESTED</button>
                 </div>
-                <div  v-if="(findUser == true && dataUser == user.username) || findUser == false">
+                <div
+                  v-if="
+                    (findUser == true && dataUser == user.username) ||
+                      findUser == false
+                  "
+                >
                   <button @click="clickPassword()">CHANGE PASSWORD</button>
+                </div>
+                <div
+                  id="follow_button_section"
+                  v-if="findUser == true && dataUser !== user.username"
+                >
+                  <button id="follow_button" @click="toFollow">FOLLOW</button>
+                  <!-- <button @click="clickPassword()">FOLLOWING</button> -->
                 </div>
               </div>
             </div>
           </div>
         </div>
-
         <div id="middle">
           <EditProfile
             v-if="interestShow == false && changePassword == false"
@@ -193,8 +302,10 @@
             :role="demoRole"
             :findUser="findUser"
             :dataUser="dataUser"
+            :userList="searchUserList"
             @saveUser="saveUser"
           />
+
           <ProfileInterest
             v-if="interestShow == true"
             @showBack="showBack"
@@ -220,6 +331,7 @@ import ChangePassword from "@/components/popup/profile/ChangePassword.vue";
 import EditProfile from "@/components/popup/EditProfile.vue";
 import UserService from "./../../services/user.service";
 import Upload from "./../../components/UploadPic.vue";
+import SearchService from "./../../services/search.service";
 
 export default {
   data() {
@@ -229,6 +341,7 @@ export default {
       profile_pic: "",
       username: "",
       bio: "",
+      showRating: [false, false, false, false, false],
       cancel: false,
       months: [
         "January",
@@ -247,7 +360,9 @@ export default {
       edit: false,
       save: false,
       interestShow: false,
-      changePassword: false
+      changePassword: false,
+      searchUserList: [],
+      profile_User: ""
     };
   },
   props: ["demoRole", "findUser", "dataUser"],
@@ -269,6 +384,20 @@ export default {
         let month = birthdate.getMonth();
         let year = birthdate.getFullYear();
         this.user.birthdate = `${date} ${this.months[month]} ${year}`;
+        if (this.findUser == true) {
+          if (this.dataUser == this.user.username) {
+            console.log("sameUser");
+          } else {
+            this.functionGetApi(this.dataUser);
+          }
+        }
+        if (!this.findUser || this.dataUser == this.user.username) {
+          if (this.user.rating > 0) {
+            this.showRating.fill(true, 0, this.user.rating.toFixed(0));
+          } else {
+            this.showRating.fill(true, 0, 5);
+          }
+        }
       }
     });
   },
@@ -324,6 +453,33 @@ export default {
           });
         }
       });
+    },
+    functionGetApi(value) {
+      SearchService.getSearchUser(value)
+        .then((res) => {
+          if (res) {
+            this.searchUserList = res[0];
+            this.profile_User =
+              "http://localhost:8080/api/user/displayPic/" + res[0].user_id;
+            if (this.searchUserList.rating > 0) {
+              this.showRating.fill(
+                true,
+                0,
+                this.searchUserList.rating.toFixed(0)
+              );
+            } else {
+              this.showRating.fill(true, 0, 5);
+            }
+          }
+        })
+        .catch(() => {
+          this.searchUserList = [];
+        });
+    },
+    toFollow() {
+      UserService.following(this.searchUserList.user_id).then((res) => {
+        if (res.status == 200) console.log("send!");
+      });
     }
   }
 };
@@ -337,6 +493,10 @@ export default {
 #right {
   margin-left: 20px;
   min-width: 260px;
+}
+
+#middle {
+  margin-bottom: 15px;
 }
 
 #follower {
@@ -375,6 +535,22 @@ export default {
   font-weight: 700;
   padding-top: 25px;
   margin: 0;
+}
+
+#follow_button_section {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+#follow_button_section > button {
+  width: 150px !important;
+}
+
+#follow_button {
+  color: #ffffff !important;
+  border: 2px solid #ff8864 !important;
+  background-color: #ff8864 !important;
 }
 
 #bio {

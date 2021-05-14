@@ -3,7 +3,7 @@
     <div id="top">
       <div>
         <div id="profile-frame">
-           <img id="profile-pic" :src="profile_pic" />
+          <img id="profile-pic" :src="profile_pic" />
         </div>
       </div>
       <div id="right">
@@ -14,80 +14,60 @@
           <h2 class="black-color input_title">Rating</h2>
           <div style="margin-left: 5px" class="section">
             <!-- Star -->
-                <div>
-                  <img
-                    v-if="showRating[0]"
-                    class="star"
-                    src="@/assets/icon/icons8-star-96-orange.png"
-                  />
-                  <img
-                    v-else
-                    class="star"
-                    src="@/assets/icon/icons8-star-96.png"
-                  />
-                </div>
-                <!-- Star -->
+            <div>
+              <img
+                v-if="showRating[0]"
+                class="star"
+                src="@/assets/icon/icons8-star-96-orange.png"
+              />
+              <img v-else class="star" src="@/assets/icon/icons8-star-96.png" />
+            </div>
+            <!-- Star -->
 
-                <!-- Star -->
-                <div>
-                  <img
-                    v-if="showRating[1]"
-                    class="star"
-                    src="@/assets/icon/icons8-star-96-orange.png"
-                  />
-                  <img
-                    v-else
-                    class="star"
-                    src="@/assets/icon/icons8-star-96.png"
-                  />
-                </div>
-                <!-- Star -->
+            <!-- Star -->
+            <div>
+              <img
+                v-if="showRating[1]"
+                class="star"
+                src="@/assets/icon/icons8-star-96-orange.png"
+              />
+              <img v-else class="star" src="@/assets/icon/icons8-star-96.png" />
+            </div>
+            <!-- Star -->
 
-                <!-- Star -->
-                <div>
-                  <img
-                    v-if="showRating[2]"
-                    class="star"
-                    src="@/assets/icon/icons8-star-96-orange.png"
-                  />
-                  <img
-                    v-else
-                    class="star"
-                    src="@/assets/icon/icons8-star-96.png"
-                  />
-                </div>
-                <!-- Star -->
+            <!-- Star -->
+            <div>
+              <img
+                v-if="showRating[2]"
+                class="star"
+                src="@/assets/icon/icons8-star-96-orange.png"
+              />
+              <img v-else class="star" src="@/assets/icon/icons8-star-96.png" />
+            </div>
+            <!-- Star -->
 
-                <!-- Star -->
-                <div>
-                  <img
-                    v-if="showRating[3]"
-                    class="star"
-                    src="@/assets/icon/icons8-star-96-orange.png"
-                  />
-                  <img
-                    v-else
-                    class="star"
-                    src="@/assets/icon/icons8-star-96.png"
-                  />
-                </div>
+            <!-- Star -->
+            <div>
+              <img
+                v-if="showRating[3]"
+                class="star"
+                src="@/assets/icon/icons8-star-96-orange.png"
+              />
+              <img v-else class="star" src="@/assets/icon/icons8-star-96.png" />
+            </div>
 
-                <!-- Star -->
+            <!-- Star -->
 
-                <!-- Star -->
-                <div>
-                  <img
-                    v-if="showRating[4]"
-                    class="star"
-                    src="@/assets/icon/icons8-star-96-orange.png"
-                  />
-                  <img
-                    v-else
-                    class="star"
-                    src="@/assets/icon/icons8-star-96.png"
-                  />
-                </div>
-                <!-- Star -->
+            <!-- Star -->
+            <div>
+              <img
+                v-if="showRating[4]"
+                class="star"
+                src="@/assets/icon/icons8-star-96-orange.png"
+              />
+              <img v-else class="star" src="@/assets/icon/icons8-star-96.png" />
+            </div>
+            <!-- Star -->
           </div>
         </div>
         <!-- Rating -->
@@ -96,31 +76,39 @@
 
     <div id="follower">
       <div class="follower-text">
-        <h1>{{searchUser.host}}</h1>
+        <h1>{{ searchUser.host }}</h1>
         <h2>Host</h2>
       </div>
       <div class="follower-text">
-        <h1>{{searchUser.Follower}}</h1>
+        <h1>{{ searchUser.follower }}</h1>
         <h2>Follower</h2>
       </div>
       <div class="follower-text">
-        <h1>{{searchUser.Following}}</h1>
+        <h1>{{ searchUser.following }}</h1>
         <h2>Following</h2>
       </div>
     </div>
 
     <div>
       <h1 id="bio">
-        <span v-if="this.searchUser.bio != null">{{searchUser.bio}}</span>
-        <span v-else id="no-bio">No bio. Follow this user to know them more</span>
+        <span v-if="this.searchUser.bio != null">{{ searchUser.bio }}</span>
+        <span v-else id="no-bio"
+          >No bio. Follow this user to know them more</span
+        >
       </h1>
     </div>
 
     <!-- Button -->
     <div id="button">
-      <button id="block_button">BLOCK</button>
-      <button v-if="following" id="following_button">FOLLOWING</button>
-      <button id="follow_button">FOLLOW</button>
+      <button @click="viewProfile()" id="view_button">VIEW PROFILE</button>
+      <button
+        v-if="searchUser.status_id"
+        id="following_button"
+        @click="toUnfollow()"
+      >
+        <span id="following-text">FOLLOWING</span>
+      </button>
+      <button v-else id="follow_button" @click="toFollow()">FOLLOW</button>
     </div>
     <!-- Button -->
   </div>
@@ -128,10 +116,10 @@
 
 <script>
 import User from "../models/user";
-
+import UserService from "../services/user.service";
 
 export default {
-  props:["searchUser"],
+  props: ["searchUser"],
   data() {
     return {
       showRating: [false, false, false, false, false],
@@ -146,7 +134,31 @@ export default {
     } else {
       this.showRating.fill(true, 0, 5);
     }
-    this.profile_pic = "http://localhost:8080/api/user/displayPic/" + this.searchUser.user_id
+    this.profile_pic =
+      "http://localhost:8080/api/user/displayPic/" + this.searchUser.user_id;
+  },
+  methods: {
+    toFollow() {
+      UserService.following(this.searchUser.user_id).then((res) => {
+        if (res.message == "followed") {
+          this.searchUser.status_id = 1;
+          this.searchUser.follower++;
+          console.log("send!");
+        }
+      });
+    },
+    toUnfollow() {
+      UserService.unFollowing(this.searchUser.user_id).then((res) => {
+        if (res.message == "unfollowed") {
+          this.searchUser.status_id = 0;
+          this.searchUser.follower--;
+          console.log("send!");
+        }
+      });
+    },
+    viewProfile() {
+      this.$emit("showProfile", this.searchUser.username);
+    }
   }
 };
 </script>
@@ -235,10 +247,10 @@ h2 {
   padding: 0px 5px;
   font-weight: 400;
   margin: 13px 0px 0px 0px;
-  height:48px;
+  height: 48px;
 }
 
-#no-bio{
+#no-bio {
   color: #a0a0a0 !important;
 }
 
@@ -251,12 +263,20 @@ h2 {
 }
 
 #follow_button,
-#following_button,
-#block_button {
+#following_button {
   font-family: "Atten-Round-New";
   font-size: 1.25em;
   font-weight: 500;
   padding: 4px 23px;
+  margin: 4px 0px 0px 0px;
+  border-radius: 16px;
+}
+
+#view_button {
+  font-family: "Atten-Round-New";
+  font-size: 1.25em;
+  font-weight: 500;
+  padding: 4px 14px;
   margin: 4px 0px 0px 0px;
   border-radius: 16px;
 }
@@ -271,9 +291,18 @@ h2 {
   color: #ff8864;
   border: 1.75px solid #ff8864;
   background-color: #ffffff;
+  padding: 4px 14px !important;
 }
 
-#block_button {
+#following_button:hover:before {
+  content: "UNFOLLOW";
+}
+
+#following_button:hover span {
+  display: none;
+}
+
+#view_button {
   color: #a0a0a0;
   border: 1.75px solid #a0a0a0;
   background-color: #ffffff;

@@ -187,12 +187,6 @@ export default {
       .padStart(2, "0");
     this.start_at = `${startDate} ${this.months[startMonth]} ${startYear} ${startHours}:${startMins}`;
     this.end_at = `${endDate} ${this.months[endMonth]} ${endYear} ${endHours}:${endMins}`;
-
-    // if (this.event.gender.length == 3) this.gender = "ALL GENDERS";
-    // else if (this.event.gender.length == 2)
-    //   this.gender = `${this.event.gender[0].toUpperCase()} AND ${this.event.gender[1].toUpperCase()} ONLY`;
-    // else if (this.event.gender.length == 1)
-    //   this.gender = `${this.event.gender[0].toUpperCase()} ONLY`;
   },
   methods: {
     done() {

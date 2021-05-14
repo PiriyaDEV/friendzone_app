@@ -43,6 +43,7 @@
           id="input"
           type="text"
           maxlength="256"
+          autocomplete="off"
           v-model="inputMessage"
         />
         <div @click="sendMessage()" id="send-btn">

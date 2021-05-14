@@ -30,7 +30,7 @@
         <div v-if="waitShow != `create`" class="section double-button">
           <div>
             <div>
-              <button class="create_button" @click="deleteEvent()">
+              <button class="create_button" @click="confirm()">
                 Confirm
               </button>
             </div>
@@ -68,14 +68,24 @@ export default {
     cancel() {
       this.$emit("informationShow", false);
     },
-    deleteEvent() {
-      EventService.deleteEvent(this.confirmDeleteData.event_id)
-        .then(() => {
-          this.$router.push("/");
-        })
-        .catch(() => {
-          console.log("Error when delete the event");
-        });
+    confirm() {
+      if (this.waitShow == "delete") {
+        EventService.deleteEvent(this.confirmDeleteData.event_id)
+          .then(() => {
+            this.$router.push("/");
+          })
+          .catch(() => {
+            console.log("Error when delete the event");
+          });
+      } else if (this.waitShow == "end") {
+        EventService.endEvent(this.confirmDeleteData.event_id)
+          .then(() => {
+            this.$router.push("/");
+          })
+          .catch(() => {
+            console.log("Error when end the event");
+          });
+      }
     }
   }
 };

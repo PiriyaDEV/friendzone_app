@@ -188,9 +188,9 @@
 
 <script>
 import Upload from "@/components/UploadPic.vue";
-import GenderService from "../services/gender.service";
-import AuthService from "../services/auth.service";
-import UserService from "../services/user.service";
+import GenderService from "@/services/gender.service";
+import AuthService from "@/services/auth.service";
+import UserService from "@/services/user.service";
 
 export default {
   name: "profile",

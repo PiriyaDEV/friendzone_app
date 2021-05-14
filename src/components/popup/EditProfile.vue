@@ -5,7 +5,7 @@
         <div class="information-box">
           <h1 class="info-title black-color">Name</h1>
           <h1 v-if="!edit" class="info-text">
-            <span v-if="findUser == true && dataUser != user.username">{{ dataUser }} {{ dataUser }}</span>
+            <span v-if="findUser == true && dataUser != user.username">{{ userList.firstname }} {{ userList.lastname }}</span>
             <span v-else>{{ user.firstname }} {{ user.lastname }}</span>
           </h1>
           <div v-if="edit" id="name-section">
@@ -31,7 +31,7 @@
         <div v-if="role == 1" class="information-box">
           <h1 class="info-title black-color">Birthdate</h1>
           <h1 v-if="!edit" class="info-text">
-            <span v-if="findUser == true && dataUser != user.username">{{ dataUser }} 10 12 2000</span>
+            <span v-if="findUser == true && dataUser != user.username">{{ userList.birthdate }}</span>
             <span v-else>{{ user.birthdate }}</span>
           </h1>
           <input
@@ -48,7 +48,7 @@
         <div v-if="role == 2" class="information-box">
           <h1 class="info-title black-color">Birthdate</h1>
           <h1 v-if="!edit" class="info-text">
-            <span v-if="findUser == true && dataUser != user.username">{{ dataUser }} 10 12 2000</span>
+            <span v-if="findUser == true && dataUser != user.username">{{ userList.birthdate }}</span>
             <span v-else>{{ user.birthdate }}</span>
           </h1>
           <input
@@ -90,7 +90,7 @@
         <div v-if="role == 1" class="information-box">
           <h1 class="info-title black-color">Gender</h1>
           <h1 v-if="!edit" class="info-text">
-            <span v-if="findUser == true && dataUser != user.username">{{ dataUser }} Male</span>
+            <span v-if="findUser == true && dataUser != user.username">{{ userList.gender  }}</span>
             <span v-else>{{ user.gender }}</span>
           </h1>
           <input
@@ -127,12 +127,38 @@
 </template>
 
 <script>
+import UserService from "./../../services/user.service";
 export default {
   data() {
-    return {};
+    return {
+      months: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+    };
   },
-  props: ["user", "role", "edit", "usernameAfter", "bioAfter" ,"findUser", "dataUser"],
-  created() {},
+  props: ["user", "role", "edit", "usernameAfter", "bioAfter" ,"findUser", "dataUser","userList"],
+  created() {
+    UserService.getUserDetail().then((res) => {
+      if (res) {
+        let birthdate = new Date(this.userList.birthdate);
+        let date = birthdate.getDate();
+        let month = birthdate.getMonth();
+        let year = birthdate.getFullYear();
+        this.userList.birthdate = `${date} ${this.months[month]} ${year}`;
+      }
+    });
+  },
   methods: {
     cancel() {
       this.$emit("editReturn", false);

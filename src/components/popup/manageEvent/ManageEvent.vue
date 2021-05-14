@@ -120,6 +120,9 @@ export default {
     doneClick(value) {
       this.$emit("clickManage", value);
     },
+    updateStatus(value) {
+      this.$emit("updateStatus", value);
+    },
     information(value) {
       this.$emit("confirmDelete", {event_id: this.Event.event_id, title: this.Event.title});
       this.$emit("informationShow",value)

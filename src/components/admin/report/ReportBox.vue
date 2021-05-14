@@ -31,6 +31,7 @@ export default {
   watch: {
     statusEvent: function() {
       if (this.event.event_id == this.statusEvent.event_id) {
+        console.log(this.event.statusEvent);
         this.event.status_id = this.statusEvent.status_id;
       }
     }
@@ -40,23 +41,29 @@ export default {
       let red = "dot red";
       let green = "dot green";
       let yellow = "dot yellow";
+      let deleteColor = "dot delete";
       if (this.event.status_id == "ST03") {
         return green;
       } else if (this.event.status_id == "ST15") {
         return red;
+      } else if (this.event.status_id == "ST07") {
+        return deleteColor;
       }
       return yellow;
     },
     pending() {
-      let red = "Rejected";
-      let green = "Approved";
-      let yellow = "Pending";
+      let reject = "Rejected";
+      let approved = "Approved";
+      let pending = "Pending";
+      let deleteText = "Delete";
       if (this.event.status_id == "ST03") {
-        return green;
+        return approved;
       } else if (this.event.status_id == "ST15") {
-        return red;
+        return reject;
+      } else if (this.event.status_id == "ST07") {
+        return deleteText;
       }
-      return yellow;
+      return pending;
     },
     cssMiddle() {
       let general = "report-middle-menu";
@@ -250,6 +257,10 @@ export default {
 
 .red {
   background-color: #fd6363;
+}
+
+.delete {
+  background-color: #444444;
 }
 
 #pending-dot {

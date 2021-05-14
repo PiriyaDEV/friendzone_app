@@ -4,28 +4,28 @@
     <div id="follow-box">
       <!-- Host -->
       <div class="verticle-box">
-        <h1 class="number-box">{{ hostedEventList.length }}</h1>
+        <h1 class="number-box">{{ user.host }}</h1>
         <h1 class="title-box">Host</h1>
       </div>
       <!-- Host -->
 
       <!-- Joined -->
       <div class="verticle-box">
-        <h1 class="number-box">{{ joinedEventList.length }}</h1>
+        <h1 class="number-box">{{ user.joined }}</h1>
         <h1 class="title-box">Joined</h1>
       </div>
       <!-- Joined -->
 
       <!-- Followed -->
       <div class="verticle-box">
-        <h1 class="number-box">2</h1>
+        <h1 class="number-box">{{ user.follower }}</h1>
         <h1 class="title-box">Followers</h1>
       </div>
       <!-- Followed -->
 
       <!-- Following -->
       <div class="verticle-box">
-        <h1 class="number-box">17</h1>
+        <h1 class="number-box">{{ user.following }}</h1>
         <h1 class="title-box">Following</h1>
       </div>
       <!-- Following -->
@@ -72,7 +72,7 @@
         </div>
         <!-- HOST -->
 
-        <div>
+        <div v-if="hostedEventShow.length">
           <!-- Event -->
           <div id="container">
             <div class="event-container">
@@ -96,7 +96,7 @@
             <!-- Event -->
           </div>
         </div>
-
+        <div v-else><NoInformation /></div>
         <!-- JOINED -->
       </div>
 
@@ -111,7 +111,7 @@
         </div>
         <!-- JOINED -->
 
-        <div>
+        <div v-if="joinedEventShow.length">
           <!-- Event -->
           <div id="container">
             <div class="event-container">
@@ -124,7 +124,9 @@
                     @thisEvent="thisEvent"
                     @manageReturn="manageReturn"
                     @detailReturn="detailReturn"
+                    @pendingClick="pendingClick"
                     @userProfile="userProfile"
+                    @onEvent="onEvent"
                   />
                 </div>
               </div>
@@ -132,6 +134,7 @@
           </div>
           <!-- Event -->
         </div>
+        <div v-else><NoInformation /></div>
         <!-- REQUEST -->
       </div>
 
@@ -146,7 +149,7 @@
         </div>
         <!-- REQUEST-->
 
-        <div>
+        <div v-if="requestedEventShow.length">
           <!-- Event -->
           <div id="container">
             <div class="event-container">
@@ -159,7 +162,9 @@
                     @thisEvent="thisEvent"
                     @manageReturn="manageReturn"
                     @detailReturn="detailReturn"
+                    @pendingClick="pendingClick"
                     @userProfile="userProfile"
+                    @onEvent="onEvent"
                   />
                 </div>
               </div>
@@ -167,7 +172,7 @@
             <!-- Event -->
           </div>
         </div>
-
+        <div v-else><NoInformation /></div>
         <!-- FAVOURITE -->
       </div>
 
@@ -181,7 +186,7 @@
         </div>
         <!-- FAVOURITE -->
 
-        <div>
+        <div v-if="interestedEventShow.length">
           <!-- Event -->
           <div id="container">
             <div class="event-container">
@@ -194,7 +199,9 @@
                     @thisEvent="thisEvent"
                     @manageReturn="manageReturn"
                     @detailReturn="detailReturn"
+                    @pendingClick="pendingClick"
                     @userProfile="userProfile"
+                    @onEvent="onEvent"
                   />
                 </div>
               </div>
@@ -202,7 +209,7 @@
             <!-- Event -->
           </div>
         </div>
-
+        <div v-else><NoInformation /></div>
         <!-- DISCOUNT -->
       </div>
 
@@ -216,6 +223,10 @@
           </select>
         </div>
         <!-- DISCOUNT -->
+
+        <div>
+          <NoInformation v-if="eventListLongFlex.length == 0" />
+        </div>
 
         <div>
           <!-- Event -->
@@ -243,12 +254,15 @@
 import EventFlex from "@/components/EventFlex.vue";
 import DiscountLongFlex from "@/components/DiscountLongFlex.vue";
 import EventService from "@/services/event.service";
+import UserService from "@/services/user.service";
 import decode from "jwt-decode";
+import NoInformation from "@/components/NoInformation.vue";
 
 export default {
   name: "Yourzone",
   data() {
     return {
+      user: null,
       hostFilter: "all",
       joinFilter: "all",
       requestFilter: "all",
@@ -345,7 +359,7 @@ export default {
       } else if (this.hostFilter == "approved") {
         this.hostedEventShow = this.hostedEventList.filter((event) => {
           let currentTime = new Date().getTime();
-          return currentTime < event.start_at && event.status_id == "ST03";
+          return currentTime < event.end_at && event.status_id == "ST03";
         });
       } else if (this.hostFilter == "ongoing") {
         this.hostedEventShow = this.hostedEventList.filter((event) => {
@@ -410,9 +424,20 @@ export default {
   },
   components: {
     EventFlex,
-    DiscountLongFlex
+    DiscountLongFlex,
+    NoInformation
   },
   created() {
+    UserService.getUserDetail().then((res) => {
+      if (res) {
+        this.user = res;
+      } else {
+        this.user.host = 0;
+        this.user.joined = 0;
+        this.follower = 0;
+        this.following = 0;
+      }
+    });
     this.getHostedEventList();
     this.getJoinedEventList();
   },
@@ -593,10 +618,6 @@ export default {
 }
 
 /* menubar css  */
-
-#event-display {
-  width: 400px;
-}
 
 .number-box {
   font-size: 4.25em;

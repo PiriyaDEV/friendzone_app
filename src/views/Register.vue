@@ -376,6 +376,10 @@ export default {
         this.invalidPassword = true;
         this.alertPassword = "password required";
       }
+      if (!this.passwordConfirm) {
+        this.invalidPasswordConfirm = true;
+        this.alertPasswordConfirm = "confirm password required";
+      }
       if (!this.day || !this.month || !this.year) {
         this.invalidDate = true;
         this.alertDate = "birthday required";
