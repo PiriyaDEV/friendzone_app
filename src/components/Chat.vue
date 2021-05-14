@@ -2,6 +2,10 @@
   <div id="chat" class="event-container">
     <h1 id="chat-title" class="event-header">CHAT</h1>
 
+    <div>
+      <NoInformation v-if="chat.length == 0" />
+    </div>
+
     <div id="grouplist-horizontal">
       <GroupList
         @eventChat="eventChat"
@@ -25,6 +29,7 @@
 </template>
 
 <script>
+import NoInformation from "@/components/NoInformation.vue";
 import ChatBox from "@/components/chat/ChatBox.vue";
 import GroupList from "@/components/chat/GroupList.vue";
 
@@ -38,6 +43,7 @@ export default {
   },
   components: {
     ChatBox,
+    NoInformation,
     GroupList
   },
   methods: {

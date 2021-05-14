@@ -96,7 +96,7 @@
           />
           <!-- Top Bar -->
           <div v-if="searchBar">
-            <Searchpage :searchValue="searchBar" />
+            <Searchpage :searchValue="searchBar" @userProfile="userProfile"/>
           </div>
 
           <div v-if="select == 1 && !searchBar">
@@ -129,6 +129,9 @@
               @detail="detail"
               @pageEvent="pageEvent"
               @thisEvent="thisEvent"
+              @onEvent="onEvent"
+              @pendingShow="pendingShow"
+              @userProfile="userProfile"
             />
           </div>
 
@@ -169,8 +172,9 @@
       <ProfileDetail
         v-if="detailShow == true"
         @clickDetail="clickDetail"
-        @clickEdit="clickEdit"
         @demoAdmin="demoAdmin"
+        :dataUser="dataUser"
+        :findUser="findUser"
         :demoRole="role"
       />
 
@@ -418,7 +422,7 @@ export default {
     informationShow(value) {
       this.information = value;
       if (this.createShow == true) {
-        this.waitShow = "creat";
+        this.waitShow = "create";
       } else if (this.manageShow == true) {
         if (this.showEnd == true) {
           this.waitShow = "end";

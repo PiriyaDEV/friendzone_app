@@ -437,11 +437,11 @@ class EventService {
 
   async approving(event_id, host_id, approve) {
     let userData = decode(localStorage.getItem("user"));
-    let user_id = userData.user_id
+    let user_id = userData.user_id;
     await axios
       .post(
         API_URL + "approving",
-        { event_id, host_id, approve, user_id : user_id},
+        { event_id, host_id, approve, user_id: user_id },
         {
           headers: authHeader()
         }
@@ -455,7 +455,21 @@ class EventService {
     await axios
       .post(
         API_URL + "deleteEvent",
-        {event_id : event_id},
+        { event_id: event_id },
+        {
+          headers: authHeader()
+        }
+      )
+      .then((res) => {
+        return res.data;
+      });
+  }
+
+  async endEvent(event_id) {
+    await axios
+      .post(
+        API_URL + "endEvent",
+        { event_id: event_id, end_at: new Date().getTime() },
         {
           headers: authHeader()
         }

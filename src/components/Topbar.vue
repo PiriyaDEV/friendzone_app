@@ -24,10 +24,10 @@
         <h1 class="black-color" id="bar-value">{{ point.point }}</h1>
       </div>
 
-      <div id="mail-box">
+      <div v-if="demoRole == 1" id="mail-box">
         <div id="mail-circle">
           <img
-             @click="notiClick()"
+            @click="notiClick()"
             id="mail-logo"
             src="@/assets/icon/icons8-important-mail-96@2x.png"
           />
@@ -98,7 +98,7 @@ export default {
     },
     notiClick() {
       this.$emit("notificationShow", true);
-    },
+    }
   },
   computed: {
     cssBlackground() {

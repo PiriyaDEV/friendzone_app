@@ -16,7 +16,11 @@
         </div>
       </div>
 
-      <div id="discount-page-section">
+      <div>
+        <NoInformation />
+      </div>
+
+      <div id="page-section">
         <!-- Event -->
         <div class="event-section">
           <div id="container">
@@ -45,6 +49,9 @@
           <h1 class="event-second-header">OTHERS</h1>
           <div>
             <div>
+              <NoInformation v-if="eventList.length == 0" />
+            </div>
+            <div>
               <!-- Event -->
               <div id="container">
                 <div class="event-container">
@@ -72,6 +79,11 @@
         <i class="fa fa-angle-left" aria-hidden="true"></i>
         <h1 id="eventcat-title" class="event-header">FOLLOWING</h1>
       </div>
+
+      <div>
+        <NoInformation />
+      </div>
+
       <!-- Event -->
       <div id="container">
         <div class="event-container">
@@ -97,6 +109,7 @@
 </template>
 
 <script>
+import NoInformation from "@/components/NoInformation.vue";
 import EventFlex from "@/components/EventFlex.vue";
 import EventService from "@/services/event.service";
 
@@ -142,7 +155,8 @@ export default {
     }
   },
   components: {
-    EventFlex
+    EventFlex,
+    NoInformation
   }
 };
 </script>
