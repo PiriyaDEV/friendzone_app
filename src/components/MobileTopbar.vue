@@ -32,14 +32,14 @@
               />
               <span class="menu-text">Chat</span>
             </a>
-            <a @click="analystClick()" id="analyst" class="menu-box">
+            <a  v-if="role == `RO02` || role == `RO01`" @click="analystClick()" id="analyst" class="menu-box">
               <img
                 class="menu-icon"
                 src="@/assets/icon/icon-white/icons8-increase-profits-96-w.png"
               />
               <span class="menu-text">Analyst</span>
             </a>
-            <a @click="approverClick()" id="approver" class="menu-box">
+            <a v-if="role == `RO03` || role == `RO01`" @click="approverClick()" id="approver" class="menu-box">
               <img
                 class="menu-icon"
                 src="@/assets/icon/icon-white/icons8-verified-badge-96-w.png"
@@ -162,6 +162,7 @@
 
 <script>
 import { Slide } from "vue-burger-menu";
+import decode from "jwt-decode";
 import User from "../models/user";
 import UserService from "../services/user.service";
 import AuthService from "../services/auth.service";
@@ -174,11 +175,13 @@ export default {
   props: ["admin"],
   data() {
     return {
+      role:"",
       user: new User({ username: "", profile_pic: "" }),
       point: ""
     };
   },
   created() {
+    this.getRole()
     UserService.getTopBarInfo().then((res) => {
       if (res) {
         this.user = res;
@@ -193,6 +196,10 @@ export default {
     });
   },
   methods: {
+    getRole() {
+      let userData = decode(localStorage.getItem("user"));
+      this.role = userData.role_id;
+    },
     pointClick() {
       this.$emit("point", true);
     },

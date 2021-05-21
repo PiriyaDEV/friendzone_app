@@ -160,31 +160,33 @@
                 </div>
               </div>
               <!-- Rating -->
-              <div v-if="demoRole == 1 && !edit" id="switch-button">
-                <button
-                  v-if="
-                    (findUser == true && dataUser == user.username) ||
-                      findUser == false
-                  "
-                  @click="clickDemoAdmin()"
-                >
-                  Switch to Admin
-                </button>
-              </div>
+              <div v-if="role == `RO01`">
+                <div v-if="demoRole == 1 && !edit" id="switch-button">
+                  <button
+                    v-if="
+                      (findUser == true && dataUser == user.username) ||
+                        findUser == false
+                    "
+                    @click="clickDemoAdmin()"
+                  >
+                    Switch to Admin
+                  </button>
+                </div>
 
-              <div
-                v-if="demoRole == 2 && !edit && dataUser != user.username"
-                id="switch-button"
-              >
-                <button
-                  v-if="
-                    (findUser == true && dataUser == user.username) ||
-                      findUser == false
-                  "
-                  @click="clickDemoAdmin()"
+                <div
+                  v-if="demoRole == 2 && !edit && dataUser != user.username"
+                  id="switch-button"
                 >
-                  Switch to User
-                </button>
+                  <button
+                    v-if="
+                      (findUser == true && dataUser == user.username) ||
+                        findUser == false
+                    "
+                    @click="clickDemoAdmin()"
+                  >
+                    Switch to User
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -326,6 +328,7 @@
 </template>
 
 <script>
+import decode from "jwt-decode";
 import ProfileInterest from "@/components/popup/profile/ProfileInterest.vue";
 import ChangePassword from "@/components/popup/profile/ChangePassword.vue";
 import EditProfile from "@/components/popup/EditProfile.vue";
@@ -336,6 +339,7 @@ import SearchService from "./../../services/search.service";
 export default {
   data() {
     return {
+      role:"",
       user: null,
       showprofile_pic: "",
       profile_pic: "",
@@ -373,6 +377,7 @@ export default {
     ChangePassword
   },
   created() {
+    this.getRole()
     UserService.getUserDetail().then((res) => {
       if (res) {
         this.user = res;
@@ -402,6 +407,10 @@ export default {
     });
   },
   methods: {
+    getRole() {
+      let userData = decode(localStorage.getItem("user"));
+      this.role = userData.role_id;
+    },
     detailReturn() {
       this.$emit("clickDetail", false);
       this.$emit("clickEdit", false);

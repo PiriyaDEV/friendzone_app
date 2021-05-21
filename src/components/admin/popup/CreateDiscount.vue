@@ -8,12 +8,12 @@
             <!-- Input -->
             <div>
               <h2 class="input_title">
-                Event Picture<span class="orange-color"> *</span>
+                Discount Picture<span class="orange-color"> *</span>
               </h2>
               <div id="select-photo-section" class="section">
-                <Upload>
+                <Upload v-model="discount.discount_pic">
                   <div
-                    v-if="!event_pic"
+                    v-if="!discount.discount_pic"
                     slot="activator"
                     id="select-photo-inside"
                     class="section"
@@ -28,8 +28,8 @@
                     <img
                       class="pictureUpload"
                       style="position: relative"
-                      :src="event_pic.imageURL"
-                      alt="event_pic"
+                      :src="discount.discount_pic.imageURL"
+                      alt="discount_pic"
                     />
                   </div>
                 </Upload>
@@ -40,13 +40,14 @@
             <!-- Input -->
             <div>
               <h2 class="input_title">
-                Title<span class="orange-color"> *</span>
+                Discount Name<span class="orange-color"> *</span>
               </h2>
               <input
+                v-model="discount.name"
                 class="input_box"
                 type="text"
-                maxlength="30"
-                size="30"
+                maxlength="64"
+                size="64"
                 placeholder="enter discount name"
               />
             </div>
@@ -58,6 +59,7 @@
                 Description<span class="orange-color"> *</span>
               </h2>
               <textarea
+                v-model="discount.description"
                 class="input_textarea_box bio"
                 maxlength="256"
                 size="256"
@@ -74,9 +76,9 @@
                 Point Required<span class="orange-color"> *</span>
               </h2>
               <div class="number">
-                <span class="minus">-</span>
-                <input type="text" value="1" />
-                <span class="plus">+</span>
+                <span class="minus" @click="clickPoint(false)">-</span>
+                <input type="number" v-model="discount.redeem_point" />
+                <span class="plus" @click="clickPoint(true)">+</span>
               </div>
             </div>
             <!-- Input -->
@@ -96,6 +98,7 @@
                   maxlength="2"
                   size="2"
                   placeholder="day"
+                  v-model="discount.period_start.day"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
                 <input
@@ -107,6 +110,7 @@
                   maxlength="2"
                   size="2"
                   placeholder="month"
+                  v-model="discount.period_start.month"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
                 <input
@@ -118,6 +122,7 @@
                   maxlength="4"
                   size="4"
                   placeholder="year"
+                  v-model="discount.period_start.year"
                 />
               </div>
               <div class="time-section">
@@ -129,6 +134,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
+                  v-model="discount.period_start.h1"
                 />
                 <input
                   id="h2"
@@ -139,6 +145,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
+                  v-model="discount.period_start.h2"
                 />
                 <h1
                   style="
@@ -159,6 +166,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
+                  v-model="discount.period_start.m1"
                 />
                 <input
                   id="m2"
@@ -169,96 +177,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
-                />
-              </div>
-            </div>
-            <!-- Input -->
-
-            <!-- Input -->
-            <div>
-              <h2 class="input_title">End On</h2>
-              <div class="date-section">
-                <input
-                  id="day"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="2"
-                  size="2"
-                  placeholder="day"
-                />
-                <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
-                <input
-                  id="month"
-                  style="margin-left: 10px"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="2"
-                  size="2"
-                  placeholder="month"
-                />
-                <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
-                <input
-                  id="year"
-                  style="margin-left: 10px"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="4"
-                  size="4"
-                  placeholder="year"
-                />
-              </div>
-              <div class="time-section">
-                <input
-                  id="h1"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="1"
-                  size="1"
-                  placeholder="0"
-                />
-                <input
-                  id="h2"
-                  style="margin-left: 10px"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="1"
-                  size="1"
-                  placeholder="0"
-                />
-                <h1
-                  style="
-                    font-size: 3em;
-                    margin-top: 5px;
-                    margin-left: 10px;
-                    color: #e3e3e3;
-                  "
-                >
-                  :
-                </h1>
-                <input
-                  id="m1"
-                  style="margin-left: 10px"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="1"
-                  size="1"
-                  placeholder="0"
-                />
-                <input
-                  id="m2"
-                  style="margin-left: 10px"
-                  class="date_box_popup"
-                  type="text"
-                  pattern="[0-9]*"
-                  maxlength="1"
-                  size="1"
-                  placeholder="0"
+                  v-model="discount.period_start.m2"
                 />
               </div>
             </div>
@@ -267,7 +186,7 @@
             <!-- Input -->
             <div>
               <h2 class="input_title">
-                Use within<span class="orange-color"> *</span>
+                End On<span class="orange-color"> *</span>
               </h2>
               <div class="date-section">
                 <input
@@ -278,6 +197,7 @@
                   maxlength="2"
                   size="2"
                   placeholder="day"
+                  v-model="discount.period_end.day"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
                 <input
@@ -289,6 +209,7 @@
                   maxlength="2"
                   size="2"
                   placeholder="month"
+                  v-model="discount.period_end.month"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
                 <input
@@ -300,6 +221,7 @@
                   maxlength="4"
                   size="4"
                   placeholder="year"
+                  v-model="discount.period_end.year"
                 />
               </div>
               <div class="time-section">
@@ -311,6 +233,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
+                  v-model="discount.period_end.h1"
                 />
                 <input
                   id="h2"
@@ -321,6 +244,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
+                  v-model="discount.period_end.h2"
                 />
                 <h1
                   style="
@@ -341,6 +265,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
+                  v-model="discount.period_end.m1"
                 />
                 <input
                   id="m2"
@@ -351,6 +276,106 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
+                  v-model="discount.period_end.m2"
+                />
+              </div>
+            </div>
+            <!-- Input -->
+
+            <!-- Input -->
+            <div>
+              <h2 class="input_title">
+                Expire Date<span class="orange-color"> *</span>
+              </h2>
+              <div class="date-section">
+                <input
+                  id="day"
+                  class="date_box_popup"
+                  type="text"
+                  pattern="[0-9]*"
+                  maxlength="2"
+                  size="2"
+                  placeholder="day"
+                  v-model="discount.expired.day"
+                />
+                <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
+                <input
+                  id="month"
+                  style="margin-left: 10px"
+                  class="date_box_popup"
+                  type="text"
+                  pattern="[0-9]*"
+                  maxlength="2"
+                  size="2"
+                  placeholder="month"
+                  v-model="discount.expired.month"
+                />
+                <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
+                <input
+                  id="year"
+                  style="margin-left: 10px"
+                  class="date_box_popup"
+                  type="text"
+                  pattern="[0-9]*"
+                  maxlength="4"
+                  size="4"
+                  placeholder="year"
+                  v-model="discount.expired.year"
+                />
+              </div>
+              <div class="time-section">
+                <input
+                  id="h1"
+                  class="date_box_popup"
+                  type="text"
+                  pattern="[0-9]*"
+                  maxlength="1"
+                  size="1"
+                  placeholder="0"
+                  v-model="discount.expired.h1"
+                />
+                <input
+                  id="h2"
+                  style="margin-left: 10px"
+                  class="date_box_popup"
+                  type="text"
+                  pattern="[0-9]*"
+                  maxlength="1"
+                  size="1"
+                  placeholder="0"
+                  v-model="discount.expired.h2"
+                />
+                <h1
+                  style="
+                    font-size: 3em;
+                    margin-top: 5px;
+                    margin-left: 10px;
+                    color: #e3e3e3;
+                  "
+                >
+                  :
+                </h1>
+                <input
+                  id="m1"
+                  style="margin-left: 10px"
+                  class="date_box_popup"
+                  type="text"
+                  pattern="[0-9]*"
+                  maxlength="1"
+                  size="1"
+                  placeholder="0"
+                  v-model="discount.expired.m1"
+                />
+                <input
+                  id="m2"
+                  style="margin-left: 10px"
+                  class="date_box_popup"
+                  type="text"
+                  pattern="[0-9]*"
+                  maxlength="1"
+                  size="1"
+                  placeholder="0"
+                  v-model="discount.expired.m2"
                 />
               </div>
             </div>
@@ -362,9 +387,9 @@
                 Point Required<span class="orange-color"> *</span>
               </h2>
               <div class="number">
-                <span class="minus">-</span>
-                <input type="text" value="1" />
-                <span class="plus">+</span>
+                <span class="minus" @click="clickPoint(false)">-</span>
+                <input type="number" v-model="discount.redeem_point" />
+                <span class="plus" @click="clickPoint(true)">+</span>
               </div>
             </div>
             <!-- Input -->
@@ -375,9 +400,9 @@
                 Limit buy per user<span class="orange-color"> *</span>
               </h2>
               <div class="number">
-                <span class="minus">-</span>
-                <input type="text" value="1" />
-                <span class="plus">+</span>
+                <span class="minus" @click="clickLimit(false)">-</span>
+                <input type="number" v-model="discount.limits" />
+                <span class="plus" @click="clickLimit(true)">+</span>
               </div>
             </div>
             <!-- Input -->
@@ -405,12 +430,125 @@
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <script>
+import Discount from "@/models/discount";
+import DiscountService from "@/services/discount.service";
+import Upload from "../../../components/UploadPic.vue";
+
+class constructDate {
+  constructor(date) {
+    this.day = date.day;
+    this.month = date.month;
+    this.year = date.year;
+    this.h1 = date.h1;
+    this.h2 = date.h2;
+    this.m1 = date.m1;
+    this.m2 = date.m2;
+  }
+}
+
 export default {
+  data() {
+    return {
+      discount: new Discount("")
+    };
+  },
+  components: {
+    Upload,
+  },
+  created() {
+    this.discount.period_start = new constructDate(0);
+    this.discount.period_end = new constructDate(0);
+    this.discount.expired = new constructDate(0);
+    this.discount.redeem_point = 0;
+    this.discount.limits = 1;
+  },
   methods: {
     createReturn() {
       this.$emit("clickCreate", false);
     },
-  },
+    clickPoint(status) {
+      this.discount.redeem_point = parseInt(this.discount.redeem_point);
+      if (!status) {
+        if (this.discount.redeem_point > 0)
+          this.discount.redeem_point = this.discount.redeem_point - 1;
+      } else this.discount.redeem_point = this.discount.redeem_point + 1;
+    },
+    clickLimit(status) {
+      this.discount.limits = parseInt(this.discount.limits);
+      if (!status) {
+        if (this.discount.limits > 1)
+          this.discount.limits = this.discount.limits - 1;
+      } else this.discount.limits = this.discount.limits + 1;
+    },
+    ClickCreate() {
+      this.hs = this.discount.period_start.h1 + this.discount.period_start.h2;
+      this.ms = this.discount.period_start.m1 + this.discount.period_start.m2;
+      this.he = this.discount.period_end.h1 + this.discount.period_end.h2;
+      this.me = this.discount.period_end.m1 + this.discount.period_end.m2;
+      this.hx = this.discount.expired.h1 + this.discount.expired.h2;
+      this.mx = this.discount.expired.m1 + this.discount.expired.m2;
+
+      this.discount.period_start = new Date(
+        this.discount.period_start.year +
+          "-" +
+          this.discount.period_start.month +
+          "-" +
+          this.discount.period_start.day +
+          " " +
+          this.hs +
+          ":" +
+          this.ms +
+          ":00 GMT+0700"
+      ).getTime();
+
+      this.discount.period_end = new Date(
+        this.discount.period_end.year +
+          "-" +
+          this.discount.period_end.month +
+          "-" +
+          this.discount.period_end.day +
+          " " +
+          this.he +
+          ":" +
+          this.me +
+          ":00 GMT+0700"
+      ).getTime();
+
+      this.discount.expired = new Date(
+        this.discount.expired.year +
+          "-" +
+          this.discount.expired.month +
+          "-" +
+          this.discount.expired.day +
+          " " +
+          this.hx +
+          ":" +
+          this.mx +
+          ":00 GMT+0700"
+      ).getTime();
+
+      console.log(this.discount);
+
+      DiscountService.create(this.discount).then(
+        (res) => {
+          if (res.discount_id) {
+            DiscountService.uploadDiscountPic(
+              this.discount.discount_pic.formData,
+              res.discount_id
+            ).then((res) => {
+              if (res) {
+                console.log(res);
+                this.$emit("informationShow", true);
+              }
+            });
+          }
+        },
+        (error) => {
+          console.log(error.message);
+        }
+      );
+    }
+  }
 };
 </script>
 
@@ -480,6 +618,18 @@ export default {
   margin-bottom: 2px;
   box-shadow: none;
   font-family: "Atten-Round-New";
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 select {
@@ -664,73 +814,77 @@ option {
     display: flex !important;
   }
 
-  .number-box{
+  .number-box {
     justify-content: space-between !important;
   }
 
-  .number > input{
-    width:150px;
+  .number > input {
+    width: 150px;
   }
 }
 
 @media screen and (max-width: 690px) {
-
-  .input_box,.input_textarea_box{
-    width:250px !important;
+  .input_box,
+  .input_textarea_box {
+    width: 250px !important;
   }
 
-  .create_button , .back_button{
-    width:120px !important;
+  .create_button,
+  .back_button {
+    width: 120px !important;
   }
 
-  .pictureUpload{
-    width:268px !important;
-    height:125px;
+  .pictureUpload {
+    width: 268px !important;
+    height: 125px;
   }
 
-  #select-photo-inside{
-    margin:40px 0px;
+  #select-photo-inside {
+    margin: 40px 0px;
   }
 
-  .number > input{
-    width:65px;
-    font-size:1.75em;
-    padding:6px 0px;
-    margin-left:0px;
+  .number > input {
+    width: 65px;
+    font-size: 1.75em;
+    padding: 6px 0px;
+    margin-left: 0px;
   }
 }
 
 @media screen and (max-width: 490px) {
-  .input_box,.input_textarea_box{
-    width:210px !important;
+  .input_box,
+  .input_textarea_box {
+    width: 210px !important;
   }
 
-  .minus,.plus{
+  .minus,
+  .plus {
     padding: 2px 5px;
-    font-size:2.5em;
+    font-size: 2.5em;
   }
 
-  .number > input{
-    width:50px;
+  .number > input {
+    width: 50px;
   }
 
-  #participant-section{
-    display:block;
+  #participant-section {
+    display: block;
   }
 
-  .input_participant{
+  .input_participant {
     width: calc(100% - 30px);
   }
 
-  .input_age{
-    width:100%;
+  .input_age {
+    width: 100%;
   }
 
-  .create_button , .back_button{
-    width:110px !important;
+  .create_button,
+  .back_button {
+    width: 110px !important;
   }
 
-  .popup-form{
+  .popup-form {
     padding: 0px 40px !important;
   }
 }

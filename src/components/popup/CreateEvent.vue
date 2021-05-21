@@ -189,7 +189,9 @@
 
               <!-- Input -->
               <div>
-                <h2 class="input_title">End On</h2>
+                <h2 class="input_title">
+                  End On<span class="orange-color"> *</span>
+                </h2>
                 <div class="date-section">
                   <input
                     id="day"
@@ -524,7 +526,7 @@ export default {
             ).then((res) => {
               if (res) {
                 console.log(res);
-                this.$emit("informationShow",true)
+                this.$emit("informationShow", true);
               }
             });
           }
@@ -751,7 +753,6 @@ option {
   #right {
     margin: 0px;
   }
-  
 
   .multiselect,
   .date-section,
