@@ -1,6 +1,6 @@
 <template>
   <div id="discount-page" class="event-container">
-    <div id="banner">
+    <div id="banner" hidden>
       <img
         src="https://assets.grab.com/wp-content/uploads/sites/10/2020/03/31121328/27.03-GRABPAY-CITI-WEEKDAY-PROMO-Blog.jpg"
         alt=""
@@ -9,7 +9,7 @@
 
     <h1 id="discount-title" class="event-header">HOT DISCOUNT</h1>
 
-    <div id="discount-page-section">
+    <div v-if="discountHotList.length" id="discount-page-section">
       <!-- Event -->
       <div class="event-section">
         <div id="container">
@@ -20,9 +20,11 @@
             class="event-container"
           >
             <div class="list event-flex-section">
-              <div v-for="(item, i) in eventList" :key="i">
+              <div v-for="(discount, i) in discountHotList" :key="i">
                 <DiscountFlex
+                  :discount="discount"
                   @clickDiscountFlex="clickDiscountFlex"
+                  @discountData="discountData"
                 ></DiscountFlex>
               </div>
             </div>
@@ -31,11 +33,12 @@
       </div>
       <!-- Event -->
     </div>
+    <div v-else><NoInformation /></div>
 
     <div>
       <div id="joined-menu">
         <h1 class="event-header">BROWSE</h1>
-        <div>
+        <div v-if="discountBrowseList.length">
           <div>
             <!-- Event -->
             <div id="container">
@@ -45,9 +48,11 @@
                 class="event-container"
               >
                 <div class="list event-flex-wrap-section">
-                  <div v-for="(item, i) in eventList" :key="i">
+                  <div v-for="(discount, i) in discountBrowseList" :key="i">
                     <DiscountLongFlex
+                      :discount="discount"
                       @clickDiscountLongFlex="clickDiscountLongFlex"
+                      @discountData="discountData"
                     />
                   </div>
                 </div>
@@ -56,6 +61,7 @@
             <!-- Event -->
           </div>
         </div>
+        <div v-else><NoInformation /></div>
       </div>
     </div>
   </div>
@@ -64,19 +70,23 @@
 <script>
 import DiscountFlex from "@/components/DiscountFlex.vue";
 import DiscountLongFlex from "@/components/DiscountLongFlex.vue";
+import DiscountService from "@/services/discount.service";
+import NoInformation from "@/components/NoInformation.vue";
+
 export default {
   name: "discount-page",
   data() {
     return {
       hovered: false,
       selected: "all",
-      eventList: 5,
-      joinList: 10
+      discountBrowseList: [],
+      discountHotList: []
     };
   },
   components: {
     DiscountFlex,
-    DiscountLongFlex
+    DiscountLongFlex,
+    NoInformation
   },
   methods: {
     clickDiscountLongFlex(value) {
@@ -84,7 +94,21 @@ export default {
     },
     clickDiscountFlex(value) {
       this.$emit("clickDiscount2", value);
+    },
+    discountData(value) {
+      this.$emit("discountData",value);
     }
+  },
+  created() {
+    DiscountService.getBrowseDiscount()
+      .then((res) => {
+        if (res) {
+          this.discountBrowseList = res;
+        }
+      })
+      .catch(() => {
+        this.discountBrowseList = [];
+      });
   }
 };
 </script>

@@ -430,6 +430,7 @@
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <script>
+import $ from "jquery";
 import Discount from "@/models/discount";
 import DiscountService from "@/services/discount.service";
 import Upload from "../../../components/UploadPic.vue";
@@ -454,6 +455,18 @@ export default {
   },
   components: {
     Upload,
+  },
+  mounted() {
+    $(document).ready(function() {
+      $("input").keyup(function() {
+        if ($(this).val().length == $(this).attr("maxlength")) {
+          const i = $("input").index(this);
+          $("input")
+            .eq(i + 1)
+            .focus();
+        }
+      });
+    });
   },
   created() {
     this.discount.period_start = new constructDate(0);

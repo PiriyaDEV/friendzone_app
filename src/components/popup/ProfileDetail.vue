@@ -1,53 +1,114 @@
 <template>
-  <div>
-    <div id="wait-box" class="popup">
-      <div class="popup-section section">
-        <div>
-          <div id="top-section" class="popup-form">
-            <!-- <h1 class="header_title">WAIT FOR APPROVAL</h1> -->
-            <h1 class="header_title">
-              POINT
-            </h1>
-
-            <div id="yellow-box" class="section">
-              <div>
-                <div class="section">
-                  <img id="coin-logo" src="@/assets/icon/coin.png" />
-                  <h1 id="point">{{ point.point }}</h1>
+  <div id="rate-popup" class="popup">
+    <div class="popup-section section">
+      <div class="popup-form">
+        <div id="profile-section" class="section">
+          <div id="left">
+            <div v-if="cancel || (!edit && !save)" id="profile-frame">
+              <img
+                v-if="findUser == true && dataUser != user.username"
+                id="profile-pic"
+                :src="profile_User"
+              />
+              <img v-else id="profile-pic" :src="showprofile_pic" />
+            </div>
+            <div v-if="!profile_pic && edit" id="profile-frame">
+              <img
+                v-if="findUser == true && dataUser != user.username"
+                id="profile-pic"
+                :src="profile_User"
+              />
+              <img v-else id="profile-pic" :src="showprofile_pic" />
+            </div>
+            <div v-if="!cancel && profile_pic">
+              <img
+                id="profile-pic"
+                class="pictureUpload"
+                style="position: relative"
+                :src="profile_pic.imageURL"
+                alt="profile_pic"
+              />
+            </div>
+            <div style="position: relative" v-if="edit">
+              <Upload v-model="profile_pic">
+                <div id="upload-photo" slot="activator">
+                  <img src="@/assets/icon/icons8-add-image-96.png" />
                 </div>
-                <h1 id="your-balance">Your Balance</h1>
-              </div>
+              </Upload>
             </div>
-
-            <img
-              @click="pointClick()"
-              style="cursor: pointer"
-              class="close"
-              src="@/assets/icon/icons8-multiply-96.png"
-            />
           </div>
-          <div id="bottom-section" class="popup-form">
-            <div id="menu">
-              <h1 @click="clickEventDetail()" class="menu-text selected">
-                Point Log
+          <div id="right">
+            <div id="username-box">
+              <h1 v-if="!edit" id="name_title">
+                <span v-if="findUser == true && dataUser != user.username">{{
+                  dataUser
+                }}</span>
+                <span v-else>{{ user.username }}</span>
               </h1>
+              <input
+                v-else
+                class="input_username_box"
+                type="text"
+                maxlength="30"
+                size="30"
+                name="name"
+                autocomplete="off"
+                v-model="username"
+              />
             </div>
-            <hr id="bar" />
 
-            <div id="transaction-box">
-              <div v-for="(pointLog, i) in pointLogList" :key="i">
-                <div id="transaction">
-                  <div class="transaction-flex">
-                    <h1 class="transaction-text black-color">
-                      {{ pointLog.title }}
-                    </h1>
-                    <h1 :class="cssPoint">
-                      {{ pointLog.point }}
-                    </h1>
+            <div id="bio-mobile">
+              <h1 v-if="!edit" id="bio">
+                <span v-if="findUser == true && dataUser != user.username">{{
+                  searchUserList.bio
+                }}</span>
+                <span v-else>{{ user.bio }}</span>
+              </h1>
+              <textarea
+                v-else
+                class="input_bio_box"
+                type="text"
+                maxlength="256"
+                size="256"
+                name="name"
+                autocomplete="off"
+                v-model="bio"
+              >
+              </textarea>
+            </div>
+
+            <div id="double-flex">
+              <!-- Rating -->
+              <div id="rating">
+                <h2 class="black-color input_title">Rating</h2>
+                <div style="margin-left: 5px" class="section">
+                  <!-- Star -->
+                  <div>
+                    <img
+                      v-if="showRating[0]"
+                      class="star"
+                      src="@/assets/icon/icons8-star-96-orange.png"
+                    />
+                    <img
+                      v-else
+                      class="star"
+                      src="@/assets/icon/icons8-star-96.png"
+                    />
                   </div>
-                  <div class="transaction-flex">
-                    <h1 class="transaction-info">{{ pointLog.description }}</h1>
-                    <h1 class="transaction-info">{{ pointLog.date }}</h1>
+                  <!-- Star -->
+
+                  <!-- Star -->
+                  <div>
+                    <img
+                      v-if="showRating[1]"
+                      class="star"
+                      src="@/assets/icon/icons8-star-96-orange.png"
+                    />
+                    <img
+                      v-else
+                      class="star"
+                      src="@/assets/icon/icons8-star-96.png"
+                    />
                   </div>
                   <!-- Star -->
 
@@ -232,24 +293,51 @@
             </div>
           </div>
         </div>
+        <div id="middle">
+          <EditProfile
+            v-if="interestShow == false && changePassword == false"
+            @editReturn="editReturn"
+            :usernameAfter="username"
+            :bioAfter="bio"
+            :edit="edit"
+            :user="user"
+            :role="demoRole"
+            :findUser="findUser"
+            :dataUser="dataUser"
+            :userList="searchUserList"
+            @saveUser="saveUser"
+          />
+
+          <ProfileInterest
+            v-if="interestShow == true"
+            @showBack="showBack"
+            :profileDetail="interestShow"
+          />
+          <ChangePassword v-if="changePassword == true" @showBack="showBack" />
+        </div>
+
+        <img
+          @click="detailReturn()"
+          style="cursor: pointer"
+          class="close"
+          src="@/assets/icon/icons8-multiply-96.png"
+        />
       </div>
     </div>
-  </div>
+ </div>
 </template>
 
 <script>
-import decode from "jwt-decode";
 import ProfileInterest from "@/components/popup/profile/ProfileInterest.vue";
 import ChangePassword from "@/components/popup/profile/ChangePassword.vue";
 import EditProfile from "@/components/popup/EditProfile.vue";
 import UserService from "./../../services/user.service";
 import Upload from "./../../components/UploadPic.vue";
 import SearchService from "./../../services/search.service";
-
+import decode from "jwt-decode";
 export default {
   data() {
     return {
-      role:"",
       user: null,
       showprofile_pic: "",
       profile_pic: "",
@@ -276,33 +364,48 @@ export default {
       interestShow: false,
       changePassword: false,
       searchUserList: [],
-      profile_User: ""
+      profile_User: "",
+      role: ""
     };
   },
-  computed: {
-    cssPoint() {
-      let positive = "transaction-text green-color";
-      let negative = "transaction-text red-color";
-      if (this.pointLogList[0].positive) {
-        return positive;
-      }
-      return negative;
-    }
+  props: ["demoRole", "findUser", "dataUser"],
+  components: {
+    EditProfile,
+    Upload,
+    ProfileInterest,
+    ChangePassword
   },
   created() {
-    this.getRole()
+    this.getRole();
     UserService.getUserDetail().then((res) => {
       if (res) {
-        this.pointLogList = res;
-        console.log(this.pointLogList[0].positive);
+        this.user = res;
+        this.username = this.user.username;
+        this.bio = this.user.bio;
+        this.showprofile_pic = this.user.profile_pic;
+        let birthdate = new Date(this.user.birthdate);
+        let date = birthdate.getDate();
+        let month = birthdate.getMonth();
+        let year = birthdate.getFullYear();
+        this.user.birthdate = `${date} ${this.months[month]} ${year}`;
+        if (this.findUser == true) {
+          if (this.dataUser == this.user.username) {
+            console.log("sameUser");
+          } else {
+            this.functionGetApi(this.dataUser);
+          }
+        }
+        if (!this.findUser || this.dataUser == this.user.username) {
+          if (this.user.rating > 0) {
+            this.showRating.fill(true, 0, this.user.rating.toFixed(0));
+          } else {
+            this.showRating.fill(true, 0, 5);
+          }
+        }
       }
     });
   },
   methods: {
-    getRole() {
-      let userData = decode(localStorage.getItem("user"));
-      this.role = userData.role_id;
-    },
     detailReturn() {
       this.$emit("clickDetail", false);
       this.$emit("clickEdit", false);
@@ -355,6 +458,10 @@ export default {
         }
       });
     },
+    getRole() {
+      let userData = decode(localStorage.getItem("user"));
+      this.role = userData.role_id;
+    },
     functionGetApi(value) {
       SearchService.getSearchUser(value)
         .then((res) => {
@@ -387,145 +494,333 @@ export default {
 </script>
 
 <style scoped>
-#yellow-box {
-  border: 2px solid #ffc449;
-  border-radius: 9px;
-  padding: 30px 130px;
+#left {
+  margin-right: 50px;
 }
-
-#coin-logo {
-  width: 35px;
-  height: 35px;
+#right {
+  margin-left: 20px;
+  min-width: 260px;
 }
-
-#top-section {
-  padding-bottom: 25px;
-}
-
-#bottom-section {
-  margin-top: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-#point {
-  font-size: 4em;
-  color: #444444;
-  font-weight: 500;
-  margin: 0px 0px 0px 10px;
-}
-
-#your-balance {
-  font-size: 1.75em;
-  color: #a0a0a0;
-  text-transform: uppercase;
-  font-weight: 400;
-  text-align: center;
-  margin: 10px 0px 0px 0px;
-}
-
-#menu {
-  display: flex;
-}
-
-div::-webkit-scrollbar {
-  height: 5px;
-  width: 5px;
-}
-
-#transaction {
+#middle {
   margin-bottom: 15px;
 }
-
-#transaction-box {
-  margin-top: 15px;
-  height: 270px;
-  overflow-y: auto;
-  padding: 0px 15px 0px 0px;
+#follower {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
-
-.transaction-flex {
+.verticle-box {
+  text-align: center;
+  border-radius: 10px;
+  background-color: #f8f8f8;
+  padding: 10px;
+  width: 65px;
+}
+.number-box {
+  font-size: 2.5em;
+  font-weight: 600;
+  margin: 0;
+  color: #444444;
+}
+.title-box {
+  font-size: 1.75em;
+  font-weight: 500;
+  margin-top: -3px;
+  margin-bottom: 0;
+  color: #444444;
+}
+#name_title {
+  color: #444444;
+  font-size: 3.75em;
+  font-weight: 700;
+  padding-top: 25px;
+  margin: 0;
+}
+#follow_button_section {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+#follow_button_section > button {
+  width: 150px !important;
+}
+#follow_button {
+  color: #ffffff !important;
+  border: 2px solid #ff8864 !important;
+  background-color: #ff8864 !important;
+}
+#bio {
+  color: #444444;
+  font-size: 1.6em;
+  font-weight: 500;
+  margin: 0;
+  padding-top: 15px;
+  width: 400px;
+  line-height: 21px;
+}
+#profile-pic {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #444444;
+}
+#profile-frame {
+  border-radius: 50%;
+  border: 2px solid #a0a0a0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3px;
+  position: relative;
+}
+#profile-section {
+  margin-top: 5px;
+}
+#rating {
   display: flex;
   align-items: center;
+}
+#rating > h2 {
+  font-size: 2em;
+}
+.star {
+  width: 20px;
+  margin-right: 4px;
+}
+#profile-button,
+#switch-button {
+  display: flex;
   justify-content: space-between;
+  align-items: center;
 }
-
-.transaction-text {
-  font-size: 1.75em;
+#switch-button {
+  padding-left: 10px;
+}
+#bio-mobile {
+  display: none;
+}
+#profile-button {
+  margin-top: 10px;
+  padding-bottom: 15px;
+}
+#profile-button > div > button,
+#switch-button > button {
+  background-color: #ffffff;
+  font-family: "Atten-Round-New";
+  text-transform: uppercase;
+  font-size: 1.25em;
+  font-weight: 600;
   margin: 0px;
-  font-weight: 500;
 }
-
-.transaction-info {
-  font-size: 1.5em;
-  margin: 0px;
-  font-weight: 500;
-  color: #a0a0a0;
+#profile-button > div > button {
+  color: #ff8864;
+  border: 2px solid #ff8864;
+  border-radius: 16px;
+  padding: 5px 18px;
 }
-
-#bar {
-  height: 0.1px;
-  border-width: 0;
-  color: #a0a0a0;
-  background-color: #a0a0a0;
-  margin-top: -15px;
+#switch-button > button {
+  color: #ffffff;
+  border: none;
+  padding: 7px 18px;
+  background-color: #ffc661;
+  border-radius: 9px;
 }
-.menu-text {
-  font-size: 2.25em;
-  font-weight: 500;
-  padding-right: 19px;
-  margin-top: 5px;
-  padding-bottom: 7px;
+#edit-box {
+  display: block;
+}
+#double-flex {
+  display: flex;
+  align-items: center;
+  margin: 10px 0px;
+}
+.input_bio_box {
+  font-size: 1.6em;
+  font-weight: 400;
   color: #444444;
+  padding: 5px 10px;
+  border: 1.6px solid #e3e3e3;
+  border-radius: 10px;
+  box-shadow: none;
+  width: 400px;
+  line-height: 21px;
+  font-weight: 500;
+  margin: 15px 0px 2px 0px;
+}
+.pictureUpload {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.input_username_box {
+  color: #444444;
+  padding: 3px 10px;
+  border: 1.75px solid #e3e3e3;
+  border-radius: 10px;
+  box-shadow: none;
+  width: 400px;
+  line-height: 21px;
+  margin: 25px 0px 0px 0px;
+  font-size: 3.75em;
+  font-weight: 700;
+}
+#upload-photo {
+  background-color: #fe8864;
+  border: none;
+  border-radius: 50%;
+  padding: 7px;
+  position: absolute;
+  bottom: 2px;
+  right: 5px;
   cursor: pointer;
 }
-
-.selected {
-  font-weight: 600;
-  border-bottom: 5px solid #fe8864;
+#upload-photo > img {
+  width: 22px;
+  height: 22px;
 }
-
 @media screen and (max-width: 1024px) {
-  .popup-form {
-    margin: 50px 0px 20px 0px;
+  #profile-section {
+    display: block;
+  }
+  #upload-photo {
+    bottom: -70px;
+    right: 0px;
+  }
+  #profile-button {
+    padding: 0px;
+    margin: 20px 0px;
+  }
+  .input_username_box,
+  .input_bio_box {
+    width: 100%;
+  }
+  #left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+  }
+  #profile-frame {
+    width: 140px;
+    height: 140px;
+  }
+  #double-flex {
+    justify-content: space-around;
+  }
+  #bio-mobile {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+  #bio-default {
+    display: none;
+  }
+  #name_title {
+    text-align: center;
+  }
+  #left,
+  #right {
+    margin-right: 0px;
+    margin-left: 0px;
   }
 }
-
 @media screen and (max-width: 690px) {
-  #yellow-box {
-    padding: 30px 100px;
+  #profile-frame,
+  #profile-pic {
+    width: 100px;
+    height: 100px;
   }
-
-  #point {
-    font-size: 3em;
+  #name_title {
+    padding-top: 15px;
   }
-
-  #coin-logo {
-    width: 25px;
-    height: 25px;
+  #upload-photo > img {
+    width: 20px;
+    height: 20px;
+  }
+  #upload-photo {
+    bottom: -60px;
+    right: 0px;
+  }
+  #double-flex {
+    display: block;
+    margin-bottom: 0px;
+  }
+  .input_username_box,
+  .input_bio_box {
+    width: 200px;
+  }
+  #follower-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #follower {
+    flex-wrap: wrap;
+    width: 180px;
+    justify-content: center;
+  }
+  .popup-form {
+    padding: 0px 40px !important;
+  }
+  .verticle-box {
+    width: 50px;
+    margin: 10px;
+  }
+  #username-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .number-box {
+    font-size: 2em;
+  }
+  .title-box {
+    font-size: 1.6em;
+  }
+  #rating {
+    justify-content: center;
+  }
+  #profile-button > div > button {
+    width: 100%;
+  }
+  #profile-button > div > button:nth-child(1),
+  #profile-button > div > button:nth-child(1) {
+    margin-bottom: 10px;
+  }
+  #bio {
+    width: 150px;
+  }
+  #switch-button {
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #profile-button {
+    display: block;
+    margin: 0px;
+  }
+  #profile-button-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #switch-button > button {
+    width: 170px;
+    margin: 10px 0px;
   }
 }
-
 @media screen and (max-width: 490px) {
   .popup-form {
-    padding-right: 30px !important;
-    padding-left: 30px !important;
-  }
-
-  #transaction-box {
-    width: 240px;
-  }
-
-  .transaction-text {
-    font-size: 1.5em;
-  }
-
-  .transaction-info {
-    font-size: 1.3em;
-  }
-
-  #yellow-box {
-    padding: 20px 0px;
+    padding: 0px 20px !important;
   }
 }
 </style>

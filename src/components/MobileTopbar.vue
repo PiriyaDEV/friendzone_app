@@ -98,13 +98,6 @@
               />
               <span class="menu-text">Mainpage</span>
             </a>
-            <a @click="eventClick()" id="event" class="menu-box">
-              <img
-                class="menu-icon"
-                src="@/assets/icon/icon-white/icons8-event-96-w.png"
-              />
-              <span class="menu-text">Event</span>
-            </a>
             <a @click="discountClick()" id="discount" class="menu-box">
               <img
                 class="menu-icon"

@@ -1,18 +1,24 @@
 <template>
   <div id="discount-box" @click="Onclick()">
-    <img
-      class="cover"
-      src="https://media-cdn.tripadvisor.com/media/photo-s/0b/f4/9a/78/omakase.jpg"
-    />
+    <img class="cover" :src="discount.discount_pic" />
     <div id="text-box">
-      <h1 class="discount-title">Premium sashimi sushi for 4 people Premium sashimi sushi for 4 people</h1>
+      <h1 class="discount-title">
+        {{ discount.name }}
+      </h1>
       <h1 class="discount-description">
-        Extra sushi set for 4 people can be use only 1 per bills Premium sashimi sushi for 4 people
+        {{ discount.description }}
       </h1>
       <div id="value">
         <div class="coin-section">
           <img id="coin-icon" src="@/assets/icon/coin.png" />
-          <h1 class="coin-title">2500</h1>
+          <h1 class="coin-title">
+            <span v-if="discount.redeem_point == 0">
+              FREE
+            </span>
+            <span v-else>
+              {{discount.redeem_point}}
+            </span>
+          </h1>
         </div>
       </div>
     </div>
@@ -21,9 +27,12 @@
 
 <script>
 export default {
+  name: "DiscountFlex",
+  props: ["discount"],
   methods: {
     Onclick() {
       this.$emit("clickDiscountFlex", true);
+      this.$emit("discountData", this.discount);
     }
   }
 };
