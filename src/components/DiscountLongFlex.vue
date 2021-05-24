@@ -1,29 +1,37 @@
 <template>
   <div>
-    <div @click="clickDiscount()" id="discount-flex-box" style="cursor: pointer;">
+    <div
+      @click="clickDiscount()"
+      id="discount-flex-box"
+      style="cursor: pointer;"
+    >
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
       />
 
-      <img
-        class="discount-pic"
-        src="https://www-cms.majorcineplex.com/uploads/content/16217/cover_16217.jpg"
-      />
+      <img class="discount-pic" :src="discount.discount_pic" />
 
       <div id="title-section">
         <h1 class="discount-title">
-          This is a fucking new discount title name so why the another page doesn't not update wtf
+          {{ discount.name }}
         </h1>
         <h1 class="discount-description">
-          This is a fucking new discount description name so why the another page doesn't not update wtf
+          {{ discount.description }}
         </h1>
       </div>
-      
+
       <div v-if="statusYourZone != true" id="coin-section">
         <div>
           <img id="coin-icon" src="@/assets/icon/coin.png" />
-          <h1 class="coin-title">2500</h1>
+          <h1 class="coin-title">
+            <span v-if="discount.redeem_point == 0">
+              FREE
+            </span>
+            <span v-else>
+              {{discount.redeem_point}}
+            </span>
+          </h1>
         </div>
       </div>
       <!-- Button -->
@@ -32,7 +40,6 @@
       </div>
       <!-- Button -->
     </div>
-
   </div>
 </template>
 
@@ -41,17 +48,19 @@ export default {
   name: "DiscountLongFlex",
   methods: {
     moreDetail() {
-      if(this.statusYourZone == true) {
+      if (this.statusYourZone == true) {
         this.$emit("discountReturn", true);
+        this.$emit("discountData", this.discount);
       }
     },
     clickDiscount() {
-      if(!this.statusYourZone) {
+      if (!this.statusYourZone) {
         this.$emit("clickDiscountLongFlex", true);
+        this.$emit("discountData", this.discount);
       }
     }
   },
-  props: ["statusYourZone"]
+  props: ["statusYourZone", "discount"]
 };
 </script>
 
@@ -72,6 +81,7 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
   width: calc(100% - 30px);
+  height: 29px;
   line-height: 16px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -89,6 +99,7 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
   width: calc(100% - 30px);
+  height: 32px;
   line-height: 16px;
   display: -webkit-box;
   -webkit-line-clamp: 2;

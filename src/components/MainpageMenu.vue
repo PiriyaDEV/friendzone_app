@@ -128,8 +128,10 @@
         </div>
         <!-- Chat -->
 
-        <!-- Analyst -->
+        <div class="middle-menu">
+          <!-- Analyst -->
         <div
+          v-if="role == `RO02` || role == `RO01`"
           @click="analystClick()"
           style="cursor: pointer;"
           class="middle-menu section"
@@ -152,9 +154,9 @@
           </div>
         </div>
         <!-- Analyst -->
-
         <!-- Approver -->
         <div
+          v-if="role == `RO03` || role == `RO01`"
           @click="approverClick()"
           style="cursor: pointer;"
           class="section"
@@ -177,6 +179,7 @@
           </div>
         </div>
         <!-- Approver -->
+        </div>
 
         <!-- Report -->
         <div
@@ -201,7 +204,6 @@
           </div>
         </div>
         <!-- Report -->
-
         <!-- Sign out -->
         <div
           @click="signoutClick()"
@@ -233,11 +235,13 @@
 
 <script>
 import AuthService from "../services/auth.service";
+import decode from "jwt-decode";
 
 export default {
   name: "Mainpage",
   data() {
     return {
+      role: "",
       zoneselect: true,
       eventselect: false,
       discountselect: false,
@@ -248,6 +252,9 @@ export default {
       analystselect: false,
       approverselect: false
     };
+  },
+  created() {
+    this.getRole()
   },
   methods: {
     createdReturn() {
@@ -359,6 +366,10 @@ export default {
       (this.reportselect = false), (this.signoutselect = false);
       this.$emit("clickClearSearch", true);
       this.$emit("pageReturn", 8);
+    },
+    getRole() {
+      let userData = decode(localStorage.getItem("user"));
+      this.role = userData.role_id;
     }
   },
   computed: {
@@ -577,7 +588,6 @@ export default {
 
 .middle-menu {
   margin-top: 30px;
-  cursor: pointer;
 }
 
 #create-event-button > button {

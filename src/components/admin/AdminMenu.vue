@@ -41,26 +41,6 @@
         </div>
         <!-- Your Zone -->
 
-        <!-- Event -->
-        <div @click="eventClick()" :class="eventbox" style="cursor: pointer;">
-          <div>
-            <img
-              v-show="eventselect == false"
-              class="menu-icon"
-              src="@/assets/icon/icons8-event-96-b.png"
-            />
-            <img
-              v-show="eventselect == true"
-              class="menu-icon"
-              src="@/assets/icon/icons8-event-96-o.png"
-            />
-          </div>
-          <div>
-            <h1 :class="eventtext">Event</h1>
-          </div>
-        </div>
-        <!-- Event -->
-
         <!-- Discount -->
         <div
           @click="discountClick()"
@@ -157,7 +137,6 @@ export default {
   data() {
     return {
       mainpageselect: true,
-      eventselect: false,
       discountselect: false,
       userselect: false,
       reportselect: false,
@@ -167,25 +146,14 @@ export default {
   methods: {
     mainpageClick() {
       this.mainpageselect = true;
-      this.eventselect = false;
       this.discountselect = false;
       this.userselect = false;
       this.reportselect = false;
       (this.signoutselect = false), this.$emit("clickClearSearch", true);
       this.$emit("pageReturnAdmin", 1);
     },
-    eventClick() {
-      this.mainpageselect = false;
-      this.eventselect = true;
-      this.discountselect = false;
-      this.userselect = false;
-      this.reportselect = false;
-      (this.signoutselect = false), this.$emit("clickClearSearch", true);
-      this.$emit("pageReturnAdmin", 2);
-    },
     discountClick() {
       this.mainpageselect = false;
-      this.eventselect = false;
       this.discountselect = true;
       this.userselect = false;
       this.reportselect = false;
@@ -194,7 +162,6 @@ export default {
     },
     userClick() {
       this.mainpageselect = false;
-      this.eventselect = false;
       this.discountselect = false;
       this.userselect = true;
       this.reportselect = false;
@@ -203,7 +170,6 @@ export default {
     },
     reportClick() {
       this.mainpageselect = false;
-      this.eventselect = false;
       this.discountselect = false;
       this.userselect = false;
       this.reportselect = true;
@@ -212,7 +178,6 @@ export default {
     },
     signoutClick() {
       this.mainpageselect = false;
-      this.eventselect = false;
       this.discountselect = false;
       this.userselect = false;
       this.reportselect = false;
@@ -232,22 +197,6 @@ export default {
       let unselect = "menu-text";
       let select = "menu-text-select";
       if (this.mainpageselect === true) {
-        return select;
-      }
-      return unselect;
-    },
-    eventbox() {
-      let select = "section menu-box";
-      let unselect = "section menu-box-unselect";
-      if (this.eventselect === true) {
-        return select;
-      }
-      return unselect;
-    },
-    eventtext() {
-      let unselect = "menu-text";
-      let select = "menu-text-select";
-      if (this.eventselect === true) {
         return select;
       }
       return unselect;

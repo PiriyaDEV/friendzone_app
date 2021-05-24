@@ -31,6 +31,7 @@
         @clickDiscount="clickDiscount"
         @clickDiscount2="clickDiscount2"
         :clickFromYourZone="discountShow"
+        :Discount="discount"
       />
       <PointDetail v-if="pointPage == true" @point="point" />
       <ManageEvent
@@ -137,6 +138,7 @@
 
           <div v-if="select == 5 && !searchBar">
             <Discountpage
+              @discountData="discountData"
               @clickDiscount2="clickDiscount2"
               :discountSelect="select"
             />
@@ -295,6 +297,7 @@ export default {
       confirmDeleteData: null,
       manageShow: false,
       editDatabaseShow: false,
+      discount: [],
       role: 1,
       selectAdmin: 1,
       eventData: "",
@@ -436,6 +439,9 @@ export default {
         this.createShow = false;
         this.manageShow = false;
       }
+    },
+    discountData(value) {
+      this.discount = value;
     },
     notificationShow(value) {
       this.notiShow = value;

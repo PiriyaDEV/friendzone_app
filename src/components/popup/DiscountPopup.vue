@@ -10,22 +10,18 @@
         <div class="section">
           <img
             class="discount-pic"
-            src="https://www-cms.majorcineplex.com/uploads/content/16217/cover_16217.jpg"
+           :src="Discount.discount_pic"
           />
         </div>
 
         <div class="section">
           <div id="info-box">
-            <h1 id="title">FREE popcorn and soft drink</h1>
+            <h1 id="title">{{ Discount.name }}</h1>
 
             <h1 class="detail">
-              1 free big popcorn and 1 big glass of soft drink of your selection
+              {{ Discount.description }}
               <br v-if="!checkUsed" />
               <br v-if="!checkUsed" />
-              <span v-if="!checkUsed">
-                NOTE : Can be used at any branch of Minor Cineplex (Except
-                ICONSIAM)</span
-              >
             </h1>
           </div>
         </div>
@@ -45,12 +41,19 @@
             <h1 class="header_description">Use within</h1>
           </div>
           <div class="right">
-            <h1 class="description">30 May 2021 23:59</h1>
+            <h1 class="description">{{ Discount.period_end }}</h1>
             <div id="coin">
               <img src="@/assets/icon/coin.png" />
-              <h1 class="discount-title header_description">2500</h1>
+              <h1 class="discount-title header_description">
+                <span v-if="Discount.redeem_point == 0">
+                  FREE
+                </span>
+                <span v-else>
+                  {{ Discount.redeem_point }}
+                </span>
+              </h1>
             </div>
-            <h1 class="description">11 Oct 2021 23:59</h1>
+            <h1 class="description">{{ Discount.expired }}</h1>
           </div>
         </div>
 
@@ -106,7 +109,7 @@ export default {
       confirmUsed: false
     };
   },
-  props: ["clickFromYourZone"],
+  props: ["clickFromYourZone","Discount"],
   methods: {
     cancelDiscount() {
       this.$emit("clickDiscount", false);

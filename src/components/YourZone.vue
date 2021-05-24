@@ -224,16 +224,12 @@
         </div>
         <!-- DISCOUNT -->
 
-        <div>
-          <NoInformation v-if="eventListLongFlex.length == 0" />
-        </div>
-
-        <div>
-          <!-- Event -->
+        <div v-if="discountShow.length">
+          <!-- Discount -->
           <div id="container">
             <div class="event-container">
               <div class="list event-flex-wrap-section">
-                <div v-for="(item, i) in eventListLongFlex" :key="i">
+                <div v-for="(discount, i) in discountShow" :key="i">
                   <DiscountLongFlex
                     :statusYourZone="checkStatus"
                     @discountReturn="discountReturn"
@@ -242,9 +238,10 @@
               </div>
             </div>
 
-            <!-- Event -->
+            <!-- Discount -->
           </div>
         </div>
+        <div v-else><NoInformation /></div>
       </div>
     </div>
   </div>
@@ -254,6 +251,7 @@
 import EventFlex from "@/components/EventFlex.vue";
 import DiscountLongFlex from "@/components/DiscountLongFlex.vue";
 import EventService from "@/services/event.service";
+//import DiscountService from "@/services/discount.service";
 import UserService from "@/services/user.service";
 import decode from "jwt-decode";
 import NoInformation from "@/components/NoInformation.vue";
@@ -286,7 +284,8 @@ export default {
       requestedEventList: [],
       interestedEventShow: [],
       interestedEventList: [],
-      eventListLongFlex: 10
+      discountShow: [],
+      discountList: []
     };
   },
   props: ["discountSelect"],
@@ -341,6 +340,8 @@ export default {
     },
     discount: function() {
       if (this.discount == true) {
+        this.discountShow = [];
+        this.getDiscountList();
         this.discountFilter = "all";
         this.selectDiscount = "menu-box-orange";
         this.request = false;
@@ -543,6 +544,19 @@ export default {
         .catch(() => {
           this.interestedEventShow = [];
         });
+    },
+    getDiscountList() {
+      console.log(this.discountShow.length)
+      // DiscountService.getDiscount()
+      //   .then((res) => {
+      //     if (res) {
+      //       this.discountShow = res;
+      //       this.discountList = res;
+      //     }
+      //   })
+      //   .catch(() => {
+      //     this.discountShow = [];
+      //   });
     }
   },
   computed: {
