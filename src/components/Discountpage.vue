@@ -88,6 +88,10 @@ export default {
     DiscountLongFlex,
     NoInformation
   },
+  created() {
+    this.getHotDiscount();
+    this.getBrowseDiscount();
+  },
   methods: {
     clickDiscountLongFlex(value) {
       this.$emit("clickDiscount2", value);
@@ -96,19 +100,30 @@ export default {
       this.$emit("clickDiscount2", value);
     },
     discountData(value) {
-      this.$emit("discountData",value);
+      this.$emit("discountData", value);
+    },
+    getHotDiscount() {
+      DiscountService.getHotDiscount()
+        .then((res) => {
+          if (res) {
+            this.discountHotList = res;
+          }
+        })
+        .catch(() => {
+          this.discountHotList = [];
+        });
+    },
+    getBrowseDiscount() {
+      DiscountService.getBrowseDiscount()
+        .then((res) => {
+          if (res) {
+            this.discountBrowseList = res;
+          }
+        })
+        .catch(() => {
+          this.discountBrowseList = [];
+        });
     }
-  },
-  created() {
-    DiscountService.getBrowseDiscount()
-      .then((res) => {
-        if (res) {
-          this.discountBrowseList = res;
-        }
-      })
-      .catch(() => {
-        this.discountBrowseList = [];
-      });
   }
 };
 </script>

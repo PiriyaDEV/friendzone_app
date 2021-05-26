@@ -401,7 +401,8 @@
               </h2>
               <div class="number">
                 <span class="minus" @click="clickLimit(false)">-</span>
-                <input type="number" v-model="discount.limits" />
+                  <input v-if="discount.limits == 0" type="text" disabled="disabled" v-model="unlimited" />
+                  <input v-else type="number" v-model="discount.limits" />
                 <span class="plus" @click="clickLimit(true)">+</span>
               </div>
             </div>
@@ -450,7 +451,8 @@ class constructDate {
 export default {
   data() {
     return {
-      discount: new Discount("")
+      discount: new Discount(""),
+      unlimited : "No Limit"
     };
   },
   components: {
@@ -473,7 +475,7 @@ export default {
     this.discount.period_end = new constructDate(0);
     this.discount.expired = new constructDate(0);
     this.discount.redeem_point = 0;
-    this.discount.limits = 1;
+    this.discount.limits = 0;
   },
   methods: {
     createReturn() {
@@ -489,7 +491,7 @@ export default {
     clickLimit(status) {
       this.discount.limits = parseInt(this.discount.limits);
       if (!status) {
-        if (this.discount.limits > 1)
+        if (this.discount.limits > 0)
           this.discount.limits = this.discount.limits - 1;
       } else this.discount.limits = this.discount.limits + 1;
     },
@@ -552,6 +554,7 @@ export default {
               if (res) {
                 console.log(res);
                 this.$emit("informationShow", true);
+                this.$emit("clickCreate", false);
               }
             });
           }
@@ -787,7 +790,7 @@ option {
   border-bottom-right-radius: 8px;
 }
 
-.number > input {
+.number > input{
   text-align: center;
   border-top: 2px solid #e3e3e3;
   border-bottom: 2px solid #e3e3e3;

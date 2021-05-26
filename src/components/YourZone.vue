@@ -231,6 +231,7 @@
               <div class="list event-flex-wrap-section">
                 <div v-for="(discount, i) in discountShow" :key="i">
                   <DiscountLongFlex
+                    :discount="discount"
                     :statusYourZone="checkStatus"
                     @discountReturn="discountReturn"
                   />
@@ -251,7 +252,7 @@
 import EventFlex from "@/components/EventFlex.vue";
 import DiscountLongFlex from "@/components/DiscountLongFlex.vue";
 import EventService from "@/services/event.service";
-//import DiscountService from "@/services/discount.service";
+import DiscountService from "@/services/discount.service";
 import UserService from "@/services/user.service";
 import decode from "jwt-decode";
 import NoInformation from "@/components/NoInformation.vue";
@@ -546,17 +547,16 @@ export default {
         });
     },
     getDiscountList() {
-      console.log(this.discountShow.length)
-      // DiscountService.getDiscount()
-      //   .then((res) => {
-      //     if (res) {
-      //       this.discountShow = res;
-      //       this.discountList = res;
-      //     }
-      //   })
-      //   .catch(() => {
-      //     this.discountShow = [];
-      //   });
+      DiscountService.getMyDiscount()
+        .then((res) => {
+          if (res) {
+            this.discountShow = res;
+            this.discountList = res;
+          }
+        })
+        .catch(() => {
+          this.discountShow = [];
+        });
     }
   },
   computed: {

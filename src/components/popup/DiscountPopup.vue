@@ -38,6 +38,7 @@
             </h1>
             <h1 v-else class="header_description">Buy within</h1>
             <h1 class="header_description">Point Used</h1>
+            <h1 class="header_description">Quota(s)</h1>
             <h1 class="header_description">Use within</h1>
           </div>
           <div class="right">
@@ -53,6 +54,14 @@
                 </span>
               </h1>
             </div>
+            <h1 class="header_description">
+              <span v-if="Discount.limits == 0">
+                No Limit
+              </span>
+              <span v-else>
+                {{ Discount.limits}} Left
+              </span>
+            </h1>
             <h1 class="description">{{ Discount.expired }}</h1>
           </div>
         </div>
@@ -83,6 +92,7 @@
           </div>
         </div>
         <div v-else id="button">
+          <!-- <button :class="cssBuy">Buy with point</button> -->
           <button class="create_button">Buy with point</button>
         </div>
 
@@ -124,6 +134,16 @@ export default {
     },
     cancelUse() {
       this.checkUsed = false;
+    }
+  },
+  computed: {
+    cssBuy() {
+      let purchasable = "create_button"
+      let unpurchasable = "create_button block_buy"
+        if(this.te == true) {
+          return purchasable
+        }
+        return unpurchasable
     }
   }
 };
@@ -248,6 +268,11 @@ h1 {
 #info-box,
 #button-container {
   width: 250px;
+}
+
+.block_buy{
+  background-color: #a0a0a0;
+  cursor: default;
 }
 
 @media screen and (max-width: 690px) {

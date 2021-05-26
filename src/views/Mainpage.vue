@@ -214,6 +214,8 @@
             @editDatabase="editDatabase"
           />
           <AdminReport v-if="selectAdmin == 5" />
+
+          <AdminUser v-if="selectAdmin == 4" />
         </div>
       </div>
     </div>
@@ -241,6 +243,7 @@ import History from "@/components/History.vue";
 import AdminMainpage from "@/components/admin/AdminMainpage.vue";
 import AdminMenu from "@/components/admin/AdminMenu.vue";
 import AdminReport from "@/components/admin/report/AdminReport.vue";
+import AdminUser from "@/components/admin/user/AdminUser.vue";
 import CreateDiscount from "@/components/admin/popup/CreateDiscount.vue";
 import EditUser from "@/components/admin/popup/EditUser.vue";
 import EditDatabase from "@/components/admin/popup/EditDatabase.vue";
@@ -279,7 +282,8 @@ export default {
     AnalystPage,
     ApproverPage,
     PointDetail,
-    Notification
+    Notification,
+    AdminUser
   },
   data() {
     return {
