@@ -10,7 +10,14 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
       />
 
+      <!-- ShowBox -->
+      <div v-if="discount.status_id == 'ST17'" id="used-box">
+        <h1>DISCOUNT HAS BEEN USED</h1>
+      </div>
+      <!-- ShowBox -->
+
       <img class="discount-pic" :src="discount.discount_pic" />
+      
 
       <div id="title-section">
         <h1 class="discount-title">
@@ -153,5 +160,23 @@ export default {
   justify-content: flex-end;
   padding: 20px 15px 0px;
   /* padding: 50px 15px 0px; */
+}
+
+#used-box > h1{
+  margin: 0;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+#used-box {
+  padding: 5px 10px;
+  border-radius: 16px;
+  text-align: center;
+  position: absolute;
+  top: 102px;
+  left: 13px;
+  z-index: 3;
+  color: #ff8864;
+  background-color: white;
 }
 </style>

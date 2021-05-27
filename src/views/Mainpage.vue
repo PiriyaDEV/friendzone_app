@@ -112,6 +112,7 @@
               @pendingShow="pendingShow"
               @userProfile="userProfile"
               @onEvent="onEvent"
+              @discountData="discountData"
               :discountSelect="select"
             />
           </div>

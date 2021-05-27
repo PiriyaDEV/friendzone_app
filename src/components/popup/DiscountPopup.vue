@@ -2,16 +2,13 @@
   <div id="discount-popup" class="popup">
     <div class="popup-section section">
       <div class="popup-form">
-        <h1 id="header" class="header_title" v-if="!checkUsed">
+        <h1 id="header" class="header_title" v-if="!used">
           DISCOUNT DETAILS
         </h1>
-        <div v-if="checkUsed" style="height: 50px"></div>
+        <div v-if="used" style="height: 50px"></div>
 
         <div class="section">
-          <img
-            class="discount-pic"
-           :src="Discount.discount_pic"
-          />
+          <img class="discount-pic" :src="Discount.discount_pic" />
         </div>
 
         <div class="section">
@@ -20,29 +17,34 @@
 
             <h1 class="detail">
               {{ Discount.description }}
-              <br v-if="!checkUsed" />
-              <br v-if="!checkUsed" />
+              <br v-if="!used" />
+              <br v-if="!used" />
             </h1>
           </div>
         </div>
 
-        <h1 id="confirm" v-if="checkUsed">
+        <h1 id="confirm" v-if="used">
           Do you confirm to <br />
           use the discount?
         </h1>
 
-        <div id="condition" v-if="!checkUsed">
+        <div id="condition" v-if="!used">
           <div class="left">
-            <h1 v-if="clickFromYourZone == true" class="header_description">
+            <h1 v-if="clickFromYourZone" class="header_description">
               Bought on
             </h1>
             <h1 v-else class="header_description">Buy within</h1>
             <h1 class="header_description">Point Used</h1>
-            <h1 class="header_description">Quota(s)</h1>
+            <h1 v-if="!clickFromYourZone" class="header_description">
+              Quota(s)
+            </h1>
             <h1 class="header_description">Use within</h1>
           </div>
           <div class="right">
-            <h1 class="description">{{ Discount.period_end }}</h1>
+            <h1 v-if="clickFromYourZone" class="description">
+              {{ Discount.created_at }}
+            </h1>
+            <h1 v-else class="description">{{ Discount.period_end }}</h1>
             <div id="coin">
               <img src="@/assets/icon/coin.png" />
               <h1 class="discount-title header_description">
@@ -54,13 +56,11 @@
                 </span>
               </h1>
             </div>
-            <h1 class="header_description">
+            <h1 v-if="!clickFromYourZone" class="header_description">
               <span v-if="Discount.limits == 0">
                 No Limit
               </span>
-              <span v-else>
-                {{ Discount.limits}} Left
-              </span>
+              <span v-else> {{ Discount.limits }} Left </span>
             </h1>
             <h1 class="description">{{ Discount.expired }}</h1>
           </div>
@@ -70,15 +70,15 @@
         <div v-if="clickFromYourZone == true" id="button">
           <button
             class="create_button"
-            v-if="!checkUsed && !confirmUsed"
+            v-if="!used"
             @click="clickUseNow()"
           >
             Use Now
           </button>
-          <button class="create_button used" v-if="confirmUsed">
+          <button v-else class="create_button used">
             Used
           </button>
-          <div v-if="checkUsed" class="section double-button">
+          <div v-if="showConfirm" class="section double-button">
             <div id="button-container">
               <div>
                 <button class="create_button" @click="clickConfirmUse()">
@@ -96,7 +96,7 @@
           <button class="create_button">Buy with point</button>
         </div>
 
-        <h1 id="caution" v-if="!checkUsed">
+        <h1 id="caution" v-if="!used">
           Please show this page to officer before use
         </h1>
 
@@ -112,38 +112,53 @@
 </template>
 
 <script>
+import DiscountService from "@/services/discount.service";
+
 export default {
   data() {
     return {
-      checkUsed: false,
-      confirmUsed: false
+      used: false,
+      showConfirm: false
     };
   },
-  props: ["clickFromYourZone","Discount"],
+  props: ["clickFromYourZone", "Discount"],
+  created() {
+    if (this.Discount.status_id == "ST17") {
+      this.used = true;
+    }
+  },
   methods: {
     cancelDiscount() {
       this.$emit("clickDiscount", false);
       this.$emit("clickDiscount2", false);
     },
     clickUseNow() {
-      this.checkUsed = true;
+      this.showConfirm = true;
     },
     clickConfirmUse() {
-      this.confirmUsed = true;
-      this.checkUsed = false;
+      DiscountService.useDiscount(this.Discount.user_discount_id)
+        .then((res) => {
+          if (res) {
+            this.used = true;
+            this.showConfirm = false;
+          }
+        })
+        .catch(() => {
+          console.log("Error when use the discount");
+        });
     },
     cancelUse() {
-      this.checkUsed = false;
+      this.showConfirm = false;
     }
   },
   computed: {
     cssBuy() {
-      let purchasable = "create_button"
-      let unpurchasable = "create_button block_buy"
-        if(this.te == true) {
-          return purchasable
-        }
-        return unpurchasable
+      let purchasable = "create_button";
+      let unpurchasable = "create_button block_buy";
+      if (this.te == true) {
+        return purchasable;
+      }
+      return unpurchasable;
     }
   }
 };
@@ -270,7 +285,7 @@ h1 {
   width: 250px;
 }
 
-.block_buy{
+.block_buy {
   background-color: #a0a0a0;
   cursor: default;
 }

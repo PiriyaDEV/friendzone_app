@@ -218,8 +218,9 @@
           <h1 class="event-header">DISCOUNT</h1>
           <select id="select-event" v-model="discountFilter">
             <option value="all">All Discounts</option>
-            <option value="host">Hosted</option>
-            <option value="interest">Interested</option>
+            <option value="unused">Unused</option>
+            <option value="used">Used</option>
+            <option value="expired">Expired</option>
           </select>
         </div>
         <!-- DISCOUNT -->
@@ -234,6 +235,7 @@
                     :discount="discount"
                     :statusYourZone="checkStatus"
                     @discountReturn="discountReturn"
+                    @discountData="discountData"
                   />
                 </div>
               </div>
@@ -353,7 +355,8 @@ export default {
     },
     hostFilter: function() {
       this.hostedEventShow = [];
-      if (this.hostFilter == "all") this.hostedEventShow = this.hostedEventList;
+      if (this.hostFilter == "all")
+        this.hostedEventShow = this.hostedEventList;
       else if (this.hostFilter == "pending") {
         this.hostedEventShow = this.hostedEventList.filter(
           (event) => event.status_id == "ST13"
@@ -385,7 +388,8 @@ export default {
     },
     joinFilter: function() {
       this.joinedEventShow = [];
-      if (this.joinFilter == "all") this.joinedEventShow = this.joinedEventList;
+      if (this.joinFilter == "all")
+        this.joinedEventShow = this.joinedEventList;
       else if (this.joinFilter == "ongoing") {
         this.joinedEventShow = this.joinedEventList.filter((event) => {
           let currentTime = new Date().getTime();
@@ -422,6 +426,25 @@ export default {
           (event) => event.user_id == user.user_id
         );
       }
+    },
+    discountFilter: function() {
+      this.discountShow = [];
+      if (this.discountFilter == "all")
+        this.discountShow = this.discountList;
+      else if (this.discountFilter == "unused") {
+        this.discountShow = this.discountList.filter(
+          (discount) => discount.status_id == "ST16"
+        );
+      } else if (this.discountFilter == "used") {
+        this.discountShow = this.discountList.filter(
+          (discount) => discount.status_id == "ST17"
+        );
+      } else if (this.discountFilter == "expired") {
+        this.discountShow = this.discountList.filter((discount) => {
+          let currentTime = new Date().getTime();
+          return currentTime > discount.expired;
+        });
+      }
     }
   },
   components: {
@@ -452,6 +475,9 @@ export default {
     },
     discountReturn(value) {
       this.$emit("clickDiscount", value);
+    },
+    discountData(value) {
+      this.$emit("discountData", value);
     },
     manageReturn(value) {
       this.$emit("manage", true);
