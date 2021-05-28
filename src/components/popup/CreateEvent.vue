@@ -405,6 +405,7 @@ import GenderService from "../../services/gender.service";
 import CategoryService from "../../services/category.service";
 import EventService from "../../services/event.service";
 import Upload from "@/components/UploadPic.vue";
+import decode from "jwt-decode";
 
 class constructDate {
   constructor(date) {
@@ -453,7 +454,8 @@ export default {
       gender_value: [],
       gender_options: [],
       category_value: [],
-      category_options: []
+      category_options: [],
+      role: ""
     };
   },
   components: {
@@ -471,6 +473,10 @@ export default {
     },
     createdReturn() {
       this.$emit("clickCreate", false);
+    },
+    getRole() {
+      let userData = decode(localStorage.getItem("user"));
+      this.role = userData.role_id;
     },
     ClickCreate() {
       this.hs = this.date_start.h1 + this.date_start.h2;
@@ -526,7 +532,11 @@ export default {
             ).then((res) => {
               if (res) {
                 console.log(res);
-                this.$emit("informationShow", true);
+                if(this.role == "RO01") {
+                  this.$router.push("/");
+                }else {
+                  this.$emit("informationShow", true);
+                }
               }
             });
           }
@@ -550,6 +560,7 @@ export default {
     });
   },
   created() {
+    this.getRole();
     GenderService.getGenderList().then((res) => {
       if (res) {
         res.forEach((gender) => {

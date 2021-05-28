@@ -1,6 +1,6 @@
 <template>
   <div id="discount-page" class="event-container">
-    <div id="banner" hidden>
+    <div id="banner">
       <img
         src="https://assets.grab.com/wp-content/uploads/sites/10/2020/03/31121328/27.03-GRABPAY-CITI-WEEKDAY-PROMO-Blog.jpg"
         alt=""

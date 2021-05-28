@@ -35,14 +35,6 @@ class PointTransactionService {
       let startMonth = created_at.getMonth();
       let startYear = created_at.getFullYear();
       point.date = `${startDate} ${months[startMonth]} ${startYear}`;
-
-      if (point.point >= 0) {
-        point.point = "+ " + point.point + " P";
-        point.positive = true;
-      } else {
-        point.point = "- " + point.point + " P";
-        point.positive = false;
-      }
     });
     return res.data;
   }

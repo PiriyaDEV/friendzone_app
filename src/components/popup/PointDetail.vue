@@ -38,11 +38,17 @@
               <div v-for="(pointLog, i) in pointLogList" :key="i">
                 <div id="transaction">
                   <div class="transaction-flex">
-                    <h1 class="transaction-text black-color">
+                    <h1 class="transaction-text transaction-title black-color">
                       {{ pointLog.title }}
                     </h1>
-                    <h1 :class="cssPoint">
-                      {{ pointLog.point }}
+                    <h1 v-if="pointLog.point == 0" class="transaction-text gray-color">
+                      {{ pointLog.point }} P
+                    </h1>
+                    <h1 v-if="pointLog.point > 0" class="transaction-text green-color">
+                      +{{ pointLog.point }} P
+                    </h1>
+                    <h1 v-if="pointLog.point < 0" class="transaction-text red-color">
+                      {{ pointLog.point }} P
                     </h1>
                   </div>
                   <div class="transaction-flex">
@@ -69,16 +75,6 @@ export default {
       pointLogList: []
     };
   },
-  computed: {
-    cssPoint() {
-      let positive = "transaction-text green-color";
-      let negative = "transaction-text red-color";
-      if (this.pointLogList[0].positive) {
-        return positive;
-      }
-      return negative;
-    }
-  },
   created() {
     PointTransactionService.getPoint().then((res) => {
       if (res) {
@@ -88,7 +84,6 @@ export default {
     PointTransactionService.getPointLog().then((res) => {
       if (res) {
         this.pointLogList = res;
-        console.log(this.pointLogList[0].positive);
       }
     });
   },
@@ -170,6 +165,13 @@ div::-webkit-scrollbar {
   font-weight: 500;
 }
 
+.transaction-title{
+white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width:240px;
+}
+
 .transaction-info {
   font-size: 1.5em;
   margin: 0px;
@@ -210,6 +212,10 @@ div::-webkit-scrollbar {
     padding: 30px 100px;
   }
 
+  .transaction-title{
+  width:180px;
+  }
+
   #point {
     font-size: 3em;
   }
@@ -236,6 +242,10 @@ div::-webkit-scrollbar {
 
   .transaction-info {
     font-size: 1.3em;
+  }
+
+  .transaction-title{
+  width:150px;
   }
 
   #yellow-box {

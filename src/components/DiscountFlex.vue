@@ -63,6 +63,8 @@ export default {
 
 .discount-title {
   width: 200px;
+  padding-top:4px;
+  height: 34px;
   margin-top: 0px;
   margin-bottom: 0px;
   font-size: 1.75em;
@@ -93,6 +95,7 @@ export default {
 
 .discount-description {
   width: 200px;
+  height: 29px;
   margin-top: 6px;
   margin-bottom: 6px;
   font-size: 1.5em;

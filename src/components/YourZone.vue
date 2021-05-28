@@ -62,8 +62,8 @@
           <h1 class="event-header">HOST</h1>
           <select id="select-event" v-model="hostFilter">
             <option value="all">All Events</option>
-            <option value="pending">Pending</option>
             <option value="approved">Approved</option>
+            <option value="pending">Pending</option>
             <option value="ongoing">On Going</option>
             <option value="ended">Ended</option>
             <option value="rejected">Rejected</option>
@@ -105,6 +105,7 @@
           <h1 class="event-header">JOINED</h1>
           <select id="select-event" v-model="joinFilter">
             <option value="all">All Events</option>
+            <option value="approved">Approved</option>
             <option value="ongoing">On Going</option>
             <option value="ended">Ended</option>
           </select>
@@ -355,8 +356,7 @@ export default {
     },
     hostFilter: function() {
       this.hostedEventShow = [];
-      if (this.hostFilter == "all")
-        this.hostedEventShow = this.hostedEventList;
+      if (this.hostFilter == "all") this.hostedEventShow = this.hostedEventList;
       else if (this.hostFilter == "pending") {
         this.hostedEventShow = this.hostedEventList.filter(
           (event) => event.status_id == "ST13"
@@ -388,12 +388,16 @@ export default {
     },
     joinFilter: function() {
       this.joinedEventShow = [];
-      if (this.joinFilter == "all")
-        this.joinedEventShow = this.joinedEventList;
+      if (this.joinFilter == "all") this.joinedEventShow = this.joinedEventList;
       else if (this.joinFilter == "ongoing") {
         this.joinedEventShow = this.joinedEventList.filter((event) => {
           let currentTime = new Date().getTime();
           return currentTime > event.start_at && currentTime < event.end_at;
+        });
+      } else if (this.joinFilter == "approved") {
+        this.joinedEventShow = this.joinedEventList.filter((event) => {
+          let currentTime = new Date().getTime();
+          return currentTime < event.end_at;
         });
       } else if (this.joinFilter == "ended") {
         this.joinedEventShow = this.joinedEventList.filter((event) => {
@@ -429,21 +433,19 @@ export default {
     },
     discountFilter: function() {
       this.discountShow = [];
-      if (this.discountFilter == "all")
-        this.discountShow = this.discountList;
+      if (this.discountFilter == "all") this.discountShow = this.discountList;
       else if (this.discountFilter == "unused") {
         this.discountShow = this.discountList.filter(
-          (discount) => discount.status_id == "ST16"
+          (discount) => discount.status_id == "ST16" && !discount.isExpired
         );
       } else if (this.discountFilter == "used") {
         this.discountShow = this.discountList.filter(
           (discount) => discount.status_id == "ST17"
         );
       } else if (this.discountFilter == "expired") {
-        this.discountShow = this.discountList.filter((discount) => {
-          let currentTime = new Date().getTime();
-          return currentTime > discount.expired;
-        });
+        this.discountShow = this.discountList.filter(
+          (discount) => discount.status_id == "ST16" && discount.isExpired
+        );
       }
     }
   },
@@ -464,7 +466,6 @@ export default {
       }
     });
     this.getHostedEventList();
-    this.getJoinedEventList();
   },
   methods: {
     clickRate(value) {
@@ -503,6 +504,7 @@ export default {
       EventService.getHostedEvent()
         .then((res) => {
           if (res) {
+            this.hostFilter = "approved";
             this.hostedEventShow = res;
             this.hostedEventList = res;
           }
@@ -515,6 +517,7 @@ export default {
       EventService.getJoinedEvent()
         .then((res) => {
           if (res) {
+            this.joinFilter = "approved";
             this.joinedEventShow = res;
             this.joinedEventList = res;
           }
@@ -551,6 +554,7 @@ export default {
                     });
                 }
               });
+              this.requestFilter = "all";
               this.requestedEventShow = res;
               this.requestedEventList = res;
             }
@@ -564,6 +568,7 @@ export default {
       EventService.getInterestedEvent()
         .then((res) => {
           if (res) {
+            this.interestFilter = "all";
             this.interestedEventShow = res;
             this.interestedEventList = res;
           }
@@ -576,6 +581,7 @@ export default {
       DiscountService.getMyDiscount()
         .then((res) => {
           if (res) {
+            this.discountFilter = "unused";
             this.discountShow = res;
             this.discountList = res;
           }

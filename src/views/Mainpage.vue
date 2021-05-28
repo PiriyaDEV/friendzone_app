@@ -61,7 +61,9 @@
         v-if="information == true"
         :waitShow="waitShow"
         :confirmDeleteData="confirmDeleteData"
+        :error="waitboxError"
         @informationShow="informationShow"
+        @closeAlert="closeAlert"
       />
 
       <Notification
@@ -97,7 +99,16 @@
           />
           <!-- Top Bar -->
           <div v-if="searchBar">
-            <Searchpage :searchValue="searchBar" @userProfile="userProfile"/>
+            <Searchpage 
+              :searchValue="searchBar" 
+              @userProfile="userProfile" 
+              @discountData="discountData"
+              @clickDiscount2="clickDiscount2" 
+              @thisEvent="thisEvent" 
+              @clickManage="clickManage"
+              @detail="detail"
+              @informationShow="informationShow"
+            />
           </div>
 
           <div v-if="select == 1 && !searchBar">
@@ -134,6 +145,7 @@
               @onEvent="onEvent"
               @pendingShow="pendingShow"
               @userProfile="userProfile"
+              @titleError="titleError"
             />
           </div>
 
@@ -318,7 +330,8 @@ export default {
       showEnd: false,
       information: false,
       waitShow: "",
-      notiShow: false
+      notiShow: false,
+      waitboxError:""
     };
   },
   computed: {
@@ -450,6 +463,14 @@ export default {
     },
     notificationShow(value) {
       this.notiShow = value;
+    },
+    titleError(value) {
+      console.log(value)
+      this.waitboxError = value;
+      this.information = true;
+    },
+    closeAlert(value) {
+      this.information = value;
     }
   }
 };

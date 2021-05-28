@@ -2,32 +2,54 @@
   <div id="wait-box" class="popup">
     <div class="popup-section section">
       <div class="popup-form">
-        <h1 v-if="waitShow == `create`" class="header_title">
-          WAIT FOR APPROVAL
-        </h1>
-        <h1 v-if="waitShow == `delete`" class="header_title">
-          DO YOU WANT TO <br />
-          DELETE THIS EVENT?
-        </h1>
-        <h1 v-if="waitShow == `end`" class="header_title">
-          DO YOU WANT TO <br />
-          END THIS EVENT?
-        </h1>
+        <div v-if="!error">
+          <h1 v-if="waitShow == `create`" class="header_title">
+            WAIT FOR APPROVAL
+          </h1>
+          <h1 v-if="waitShow == `delete`" class="header_title">
+            DO YOU WANT TO <br />
+            DELETE THIS EVENT?
+          </h1>
+          <h1 v-if="waitShow == `end`" class="header_title">
+            DO YOU WANT TO <br />
+            END THIS EVENT?
+          </h1>
+        </div>
+          <h1 v-else class="header_title">
+            YOU ARE NOT MET <br />
+            THE REQUIREMENT
+          </h1>
         <div class="section">
           <h1 v-if="waitShow == `create`" id="info">
             Your event is now wait in the lists for approval and the event will
             be post after get approved by approver
           </h1>
-          <h1 v-if="waitShow != `create`" id="event-title">
-            Title : {{ confirmDeleteData.title }}
+          <h1 v-if="error == `gender`" id="info">
+            This event allow only: <br/>
+            <span>
+              Gender: Male Female <br/>
+            </span>
+            <span>
+              Minimum Age: 10 <br/>
+            </span>
+            <span>
+              Maximum Age: 10 <br/>
+            </span>
           </h1>
+            <h1 v-if="waitShow != `create` && !error" id="event-title">
+            Title : {{ confirmDeleteData.title }}
+            </h1>
         </div>
 
         <div v-if="waitShow == `create`" id="mobile-done" class="section">
           <button class="back_button" @click="exit()">Done</button>
         </div>
 
-        <div v-if="waitShow != `create`" class="section double-button">
+        <div v-if="error" id="mobile-done" class="section">
+          <button class="back_button" @click="done()">Done</button>
+        </div>
+
+        <div v-if="waitShow != `create` && !error" class="section double-button">
           <div>
             <div>
               <button class="create_button" @click="confirm()">
@@ -43,11 +65,21 @@
         </div>
 
         <img
+          v-if="error"
+          @click="done()"
+          style="cursor: pointer"
+          class="close"
+          src="@/assets/icon/icons8-multiply-96.png"
+        />
+
+        <imgv
+          v-else
           @click="exit()"
           style="cursor: pointer"
           class="close"
           src="@/assets/icon/icons8-multiply-96.png"
         />
+
       </div>
     </div>
   </div>
@@ -57,7 +89,7 @@
 import EventService from "@/services/event.service";
 
 export default {
-  props: ["waitShow", "confirmDeleteData"],
+  props: ["waitShow", "confirmDeleteData","error"],
   data() {
     return {};
   },
@@ -67,6 +99,9 @@ export default {
     },
     cancel() {
       this.$emit("informationShow", false);
+    },
+    done() {
+      this.$emit("closeAlert",false)
     },
     confirm() {
       if (this.waitShow == "delete") {

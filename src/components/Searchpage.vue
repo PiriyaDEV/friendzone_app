@@ -17,7 +17,8 @@
         <h1 @click="eventClick()" :class="cssEvent">
           EVENTS ({{ searchEventList.length }})
         </h1>
-        <h1 @click="discountClick()" :class="cssDiscount">DISCOUNT (30)</h1>
+        <h1 @click="discountClick()" :class="cssDiscount">
+          DISCOUNT ({{ searchDiscountList.length }})</h1>
       </div>
       <hr id="bar" />
 
@@ -69,11 +70,12 @@
               class="list event-flex-wrap-section"
             >
               <!-- No Information -->
-              <NoInformation v-if="eventList.length == 0" />
+              <NoInformation v-if="searchDiscountList.length == 0" />
               <!-- No Information -->
 
-              <div v-for="(item, i) in eventList" :key="i">
-                <DiscountLongFlex />
+              <div v-for="(item, i) in searchDiscountList" :key="i">
+                <DiscountLongFlex :discount="item" @clickDiscountLongFlex="clickDiscountLongFlex"
+                      @discountData="discountData"/>
               </div>
             </div>
           </div>
@@ -106,7 +108,8 @@ export default {
       hovered: false,
       selected: "all",
       searchUserList: [],
-      searchEventList: []
+      searchEventList: [],
+      searchDiscountList: []
     };
   },
   created() {
@@ -124,10 +127,17 @@ export default {
     searchValue: function(searchValue) {
       this.searchUserList = [];
       this.searchEventList = [];
+      this.searchDiscountList = [];
       this.functionGetApi(searchValue);
     }
   },
   methods: {
+    clickDiscountLongFlex(value) {
+      this.$emit("clickDiscount2", value);
+    },
+    discountData(value) {
+      this.$emit("discountData", value);
+    },
     friendClick() {
       this.friendSelect = true;
       this.eventSelect = false;
@@ -146,6 +156,13 @@ export default {
     showProfile(value) {
       console.log(value)
       this.$emit("userProfile",value)
+    },
+    detailReturn(value) {
+      this.$emit("detail", true);
+      this.$emit("clickManage", value);
+    },
+    thisEvent(value) {
+      this.$emit("thisEvent", value);
     },
     functionGetApi(value) {
       SearchService.getSearchUser(value)
@@ -166,6 +183,16 @@ export default {
         })
         .catch(() => {
           this.searchEventList = [];
+        });
+
+          SearchService.getSearchDiscount(value)
+        .then((res) => {
+          if (res) {
+            this.searchDiscountList = res;
+          }
+        })
+        .catch(() => {
+          this.searchDiscountList = [];
         });
     }
   },

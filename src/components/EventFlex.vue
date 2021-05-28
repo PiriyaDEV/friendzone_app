@@ -281,15 +281,31 @@ export default {
       });
     },
     joinEvent() {
+      let user = decode(localStorage.getItem("user"));
       if (!this.ongoingEvent) {
-        EventService.joinEvent(this.event.event_id)
+        EventService.getEventGenderList(this.event.event_id)
           .then((res) => {
-            if (res) {
-              this.showPending = true;
+            if (res.length) {
+              let found = res.find(
+                (gender) => user.gender_id == gender.gender_id
+              );
+              if (found) {
+                EventService.joinEvent(this.event.event_id)
+                  .then((res) => {
+                    if (res) {
+                      this.showPending = true;
+                    }
+                  })
+                  .catch(() => {
+                    console.log("Error when joining the event");
+                  });
+              } else {
+                this.$emit("titleError", "gender");
+              }
             }
           })
           .catch(() => {
-            console.log("Error when joining the event");
+            console.log("Error when get the event gender");
           });
       }
     },
@@ -421,7 +437,7 @@ export default {
   align-items: center; */
 }
 
-.end-pic{
+.end-pic {
   filter: grayscale(100%) !important;
 }
 

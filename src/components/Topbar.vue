@@ -21,7 +21,7 @@
         class="section"
       >
         <img id="coin-logo" src="@/assets/icon/coin.png" />
-        <h1 class="black-color" id="bar-value">{{ point.point }}</h1>
+        <h1 class="black-color" id="bar-value">{{ this.$store.state.point }}</h1>
       </div>
 
       <div v-if="demoRole == 1" id="mail-box">
@@ -59,8 +59,7 @@ export default {
   data() {
     return {
       search: "",
-      user: new User({ username: "", profile_pic: "" }),
-      point: ""
+      user: new User({ username: "", profile_pic: "" })
     };
   },
   props: ["clearSearch", "demoRole"],
@@ -73,8 +72,7 @@ export default {
 
     PointTransactionService.getPoint().then((res) => {
       if (res) {
-        this.point = res;
-        console.log(this.point);
+        this.$store.state.point = res.point;
       }
     });
   },

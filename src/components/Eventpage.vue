@@ -22,6 +22,7 @@
                     @pendingClick="pendingClick"
                     @onEvent="onEvent"
                     @userProfile="userProfile"
+                    @titleError="titleError"
                   />
                 </div>
               </div>
@@ -47,6 +48,8 @@
         @detailReturn="detailReturn"
         @thisEvent="thisEvent"
         @userProfile="userProfile"
+        @pendingClick="pendingClick"
+        @onEvent="onEvent"
         :nameCategorySelected="nameCategorySelected"
         :idCategorySelected="idCategorySelected"
       ></EventCategory>
@@ -107,6 +110,9 @@ export default {
     },
     onEvent(value) {
       this.$emit("onEvent", value);
+    },
+    titleError(value){
+      this.$emit("titleError",value);
     },
     getEventList() {
       EventService.getUserCateogryInterestEvent()
