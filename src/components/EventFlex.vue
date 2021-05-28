@@ -85,7 +85,7 @@
     </div>
     <!-- ShowBox -->
 
-    <img class="event-pic" :src="event.event_pic" />
+    <img :class="cssImgEnd" :src="event.event_pic" />
 
     <div id="title-section">
       <h1 class="event-title">{{ event.title }}</h1>
@@ -216,6 +216,15 @@ export default {
         return grey;
       } else {
         return orange;
+      }
+    },
+    cssImgEnd() {
+      let default_pic = "event-pic";
+      let end_pic = "event-pic end-pic";
+      if (this.showEnded) {
+        return end_pic;
+      } else {
+        return default_pic;
       }
     },
     cssRateEventBtn() {
@@ -410,6 +419,10 @@ export default {
   margin-top: 19px;
   /* display: flex;
   align-items: center; */
+}
+
+.end-pic{
+  filter: grayscale(100%) !important;
 }
 
 #date-box {
