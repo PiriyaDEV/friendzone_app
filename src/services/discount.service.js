@@ -48,7 +48,8 @@ class DiscountService {
   }
 
   async getHotDiscount() {
-    const res = await axios.get(API_URL + "getHotDiscount").catch(() => {
+    let userData = decode(localStorage.getItem("user"));
+    const res = await axios.get(API_URL + "getHotDiscount/" + userData.user_id).catch(() => {
       return "err";
     });
     await res.data.forEach((discount) => {
@@ -99,7 +100,8 @@ class DiscountService {
   }
 
   async getBrowseDiscount() {
-    const res = await axios.get(API_URL + "getBrowseDiscount").catch(() => {
+    let userData = decode(localStorage.getItem("user"));
+    const res = await axios.get(API_URL + "getBrowseDiscount/" + userData.user_id).catch(() => {
       return "err";
     });
     await res.data.forEach((discount) => {
@@ -211,6 +213,21 @@ class DiscountService {
     const res = await axios.post(API_URL + "useDiscount", data, {
       headers: authHeader()
     });
+    
+    let updated_at = new Date(res.data.updated_at);
+    let updateDate = updated_at.getDate();
+    let updateMonth = updated_at.getMonth();
+    let updateYear = updated_at.getFullYear();
+    let updateHours = updated_at
+      .getHours()
+      .toString()
+      .padStart(2, "0");
+    let updateMins = updated_at
+      .getMinutes()
+      .toString()
+      .padStart(2, "0");
+    res.data.updated_at = `${updateDate} ${months[updateMonth]} ${updateYear} ${updateHours}:${updateMins}`;
+
     return res.data;
   }
 

@@ -1,9 +1,9 @@
 <template>
   <!-- Top Bar -->
   <div :id="cssBlackground" class="event-container">
-    <div id="search-bar">
+    <div :class="cssSearch">
       <!-- Input -->
-      <div class="left-inner-addon input-container">
+      <div v-if="demoRole == 1" class="left-inner-addon input-container">
         <i class="fa fa-search"></i>
         <input
           type="text"
@@ -43,6 +43,7 @@
         >
           <img id="profile-logo" :src="user.profile_pic" />
           <h1 class="black-color" id="bar-value">{{ user.username }}</h1>
+          <img v-if="role != `RO04`" class="verified-badge" src="@/assets/icon/verified-badge.png"/>
         </div>
       </div>
     </div>
@@ -52,6 +53,7 @@
 
 <script>
 import User from "../models/user";
+import decode from "jwt-decode";
 import UserService from "../services/user.service";
 import PointTransactionService from "../services/pointTransaction.service";
 
@@ -64,6 +66,7 @@ export default {
   },
   props: ["clearSearch", "demoRole"],
   created() {
+    this.getRole();
     UserService.getTopBarInfo().then((res) => {
       if (res) {
         this.user = res;
@@ -88,6 +91,10 @@ export default {
     }
   },
   methods: {
+    getRole() {
+      let userData = decode(localStorage.getItem("user"));
+      this.role = userData.role_id;
+    },
     detailReturn() {
       this.$emit("clickDetail", true);
     },
@@ -102,6 +109,14 @@ export default {
     cssBlackground() {
       let user = "topbar";
       let admin = "topbar-admin";
+      if (this.demoRole == 1) {
+        return user;
+      }
+      return admin;
+    },
+    cssSearch() {
+      let user = "search-bar";
+      let admin = "search-bar-admin";
       if (this.demoRole == 1) {
         return user;
       }
@@ -124,14 +139,27 @@ export default {
   background-color: #f8f3ec;
 }
 
+.verified-badge{
+  width:15px;
+  height:15px;
+  padding-left:10px;
+}
+
 #topbar-admin {
   background-color: #444444;
 }
 
-#search-bar {
+.search-bar,.search-bar-admin{
   display: flex;
-  justify-content: space-between;
   align-items: center;
+}
+
+.search-bar {
+  justify-content: space-between;
+}
+
+.search-bar-admin{
+  justify-content: flex-end;
 }
 
 .input-container {
@@ -165,7 +193,7 @@ input {
 }
 
 .search-input {
-  width: 650px;
+  width: 550px;
   font-size: 1.75em;
   font-weight: 400;
   background-color: #ffffff;
@@ -222,6 +250,9 @@ i {
   background-color: #ffffff;
   border-radius: 27px;
   padding: 7px 20px 7px 7px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
   /* margin-left: 57px; */
 }
 
@@ -245,7 +276,7 @@ i {
     display: none;
   }
 
-  #search-bar {
+  .search-bar,.search-bar-admin {
     display: block;
   }
 

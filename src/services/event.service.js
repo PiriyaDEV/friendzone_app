@@ -55,6 +55,15 @@ class EventService {
       });
   }
 
+  async findEventByID(event_id) {
+    const res = await axios.post(API_URL + "findEventByID", {
+      event_id: event_id
+    });
+    if (res) {
+      return res.data;
+    }
+  }
+
   async updateInterestEvent(data) {
     let user = decode(localStorage.getItem("user"));
     const res = await axios.post(

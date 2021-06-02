@@ -89,6 +89,7 @@
                     @thisEvent="thisEvent"
                     @pendingClick="pendingClick"
                     @onEvent="onEvent"
+                    @onJoined="onJoined"
                   />
                 </div>
               </div>
@@ -128,6 +129,7 @@
                     @pendingClick="pendingClick"
                     @userProfile="userProfile"
                     @onEvent="onEvent"
+                    @onJoined="onJoined"
                   />
                 </div>
               </div>
@@ -166,6 +168,7 @@
                     @pendingClick="pendingClick"
                     @userProfile="userProfile"
                     @onEvent="onEvent"
+                    @onJoined="onJoined"
                   />
                 </div>
               </div>
@@ -203,6 +206,7 @@
                     @pendingClick="pendingClick"
                     @userProfile="userProfile"
                     @onEvent="onEvent"
+                    @onJoined="onJoined"
                   />
                 </div>
               </div>
@@ -525,6 +529,9 @@ export default {
         .catch(() => {
           this.joinedEventShow = [];
         });
+    },
+    onJoined(value) {
+      this.$emit("onJoined",value);
     },
     getRequestedEventList() {
       EventService.getRequestedEvent()

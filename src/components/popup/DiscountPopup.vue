@@ -61,7 +61,7 @@
               <span v-if="Discount.limits == 0">
                 No Limit
               </span>
-              <span v-else> {{ Discount.limits }} Left </span>
+              <span v-else> {{ quotas }} Left </span>
             </h1>
             <h1 class="description">{{ Discount.expiredText }}</h1>
             <h1 v-if="used" class="description">{{ Discount.updated_at }}</h1>
@@ -101,15 +101,18 @@
         <div v-else id="button">
           <!-- <button :class="cssBuy">Buy with point</button> -->
           <button
-            v-if="isPointEnough"
+            v-if="(isPointEnough && (quotas > 0)) || (Discount.limits == 0)"
             class="create_button"
             @click="clickToBuy()"
           >
             Buy with point
           </button>
           <span v-else>
-            <button class="create_button used">
+            <button v-if="quotas > 0" class="create_button used">
               Your Point is not enough.
+            </button>
+            <button v-else class="create_button used">
+              You reached the limits.
             </button>
           </span>
         </div>
@@ -141,11 +144,13 @@ export default {
     return {
       used: false,
       showConfirm: false,
+      quotas: 0,
       isPointEnough: true
     };
   },
   props: ["clickFromYourZone", "Discount"],
   created() {
+    this.$emit("decrementQuota", null)
     if (this.Discount.status_id == "ST17") {
       this.used = true;
     }
@@ -155,6 +160,9 @@ export default {
           this.isPointEnough = true;
         } else this.isPointEnough = false;
       });
+    }
+    if (this.Discount.limits > 0) {
+      this.quotas = this.Discount.limits - this.Discount.myDiscount;
     }
   },
   methods: {
@@ -173,7 +181,9 @@ export default {
         .then((res) => {
           if (res.user_discount_id) {
             this.$store.state.point = this.$store.state.point - this.Discount.redeem_point;
-            this.cancelDiscount();
+            this.$emit("decrementQuota", this.Discount.discount_id)
+            this.$emit("waitBoxDiscount",true)
+            this.cancelDiscount()
           }
         })
         .catch(() => {
@@ -189,7 +199,8 @@ export default {
             if (res) {
               this.used = true;
               this.showConfirm = false;
-              this.Discount.status_id = "ST17";
+              this.Discount.updated_at = res.updated_at;
+              this.Discount.status_id = res.status_id;
             }
           })
           .catch(() => {

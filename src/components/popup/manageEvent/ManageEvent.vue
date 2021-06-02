@@ -20,8 +20,8 @@
           <h1 v-if="!eventPending " @click="clickParticipants()" :class="cssParticipants">
             Participants
           </h1>
-          <h1 v-if="!eventPending && !showEnd"  @click="clickRequest()" :class="cssRequest">Request</h1>
-          <h1 v-if="!eventPending && !showEnd"  @click="clickInvite()" :class="cssInvite">Invite</h1>
+          <h1 v-if="!eventPending && !showEnd && joined"  @click="clickRequest()" :class="cssRequest">Request</h1>
+          <h1 v-if="!eventPending && !showEnd && joined"  @click="clickInvite()" :class="cssInvite">Invite</h1>
         </div>
         <hr id="bar" />
 
@@ -80,7 +80,7 @@ export default {
       valueShow: 1,
     };
   },
-  props: ["Event", "valueDetail", "valueManage","eventPending","valueView","showEnd"],
+  props: ["Event", "valueDetail", "valueManage","eventPending","valueView","showEnd","joined"],
   components: {
     EventInfo,
     Participant,

@@ -88,6 +88,23 @@ export default {
     DiscountLongFlex,
     NoInformation
   },
+  props: ["decrement"],
+  watch: {
+    decrement: function() {
+      if (this.decrement != null) {
+        this.discountBrowseList.forEach(discount => {
+          if (discount.discount_id == this.decrement) {
+            discount.myDiscount++;
+          }
+        });
+        this.discountHotList.forEach(discount => {
+          if (discount.discount_id == this.decrement) {
+            discount.myDiscount++;
+          }
+        });
+      }
+    }
+  },
   created() {
     this.getHotDiscount();
     this.getBrowseDiscount();

@@ -44,6 +44,11 @@
                   dataUser
                 }}</span>
                 <span v-else>{{ user.username }}</span>
+                <img
+                  v-if="role != `RO04`"
+                  class="verified-badge"
+                  src="../../assets/icon/verified-badge.png"
+                />
               </h1>
               <input
                 v-else
@@ -286,8 +291,17 @@
                   id="follow_button_section"
                   v-if="findUser == true && dataUser !== user.username"
                 >
-                  <button id="follow_button" @click="toFollow">FOLLOW</button>
-                  <!-- <button @click="clickPassword()">FOLLOWING</button> -->
+                  <button
+                    v-if="searchUserList.status_id"
+                    id="following_button"
+                    @click="toUnfollow()"
+                  >
+                    FOLLOWING
+                  </button>
+
+                  <button v-else id="follow_button" @click="toFollow()">
+                    FOLLOW
+                  </button>
                 </div>
               </div>
             </div>
@@ -305,6 +319,9 @@
             :findUser="findUser"
             :dataUser="dataUser"
             :userList="searchUserList"
+            :day="dayPlace"
+            :month="monthPlace + 1"
+            :year="yearPlace"
             @saveUser="saveUser"
           />
 
@@ -324,7 +341,7 @@
         />
       </div>
     </div>
- </div>
+  </div>
 </template>
 
 <script>
@@ -335,6 +352,7 @@ import UserService from "./../../services/user.service";
 import Upload from "./../../components/UploadPic.vue";
 import SearchService from "./../../services/search.service";
 import decode from "jwt-decode";
+
 export default {
   data() {
     return {
@@ -343,6 +361,9 @@ export default {
       profile_pic: "",
       username: "",
       bio: "",
+      dayPlace: "",
+      monthPlace: "",
+      yearPlace: "",
       showRating: [false, false, false, false, false],
       cancel: false,
       months: [
@@ -387,6 +408,9 @@ export default {
         let date = birthdate.getDate();
         let month = birthdate.getMonth();
         let year = birthdate.getFullYear();
+        this.dayPlace = date;
+        this.monthPlace = month;
+        this.yearPlace = year;
         this.user.birthdate = `${date} ${this.months[month]} ${year}`;
         if (this.findUser == true) {
           if (this.dataUser == this.user.username) {
@@ -466,9 +490,16 @@ export default {
       SearchService.getSearchUser(value)
         .then((res) => {
           if (res) {
-            this.searchUserList = res[0];
+            this.searchUserList = res.find((user) => user.username == value);
             this.profile_User =
-              "http://localhost:8080/api/user/displayPic/" + res[0].user_id;
+              "http://localhost:8080/api/user/displayPic/" +
+              this.searchUserList.user_id;
+            let birthdate = new Date(this.searchUserList.birthdate);
+            let date = birthdate.getDate();
+            let month = birthdate.getMonth();
+            let year = birthdate.getFullYear();
+            this.searchUserList.birthdate = `${date} ${this.months[month]} ${year}`;
+
             if (this.searchUserList.rating > 0) {
               this.showRating.fill(
                 true,
@@ -486,7 +517,20 @@ export default {
     },
     toFollow() {
       UserService.following(this.searchUserList.user_id).then((res) => {
-        if (res.status == 200) console.log("send!");
+        if (res.message == "followed") {
+          this.searchUserList.status_id = 1;
+          this.searchUserList.follower++;
+          console.log("send!");
+        }
+      });
+    },
+    toUnfollow() {
+      UserService.unFollowing(this.searchUserList.user_id).then((res) => {
+        if (res.message == "unfollowed") {
+          this.searchUserList.status_id = 0;
+          this.searchUserList.follower--;
+          console.log("send!");
+        }
       });
     }
   }
@@ -509,6 +553,11 @@ export default {
   justify-content: space-between;
   margin-top: 5px;
   margin-bottom: 5px;
+}
+.verified-badge {
+  width: 20px;
+  height: 20px;
+  padding-left: 10px;
 }
 .verticle-box {
   text-align: center;

@@ -8,24 +8,24 @@
           <div class="yellow-block yellow-right">
             <h1 class="small-purple">Total</h1>
             <h1 class="large-purple">USERS</h1>
-            <h1 class="number-font">572</h1>
+            <h1 class="number-font">{{ users }}</h1>
           </div>
           <div class="yellow-block yellow-right">
             <h1 class="small-purple">Total</h1>
             <h1 class="large-purple">EVENTS</h1>
-            <h1 class="number-font">1056</h1>
+            <h1 class="number-font">{{ events }}</h1>
           </div>
           <div class="yellow-block">
             <h1 class="small-purple">Total</h1>
             <h1 class="large-purple">DISCOUNTS</h1>
-            <h1 class="number-font">38</h1>
+            <h1 class="number-font">{{ discounts }}</h1>
           </div>
         </div>
 
         <!-- User History -->
         <div id="user-history" class="white-box">
           <div id="user-history-menu">
-            <h1 class="subheader">USER HISTORY</h1>
+            <h1 class="subheader">NEW USER HISTORY</h1>
           </div>
           <div id="user-graph">
             <UserGraph />
@@ -48,6 +48,8 @@
 import StatInfo from "@/components/analyst/StatInfo.vue";
 import StatEvent from "@/components/analyst/StatEvent.vue";
 import UserGraph from "@/components/analyst/UserGraph.vue";
+import AnalystService from "@/services/analyst.service";
+
 export default {
   components: {
     UserGraph,
@@ -56,9 +58,22 @@ export default {
   },
   data() {
     return {
-      userHistoryList: 30
+      users: 0,
+      events: 0,
+      discounts: 0,
     };
-  }
+  },
+  created() {
+    AnalystService.getAppSummary().then((res) => {
+      if (res) {
+        res.forEach((item) => {
+          if (item.name === "Users") this.users = item.count;
+          else if (item.name === "Events") this.events = item.count;
+          else if (item.name === "Discounts") this.discounts = item.count;
+        });
+      }
+    });
+  },
 };
 </script>
 
@@ -190,24 +205,25 @@ div::-webkit-scrollbar {
 }
 
 @media screen and (max-width: 1920px) {
-  #right{
-    width:420px;
+  #right {
+    width: 420px;
   }
 }
 
 @media screen and (max-width: 1350px) {
-  #analyst-section{
+  #analyst-section {
     display: block;
   }
 
-  #right,#left{
-    margin-right:0px;
-    margin-left:0px;
+  #right,
+  #left {
+    margin-right: 0px;
+    margin-left: 0px;
   }
 
-  #right{
-    margin-top:20px;
-    width:calc(100% - 40px);
+  #right {
+    margin-top: 20px;
+    width: calc(100% - 40px);
   }
 }
 
@@ -218,17 +234,18 @@ div::-webkit-scrollbar {
 }
 
 @media screen and (max-width: 490px) {
-  #yellow-block-container{
+  #yellow-block-container {
     display: block;
   }
 
   .yellow-block {
-    width:calc(100% - 40px);
+    width: calc(100% - 40px);
     padding: 10px 20px;
   }
 
-  .yellow-block:nth-child(2),.yellow-block:nth-child(3){
-    margin-top:20px;
+  .yellow-block:nth-child(2),
+  .yellow-block:nth-child(3) {
+    margin-top: 20px;
   }
 }
 </style>

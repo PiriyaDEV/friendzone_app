@@ -5,7 +5,7 @@
     </div>
     <div id="flex-section">
       <h1 id="searchtext" class="event-header">
-        {{ searchUserList.length + searchEventList.length }} items match your
+        {{ searchUserList.length + searchEventList.length + searchDiscountList.length }} items match your
         search
         <span class="orange-color">“{{ searchValue }}”</span>
       </h1>
@@ -95,7 +95,7 @@ import Filterbar from "@/components/Filterbar.vue";
 import EventFlex from "@/components/EventFlex.vue";
 import FriendFlex from "@/components/FriendFlex.vue";
 import DiscountLongFlex from "@/components/DiscountLongFlex.vue";
-import SearchService from "../services/search.service";
+import SearchService from "@/services/search.service";
 import NoInformation from "@/components/NoInformation.vue";
 
 export default {
@@ -156,6 +156,10 @@ export default {
     showProfile(value) {
       console.log(value)
       this.$emit("userProfile",value)
+    },
+    manageReturn(value) {
+      this.$emit("manage", true);
+      this.$emit("clickManage", value);
     },
     detailReturn(value) {
       this.$emit("detail", true);

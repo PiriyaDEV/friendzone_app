@@ -21,6 +21,7 @@
                     :eventPage="true"
                     @pendingClick="pendingClick"
                     @onEvent="onEvent"
+                    @onJoined="onJoined"
                     @userProfile="userProfile"
                     @titleError="titleError"
                   />
@@ -50,6 +51,7 @@
         @userProfile="userProfile"
         @pendingClick="pendingClick"
         @onEvent="onEvent"
+        @onJoined="onJoined"
         :nameCategorySelected="nameCategorySelected"
         :idCategorySelected="idCategorySelected"
       ></EventCategory>
@@ -132,7 +134,10 @@ export default {
     },
     thisEvent(value) {
       this.$emit("thisEvent", value);
-    }
+    },
+    onJoined(value) {
+      this.$emit("onJoined",value);
+    },
   }
 };
 </script>

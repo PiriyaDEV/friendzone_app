@@ -30,7 +30,7 @@
     <!-- User -->
 
     <!-- Rating -->
-    <div v-if="showEnded && event.rating" id="rating-box">
+    <div v-if="showEnded" id="rating-box">
       <h1 v-if="Number.isInteger(event.rating)">RATING {{ event.rating }}/5</h1>
       <h1 v-else>Rating {{ event.rating.toFixed(1) }}/5</h1>
     </div>
@@ -186,7 +186,8 @@ export default {
       showEventRejected: false,
       showDeleted: false,
       ongoingEvent: false,
-      approveEvent: false
+      approveEvent: false,
+      role:"",
     };
   },
   name: "EventFlex",
@@ -258,6 +259,7 @@ export default {
     manageEventReturn() {
       this.$emit("manageReturn", true);
       this.$emit("thisEvent", this.event);
+      this.$emit("onJoined",true)
       if (!this.approveEvent) {
         this.$emit("pendingClick", true);
       } else {
@@ -267,6 +269,7 @@ export default {
     moreDetailReturn() {
       this.$emit("detailReturn", true);
       this.$emit("thisEvent", this.event);
+      this.$emit("onJoined",this.showJoined)
       if (!this.approveEvent) {
         this.$emit("pendingClick", true);
       } else {
@@ -545,6 +548,7 @@ export default {
 #host-section {
   margin-left: 18px;
   display: flex;
+  position: relative;
   align-items: center;
   margin-top: 9px;
 }
@@ -687,15 +691,16 @@ export default {
 #rating-box {
   border: none;
   border-radius: 10px;
-  background: transparent linear-gradient(180deg, #ffe164 0%, #ffc661 100%);
+  background: #ff8864;
   position: absolute;
   left: 40px;
-  top: 13px;
+  top: 11.5px;
+  z-index: 3;
   box-shadow: 0px 3px 30px #0000000d;
 }
 
 #rating-box > h1 {
-  font-size: 1em;
+  font-size: 1.2em;
   margin: 0px;
   padding: 4px 12px;
   color: #ffffff;

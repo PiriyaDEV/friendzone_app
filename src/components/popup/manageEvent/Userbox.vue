@@ -116,7 +116,6 @@
         </div>
 
         <!-- <button v-if="select == 1" class="button delete">Delete</button> -->
-        <button v-if="select == 3" class="button delete">Invite</button>
         <div v-if="select == 2">
           <button @click="declineRequest()" class="button decline">
             Decline
@@ -128,6 +127,7 @@
 
         <!-- <button>Click</button> -->
       </div>
+      
       <div v-if="isMod">
         <button @click="declineRequest()" class="button decline">
           Decline
@@ -136,12 +136,24 @@
           Approve
         </button>
       </div>
+
+      <div v-if="select == 3">
+        <button
+          v-if="!user.invited"
+          @click="inviteParticipant()"
+          class="button invite"
+        >
+          Invite
+        </button>
+        <button v-else class="button delete invited">Invited</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import EventService from "@/services/event.service";
+import InvitedService from "@/services/eventInvited.service";
 
 export default {
   data() {
@@ -159,7 +171,8 @@ export default {
     "detailPage",
     "managePage",
     "admin",
-    "showEnd"
+    "showEnd",
+    "participant_id"
   ],
   created() {
     if (this.user.rating > 0) {
@@ -278,6 +291,22 @@ export default {
         .catch(() => {
           console.log("Error when remove the moderator");
         });
+    },
+    inviteParticipant() {
+      if (!this.user.invited) {
+        InvitedService.createInvite({
+          inviter_id: this.participant_id,
+          invitee_id: this.user.user_id
+        })
+          .then((res) => {
+            if (res) {
+              this.user.invited = true;
+            }
+          })
+          .catch(() => {
+            console.log("Error when invite the participant");
+          });
+      }
     }
   }
 };
@@ -376,6 +405,17 @@ h1 {
 .delete {
   color: #ff8864;
   border: 1.5px solid #ff8864;
+}
+
+.invited {
+  cursor: default !important;
+}
+
+.invite {
+  background-color: #ff8864;
+  color: #ffffff;
+  border: 1.5px solid #ff8864;
+  padding: 4px 16px;
 }
 
 .moderator {

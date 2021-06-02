@@ -19,11 +19,28 @@ let months = [
 ];
 
 class SearchService {
+  getSearchUserToInvite(search, event_id) {
+    let userData = decode(localStorage.getItem("user"));
+    return axios
+      .get(`${API_URL}/userToInvite?keyword=${search}&user_id=${userData.user_id}&event_id=${event_id}`)
+      .then((response) => {
+        response.data.forEach(user => {
+          user.profile_pic =
+          "http://localhost:8080/api/user/displayPic/" + user.user_id;
+        })
+        return response.data;
+      });
+  }
+
   getSearchUser(search) {
     let userData = decode(localStorage.getItem("user"));
     return axios
       .get(`${API_URL}/user?keyword=${search}&user_id=${userData.user_id}`)
       .then((response) => {
+        response.data.forEach(user => {
+          user.profile_pic =
+          "http://localhost:8080/api/user/displayPic/" + user.user_id;
+        })
         return response.data;
       });
   }

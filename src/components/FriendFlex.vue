@@ -134,8 +134,7 @@ export default {
     } else {
       this.showRating.fill(true, 0, 5);
     }
-    this.profile_pic =
-      "http://localhost:8080/api/user/displayPic/" + this.searchUser.user_id;
+    this.profile_pic = this.searchUser.profile_pic;
   },
   methods: {
     toFollow() {
