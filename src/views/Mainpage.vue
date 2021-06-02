@@ -24,12 +24,15 @@
       <ReportPopup
         v-if="reportShow == true"
         @clickReport="clickReport"
+        @callWaitBox="callWaitBox"
         v-bind:categoryReport="selectReportShow"
       />
       <DiscountPopup
         v-if="discountShow == true || discountShow2 == true"
         @clickDiscount="clickDiscount"
         @clickDiscount2="clickDiscount2"
+        @waitBoxDiscount="waitBoxDiscount"
+        @decrementQuota="decrementQuota"
         :clickFromYourZone="discountShow"
         :Discount="discount"
       />
@@ -44,6 +47,7 @@
         :valueView="view"
         :eventPending="eventPending"
         :showEnd="showEnd"
+        :joined="joined"
         @updateStatus="updateStatus"
         @informationShow="informationShow"
       />
@@ -61,7 +65,9 @@
         v-if="information == true"
         :waitShow="waitShow"
         :confirmDeleteData="confirmDeleteData"
+        :error="waitboxError"
         @informationShow="informationShow"
+        @closeAlert="closeAlert"
       />
 
       <Notification
@@ -97,7 +103,17 @@
           />
           <!-- Top Bar -->
           <div v-if="searchBar">
-            <Searchpage :searchValue="searchBar" @userProfile="userProfile"/>
+            <Searchpage
+              :searchValue="searchBar"
+              @userProfile="userProfile"
+              @discountData="discountData"
+              @clickDiscount2="clickDiscount2"
+              @thisEvent="thisEvent"
+              @clickManage="clickManage"
+              @detail="detail"
+              @manage="manage"
+              @informationShow="informationShow"
+            />
           </div>
 
           <div v-if="select == 1 && !searchBar">
@@ -112,6 +128,7 @@
               @pendingShow="pendingShow"
               @userProfile="userProfile"
               @onEvent="onEvent"
+              @onJoined="onJoined"
               @discountData="discountData"
               :discountSelect="select"
             />
@@ -134,6 +151,8 @@
               @onEvent="onEvent"
               @pendingShow="pendingShow"
               @userProfile="userProfile"
+              @titleError="titleError"
+              @onJoined="onJoined"
             />
           </div>
 
@@ -141,6 +160,7 @@
             <Discountpage
               @discountData="discountData"
               @clickDiscount2="clickDiscount2"
+              :decrement="Quota"
               :discountSelect="select"
             />
           </div>
@@ -170,6 +190,7 @@
       </div>
     </div>
     <!-- User -->
+    
     <!-- Admin -->
     <div v-if="role == 2" id="mainpage-admin">
       <ProfileDetail
@@ -318,7 +339,9 @@ export default {
       showEnd: false,
       information: false,
       waitShow: "",
-      notiShow: false
+      notiShow: false,
+      waitboxError: "",
+      Quota: "",
     };
   },
   computed: {
@@ -450,7 +473,29 @@ export default {
     },
     notificationShow(value) {
       this.notiShow = value;
-    }
+    },
+    titleError(value) {
+      console.log(value);
+      this.waitboxError = value;
+      this.information = true;
+    },
+    closeAlert(value) {
+      this.information = value;
+    },
+    callWaitBox(value) {
+      this.waitShow = "report";
+      this.information = value;
+    },
+    waitBoxDiscount(value) {
+      this.waitShow = "discount";
+      this.information = value;
+    },
+    onJoined(value) {
+      this.joined = value;
+    },
+    decrementQuota(value) {
+      this.Quota = value;
+    },
   }
 };
 </script>

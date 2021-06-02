@@ -7,14 +7,14 @@
           <option value="all">All</option>
           <option value="pending">Pending</option>
           <option value="approved">Approved</option>
-          <option value="disapproved">Disapproved</option>
+          <option value="disapproved">Rejected</option>
           <option value="deleted">Deleted</option>
         </select>
       </div>
 
       <div id="history-box">
         <h1 class="history-text">Approved ({{ approved }})</h1>
-        <h1 class="history-text">Disapproved ({{ disapproved }})</h1>
+        <h1 class="history-text">Rejected ({{ disapproved }})</h1>
         <h1 class="history-text">Pending ({{ pending }})</h1>
       </div>
     </div>

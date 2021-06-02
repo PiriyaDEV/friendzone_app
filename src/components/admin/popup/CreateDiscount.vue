@@ -77,7 +77,8 @@
               </h2>
               <div class="number">
                 <span class="minus" @click="clickPoint(false)">-</span>
-                <input type="number" v-model="discount.redeem_point" />
+                <input v-if="discount.redeem_point == 0" type="text" disabled="disabled" v-model="free" />
+                <input v-else type="number" v-model="discount.redeem_point" />
                 <span class="plus" @click="clickPoint(true)">+</span>
               </div>
             </div>
@@ -388,7 +389,8 @@
               </h2>
               <div class="number">
                 <span class="minus" @click="clickPoint(false)">-</span>
-                <input type="number" v-model="discount.redeem_point" />
+                <input v-if="discount.redeem_point == 0" type="text" disabled="disabled" v-model="free" />
+                <input v-else type="number" v-model="discount.redeem_point" />
                 <span class="plus" @click="clickPoint(true)">+</span>
               </div>
             </div>
@@ -452,7 +454,8 @@ export default {
   data() {
     return {
       discount: new Discount(""),
-      unlimited : "No Limit"
+      unlimited : "No Limit",
+      free: "Free"
     };
   },
   components: {
@@ -541,8 +544,6 @@ export default {
           this.mx +
           ":00 GMT+0700"
       ).getTime();
-
-      console.log(this.discount);
 
       DiscountService.create(this.discount).then(
         (res) => {

@@ -219,6 +219,12 @@ export default {
     Upload
   },
   watch: {
+    firstname: function() {
+      this.invalidFirstname = false;
+    },
+    lastname: function() {
+      this.invalidLastname = false;
+    },
     phone: function() {
       this.invalidPhone = false;
       var reg = /^\d*\.?\d+$/;
@@ -230,7 +236,13 @@ export default {
         this.alertPhone = "phone number is invalid";
       }
       if (!this.phone) this.invalidPhone = false;
-    }
+    },
+    selected: function() {
+      this.invalidGender = false;
+    },
+    profile_pic: function() {
+      this.invalidProfilePic = false;
+    },
   },
   computed: {
     loggedIn() {
@@ -273,6 +285,7 @@ export default {
       this.$router.push("/register");
     },
     ClickCreate() {
+      var letters = /^[A-Za-z]+$/;
       if (!this.firstname) {
         this.invalidFirstname = true;
         this.alertFirstname = "firstname required";
@@ -292,6 +305,13 @@ export default {
       if (!this.profile_pic) {
         this.invalidProfilePic = true;
         this.alertProfilePic = "profile picture required";
+      }
+      if(!letters.test(this.firstname)) {
+          this.invalidFirstname = true;
+          this.alertFirstname = "Invalid firstname";
+        } else if(!letters.test(this.lastname)) {
+          this.invalidLastname = true;
+          this.alertLastname = "Invalid lastname";
       }
       if (
         !this.invalidFirstname &&

@@ -7,7 +7,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+    props:["invite"],
+    computed: {
+      cssinvite() {
+        let invitepage = "info-box-invite"
+        let anotherpage = "info-box"
+          if(this.invite == true) {
+            return invitepage
+          }
+          return anotherpage
+      }
+    }
+};
 </script>
 
 <style scoped>

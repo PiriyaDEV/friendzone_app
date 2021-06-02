@@ -48,7 +48,8 @@ class DiscountService {
   }
 
   async getHotDiscount() {
-    const res = await axios.get(API_URL + "getHotDiscount").catch(() => {
+    let userData = decode(localStorage.getItem("user"));
+    const res = await axios.get(API_URL + "getHotDiscount/" + userData.user_id).catch(() => {
       return "err";
     });
     await res.data.forEach((discount) => {
@@ -93,13 +94,14 @@ class DiscountService {
         .padStart(2, "0");
       discount.period_start = `${startDate} ${months[startMonth]} ${startYear} ${startHours}:${startMins}`;
       discount.period_end = `${endDate} ${months[endMonth]} ${endYear} ${endHours}:${endMins}`;
-      discount.expired = `${expiredDate} ${months[expiredMonth]} ${expiredYear} ${expiredHours}:${expiredMins}`;
+      discount.expiredText = `${expiredDate} ${months[expiredMonth]} ${expiredYear} ${expiredHours}:${expiredMins}`;
     });
     return res.data;
   }
 
   async getBrowseDiscount() {
-    const res = await axios.get(API_URL + "getBrowseDiscount").catch(() => {
+    let userData = decode(localStorage.getItem("user"));
+    const res = await axios.get(API_URL + "getBrowseDiscount/" + userData.user_id).catch(() => {
       return "err";
     });
     await res.data.forEach((discount) => {
@@ -144,7 +146,7 @@ class DiscountService {
         .padStart(2, "0");
       discount.period_start = `${startDate} ${months[startMonth]} ${startYear} ${startHours}:${startMins}`;
       discount.period_end = `${endDate} ${months[endMonth]} ${endYear} ${endHours}:${endMins}`;
-      discount.expired = `${expiredDate} ${months[expiredMonth]} ${expiredYear} ${expiredHours}:${expiredMins}`;
+      discount.expiredText = `${expiredDate} ${months[expiredMonth]} ${expiredYear} ${expiredHours}:${expiredMins}`;
     });
     return res.data;
   }
@@ -160,16 +162,30 @@ class DiscountService {
       discount.discount_pic =
         "http://localhost:8080/api/discount/displayPic/" + discount.discount_id;
 
-      let start_at = new Date(discount.created_at);
+      let currentTime = new Date().getTime();
+      let isExpired = currentTime > discount.expired ? true : false;
+      let created_at = new Date(discount.created_at);
+      let updated_at = new Date(discount.updated_at);
       let expired = new Date(discount.expired);
-      let startDate = start_at.getDate();
-      let startMonth = start_at.getMonth();
-      let startYear = start_at.getFullYear();
-      let startHours = start_at
+      let createDate = created_at.getDate();
+      let createMonth = created_at.getMonth();
+      let createYear = created_at.getFullYear();
+      let createHours = created_at
         .getHours()
         .toString()
         .padStart(2, "0");
-      let startMins = start_at
+      let createMins = created_at
+        .getMinutes()
+        .toString()
+        .padStart(2, "0");
+      let updateDate = updated_at.getDate();
+      let updateMonth = updated_at.getMonth();
+      let updateYear = updated_at.getFullYear();
+      let updateHours = updated_at
+        .getHours()
+        .toString()
+        .padStart(2, "0");
+      let updateMins = updated_at
         .getMinutes()
         .toString()
         .padStart(2, "0");
@@ -184,8 +200,10 @@ class DiscountService {
         .getMinutes()
         .toString()
         .padStart(2, "0");
-      discount.created_at = `${startDate} ${months[startMonth]} ${startYear} ${startHours}:${startMins}`;
-      discount.expired = `${expiredDate} ${months[expiredMonth]} ${expiredYear} ${expiredHours}:${expiredMins}`;
+      discount.created_at = `${createDate} ${months[createMonth]} ${createYear} ${createHours}:${createMins}`;
+      discount.updated_at = `${updateDate} ${months[updateMonth]} ${updateYear} ${updateHours}:${updateMins}`;
+      discount.expiredText = `${expiredDate} ${months[expiredMonth]} ${expiredYear} ${expiredHours}:${expiredMins}`;
+      discount.isExpired = isExpired;
     });
 
     return res.data;
@@ -195,6 +213,37 @@ class DiscountService {
     const res = await axios.post(API_URL + "useDiscount", data, {
       headers: authHeader()
     });
+    
+    let updated_at = new Date(res.data.updated_at);
+    let updateDate = updated_at.getDate();
+    let updateMonth = updated_at.getMonth();
+    let updateYear = updated_at.getFullYear();
+    let updateHours = updated_at
+      .getHours()
+      .toString()
+      .padStart(2, "0");
+    let updateMins = updated_at
+      .getMinutes()
+      .toString()
+      .padStart(2, "0");
+    res.data.updated_at = `${updateDate} ${months[updateMonth]} ${updateYear} ${updateHours}:${updateMins}`;
+
+    return res.data;
+  }
+
+  async buyDiscount(data) {
+    let userData = decode(localStorage.getItem("user"));
+    const res = await axios.post(
+      API_URL + "discountTransaction",
+      {
+        user_id: userData.user_id,
+        discount_id: data.discount_id,
+        redeem_point: data.redeem_point
+      },
+      {
+        headers: authHeader()
+      }
+    );
     return res.data;
   }
 }

@@ -25,7 +25,6 @@
                 size="16"
                 placeholder="enter a unique username"
                 autocomplete="off"
-                @blur="checkUniqueUsername()"
               />
               <h3 v-show="invalidUsername === true" class="invalid">
                 * {{ alertUsername }}
@@ -44,7 +43,6 @@
                 size="64"
                 placeholder="enter your email address"
                 autocomplete="off"
-                @blur="checkUniqueEmail()"
               />
               <h3 v-show="invalidEmail === true" class="invalid">
                 * {{ alertEmail }}
@@ -262,8 +260,8 @@ export default {
       } else if (this.username[this.username.length - 1] == ".") {
         this.invalidUsername = true;
         this.alertUsername = "username can't end with period";
-      }
-      if (!this.username) this.invalidUsername = false;
+      } else this.checkUniqueUsername();
+
     },
     email: function() {
       this.invalidEmail = false;
@@ -271,8 +269,7 @@ export default {
       if (!re.test(this.email) && this.email.length > 0) {
         this.invalidEmail = true;
         this.alertEmail = "email is invalid";
-      }
-      if (!this.email) this.invalidEmail = false;
+      } else this.checkUniqueEmail();
     },
     password: function() {
       this.invalidPassword = false;
@@ -304,50 +301,15 @@ export default {
     },
     // Leap year is incompleted
     day: function() {
-      this.invalidDate = false;
-      var reg = /^\d*\.?\d+$/;
-      if (!reg.test(this.day)) {
-        this.invalidDate = true;
-        this.alertDate = "date must be only numbers";
-      } else if (this.day < 1 || this.day > 31) {
-        this.invalidDate = true;
-        this.alertDate = "day must be only 1-31";
-      } else if (
-        (this.month == 4 && this.day > 30) ||
-        (this.month == 6 && this.day > 30) ||
-        (this.month == 9 && this.day > 30) ||
-        (this.month == 11 && this.day > 30)
-      ) {
-        this.invalidDate = true;
-        this.alertDate = "day or month is invalid";
-      }
+      this.validateDate()
       if (!this.day) this.invalidDate = false;
     },
     month: function() {
-      this.invalidDate = false;
-      var reg = /^\d*\.?\d+$/;
-      if (!reg.test(this.month)) {
-        this.invalidDate = true;
-        this.alertDate = "date must be only numbers";
-      } else if (this.month < 1 || this.month > 12) {
-        this.invalidDate = true;
-        this.alertDate = "month must be only 1-12";
-      }
+      this.validateDate()
       if (!this.month) this.invalidDate = false;
     },
     year: function() {
-      this.invalidDate = false;
-      var reg = /^\d*\.?\d+$/;
-      if (!reg.test(this.year)) {
-        this.invalidDate = true;
-        this.alertDate = "date must be only numbers";
-      } else if (this.year < 1921) {
-        this.invalidDate = true;
-        this.alertDate = "you are too old";
-      } else if (this.year > 2007) {
-        this.invalidDate = true;
-        this.alertDate = "you must be 13 years or older";
-      }
+      this.validateDate()
       if (!this.year) this.invalidDate = false;
     }
   },
@@ -362,8 +324,44 @@ export default {
       this.passwordFieldType =
         this.passwordFieldType === "password" ? "text" : "password";
     },
+    validateDate() {
+      this.invalidDate = false;
+      var reg = /^\d*\.?\d+$/;
+
+      if (!reg.test(this.day)) {
+        this.invalidDate = true;
+        this.alertDate = "date must be only numbers";
+      } else if (this.day < 1 || this.day > 31) {
+        this.invalidDate = true;
+        this.alertDate = "day must be only 1-31";
+      } else if (
+        (this.month == 4 && this.day > 30) ||
+        (this.month == 6 && this.day > 30) ||
+        (this.month == 9 && this.day > 30) ||
+        (this.month == 11 && this.day > 30)
+      ) {
+        this.invalidDate = true;
+        this.alertDate = "day or month is invalid";
+      } else if (!reg.test(this.month)) {
+        this.invalidDate = true;
+        this.alertDate = "date must be only numbers";
+      } else if (this.month < 1 || this.month > 12) {
+        this.invalidDate = true;
+        this.alertDate = "month must be only 1-12";
+      } else if (!reg.test(this.year)) {
+        this.invalidDate = true;
+        this.alertDate = "date must be only numbers";
+      } else if (this.year < 1921) {
+        this.invalidDate = true;
+        this.alertDate = "you are too old";
+      } else if (this.year > 2007) {
+        this.invalidDate = true;
+        this.alertDate = "you must be 13 years or older";
+      } 
+    },
     checkRegister() {
       var reg = /^\d*\.?\d+$/;
+
       if (!this.username) {
         this.invalidUsername = true;
         this.alertUsername = "username required";

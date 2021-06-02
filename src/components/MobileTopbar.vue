@@ -81,11 +81,14 @@
             id="mail-logo"
             src="@/assets/icon/icons8-important-mail-96@2x.png"
           />
-          <img
+          <div class="badge-box">
+            <img
             @click="detailReturn()"
             id="profile-logo"
             :src="user.profile_pic"
           />
+          <img v-if="role == `RO01`" class="verified-badge" src="@/assets/icon/verified-badge.png"/>
+          </div>
         </div>
       </div>
       <div v-else id="mobile-container" class="event-container">
@@ -142,11 +145,14 @@
             id="coin-logo"
             src="@/assets/icon/coin.png"
           />
-          <img
+          <div class="badge-box">
+            <img
             @click="detailReturn()"
             id="profile-logo"
             :src="user.profile_pic"
           />
+          <img v-if="role == `RO01`" class="verified-badge" src="@/assets/icon/verified-badge.png"/>
+          </div>
         </div>
       </div>
     </div>
@@ -277,6 +283,15 @@ export default {
   padding-left: 5px;
 }
 
+.verified-badge{
+  width:15px;
+  height:15px;
+  padding-left:10px;
+  position:absolute;
+  bottom: 2px;
+  right: -3px;
+}
+
 .menu-box {
   display: flex;
   align-items: center;
@@ -301,6 +316,10 @@ export default {
 #right {
   display: flex;
   align-items: center;
+}
+
+.badge-box{
+  position: relative;
 }
 
 #mobile-container {
@@ -350,6 +369,14 @@ export default {
   #profile-logo {
     margin-left: 25px;
   }
+
+  .verified-badge{
+  width:10px;
+  height:10px;
+  position:absolute;
+  bottom: 2px;
+  right: -2px;
+}
 }
 
 @media screen and (max-width: 375px) {

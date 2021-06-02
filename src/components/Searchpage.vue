@@ -5,7 +5,7 @@
     </div>
     <div id="flex-section">
       <h1 id="searchtext" class="event-header">
-        {{ searchUserList.length + searchEventList.length }} items match your
+        {{ searchUserList.length + searchEventList.length + searchDiscountList.length }} items match your
         search
         <span class="orange-color">“{{ searchValue }}”</span>
       </h1>
@@ -17,7 +17,8 @@
         <h1 @click="eventClick()" :class="cssEvent">
           EVENTS ({{ searchEventList.length }})
         </h1>
-        <h1 @click="discountClick()" :class="cssDiscount">DISCOUNT (30)</h1>
+        <h1 @click="discountClick()" :class="cssDiscount">
+          DISCOUNT ({{ searchDiscountList.length }})</h1>
       </div>
       <hr id="bar" />
 
@@ -69,11 +70,12 @@
               class="list event-flex-wrap-section"
             >
               <!-- No Information -->
-              <NoInformation v-if="eventList.length == 0" />
+              <NoInformation v-if="searchDiscountList.length == 0" />
               <!-- No Information -->
 
-              <div v-for="(item, i) in eventList" :key="i">
-                <DiscountLongFlex />
+              <div v-for="(item, i) in searchDiscountList" :key="i">
+                <DiscountLongFlex :discount="item" @clickDiscountLongFlex="clickDiscountLongFlex"
+                      @discountData="discountData"/>
               </div>
             </div>
           </div>
@@ -93,7 +95,7 @@ import Filterbar from "@/components/Filterbar.vue";
 import EventFlex from "@/components/EventFlex.vue";
 import FriendFlex from "@/components/FriendFlex.vue";
 import DiscountLongFlex from "@/components/DiscountLongFlex.vue";
-import SearchService from "../services/search.service";
+import SearchService from "@/services/search.service";
 import NoInformation from "@/components/NoInformation.vue";
 
 export default {
@@ -106,7 +108,8 @@ export default {
       hovered: false,
       selected: "all",
       searchUserList: [],
-      searchEventList: []
+      searchEventList: [],
+      searchDiscountList: []
     };
   },
   created() {
@@ -124,10 +127,17 @@ export default {
     searchValue: function(searchValue) {
       this.searchUserList = [];
       this.searchEventList = [];
+      this.searchDiscountList = [];
       this.functionGetApi(searchValue);
     }
   },
   methods: {
+    clickDiscountLongFlex(value) {
+      this.$emit("clickDiscount2", value);
+    },
+    discountData(value) {
+      this.$emit("discountData", value);
+    },
     friendClick() {
       this.friendSelect = true;
       this.eventSelect = false;
@@ -146,6 +156,17 @@ export default {
     showProfile(value) {
       console.log(value)
       this.$emit("userProfile",value)
+    },
+    manageReturn(value) {
+      this.$emit("manage", true);
+      this.$emit("clickManage", value);
+    },
+    detailReturn(value) {
+      this.$emit("detail", true);
+      this.$emit("clickManage", value);
+    },
+    thisEvent(value) {
+      this.$emit("thisEvent", value);
     },
     functionGetApi(value) {
       SearchService.getSearchUser(value)
@@ -166,6 +187,16 @@ export default {
         })
         .catch(() => {
           this.searchEventList = [];
+        });
+
+          SearchService.getSearchDiscount(value)
+        .then((res) => {
+          if (res) {
+            this.searchDiscountList = res;
+          }
+        })
+        .catch(() => {
+          this.searchDiscountList = [];
         });
     }
   },

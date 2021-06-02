@@ -15,14 +15,17 @@
         <!-- User Input -->
         <div v-if="categoryReport == 1">
           <h2 class="input_title">
-            Who do you want to report?<span class="orange-color"> *</span>
+            Who do you want to report?<span class="orange-color"> * </span>
+            <span v-if="invalidUsername" class="orange-color">{{
+              alertUsername
+            }}</span>
           </h2>
           <input
             v-model="username"
             class="input_box"
             type="text"
-            maxlength="30"
-            size="30"
+            maxlength="16"
+            size="16"
             placeholder="enter a person username"
           />
         </div>
@@ -32,16 +35,19 @@
         <div v-if="categoryReport == 2">
           <h2 class="input_title">
             What event do you want to report?<span class="orange-color">
-              *</span
+              *
+            </span>
+            <span v-if="invalidEvent" class="orange-color">
+              {{ alertEvent }}</span
             >
           </h2>
           <input
-            v-model="username"
+            v-model="event_id"
             class="input_box"
             type="text"
-            maxlength="30"
-            size="30"
-            placeholder="enter an event id"
+            maxlength="8"
+            size="8"
+            placeholder="enter an event id (e.g. EV000001)"
           />
           <h1 class="porlor">* you can find event id in event details</h1>
         </div>
@@ -50,35 +56,43 @@
         <!-- Input -->
         <div>
           <h2 class="input_title">
-            Report Category<span class="orange-color"> *</span>
+            Report Category<span class="orange-color"> * </span>
+            <span v-if="invalidType" class="orange-color">{{ alertType }}</span>
           </h2>
           <select
             name="gender"
             class="input_select minimal"
-            v-model="user_selected"
+            v-model="report.report_type_id"
             required
           >
             <option value="" disabled selected hidden>
               select report category
             </option>
-            <option value="1">Harry</option>
-            <option value="2">Piriya</option>
-            <option value="3">Bm</option>
-            <option value="3">Big</option>
-            <option value="3">4Most</option>
+            <option
+              v-for="(type, i) in reportTypeList"
+              :key="i"
+              :value="type.report_type_id"
+            >
+              {{ type.type_name }}
+            </option>
           </select>
         </div>
         <!-- Input -->
 
         <!-- Input -->
         <div>
-          <h2 class="input_title">Title<span class="orange-color"> *</span></h2>
+          <h2 class="input_title">
+            Title<span class="orange-color"> * </span>
+            <span v-if="invalidTitle" class="orange-color">{{
+              alertTitle
+            }}</span>
+          </h2>
           <input
-            v-model="username"
+            v-model="report.title"
             class="input_box"
             type="text"
-            maxlength="30"
-            size="30"
+            maxlength="64"
+            size="64"
             placeholder="enter report title"
           />
         </div>
@@ -87,10 +101,14 @@
         <!-- Input -->
         <div>
           <h2 class="input_title">
-            What went wrong?<span class="orange-color"> *</span>
+            What went wrong?<span class="orange-color"> * </span>
+            <span v-if="invalidDescription" class="orange-color">
+              {{ alertDescription }}</span
+            >
           </h2>
           <textarea
             class="input_textarea_box bio"
+            v-model="report.description"
             maxlength="256"
             size="256"
             name="bio"
@@ -102,7 +120,7 @@
 
         <div class="button-section">
           <button class="back_button" @click="reportReturn()">Cancel</button>
-          <button class="create_button" @click="ClickCreate()">Report</button>
+          <button class="create_button" @click="clickReport()">Report</button>
         </div>
         <img
           @click="reportReturn()"
@@ -116,17 +134,176 @@
 </template>
 
 <script>
+import ReportService from "@/services/report.service";
+import EventService from "@/services/event.service";
+import AuthService from "@/services/auth.service";
+import Report from "@/models/report";
+import decode from "jwt-decode";
+
 export default {
   name: "ReportPopup",
   props: ["categoryReport"],
   data() {
     return {
-      user_selected: ""
+      username: "",
+      event_id: "",
+      report: new Report(""),
+      reportTypeList: [],
+      invalidUsername: false,
+      alertUsername: "",
+      invalidEvent: false,
+      alertEvent: "",
+      invalidType: false,
+      alertType: "",
+      invalidTitle: false,
+      alertTitle: "",
+      invalidDescription: false,
+      alertDescription: ""
     };
+  },
+  watch: {
+    username: function() {
+      this.invalidUsername = false;
+      this.checkUsername();
+    },
+    event_id: function() {
+      this.invalidEvent = false;
+      this.checkEvent();
+    },
+    "report.report_type_id": function() {
+      this.invalidType = false;
+    },
+    "report.title": function() {
+      this.invalidTitle = false;
+    },
+    "report.description": function() {
+      this.invalidDescription = false;
+    }
+  },
+  created() {
+    if (this.categoryReport == 1) {
+      this.getReportTypeUser();
+    } else if (this.categoryReport == 2) {
+      this.getReportTypeEvent();
+    } else if (this.categoryReport == 3) {
+      this.getReportTypeWeb();
+    }
+    this.report.report_type_id = "";
   },
   methods: {
     reportReturn() {
       this.$emit("clickReport", false);
+    },
+    getReportTypeUser() {
+      ReportService.getReportTypeUserList()
+        .then((res) => {
+          if (res) {
+            this.reportTypeList = res;
+          }
+        })
+        .catch(() => {
+          this.reportTypeList = [];
+          console.log("Error when get report type list");
+        });
+    },
+    getReportTypeEvent() {
+      ReportService.getReportTypeEventList()
+        .then((res) => {
+          if (res) {
+            this.reportTypeList = res;
+          }
+        })
+        .catch(() => {
+          this.reportTypeList = [];
+          console.log("Error when get report type list");
+        });
+    },
+    getReportTypeWeb() {
+      ReportService.getReportTypeWebList()
+        .then((res) => {
+          if (res) {
+            this.reportTypeList = res;
+          }
+        })
+        .catch(() => {
+          this.reportTypeList = [];
+          console.log("Error when get report type list");
+        });
+    },
+    checkUsername() {
+      if (this.username) {
+        AuthService.checkUniqueExists({ username: this.username }).then(
+          (res) => {
+            if (res.exist) {
+              let user = decode(localStorage.getItem("user"));
+              if (res.user_id == user.user_id) {
+                this.invalidUsername = true;
+                this.alertUsername = "you can't report yourself";
+              }
+              else {
+                this.report.suspect_id = res.user_id;
+              }
+            } 
+            else {
+              this.invalidUsername = true;
+              this.alertUsername = "not found this username";
+            }
+          }
+        );
+      }
+    },
+    checkEvent() {
+      if (this.event_id) {
+        EventService.findEventByID(this.event_id).then((res) => {
+          if (res.exist) {
+            this.report.event_id = res.event_id;
+          } else {
+            this.invalidEvent = true;
+            this.alertEvent = "not found this event id";
+          }
+        });
+      }
+    },
+    clickReport() {
+      if (!this.username && this.categoryReport == 1) {
+        this.invalidUsername = true;
+        this.alertUsername = "username required";
+      }
+      if (!this.event_id && this.categoryReport == 2) {
+        this.invalidEvent = true;
+        this.alertEvent = "event id required";
+      }
+      if (!this.report.report_type_id) {
+        this.invalidType = true;
+        this.alertType = "report category required";
+      }
+      if (!this.report.title) {
+        this.invalidTitle = true;
+        this.alertTitle = "title required";
+      }
+      if (!this.report.description) {
+        this.invalidDescription = true;
+        this.alertDescription = "report detail required";
+      }
+      if (
+        !this.invalidUsername &&
+        !this.invalidEvent &&
+        !this.invalidType &&
+        !this.invalidTitle &&
+        !this.invalidDescription
+      ) {
+        ReportService.createReport(this.report).then(
+          (res) => {
+            if (res.report_id) {
+              this.$emit("callWaitBox", true);
+              this.reportReturn();
+            }
+          },
+          (error) => {
+            console.log(error.message);
+          }
+        );
+      }
     }
   }
 };

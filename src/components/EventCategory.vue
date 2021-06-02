@@ -17,7 +17,7 @@
       </div>
 
       <div>
-        <NoInformation />
+        <NoInformation v-if="limitEventList.length == 0" />
       </div>
 
       <div id="page-section">
@@ -26,17 +26,15 @@
           <div id="container">
             <div id="list-container" class="event-container">
               <div class="list event-flex-section">
-                <!-- <div v-for="(item, i) in eventList" :key="i">
+                <div v-for="(event, i) in limitEventList" :key="i">
                   <EventFlex
-                    :user="dataUser[i]"
-                    :date="dataDate"
-                    :title="dataTitle"
-                    :location="dataLocation"
-                    :host="dataHost"
-                    @clickRate="clickRate"
-                    @checkRate="checkRate"
+                    @manageReturn="manageReturn"
+                    @thisEvent="thisEvent"
+                    :event="event"
+                    :eventPage="true"
+                    @detailReturn="detailReturn"
                   />
-                </div> -->
+                </div>
               </div>
             </div>
           </div>
@@ -49,19 +47,20 @@
           <h1 class="event-second-header">OTHERS</h1>
           <div>
             <div>
-              <NoInformation v-if="eventList.length == 0" />
+              <NoInformation v-if="otherEventList.length == 0" />
             </div>
             <div>
               <!-- Event -->
               <div id="container">
                 <div class="event-container">
                   <div class="list event-flex-wrap-section">
-                    <div v-for="(event, i) in eventList" :key="i">
+                    <div v-for="(event, i) in otherEventList" :key="i">
                       <EventFlex
                         @manageReturn="manageReturn"
                         @thisEvent="thisEvent"
                         :event="event"
                         :eventPage="true"
+                        @detailReturn="detailReturn"
                       />
                     </div>
                   </div>
@@ -81,24 +80,22 @@
       </div>
 
       <div>
-        <NoInformation />
+        <NoInformation v-if="followingEventList.length == 0" />
       </div>
 
       <!-- Event -->
       <div id="container">
         <div class="event-container">
           <div class="list event-flex-wrap-section">
-            <!-- <div v-for="(item, i) in eventList" :key="i">
+            <div v-for="(event, i) in followingEventList" :key="i">
               <EventFlex
-                :user="dataUser[i]"
-                :date="dataDate"
-                :title="dataTitle"
-                :location="dataLocation"
-                :host="dataHost"
-                @clickRate="clickRate"
-                @checkRate="checkRate"
+                @manageReturn="manageReturn"
+                @thisEvent="thisEvent"
+                :event="event"
+                :eventPage="true"
+                @detailReturn="detailReturn"
               />
-            </div> -->
+            </div>
           </div>
         </div>
       </div>
@@ -117,7 +114,9 @@ export default {
   data() {
     return {
       showTitle: true,
-      eventList: [],
+      limitEventList: [],
+      followingEventList: [],
+      otherEventList: [],
       categorySelected: false
     };
   },
@@ -138,20 +137,37 @@ export default {
     getCategory() {
       EventService.getEventByCategory(this.idCategorySelected)
         .then((res) => {
-          if (res) {
-            console.log("terst" + this.idCategorySelected);
-            this.eventList = res;
+          if (res.length) {
+            res.forEach((event) => {
+              if (event.followHost) {
+                if (this.limitEventList.length < 20) {
+                  this.limitEventList.push(event);
+                }
+                this.followingEventList.push(event);
+              } else this.otherEventList.push(event);
+            });
           }
         })
         .catch(() => {
-          this.eventList = [];
+          this.limitEventList = [];
+          this.followingEventList = [];
+          this.otherEventList = [];
         });
+    },
+    pendingClick(value) {
+      this.$emit("pendingClick", value);
+    },
+    onEvent(value) {
+      this.$emit("onEvent", value);
     },
     thisEvent(value) {
       this.$emit("thisEvent", value);
     },
     manageReturn(value) {
       this.$emit("manageReturn", value);
+    },
+    detailReturn(value) {
+      this.$emit("detailReturn", value);
     }
   },
   components: {

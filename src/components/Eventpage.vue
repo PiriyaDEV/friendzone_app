@@ -21,7 +21,9 @@
                     :eventPage="true"
                     @pendingClick="pendingClick"
                     @onEvent="onEvent"
+                    @onJoined="onJoined"
                     @userProfile="userProfile"
+                    @titleError="titleError"
                   />
                 </div>
               </div>
@@ -47,6 +49,9 @@
         @detailReturn="detailReturn"
         @thisEvent="thisEvent"
         @userProfile="userProfile"
+        @pendingClick="pendingClick"
+        @onEvent="onEvent"
+        @onJoined="onJoined"
         :nameCategorySelected="nameCategorySelected"
         :idCategorySelected="idCategorySelected"
       ></EventCategory>
@@ -108,6 +113,9 @@ export default {
     onEvent(value) {
       this.$emit("onEvent", value);
     },
+    titleError(value){
+      this.$emit("titleError",value);
+    },
     getEventList() {
       EventService.getUserCateogryInterestEvent()
         .then((res) => {
@@ -126,7 +134,10 @@ export default {
     },
     thisEvent(value) {
       this.$emit("thisEvent", value);
-    }
+    },
+    onJoined(value) {
+      this.$emit("onJoined",value);
+    },
   }
 };
 </script>

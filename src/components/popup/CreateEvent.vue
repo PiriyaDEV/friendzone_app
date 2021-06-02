@@ -405,6 +405,7 @@ import GenderService from "../../services/gender.service";
 import CategoryService from "../../services/category.service";
 import EventService from "../../services/event.service";
 import Upload from "@/components/UploadPic.vue";
+import decode from "jwt-decode";
 
 class constructDate {
   constructor(date) {
@@ -453,7 +454,8 @@ export default {
       gender_value: [],
       gender_options: [],
       category_value: [],
-      category_options: []
+      category_options: [],
+      role: ""
     };
   },
   components: {
@@ -472,69 +474,112 @@ export default {
     createdReturn() {
       this.$emit("clickCreate", false);
     },
+    getRole() {
+      let userData = decode(localStorage.getItem("user"));
+      this.role = userData.role_id;
+    },
     ClickCreate() {
-      this.hs = this.date_start.h1 + this.date_start.h2;
-      this.ms = this.date_start.m1 + this.date_start.m2;
-      this.he = this.date_end.h1 + this.date_end.h2;
-      this.me = this.date_end.m1 + this.date_end.m2;
+      if(!this.event.title) {
+        alert("Invalid title")
+      } else if(!this.event.description) {
+        alert("Invalid description")
+      } else if(!this.event_pic) {
+        alert("Invalid event_pic")
+      } else if(!this.event.location) {
+        alert("Invalid location")
+      } else if(!this.date_start.h1) {
+        alert("Invalid location")
+      } else if(!this.date_start.h2) {
+        alert("Invalid location")
+      } else if(!this.date_start.m1) {
+        alert("Invalid location")
+      } else if(!this.date_start.m2) {
+        alert("Invalid location")
+      } else if(!this.date_end.h1) {
+        alert("Invalid location")
+      } else if(!this.date_end.h2) {
+        alert("Invalid location")
+      } else if(!this.date_end.m1) {
+        alert("Invalid location")
+      } else if(!this.date_end.m2) {
+        alert("Invalid location")
+      } else if(!this.gender_value) {
+        alert("Invalid gender")
+      } else if(!this.category_value) {
+        alert("Invalid category")
+      } else if(this.event.min_age < 13) {
+        alert("Invalid age")
+      } else if (this.event.max_participant < 1) {
+        alert("Invalid participant")
+      }
+      else {
+        this.hs = this.date_start.h1 + this.date_start.h2;
+        this.ms = this.date_start.m1 + this.date_start.m1;
+        this.he = this.date_end.h1 + this.date_end.h2;
+        this.me = this.date_end.m1 + this.date_end.m2;
 
-      this.event.start_at = new Date(
-        this.date_start.year +
-          "-" +
-          this.date_start.month +
-          "-" +
-          this.date_start.day +
-          " " +
-          this.hs +
-          ":" +
-          this.ms +
-          ":00 GMT+0700"
-      ).getTime();
+        this.event.start_at = new Date(
+          this.date_start.year +
+            "-" +
+            this.date_start.month +
+            "-" +
+            this.date_start.day +
+            " " +
+            this.hs +
+            ":" +
+            this.ms +
+            ":00 GMT+0700"
+        ).getTime();
 
-      this.event.end_at = new Date(
-        this.date_end.year +
-          "-" +
-          this.date_end.month +
-          "-" +
-          this.date_end.day +
-          " " +
-          this.he +
-          ":" +
-          this.me +
-          ":00 GMT+0700"
-      ).getTime();
+        this.event.end_at = new Date(
+          this.date_end.year +
+            "-" +
+            this.date_end.month +
+            "-" +
+            this.date_end.day +
+            " " +
+            this.he +
+            ":" +
+            this.me +
+            ":00 GMT+0700"
+        ).getTime();
 
-      console.log(this.event);
+        console.log(this.event);
 
-      this.gender_value.forEach((gender) => {
-        this.genderList.push(gender.code);
-      });
+        this.gender_value.forEach((gender) => {
+          this.genderList.push(gender.code);
+        });
 
-      this.category_value.forEach((category) => {
-        this.categoryList.push(category.code);
-      });
-      EventService.create({
-        event: this.event,
-        gender_id: this.genderList,
-        category_id: this.categoryList
-      }).then(
-        (res) => {
-          if (res.event_id) {
-            EventService.uploadEventPic(
-              this.event_pic.formData,
-              res.event_id
-            ).then((res) => {
-              if (res) {
-                console.log(res);
-                this.$emit("informationShow", true);
-              }
-            });
+        this.category_value.forEach((category) => {
+          this.categoryList.push(category.code);
+        });
+        EventService.create({
+          event: this.event,
+          gender_id: this.genderList,
+          category_id: this.categoryList
+        }).then(
+          (res) => {
+            if (res.event_id) {
+              EventService.uploadEventPic(
+                this.event_pic.formData,
+                res.event_id
+              ).then((res) => {
+                if (res) {
+                  console.log(res);
+                  if(this.role == "RO01") {
+                    this.$router.push("/");
+                  }else {
+                    this.$emit("informationShow", true);
+                  }
+                }
+              });
+            }
+          },
+          (error) => {
+            console.log(error.message);
           }
-        },
-        (error) => {
-          console.log(error.message);
-        }
-      );
+        );
+      }
     }
   },
   mounted() {
@@ -550,6 +595,7 @@ export default {
     });
   },
   created() {
+    this.getRole();
     GenderService.getGenderList().then((res) => {
       if (res) {
         res.forEach((gender) => {

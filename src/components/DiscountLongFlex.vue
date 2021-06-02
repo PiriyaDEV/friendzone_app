@@ -3,7 +3,7 @@
     <div
       @click="clickDiscount()"
       id="discount-flex-box"
-      style="cursor: pointer;"
+      :class="discountCursor"
     >
       <link
         rel="stylesheet"
@@ -16,7 +16,13 @@
       </div>
       <!-- ShowBox -->
 
-      <img class="discount-pic" :src="discount.discount_pic" />
+      <!-- ShowBox -->
+      <div v-if="(discount.status_id == 'ST16') && discount.isExpired" id="expired-box">
+        <h1>DISCOUNT IS EXPIRED</h1>
+      </div>
+      <!-- ShowBox -->
+
+      <img :class="cssImgEnd" :src="discount.discount_pic" />
       
 
       <div id="title-section">
@@ -67,6 +73,26 @@ export default {
       }
     }
   },
+  computed:{
+    cssImgEnd() {
+      let default_pic = "discount-pic";
+      let end_pic = "discount-pic end-pic";
+      if (this.discount.status_id == 'ST17' || this.discount.isExpired) {
+        return end_pic;
+      } else {
+        return default_pic;
+      }
+    },
+    discountCursor() {
+      let default_cursor = "";
+      let pointer_cursor = "discount-cursor";
+      if (this.statusYourZone == true) {
+        return default_cursor;
+      } else {
+        return pointer_cursor;
+      }
+    },
+  },
   props: ["statusYourZone", "discount"]
 };
 </script>
@@ -81,6 +107,7 @@ export default {
 }
 
 .discount-title {
+  padding-top:2px;
   margin: 0px 15px;
   color: #444444;
   font-size: 1.75em;
@@ -88,11 +115,19 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
   width: calc(100% - 30px);
-  height: 29px;
+  height: 33px;
   line-height: 16px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+.discount-cursor{
+  cursor: pointer;
+}
+
+.end-pic{
+  filter: grayscale(100%) !important;
 }
 
 .discount-description {
@@ -158,17 +193,17 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 20px 15px 0px;
+  padding: 15px 15px 0px;
   /* padding: 50px 15px 0px; */
 }
 
-#used-box > h1{
+#used-box > h1, #expired-box > h1{
   margin: 0;
   font-size: 1em;
   font-weight: 500;
 }
 
-#used-box {
+#expired-box,#used-box {
   padding: 5px 10px;
   border-radius: 16px;
   text-align: center;
@@ -176,7 +211,15 @@ export default {
   top: 102px;
   left: 13px;
   z-index: 3;
+}
+
+#expired-box{
   color: #ff8864;
   background-color: white;
+}
+
+#used-box{
+  color: white;
+  background-color: #ff8864;
 }
 </style>
