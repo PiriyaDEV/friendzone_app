@@ -31,18 +31,28 @@
             be post after get approved by approver
           </h1>
           <h1 v-if="waitShow == `discount`" id="info">
-            Note : Please you the discount before it expired. Thank you for your purchase,
-            !
+            Note : Please you the discount before it expired. Thank you for your
+            purchase, !
           </h1>
           <h1 v-if="waitShow == `report`" id="info">
             Your report is now wait in the lists to our admin, We will rapidly
             check your report. Thank you!
           </h1>
-          <h1 v-if="error == `gender`" id="info">
+          <h1 v-if="error.type == `full`">This event is full</h1>
+          <h1 v-if="error.type == `gender` || error.type == `age`" id="info">
             This event allow only: <br />
-            <span> Gender: Male Female <br /> </span>
-            <span> Minimum Age: 10 <br /> </span>
-            <span> Maximum Age: 10 <br /> </span>
+            <span v-if="error.type == `gender`">
+              Gender:
+              <span v-for="(gender, i) in error.gender" :key="i">
+                {{ gender.gender_name }}</span>
+              <br /> 
+            </span>
+            <span v-if="error.type == `age`">
+              Minimum Age: {{ error.min }} <br />
+            </span>
+            <span v-if="error.type == `age`">
+              Maximum Age: {{ error.max }} <br />
+            </span>
           </h1>
           <h1 v-if="waitShow == `delete` || waitShow == `end`" id="event-title">
             Title : {{ confirmDeleteData.title }}
@@ -53,12 +63,16 @@
           <button class="back_button" @click="exit()">Done</button>
         </div>
 
-        <div v-if="error ||  waitShow == `report` || waitShow == `discount`" id="mobile-done" class="section">
+        <div
+          v-if="error || waitShow == `report` || waitShow == `discount`"
+          id="mobile-done"
+          class="section"
+        >
           <button class="back_button" @click="done()">Done</button>
         </div>
 
         <div
-          v-if="waitShow == `delete` ||  waitShow == `end`"
+          v-if="waitShow == `delete` || waitShow == `end`"
           class="section double-button"
         >
           <div>
@@ -76,14 +90,14 @@
         </div>
 
         <img
-          v-if="error ||  waitShow == `report` || waitShow == `discount`"
+          v-if="error || waitShow == `report` || waitShow == `discount`"
           @click="done()"
           style="cursor: pointer"
           class="close"
           src="@/assets/icon/icons8-multiply-96.png"
         />
 
-        <imgv
+        <img
           v-else
           @click="exit()"
           style="cursor: pointer"

@@ -2,19 +2,152 @@
   <div :class="cssBox">
     <div id="report-menu">
       <div :class="cssMiddle">
-        <h1 id="menu-text-id" :class="cssMenuG">{{ event.event_id }}</h1>
-        <h1 :class="cssMenuB">{{ event.title }}</h1>
+        <h1 id="menu-text-id" :class="cssMenuG">
+          <span v-if="approver">{{ event.event_id }}</span>
+          <span v-if="report">{{ reportList.report_id }}</span>
+          <span v-if="discount">{{ discountList.discount_id }}</span>
+          <span v-if="user" class="icon-box white-color user-font"
+            ><img id="profile-icon" :src="userList.profile_pic" />{{
+              userList.username
+            }}</span
+          >
+        </h1>
+        <h1 :class="cssMenuB">
+          <span v-if="approver">{{ event.title }}</span>
+          <span v-if="report" class="white-color">{{ reportList.title }}</span>
+          <span v-if="discount" class="white-color">{{
+            discountList.name
+          }}</span>
+          <div v-if="user" class="rating-box">
+            <span class="white-color">rating</span>
+            <!-- Rating -->
+            <div id="star-box" class="section">
+              <!-- Star -->
+              <div>
+                <img
+                  v-if="showRating[0]"
+                  class="star"
+                  src="@/assets/icon/icons8-star-96-orange.png"
+                />
+                <img
+                  v-else
+                  class="star"
+                  src="@/assets/icon/icons8-star-96.png"
+                />
+              </div>
+              <!-- Star -->
+
+              <!-- Star -->
+              <div>
+                <img
+                  v-if="showRating[1]"
+                  class="star"
+                  src="@/assets/icon/icons8-star-96-orange.png"
+                />
+                <img
+                  v-else
+                  class="star"
+                  src="@/assets/icon/icons8-star-96.png"
+                />
+              </div>
+              <!-- Star -->
+
+              <!-- Star -->
+              <div>
+                <img
+                  v-if="showRating[2]"
+                  class="star"
+                  src="@/assets/icon/icons8-star-96-orange.png"
+                />
+                <img
+                  v-else
+                  class="star"
+                  src="@/assets/icon/icons8-star-96.png"
+                />
+              </div>
+              <!-- Star -->
+
+              <!-- Star -->
+              <div>
+                <img
+                  v-if="showRating[3]"
+                  class="star"
+                  src="@/assets/icon/icons8-star-96-orange.png"
+                />
+                <img
+                  v-else
+                  class="star"
+                  src="@/assets/icon/icons8-star-96.png"
+                />
+              </div>
+
+              <!-- Star -->
+
+              <!-- Star -->
+              <div>
+                <img
+                  v-if="showRating[4]"
+                  class="star"
+                  src="@/assets/icon/icons8-star-96-orange.png"
+                />
+                <img
+                  v-else
+                  class="star"
+                  src="@/assets/icon/icons8-star-96.png"
+                />
+              </div>
+              <!-- Star -->
+            </div>
+            <span class="mobile-rating">5.0</span>
+          </div>
+          <!-- Rating -->
+        </h1>
         <!-- Here -->
-        <h1 :class="cssHideB">{{ event.location }}</h1>
+        <h1 :class="cssHideB">
+          <span v-if="approver">{{ event.location }}</span>
+          <span v-if="report" class="white-color">{{ reportList.type }}</span>
+          <span v-if="discount" class="coin-box white-color"
+            ><img id="coin-logo" src="@/assets/icon/coin.png" />{{
+              discountList.redeem_point
+            }}</span
+          >
+          <span v-if="user" class="white-color">{{ userList.role }}</span>
+        </h1>
         <!-- Here -->
-        <h1 :class="cssHideBadmin">{{ event.date }}</h1>
+        <h1 :class="cssHideBadmin">
+          <span v-if="approver">{{ event.date }}</span>
+          <span v-if="report" class="white-color">{{
+            reportList.type_name
+          }}</span>
+          <span v-if="discount" class="white-color">{{
+            discountList.period_end.substring(0, 11)
+          }}</span>
+        </h1>
+
+        <h1 v-if="discount" :class="cssHideBadmin">
+          {{ discountList.expired.substring(0, 11) }}
+        </h1>
+
         <h1 v-if="approver" :class="cssMenuB">{{ event.username }}</h1>
-        <div id="pending-dot">
-          <span :class="cssPending"></span>
-          <!-- Here -->
-          <h1 :class="cssHideG">{{ pending }}</h1>
-          <!-- <span class="dot green"></span> -->
-          <!-- <h1 class="menu-text">done</h1> -->
+
+        <div v-if="approver" id="pending-dot">
+          <span :class="cssPendingEvent"></span>
+          <h1 :class="cssHideG">{{ pendingEvent }}</h1>
+        </div>
+
+        <div v-if="report" id="pending-dot">
+          <span :class="cssStatusReport"></span>
+          <h1 :class="cssHideG">{{ reportList.status }}</h1>
+        </div>
+
+        <div v-if="discount" id="pending-dot">
+          <span :class="cssStatusDiscount"></span>
+          <h1 :class="cssHideG">{{ discountList.status }}</h1>
+        </div>
+
+        <div v-if="user" id="pending-dot">
+          <span :class="cssStatusUser"></span>
+          <h1 :class="cssHideG">{{ userList.status }}</h1>
         </div>
       </div>
       <div id="button-section">
@@ -27,17 +160,40 @@
 
 <script>
 export default {
-  props: ["approver", "event", "statusEvent"],
+  data() {
+    return {
+      showRating: [false, false, false, false, false]
+    };
+  },
+  props: [
+    "approver",
+    "event",
+    "statusEvent",
+    "report",
+    "reportList",
+    "discountList",
+    "discount",
+    "userList",
+    "user"
+  ],
   watch: {
     statusEvent: function() {
       if (this.event.event_id == this.statusEvent.event_id) {
-        console.log(this.event.statusEvent);
         this.event.status_id = this.statusEvent.status_id;
       }
     }
   },
+  created() {
+    if (this.user) {
+      if (this.userList.rating > 0) {
+        this.showRating.fill(true, 0, this.userList.rating.toFixed(0));
+      } else {
+        this.showRating.fill(true, 0, 5);
+      }
+    }
+  },
   computed: {
-    cssPending() {
+    cssPendingEvent() {
       let red = "dot red";
       let green = "dot green";
       let yellow = "dot yellow";
@@ -51,7 +207,7 @@ export default {
       }
       return yellow;
     },
-    pending() {
+    pendingEvent() {
       let reject = "Rejected";
       let approved = "Approved";
       let pending = "Pending";
@@ -65,11 +221,49 @@ export default {
       }
       return pending;
     },
+    cssStatusReport() {
+      let waitingReport = "dot yellow";
+      let readReport = "dot green";
+      let banReport = "dot red";
+      let deleteReport = "dot black";
+      if (this.reportList.status == "Waiting") return waitingReport;
+      else if (this.reportList.status == "Read") return readReport;
+      else if (this.reportList.status == "Banned") return banReport;
+      return deleteReport;
+    },
+    cssStatusDiscount() {
+      let inactiveDiscount = "dot red";
+      let activeDiscount = "dot green";
+      let deleteDiscount = "dot black";
+      if (this.discountList.status == "Inactive") {
+        return inactiveDiscount;
+      } else if (this.discountList.status == "Active") {
+        return activeDiscount;
+      } else return deleteDiscount;
+    },
+    cssStatusUser() {
+      let normal = "dot green";
+      let ban = "dot red";
+      if (this.userList.status == "Normal") {
+        return normal;
+      } else {
+        return ban;
+      }
+    },
     cssMiddle() {
       let general = "report-middle-menu";
+      let adminReport = "report-middle-menu-admin-report";
       let app = "report-middle-menu-approver";
+      let adminUser = "report-middle-menu-admin-user";
+      let adminDiscount = "report-middle-menu-admin-discount";
       if (this.approver == true) {
         return app;
+      } else if (this.report == true) {
+        return adminReport;
+      } else if (this.discount == true) {
+        return adminDiscount;
+      } else if (this.user == true) {
+        return adminUser;
       }
       return general;
     },
@@ -91,25 +285,34 @@ export default {
     },
     cssMenuG() {
       let general = "menu-text";
+      let user = "menu-text profile-text";
       let app = "menu-gray-approver";
       if (this.approver == true) {
         return app;
+      } else if (this.user == true) {
+        return user;
       }
       return general;
     },
     cssMenuB() {
       let general = "menu-text";
+      let user = "menu-text profile-text";
       let app = "menu-black-approver";
       if (this.approver == true) {
         return app;
+      } else if (this.user == true) {
+        return user;
       }
       return general;
     },
     cssHideB() {
       let general = "menu-text";
+      let user = "menu-text profile-text";
       let app = "menu-black-approver approver-hide";
       if (this.approver == true) {
         return app;
+      } else if (this.user == true) {
+        return user;
       }
       return general;
     },
@@ -122,8 +325,8 @@ export default {
       return general;
     },
     cssHideBadmin() {
-      let general = "menu-text approver-hide";
-      let app = "menu-black-approver approver-hide";
+      let general = "menu-text approver-hide white-color";
+      let app = "menu-black-approver approver-hide white-color";
       if (this.approver == true) {
         return app;
       }
@@ -132,8 +335,19 @@ export default {
   },
   methods: {
     viewClick() {
-      this.$emit("viewReturn", true);
-      this.$emit("viewData", this.event);
+      if (this.approver == true) {
+        this.$emit("viewReturn", true);
+        this.$emit("viewData", this.event);
+      }
+      if (this.report == true) {
+        this.$emit("reportData", this.reportList);
+      }
+      if (this.discount == true) {
+        this.$emit("discountData", this.discountList);
+      }
+      if (this.user == true) {
+        this.$emit("customerData", this.userList);
+      }
     }
   }
 };
@@ -152,6 +366,10 @@ export default {
   margin: 10px 0px;
 }
 
+.profile-text {
+  margin: 0px;
+}
+
 #report-menu {
   align-items: center;
   display: flex;
@@ -159,8 +377,46 @@ export default {
   padding: 3px;
 }
 
+.mobile-rating {
+  display: none;
+}
+
+#star-box {
+  margin-left: 5px;
+  margin-top: 3px;
+}
+
+.star {
+  width: 12px;
+  margin-right: 1px;
+}
+
+#profile-icon {
+  width: 25px;
+  height: 25px;
+  -o-object-fit: cover;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 14px;
+}
+
+.user-font {
+  font-size: 1.3em;
+  font-weight: 600;
+}
+
 #report {
   width: 100%;
+}
+
+.mobile-rating {
+  margin-left: 6px;
+}
+
+#coin-logo {
+  width: 15px;
+  height: 15px;
+  padding-right: 6px;
 }
 
 .menu-text {
@@ -172,6 +428,13 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0px 10px;
+}
+
+.coin-box,
+.icon-box,
+.rating-box {
+  display: flex;
+  align-items: center;
 }
 
 .approver-hide {
@@ -211,7 +474,28 @@ export default {
   width: 100%;
 }
 
+.report-middle-menu-admin-user {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  align-items: center;
+  width: 100%;
+}
+
+.report-middle-menu-admin-report {
+  display: grid;
+  grid-template-columns: 15% 20% 10% 35% 20%;
+  align-items: center;
+  width: 100%;
+}
+
 .report-middle-menu-approver {
+  display: grid;
+  grid-template-columns: 15% 20% 15% 15% 15% 20%;
+  align-items: center;
+  width: 100%;
+}
+
+.report-middle-menu-admin-discount {
   display: grid;
   grid-template-columns: 15% 20% 15% 15% 15% 20%;
   align-items: center;
@@ -268,17 +552,52 @@ export default {
   align-items: center;
 }
 
+.report-middle-menu-admin-report > .approver-hide {
+  margin-right: 5px;
+}
+
 @media screen and (max-width: 690px) {
-  .approver-hide {
+  .approver-hide,
+  #star-box {
     display: none;
+  }
+
+  .mobile-rating {
+    display: block;
   }
 
   .report-middle-menu-approver {
     grid-template-columns: 25% 40% 25% 10%;
   }
 
+  .report-middle-menu-admin-discount {
+    grid-template-columns: 25% 40% 25% 10%;
+  }
+
   .report-middle-menu {
     grid-template-columns: 25% 40% 25% 10%;
+  }
+
+  .report-middle-menu-admin-report {
+    grid-template-columns: 25% 40% 25% 10%;
+  }
+
+  .report-middle-menu-admin-user {
+    grid-template-columns: 35% 25% 30% 10%;
+  }
+
+  .user-font {
+    font-size: 1.1em;
+  }
+
+  #profile-icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  #coin-logo {
+    width: 8px;
+    height: 8px;
   }
 
   #menu-text-id {

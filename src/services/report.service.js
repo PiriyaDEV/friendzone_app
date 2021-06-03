@@ -40,6 +40,19 @@ class ReportService {
 
     return res.data;
   }
+
+  async approveReport(data) {
+    let userData = decode(localStorage.getItem("user"));
+    const res = await axios.post(API_URL + "approveReport", {
+      admin_id: userData.user_id,
+      report_id: data.report_id,
+      takeAction: data.takeAction
+    }, {
+      headers: authHeader()
+    });
+
+    return res.data[0];
+  }
 }
 
 export default new ReportService();

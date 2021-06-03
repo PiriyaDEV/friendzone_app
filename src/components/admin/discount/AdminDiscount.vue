@@ -1,13 +1,12 @@
 <template>
-  <div id="admin-report" class="event-container">
+  <div id="admin-discount" class="event-container">
     <div>
       <div id="title-box">
-        <h1 class="title header white-color">REPORT</h1>
+        <h1 class="title header white-color">DISCOUNT</h1>
         <select id="select-report" v-model="filter">
-          <option value="all">All Reports</option>
-          <option value="waiting">Waiting</option>
-          <option value="read">Read</option>
-          <option value="banned">Banned</option>
+          <option value="all">All Discounts</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
           <option value="deleted">Deleted</option>
         </select>
       </div>
@@ -17,19 +16,19 @@
           <div id="report-middle-menu">
             <h1 id="menu-text-id" class="menu-text">ID</h1>
             <h1 class="menu-text">TITLE</h1>
-            <h1 class="menu-text">TYPE</h1>
-            <h1 class="menu-text report-cat">CAREGORIES</h1>
+            <h1 class="menu-text">POINT USED</h1>
+            <h1 class="menu-text report-cat">BUY WITHIN</h1>
+            <h1 class="menu-text report-cat">USED WITHIN</h1>
             <h1 class="menu-text">STATUS</h1>
           </div>
           <div id="space-button"></div>
         </div>
         <div id="report-box">
-          <div v-for="(report, i) in reportListShow" :key="i">
+          <div v-for="(discount, i) in discountListShow" :key="i">
             <ReportBox
-              :approver="false"
-              :reportList="report"
-              :report="true"
-              @reportData="reportData"
+              :discountList="discount"
+              :discount="true"
+              @discountData="discountData"
             />
           </div>
         </div>
@@ -41,12 +40,13 @@
 <script>
 import ReportBox from "@/components/admin/report/ReportBox.vue";
 import AdminService from "@/services/admin.service";
+
 export default {
-  name: "admin-report",
+  name: "admin-discount",
   data() {
     return {
-      reportListShow: [],
-      reportList: [],
+      discountListShow: [],
+      discountList: [],
       filter: "all"
     };
   },
@@ -55,50 +55,49 @@ export default {
   },
   watch: {
     filter: function() {
-      this.reportListShow = [];
-      if (this.filter == "all") this.reportListShow = this.reportList;
-      else if (this.filter == "waiting") {
-        this.reportListShow = this.reportList.filter((report) => {
-          return report.status == "Waiting";
+      this.discountListShow = [];
+      if (this.filter == "all") this.discountListShow = this.discountList;
+      else if (this.filter == "active") {
+        this.discountListShow = this.discountList.filter((discount) => {
+          return discount.status == "Active";
         });
-      } else if (this.filter == "read") {
-        this.reportListShow = this.reportList.filter((report) => {
-          return report.status == "Read";
+      } else if (this.filter == "inactive") {
+        this.discountListShow = this.discountList.filter((discount) => {
+          return discount.status == "Inactive";
         });
-      } else if (this.filter == "banned") {
-        this.reportListShow = this.reportList.filter((report) => {
-          return report.status == "Banned";
-        });
-      } else if (this.filter == "deleted") {
-        this.reportListShow = this.reportList.filter((report) => {
-          return report.status == "Deleted";
+      }else if (this.filter == "deleted") {
+        this.discountListShow = this.discountList.filter((discount) => {
+          return discount.status == "Deleted";
         });
       }
     }
   },
   created() {
-    AdminService.getReportList()
-      .then((res) => {
-        if (res) {
-          this.reportListShow = res;
-          this.reportList = res;
-        }
-      })
-      .catch(() => {
-        this.reportListShow = [];
-        this.reportList = [];
-      });
+    this.getDiscount();
   },
   methods: {
-    reportData(value) {
-      this.$emit("reportData", value);
+    getDiscount() {
+      AdminService.getDiscountList()
+        .then((res) => {
+          if (res) {
+            this.discountListShow = res;
+            this.discountList = res;
+          }
+        })
+        .catch(() => {
+          this.discountListShow = [];
+          this.discountList = [];
+        });
+    },
+    discountData(value) {
+      this.$emit("editDiscountData", value);
     }
   }
 };
 </script>
 
 <style scoped>
-#admin-report {
+#admin-discount {
   margin-top: 110px;
   margin-bottom: 30px;
   overflow-x: hidden;
@@ -142,7 +141,7 @@ option {
 
 #report-middle-menu {
   display: grid;
-  grid-template-columns: 15% 20% 10% 35% 20%;
+  grid-template-columns: 15% 20% 15% 15% 15% 20%;
   align-items: center;
   width: 100%;
 }
@@ -159,11 +158,11 @@ option {
 }
 
 #space-button {
-  width: 68px;
+  width: 48px;
 }
 
 @media screen and (max-width: 880px) {
-  #admin-report {
+  #admin-discount {
     margin-top: 0px;
   }
 }

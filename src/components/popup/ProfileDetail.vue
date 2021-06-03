@@ -3,7 +3,7 @@
     <div class="popup-section section">
       <div class="popup-form">
         <div id="profile-section" class="section">
-          <div id="left">
+          <div v-if="!adminEdit" id="left">
             <div v-if="cancel || (!edit && !save)" id="profile-frame">
               <img
                 v-if="findUser == true && dataUser != user.username"
@@ -37,8 +37,35 @@
               </Upload>
             </div>
           </div>
+
+
+          <div v-if="adminEdit" id="left">
+            <div v-if="cancel || (!edit && !save)" id="profile-frame">
+              <img id="profile-pic" :src="showprofile_pic" />
+            </div>
+            <div v-if="!profile_pic && edit" id="profile-frame">
+              <img id="profile-pic" :src="showprofile_pic" />
+            </div>
+            <div v-if="!cancel && profile_pic">
+              <img
+                id="profile-pic"
+                class="pictureUpload"
+                style="position: relative"
+                :src="profile_pic.imageURL"
+                alt="profile_pic"
+              />
+            </div>
+            <div style="position: relative" v-if="edit">
+              <Upload v-model="profile_pic">
+                <div id="upload-photo" slot="activator">
+                  <img src="@/assets/icon/icons8-add-image-96.png" />
+                </div>
+              </Upload>
+            </div>
+          </div>
+
           <div id="right">
-            <div id="username-box">
+            <div v-if="!adminEdit" id="username-box">
               <h1 v-if="!edit" id="name_title">
                 <span v-if="findUser == true && dataUser != user.username">{{
                   dataUser
@@ -62,7 +89,28 @@
               />
             </div>
 
-            <div id="bio-mobile">
+            <div v-if="adminEdit" id="username-box">
+              <h1 v-if="!edit" id="name_title">
+                <span>{{ customerData.username }}</span>
+                <img
+                  v-if="role != `RO04`"
+                  class="verified-badge"
+                  src="../../assets/icon/verified-badge.png"
+                />
+              </h1>
+              <input
+                v-else
+                class="input_username_box"
+                type="text"
+                maxlength="30"
+                size="30"
+                name="name"
+                autocomplete="off"
+                v-model="username"
+              />
+            </div>
+
+            <div v-if="!adminEdit" id="bio-mobile">
               <h1 v-if="!edit" id="bio">
                 <span v-if="findUser == true && dataUser != user.username">{{
                   searchUserList.bio
@@ -81,6 +129,24 @@
               >
               </textarea>
             </div>
+
+            <div v-if="adminEdit" id="bio-mobile">
+              <h1 v-if="!edit" id="bio">
+                <span>{{ customerData.bio }}</span>
+              </h1>
+              <textarea
+                v-else
+                class="input_bio_box"
+                type="text"
+                maxlength="256"
+                size="256"
+                name="name"
+                autocomplete="off"
+                v-model="bio"
+              >
+              </textarea>
+            </div>
+
 
             <div id="double-flex">
               <!-- Rating -->
@@ -165,7 +231,8 @@
                 </div>
               </div>
               <!-- Rating -->
-              <div v-if="role == `RO01`">
+              <div v-if="!adminEdit">
+                <div v-if="role == `RO01`">
                 <div v-if="demoRole == 1 && !edit" id="switch-button">
                   <button
                     v-if="
@@ -193,12 +260,13 @@
                   </button>
                 </div>
               </div>
+              </div>
             </div>
 
             <!-- Follower -->
             <div id="follower-section">
               <div id="follower">
-                <div class="verticle-box">
+                <div v-if="!adminEdit" class="verticle-box">
                   <h1
                     v-if="findUser == true && dataUser != user.username"
                     class="number-box"
@@ -208,7 +276,13 @@
                   <h1 v-else class="number-box">{{ user.host }}</h1>
                   <h1 class="title-box">Host</h1>
                 </div>
-                <div class="verticle-box">
+
+                <div v-if="adminEdit"  class="verticle-box">
+                  <h1 class="number-box">{{ customerData.host }}</h1>
+                  <h1 class="title-box">Host</h1>
+                </div>
+
+                <div v-if="!adminEdit" class="verticle-box">
                   <h1
                     v-if="findUser == true && dataUser != user.username"
                     class="number-box"
@@ -218,7 +292,13 @@
                   <h1 v-else class="number-box">{{ user.joined }}</h1>
                   <h1 class="title-box">Joined</h1>
                 </div>
-                <div class="verticle-box">
+
+                <div v-if="adminEdit" class="verticle-box">
+                  <h1 class="number-box">{{ customerData.joined }}</h1>
+                  <h1 class="title-box">Joined</h1>
+                </div>
+
+                <div v-if="!adminEdit" class="verticle-box">
                   <h1
                     v-if="findUser == true && dataUser != user.username"
                     class="number-box"
@@ -228,7 +308,13 @@
                   <h1 v-else class="number-box">{{ user.follower }}</h1>
                   <h1 class="title-box">Follower</h1>
                 </div>
-                <div class="verticle-box">
+
+                <div v-if="adminEdit" class="verticle-box">
+                  <h1 class="number-box">{{ customerData.follower }}</h1>
+                  <h1 class="title-box">Follower</h1>
+                </div>
+
+                <div v-if="!adminEdit" class="verticle-box">
                   <h1
                     v-if="findUser == true && dataUser != user.username"
                     class="number-box"
@@ -238,11 +324,17 @@
                   <h1 v-else class="number-box">{{ user.following }}</h1>
                   <h1 class="title-box">Following</h1>
                 </div>
+
+                 <div v-if="adminEdit" class="verticle-box">
+                  <h1 class="number-box">{{ customerData.following }}</h1>
+                  <h1 class="title-box">Following</h1>
+                </div>
+
               </div>
             </div>
             <!-- Follower -->
 
-            <div id="bio-default">
+            <div v-if="!adminEdit" id="bio-default">
               <h1 v-if="!edit" id="bio">
                 <span v-if="findUser == true && dataUser != user.username">{{
                   searchUserList.bio
@@ -261,7 +353,25 @@
               >
               </textarea>
             </div>
-            <div id="profile-button-section">
+
+             <div v-if="adminEdit" id="bio-default">
+              <h1 v-if="!edit" id="bio">
+                <span>{{ customerData.bio }}</span>
+              </h1>
+              <textarea
+                v-else
+                class="input_bio_box"
+                type="text"
+                maxlength="256"
+                size="256"
+                name="name"
+                autocomplete="off"
+                v-model="bio"
+              >
+              </textarea>
+            </div>
+
+            <div v-if="!adminEdit" id="profile-button-section">
               <div id="profile-button">
                 <div
                   v-if="
@@ -305,10 +415,20 @@
                 </div>
               </div>
             </div>
+
+            <div v-if="adminEdit" id="profile-button-section">
+              <div id="profile-button">
+                <button @click="clickEdit()">EDIT PROFILE</button>
+                <button @click="clickInterest()">INTERESTED</button>
+                <button @click="clickPassword()">CHANGE PASSWORD</button>
+              </div>
+            </div>
+
           </div>
         </div>
         <div id="middle">
-          <EditProfile
+          <div v-if="!adminEdit">
+            <EditProfile
             v-if="interestShow == false && changePassword == false"
             @editReturn="editReturn"
             :usernameAfter="username"
@@ -324,6 +444,24 @@
             :year="yearPlace"
             @saveUser="saveUser"
           />
+          </div>
+
+          <div v-if="adminEdit">
+            <EditProfile
+            v-if="interestShow == false && changePassword == false"
+            @editReturn="editReturn"
+            :usernameAfter="username"
+            :bioAfter="bio"
+            :edit="edit"
+            :user="user"
+            :role="demoRole"
+            :findUser="false"
+            :day="dayPlace"
+            :month="monthPlace + 1"
+            :year="yearPlace"
+            @saveUser="saveUser"
+          />
+          </div>
 
           <ProfileInterest
             v-if="interestShow == true"
@@ -386,10 +524,11 @@ export default {
       changePassword: false,
       searchUserList: [],
       profile_User: "",
-      role: ""
+      role: "",
+      adminEdit: false
     };
   },
-  props: ["demoRole", "findUser", "dataUser"],
+  props: ["demoRole", "findUser", "dataUser","customerData"],
   components: {
     EditProfile,
     Upload,
@@ -398,7 +537,27 @@ export default {
   },
   created() {
     this.getRole();
-    UserService.getUserDetail().then((res) => {
+    if(this.customerData != null) {
+      this.adminEdit = true;
+      this.username = this.customerData.username;
+      this.bio = this.customerData.bio;
+      this.showprofile_pic = this.customerData.profile_pic;
+      let birthdate = new Date(this.customerData.birthdate);
+      let date = birthdate.getDate();
+      let month = birthdate.getMonth();
+      let year = birthdate.getFullYear();
+      this.dayPlace = date;
+      this.monthPlace = month;
+      this.yearPlace = year;
+      this.customerData.birthdate = `${date} ${this.months[month]} ${year}`;
+        if (this.customerData.rating > 0) {
+            this.showRating.fill(true, 0, this.customerData.rating.toFixed(0));
+          } else {
+            this.showRating.fill(true, 0, 5);
+          }
+    }
+    else {
+      UserService.getUserDetail().then((res) => {
       if (res) {
         this.user = res;
         this.username = this.user.username;
@@ -428,6 +587,7 @@ export default {
         }
       }
     });
+    } 
   },
   methods: {
     detailReturn() {
@@ -472,6 +632,7 @@ export default {
     saveUser(value) {
       this.edit = false;
       this.save = true;
+      value.role_id = this.role;
       UserService.editUser(value).then((res) => {
         if (res) {
           UserService.uploadProfile(this.profile_pic.formData).then((res) => {

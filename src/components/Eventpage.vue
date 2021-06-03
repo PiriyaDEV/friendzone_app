@@ -114,6 +114,7 @@ export default {
       this.$emit("onEvent", value);
     },
     titleError(value){
+      console.log(value)
       this.$emit("titleError",value);
     },
     getEventList() {

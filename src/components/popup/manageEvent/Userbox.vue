@@ -317,11 +317,13 @@ h1 {
   color: #444444;
 }
 
-.userbox,
-.userbox-admin {
+.userbox{
+background-color: #f0f0f0;
+}
+
+.userbox-admin,.userbox{
   border-radius: 23px;
   border: none;
-  background-color: #f0f0f0;
   padding: 3px;
   display: flex;
   align-items: center;

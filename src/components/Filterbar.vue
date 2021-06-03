@@ -6,26 +6,9 @@
     </div>
 
     <div>
-      <h1 class="title">friends</h1>
-      <div class="checkbox" v-for="item in FriendData" :key="item">
-        <!-- <input
-            type="checkbox"
-            :value="item.location"
-            v-model="selectedLocations"
-          />
-          <span class="checkbox-label"> {{ item.location }} </span> <br /> -->
-        <label class="check-container checkbox-label"
-          >{{ item.name }}
-          <input type="checkbox" :value="item.name" v-model="selectedFriend" />
-          <span class="checkmark"></span>
-        </label>
-      </div>
-    </div>
-
-    <div>
-      <h1 class="title">events</h1>
-      <h1 class="subtitle">categories</h1>
-      <div class="checkbox" v-for="item in CategoriesData" :key="item">
+      <h1 class="title">Friends</h1>
+      
+      <div class="checkbox" v-for="item in FriendData" :key="item.value">
         <!-- <input
             type="checkbox"
             :value="item.location"
@@ -36,15 +19,39 @@
           >{{ item.name }}
           <input
             type="checkbox"
-            :value="item.name"
+            :value="item.isFollow"
+            v-model="selectedFriend"
+          />
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <h1 class="title">Events</h1>
+      
+      <h1 class="subtitle">Categories</h1>
+      <div class="checkbox" v-for="item in CategoriesData" :key="item.category_id">
+        <!-- <input
+            type="checkbox"
+            :value="item.location"
+            v-model="selectedLocations"
+          />
+          <span class="checkbox-label"> {{ item.location }} </span> <br /> -->
+        <label class="check-container checkbox-label"
+          >{{ item.category_name }}
+          <input
+            type="checkbox"
+            :value="item.category_id"
             v-model="selectedCategories"
           />
           <span class="checkmark"></span>
         </label>
       </div>
 
-      <h1 class="subtitle sub-top">others</h1>
-      <div class="checkbox" v-for="item in GenderData" :key="item">
+      <h1 class="subtitle sub-top">Gender</h1>
+      
+      <div class="checkbox" v-for="item in GenderData" :key="item.gender_id">
         <!-- <input
             type="checkbox"
             :value="item.location"
@@ -52,30 +59,21 @@
           />
           <span class="checkbox-label"> {{ item.location }} </span> <br /> -->
         <label class="check-container checkbox-label"
-          >{{ item.name }}
-          <input type="checkbox" :value="item.name" v-model="selectedGender" />
-          <span class="checkmark"></span>
-        </label>
-      </div>
-      <div class="checkbox" v-for="item in AgeData" :key="item">
-        <!-- <input
+          >{{ item.gender_name }}
+          <input
             type="checkbox"
-            :value="item.location"
-            v-model="selectedLocations"
+            :value="item.gender_id"
+            v-model="selectedGender"
           />
-          <span class="checkbox-label"> {{ item.location }} </span> <br /> -->
-        <label class="check-container checkbox-label"
-          >{{ item.name }}
-          <input type="checkbox" :value="item.name" v-model="selectedAge" />
           <span class="checkmark"></span>
         </label>
       </div>
     </div>
 
     <div>
-      <h1 class="title">discount</h1>
-
-      <div class="checkbox" v-for="item in DiscountData" :key="item">
+      <h1 class="title">Discount</h1>
+      
+      <div class="checkbox" v-for="item in DiscountData" :key="item.value">
         <!-- <input
             type="checkbox"
             :value="item.location"
@@ -86,7 +84,7 @@
           >{{ item.name }}
           <input
             type="checkbox"
-            :value="item.name"
+            :value="item.value"
             v-model="selectedDiscount"
           />
           <span class="checkmark"></span>
@@ -97,37 +95,58 @@
 </template>
 
 <script>
+import CategoryService from "@/services/category.service";
+import GenderService from "@/services/gender.service";
+
 export default {
   data() {
     return {
-      FriendData: [{ name: "not following" }, { name: "following" }],
-      selectedFriend: [""],
-      CategoriesData: [
-        { name: "food" },
-        { name: "entertainment" },
-        { name: "travel" },
-        { name: "festival / concert" },
-        { name: "education" },
-        { name: "sport" },
-        { name: "game" }
+      selectedFriend: [],
+      FriendData: [
+        { name: "Not following", isFollow: false },
+        { name: "Following", isFollow: true }
       ],
-      selectedCategories: [""],
-      GenderData: [{ name: "male" }, { name: "female" }, { name: "lgbtq+" }],
-      selectedGender: [""],
-      AgeData: [
-        { name: "specific age range" },
-        { name: "specific start date" }
-      ],
-      selectedAge: [""],
+      selectedCategories: [],
+      CategoriesData: [],
+      selectedGender: [],
+      GenderData: [],
+      selectedDiscount: [],
       DiscountData: [
-        { name: "point < 500" },
-        { name: "point < 1000" },
-        { name: "point < 5000" },
-        { name: "point < 10000" },
-        { name: "point < 100000" }
-      ],
-      selectedDiscount: [""]
+        { name: "Free", value: 0 },
+        { name: "Point < 100", value: 100 },
+        { name: "Point < 500", value: 500 },
+        { name: "Point < 1000", value: 1000 },
+        { name: "Point < 5000", value: 5000 },
+        { name: "Point < 10000", value: 10000 }
+      ]
     };
+  },
+
+  created() {
+    CategoryService.getCategoryList().then((res) => {
+      if (res) {
+        this.CategoriesData = res;
+      }
+    });
+    GenderService.getGenderList().then((res) => {
+      if (res) {
+        this.GenderData = res;
+      }
+    });
+  },
+  watch: {
+    selectedFriend: function() {
+      this.$emit("friendFilter", this.selectedFriend);
+    },
+    selectedCategories: function() {
+      this.$emit("eventFilter", this.selectedCategories.concat(this.selectedGender));
+    },
+    selectedGender: function() {
+      this.$emit("eventFilter", this.selectedCategories.concat(this.selectedGender));
+    },
+    selectedDiscount: function() {
+      this.$emit("discountFilter", this.selectedDiscount);
+    }
   }
 };
 </script>

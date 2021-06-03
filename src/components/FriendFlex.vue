@@ -3,7 +3,7 @@
     <div id="top">
       <div>
         <div id="profile-frame">
-          <img id="profile-pic" :src="profile_pic" />
+          <img id="profile-pic" :src="searchUser.profile_pic" />
         </div>
       </div>
       <div id="right">
@@ -125,7 +125,6 @@ export default {
       showRating: [false, false, false, false, false],
       user: new User(""),
       following: false,
-      profile_pic: ""
     };
   },
   created() {
@@ -134,7 +133,6 @@ export default {
     } else {
       this.showRating.fill(true, 0, 5);
     }
-    this.profile_pic = this.searchUser.profile_pic;
   },
   methods: {
     toFollow() {

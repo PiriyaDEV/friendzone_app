@@ -5,20 +5,24 @@
     </div>
     <div id="flex-section">
       <h1 id="searchtext" class="event-header">
-        {{ searchUserList.length + searchEventList.length + searchDiscountList.length }} items match your
-        search
+        {{
+          searchUserShow.length +
+            searchEventShow.length +
+            searchDiscountShow.length
+        }}
+        items match your search
         <span class="orange-color">“{{ searchValue }}”</span>
       </h1>
-
       <div id="menu">
         <h1 @click="friendClick()" :class="cssFriend">
-          FRIENDS ({{ searchUserList.length }})
+          FRIENDS ({{ searchUserShow.length }})
         </h1>
         <h1 @click="eventClick()" :class="cssEvent">
-          EVENTS ({{ searchEventList.length }})
+          EVENTS ({{ searchEventShow.length }})
         </h1>
         <h1 @click="discountClick()" :class="cssDiscount">
-          DISCOUNT ({{ searchDiscountList.length }})</h1>
+          DISCOUNT ({{ searchDiscountShow.length }})
+        </h1>
       </div>
       <hr id="bar" />
 
@@ -36,11 +40,14 @@
               class="list event-flex-wrap-section"
             >
               <!-- No Information -->
-              <NoInformation v-if="searchUserList.length == 0" />
+              <NoInformation v-if="searchUserShow.length == 0" />
               <!-- No Information -->
 
-              <div v-for="(searchUser, i) in searchUserList" :key="i">
-                <FriendFlex :searchUser="searchUser" @showProfile="showProfile" />
+              <div v-for="(searchUser, i) in searchUserShow" :key="i">
+                <FriendFlex
+                  :searchUser="searchUser"
+                  @showProfile="showProfile"
+                />
               </div>
             </div>
 
@@ -49,10 +56,10 @@
               class="list event-flex-wrap-section"
             >
               <!-- No Information -->
-              <NoInformation v-if="searchEventList.length == 0" />
+              <NoInformation v-if="searchEventShow.length == 0" />
               <!-- No Information -->
 
-              <div v-for="(event, i) in searchEventList" :key="i">
+              <div v-for="(event, i) in searchEventShow" :key="i">
                 <EventFlex
                   :event="event"
                   @clickRate="clickRate"
@@ -61,6 +68,7 @@
                   @manageReturn="manageReturn"
                   @detailReturn="detailReturn"
                   @showProfile="showProfile"
+                  @titleError="titleError"
                 />
               </div>
             </div>
@@ -70,12 +78,15 @@
               class="list event-flex-wrap-section"
             >
               <!-- No Information -->
-              <NoInformation v-if="searchDiscountList.length == 0" />
+              <NoInformation v-if="searchDiscountShow.length == 0" />
               <!-- No Information -->
 
-              <div v-for="(item, i) in searchDiscountList" :key="i">
-                <DiscountLongFlex :discount="item" @clickDiscountLongFlex="clickDiscountLongFlex"
-                      @discountData="discountData"/>
+              <div v-for="(item, i) in searchDiscountShow" :key="i">
+                <DiscountLongFlex
+                  :discount="item"
+                  @clickDiscountLongFlex="clickDiscountLongFlex"
+                  @discountData="discountData"
+                />
               </div>
             </div>
           </div>
@@ -84,7 +95,11 @@
       </div>
     </div>
     <div id="filterbar">
-      <Filterbar></Filterbar>
+      <Filterbar
+        @friendFilter="setFriendFilter"
+        @eventFilter="setEventFilter"
+        @discountFilter="setDiscountFilter"
+      ></Filterbar>
     </div>
   </div>
 </template>
@@ -106,9 +121,14 @@ export default {
       eventSelect: false,
       discountSelect: false,
       hovered: false,
-      selected: "all",
+      friendFilter: [],
+      eventFilter: [],
+      discountFilter: [],
+      searchUserShow: [],
       searchUserList: [],
+      searchEventShow: [],
       searchEventList: [],
+      searchDiscountShow: [],
       searchDiscountList: []
     };
   },
@@ -125,79 +145,47 @@ export default {
   },
   watch: {
     searchValue: function(searchValue) {
+      this.searchUserShow = [];
+      this.searchEventShow = [];
+      this.searchDiscountShow = [];
       this.searchUserList = [];
       this.searchEventList = [];
       this.searchDiscountList = [];
       this.functionGetApi(searchValue);
-    }
-  },
-  methods: {
-    clickDiscountLongFlex(value) {
-      this.$emit("clickDiscount2", value);
     },
-    discountData(value) {
-      this.$emit("discountData", value);
+    friendFilter: function() {
+      if (this.friendFilter.length) {
+        this.searchUserShow = [];
+        if (this.friendFilter.length == 1) {
+          this.searchUserShow = this.searchUserList.filter(
+            (user) => this.friendFilter[0] == user.status_id
+          );
+        } else if (this.friendFilter.length == 2)
+          this.searchUserShow = this.searchUserList;
+      } else {
+        this.searchUserShow = this.searchUserList;
+      }
     },
-    friendClick() {
-      this.friendSelect = true;
-      this.eventSelect = false;
-      this.discountSelect = false;
+    eventFilter: function() {
+      if (this.eventFilter.length) {
+        this.searchEventShow = [];
+        this.searchEventShow = this.searchEventList.filter((event) =>
+          this.eventFilter.every((id) => event[`${id}`])
+        );
+      } else {
+        this.searchEventShow = this.searchEventList;
+      }
     },
-    eventClick() {
-      this.friendSelect = false;
-      this.eventSelect = true;
-      this.discountSelect = false;
-    },
-    discountClick() {
-      this.friendSelect = false;
-      this.eventSelect = false;
-      this.discountSelect = true;
-    },
-    showProfile(value) {
-      console.log(value)
-      this.$emit("userProfile",value)
-    },
-    manageReturn(value) {
-      this.$emit("manage", true);
-      this.$emit("clickManage", value);
-    },
-    detailReturn(value) {
-      this.$emit("detail", true);
-      this.$emit("clickManage", value);
-    },
-    thisEvent(value) {
-      this.$emit("thisEvent", value);
-    },
-    functionGetApi(value) {
-      SearchService.getSearchUser(value)
-        .then((res) => {
-          if (res) {
-            this.searchUserList = res;
-          }
-        })
-        .catch(() => {
-          this.searchUserList = [];
-        });
-
-      SearchService.getSearchEvent(value)
-        .then((res) => {
-          if (res) {
-            this.searchEventList = res;
-          }
-        })
-        .catch(() => {
-          this.searchEventList = [];
-        });
-
-          SearchService.getSearchDiscount(value)
-        .then((res) => {
-          if (res) {
-            this.searchDiscountList = res;
-          }
-        })
-        .catch(() => {
-          this.searchDiscountList = [];
-        });
+    discountFilter: function() {
+      if (this.discountFilter.length) {
+        this.searchDiscountShow = [];
+        let max = Math.max(...this.discountFilter);
+        this.searchDiscountShow = this.searchDiscountList.filter(
+          (discount) => discount.redeem_point < max
+        );
+      } else {
+        this.searchDiscountShow = this.searchDiscountList;
+      }
     }
   },
   computed: {
@@ -224,6 +212,93 @@ export default {
         return select;
       }
       return deselect;
+    }
+  },
+  methods: {
+    clickDiscountLongFlex(value) {
+      this.$emit("clickDiscount2", value);
+    },
+    titleError(value) {
+      this.$emit("titleError", value);
+    },
+    discountData(value) {
+      this.$emit("discountData", value);
+    },
+    friendClick() {
+      this.friendSelect = true;
+      this.eventSelect = false;
+      this.discountSelect = false;
+    },
+    eventClick() {
+      this.friendSelect = false;
+      this.eventSelect = true;
+      this.discountSelect = false;
+    },
+    discountClick() {
+      this.friendSelect = false;
+      this.eventSelect = false;
+      this.discountSelect = true;
+    },
+    showProfile(value) {
+      console.log(value);
+      this.$emit("userProfile", value);
+    },
+    manageReturn(value) {
+      this.$emit("manage", true);
+      this.$emit("clickManage", value);
+    },
+    detailReturn(value) {
+      this.$emit("detail", true);
+      this.$emit("clickManage", value);
+    },
+    thisEvent(value) {
+      this.$emit("thisEvent", value);
+    },
+    functionGetApi(value) {
+      SearchService.getSearchUser(value)
+        .then((res) => {
+          if (res) {
+            this.searchUserShow = res;
+            this.searchUserList = res;
+          }
+        })
+        .catch(() => {
+          this.searchUserShow = [];
+          this.searchUserList = [];
+        });
+
+      SearchService.getSearchEvent(value)
+        .then((res) => {
+          if (res) {
+            this.searchEventShow = res;
+            this.searchEventList = res;
+          }
+        })
+        .catch(() => {
+          this.searchEventShow = [];
+          this.searchEventList = [];
+        });
+
+      SearchService.getSearchDiscount(value)
+        .then((res) => {
+          if (res) {
+            this.searchDiscountShow = res;
+            this.searchDiscountList = res;
+          }
+        })
+        .catch(() => {
+          this.searchDiscountShow = [];
+          this.searchDiscountList = [];
+        });
+    },
+    setFriendFilter(value) {
+      this.friendFilter = value;
+    },
+    setEventFilter(value) {
+      this.eventFilter = value;
+    },
+    setDiscountFilter(value) {
+      this.discountFilter = value;
     }
   }
 };

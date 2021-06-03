@@ -45,8 +45,8 @@
 
 <script>
 import CategoryBox from "@/components/CategoryBox.vue";
-import UserService from "../services/user.service";
-import CategoryService from "../services/category.service";
+import UserService from "@/services/user.service";
+import CategoryService from "@/services/category.service";
 
 export default {
   name: "interest",

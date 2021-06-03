@@ -17,7 +17,7 @@
               maxlength="30"
               size="30"
               name="name"
-              v-model="user.firstname"
+              v-model="FirstName"
             />
             <input
               style="margin-left: 20px"
@@ -26,7 +26,7 @@
               maxlength="30"
               size="30"
               name="name"
-              v-model="user.lastname"
+              v-model="LastName"
             />
           </div>
         </div>
@@ -73,7 +73,7 @@
               pattern="[0-9]*"
               maxlength="2"
               size="2"
-              v-model="dayPlace"
+              v-model="day"
             />
             <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
             <input
@@ -84,7 +84,7 @@
               pattern="[0-9]*"
               maxlength="2"
               size="2"
-              v-model="monthPlace"
+              v-model="month"
             />
             <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
             <input
@@ -114,7 +114,7 @@
             maxlength="30"
             size="30"
             name="name"
-            v-model="user.email"
+            v-model="Email"
           />
         </div>
         <div
@@ -132,7 +132,7 @@
             maxlength="30"
             size="30"
             name="name"
-            v-model="user.phone"
+            v-model="Phone"
           />
         </div>
         <div v-if="roleUser != `RO01`" class="information-box">
@@ -194,6 +194,10 @@ export default {
     return {
       genderList: null,
       selected: "",
+      FirstName:"",
+      LastName:"",
+      Email:"",
+      Phone:"",
     };
   },
   props: [
@@ -214,16 +218,42 @@ export default {
     GenderService.getGenderList().then((res) => {
       if (res) {
         this.genderList = res;
+        this.genderList.forEach(gender => {
+          if (this.user.gender == gender.gender_name) {
+            this.selected = gender.gender_id;
+          }
+        });
       }
     });
+    this.FirstName = this.user.firstname;
+    this.LastName = this.user.lastname;
+    this.Email = this.user.email;
+    this.Phone = this.user.phone;
   },
   methods: {
     cancel() {
+      this.FirstName = this.user.firstname;
+      this.LastName = this.user.lastname;
+      this.Email = this.user.email;
+      this.Phone = this.user.phone;
+      this.bioAfter = this.user.bio;
+      this.usernameAfter= this.user.username;
+      this.selected = "";
       this.$emit("editReturn", false);
     },
     save() {
+      this.user.firstname = this.FirstName;
+      this.user.lastname = this.LastName;
+      this.user.email = this.Email;
+      this.user.phone = this.Phone;
       this.user.bio = this.bioAfter;
       this.user.username = this.usernameAfter;
+      this.user.gender_id = this.selected;
+      this.user.birthdate = new Date(
+          this.year,
+          this.month - 1,
+          this.day
+        ).getTime();
       this.$emit("saveUser", this.user);
     },
     getRole() {
@@ -235,7 +265,7 @@ export default {
     dayPlace() {
       let test = this.day
       let test0 = `0${this.day}`
-      if(this.day > 10) {
+      if(this.day >= 10) {
         return test
       }
       return test0
@@ -243,7 +273,7 @@ export default {
      monthPlace() {
       let test = this.month
       let test0 = `0${this.month}`
-      if(this.month > 10) {
+      if(this.month >= 10) {
         return test
       }
       return test0

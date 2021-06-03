@@ -20,12 +20,28 @@ let months = [
 ];
 
 class DiscountService {
-  create(data) {
+  async create(data) {
     return axios
       .post(API_URL + "create", data, { headers: authHeader() })
       .then((response) => {
         return response.data;
       });
+  }
+
+  async editDiscount(discount) {
+    const res = await axios.post(API_URL + "editDiscount", discount).catch(() => {
+      return "err";
+    });
+
+    return res.data;
+  }
+
+  async deleteDiscount(discount) {
+    const res = await axios.post(API_URL + "deleteDiscount", discount).catch(() => {
+      return "err";
+    });
+
+    return res.data;
   }
 
   uploadDiscountPic(formData, discount_id) {
