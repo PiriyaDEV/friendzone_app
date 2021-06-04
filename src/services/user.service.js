@@ -34,15 +34,21 @@ class UserService {
           user_id: userLocal.user_id,
           username: user.username,
           email: user.email,
+          birthdate: user.birthdate,
           firstname: user.firstname,
           lastname: user.lastname,
           phone: user.phone,
-          bio: user.bio
+          bio: user.bio,
+          gender_id: user.gender_id,
+          role_id: user.role_id
         },
         { headers: authHeader() }
       )
-      .then((response) => {
-        return response.data;
+      .then((res) => {
+        if (res.data.token) {
+          localStorage.setItem("user", res.data.token, { expires: 1 });
+        }
+        return res.data;
       });
   }
 
@@ -105,6 +111,18 @@ class UserService {
       headers: authHeader()
     });
     res.data.profile_pic = API_URL + "displayPic/" + user.user_id;
+    return res.data;
+  }
+
+  async findByUsername(username) {
+    const res = await axios.post(
+      API_URL + "findByUsername",
+      { username: username },
+      {
+        headers: authHeader()
+      }
+    );
+
     return res.data;
   }
 

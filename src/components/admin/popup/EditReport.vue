@@ -160,7 +160,7 @@
 </template>
 
 <script>
-import CategoryService from "../../../services/category.service";
+import CategoryService from "@/services/category.service";
 export default {
   data() {
     return {

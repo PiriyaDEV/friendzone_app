@@ -128,8 +128,10 @@ export default {
               this.$router.push("/mainpage");
             },
             (error) => {
-              console.log(error.message);
-              if (error) {
+              if (error.message == "Request failed with status code 403") {
+                this.invalidIdentification = true;
+                this.alertIdentification = "You have been banned from friendzone, please contact admin";
+              } else {
                 this.invalidIdentification = true;
                 this.alertIdentification = "Incorrect username or email";
               }

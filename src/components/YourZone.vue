@@ -207,6 +207,7 @@
                     @userProfile="userProfile"
                     @onEvent="onEvent"
                     @onJoined="onJoined"
+                    @titleError="titleError"
                   />
                 </div>
               </div>
@@ -472,6 +473,9 @@ export default {
     this.getHostedEventList();
   },
   methods: {
+    titleError(value){
+      this.$emit("titleError",value);
+    },
     clickRate(value) {
       this.$emit("clickShowed", value);
     },

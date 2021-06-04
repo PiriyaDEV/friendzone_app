@@ -48,7 +48,7 @@
         :eventPending="eventPending"
         :showEnd="showEnd"
         :joined="joined"
-        @updateStatus="updateStatus"
+        @updateStatus="updateStatusEvent"
         @informationShow="informationShow"
       />
       <!-- Mobile Top Bar -->
@@ -105,6 +105,7 @@
           <div v-if="searchBar">
             <Searchpage
               :searchValue="searchBar"
+              @titleError="titleError"
               @userProfile="userProfile"
               @discountData="discountData"
               @clickDiscount2="clickDiscount2"
@@ -118,6 +119,7 @@
 
           <div v-if="select == 1 && !searchBar">
             <Yourzone
+              @titleError="titleError"
               @clickShowed="clickShowed"
               @checkShow="checkShow"
               @clickDiscount="clickDiscount"
@@ -193,14 +195,18 @@
     
     <!-- Admin -->
     <div v-if="role == 2" id="mainpage-admin">
+
       <ProfileDetail
         v-if="detailShow == true"
         @clickDetail="clickDetail"
         @demoAdmin="demoAdmin"
+        :customerData="customer"
         :dataUser="dataUser"
         :findUser="findUser"
         :demoRole="role"
       />
+
+      <ReportReview v-if="reportReviewShow == true" :reportList="dataReport" @reportData="reportData"/>
 
       <EditUser v-if="editShow" @clickEdit="clickEdit" />
 
@@ -209,7 +215,7 @@
         @editDatabase="editDatabase"
       />
 
-      <CreateDiscount v-if="createShow" @clickCreate="clickCreate" />
+      <CreateDiscount v-if="createShow" :discountList="dataDiscountEdit" @clickCreate="clickCreate" />
 
       <!-- Mobile Top Bar -->
       <MobileTopbar
@@ -221,23 +227,34 @@
       <!-- Mobile Top Bar -->
 
       <div id="mainpage-background" class="section">
-        <AdminMenu id="menubar" @pageReturnAdmin="pageReturnAdmin" />
+        <AdminMenu id="menubar" :goReport="goReport" @pageReturnAdmin="pageReturnAdmin" />
         <div id="timeline">
           <Topbar
             @demoAdmin="demoAdmin"
             @clickDetail="clickDetail"
+            @point="point"
+            @notificationShow="notificationShow"
+            @searchData="searchData"
             :demoRole="role"
           />
 
+          <AdminSearch v-if="searchBar"/>
+
           <AdminMainpage
-            v-if="selectAdmin == 1"
+            v-if="selectAdmin == 1 && !searchBar" 
             @clickCreate="clickCreate"
             @clickEdit="clickEdit"
             @editDatabase="editDatabase"
+            @goToReport="goToReport"
+            @reportData="reportData"
           />
-          <AdminReport v-if="selectAdmin == 5" />
 
-          <AdminUser v-if="selectAdmin == 4" />
+          <AdminDiscount v-if="selectAdmin == 3 && !searchBar" @editDiscountData="editDiscountData"/>
+
+          <AdminUser v-if="selectAdmin == 4 && !searchBar" @customerData="customerData"/>
+
+          <AdminReport v-if="selectAdmin == 5 && !searchBar" @reportData="reportData"/>
+
         </div>
       </div>
     </div>
@@ -264,10 +281,13 @@ import Searchpage from "@/components/Searchpage.vue";
 import History from "@/components/History.vue";
 import AdminMainpage from "@/components/admin/AdminMainpage.vue";
 import AdminMenu from "@/components/admin/AdminMenu.vue";
+import AdminSearch from "@/components/admin/AdminSearch.vue";
 import AdminReport from "@/components/admin/report/AdminReport.vue";
 import AdminUser from "@/components/admin/user/AdminUser.vue";
+import AdminDiscount from "@/components/admin/discount/AdminDiscount.vue";
 import CreateDiscount from "@/components/admin/popup/CreateDiscount.vue";
 import EditUser from "@/components/admin/popup/EditUser.vue";
+import ReportReview from "@/components/admin/popup/ReportReview.vue";
 import EditDatabase from "@/components/admin/popup/EditDatabase.vue";
 import WaitBox from "@/components/popup/WaitBox.vue";
 import AnalystPage from "@/components/AnalystPage.vue";
@@ -305,7 +325,15 @@ export default {
     ApproverPage,
     PointDetail,
     Notification,
-    AdminUser
+    AdminUser,
+    AdminDiscount,
+    ReportReview,
+    AdminSearch
+  },
+  watch:{
+    role: function() {
+      this.selectAdmin = 1
+    }
   },
   data() {
     return {
@@ -342,6 +370,11 @@ export default {
       notiShow: false,
       waitboxError: "",
       Quota: "",
+      goReport: false,
+      reportReviewShow: false,
+      dataReport:[],
+      dataDiscountEdit: null,
+      customer:null,
     };
   },
   computed: {
@@ -355,6 +388,18 @@ export default {
     }
   },
   methods: {
+    editDiscountData(value) {
+      this.dataDiscountEdit = value;
+      this.createShow = true;
+    },
+    reportData(value) {
+      if(value == false) {
+        this.reportReviewShow = value;
+      } else {
+        this.dataReport = value;
+       this.reportReviewShow = true;
+      }
+    },
     pageReturn(value) {
       this.select = value;
     },
@@ -364,9 +409,11 @@ export default {
     clickDetail(value) {
       this.detailShow = value;
       this.findUser = false;
+      this.customer = null;
     },
     clickCreate(value) {
       this.createShow = value;
+      this.dataDiscountEdit = null;
     },
     clickShowed(value) {
       this.rateShow = value;
@@ -431,7 +478,7 @@ export default {
       this.valueManage = false;
       this.valueDetail = false;
     },
-    updateStatus(value) {
+    updateStatusEvent(value) {
       this.statusEvent = value;
     },
     userProfile(value) {
@@ -475,7 +522,6 @@ export default {
       this.notiShow = value;
     },
     titleError(value) {
-      console.log(value);
       this.waitboxError = value;
       this.information = true;
     },
@@ -495,6 +541,13 @@ export default {
     },
     decrementQuota(value) {
       this.Quota = value;
+    },
+    goToReport(value) {
+      this.goReport = value;
+    },
+    customerData(value) {
+      this.customer = value;
+      this.detailShow = true;
     },
   }
 };

@@ -108,6 +108,7 @@ export default {
       })
       .catch(() => {
         this.eventListShow = [];
+        this.eventList = [];
       });
     EventService.getEventCount().then((res) => {
       if (res) {

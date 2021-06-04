@@ -7,7 +7,7 @@ import Mainpage from "../views/Mainpage.vue";
 import Backup from "../components/popup/PointDetail.vue";
 import ProfileSetting from "../views/ProfileSetting.vue";
 import InterestSelect from "../views/InterestSelect.vue";
-import Popup from "../components/popup/WaitBox.vue";
+import Popup from "../components/admin/popup/ReportReview.vue";
 Vue.use(VueRouter);
 
 const routes = [

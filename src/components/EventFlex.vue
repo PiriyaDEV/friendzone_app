@@ -187,7 +187,7 @@ export default {
       showDeleted: false,
       ongoingEvent: false,
       approveEvent: false,
-      role:"",
+      role: ""
     };
   },
   name: "EventFlex",
@@ -259,7 +259,7 @@ export default {
     manageEventReturn() {
       this.$emit("manageReturn", true);
       this.$emit("thisEvent", this.event);
-      this.$emit("onJoined",true)
+      this.$emit("onJoined", true);
       if (!this.approveEvent) {
         this.$emit("pendingClick", true);
       } else {
@@ -269,7 +269,7 @@ export default {
     moreDetailReturn() {
       this.$emit("detailReturn", true);
       this.$emit("thisEvent", this.event);
-      this.$emit("onJoined",this.showJoined)
+      this.$emit("onJoined", this.showJoined);
       if (!this.approveEvent) {
         this.$emit("pendingClick", true);
       } else {
@@ -285,32 +285,54 @@ export default {
     },
     joinEvent() {
       let user = decode(localStorage.getItem("user"));
-      if (!this.ongoingEvent) {
-        EventService.getEventGenderList(this.event.event_id)
-          .then((res) => {
-            if (res.length) {
-              let found = res.find(
-                (gender) => user.gender_id == gender.gender_id
-              );
-              if (found) {
-                EventService.joinEvent(this.event.event_id)
-                  .then((res) => {
-                    if (res) {
-                      this.showPending = true;
-                    }
-                  })
-                  .catch(() => {
-                    console.log("Error when joining the event");
+      
+      if (!this.ongoingEvent) {  
+        if (this.event.joined == this.event.max_participant) {        
+          this.$emit("titleError", {type: "full"});
+        } else {
+          EventService.getEventGenderList(this.event.event_id)
+            .then((res) => {
+              console.log(res)
+              if (res.length) {
+                let found = res.find(
+                  (gender) => user.gender_id == gender.gender_id
+                );
+                if (found) {
+                  let age = this.calculate_age(new Date(user.birthdate));
+                  console.log("my age : " + age);
+                  if (age >= this.event.min_age && age <= this.event.max_age) {
+                    EventService.joinEvent(this.event.event_id)
+                      .then((result) => {
+                        if (result) {
+                          this.showPending = true;
+                        }
+                      })
+                      .catch(() => {
+                        console.log("Error when joining the event");
+                      });
+                  } else {
+                    this.$emit("titleError", {
+                      type: "age",
+                      min: this.event.min_age,
+                      max: this.event.max_age
+                    });
+                  }
+                } else {                  
+                  this.$emit("titleError", {
+                    type: "gender",
+                    gender: res
                   });
-              } else {
-                this.$emit("titleError", "gender");
+                }
               }
-            }
-          })
-          .catch(() => {
-            console.log("Error when get the event gender");
-          });
+            })
+        }
       }
+    },
+    calculate_age(dob) {
+      var diff_ms = Date.now() - dob.getTime();
+      var age_dt = new Date(diff_ms);
+
+      return Math.abs(age_dt.getUTCFullYear() - 1970);
     },
     cancelRequest() {
       EventService.cancelRequest(this.event.event_id)
@@ -411,6 +433,7 @@ export default {
   top: 10px;
   right: 10px;
   padding: 3px 11px;
+  box-shadow: 0px 3px 30px #0000001d;
 }
 
 .event-icon {

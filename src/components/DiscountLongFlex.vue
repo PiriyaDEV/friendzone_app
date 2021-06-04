@@ -42,7 +42,7 @@
               FREE
             </span>
             <span v-else>
-              {{discount.redeem_point}}
+              {{ discount.redeem_point }}
             </span>
           </h1>
         </div>

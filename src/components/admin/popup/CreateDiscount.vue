@@ -2,15 +2,19 @@
   <div id="create-discount" class="popup">
     <div class="popup-section section">
       <div class="popup-form">
-        <h1 class="header_title">CREATE NEW DISCOUNT</h1>
+        <h1 v-if="!edit" class="header_title">CREATE NEW DISCOUNT</h1>
+        <h1 v-if="edit" class="header_title">REVIEW DISCOUNT</h1>
+        <h1 v-if="edit" class="orange_title">Discount Detail</h1>
         <div id="create-discount-section">
           <div id="left">
             <!-- Input -->
             <div>
               <h2 class="input_title">
-                Discount Picture<span class="orange-color"> *</span>
+                Discount Picture<span v-if="!edit" class="orange-color">
+                  *</span
+                >
               </h2>
-              <div id="select-photo-section" class="section">
+              <div v-if="!edit" id="select-photo-section" class="section">
                 <Upload v-model="discount.discount_pic">
                   <div
                     v-if="!discount.discount_pic"
@@ -35,12 +39,34 @@
                 </Upload>
               </div>
             </div>
+            <div v-if="edit" id="select-photo-section" class="section">
+              <Upload v-model="discount.discount_pic">
+                <img
+                  v-if="!discount.discount_pic"
+                  slot="activator"
+                  class="pictureUpload"
+                  style="position: relative"
+                  :src="discountList.discount_pic"
+                />
+                <div v-else slot="activator">
+                  <img
+                    class="pictureUpload"
+                    style="position: relative"
+                    :src="discount.discount_pic.imageURL"
+                    alt="discount_pic"
+                  />
+                </div>
+              </Upload>
+            </div>
             <!-- Input -->
 
             <!-- Input -->
             <div>
-              <h2 class="input_title">
+              <h2 v-if="!edit" class="input_title">
                 Discount Name<span class="orange-color"> *</span>
+              </h2>
+              <h2 v-if="edit" class="input_title">
+                Title
               </h2>
               <input
                 v-model="discount.name"
@@ -56,7 +82,7 @@
             <!-- Input -->
             <div>
               <h2 class="input_title">
-                Description<span class="orange-color"> *</span>
+                Description<span v-if="!edit" class="orange-color"> *</span>
               </h2>
               <textarea
                 v-model="discount.description"
@@ -73,11 +99,16 @@
             <!-- Input -->
             <div class="number-box box-computer">
               <h2 class="input_title">
-                Point Required<span class="orange-color"> *</span>
+                Point Required<span v-if="!edit" class="orange-color"> *</span>
               </h2>
               <div class="number">
                 <span class="minus" @click="clickPoint(false)">-</span>
-                <input v-if="discount.redeem_point == 0" type="text" disabled="disabled" v-model="free" />
+                <input
+                  v-if="discount.redeem_point == 0"
+                  type="text"
+                  disabled="disabled"
+                  v-model="free"
+                />
                 <input v-else type="number" v-model="discount.redeem_point" />
                 <span class="plus" @click="clickPoint(true)">+</span>
               </div>
@@ -88,7 +119,7 @@
             <!-- Input -->
             <div>
               <h2 class="input_title">
-                Start On<span class="orange-color"> *</span>
+                Start On<span v-if="!edit" class="orange-color"> *</span>
               </h2>
               <div class="date-section">
                 <input
@@ -187,7 +218,7 @@
             <!-- Input -->
             <div>
               <h2 class="input_title">
-                End On<span class="orange-color"> *</span>
+                End On<span v-if="!edit" class="orange-color"> *</span>
               </h2>
               <div class="date-section">
                 <input
@@ -286,7 +317,7 @@
             <!-- Input -->
             <div>
               <h2 class="input_title">
-                Expire Date<span class="orange-color"> *</span>
+                Expire Date<span v-if="!edit" class="orange-color"> *</span>
               </h2>
               <div class="date-section">
                 <input
@@ -385,11 +416,16 @@
             <!-- Input -->
             <div class="number-box box-tablet">
               <h2 class="input_title">
-                Point Required<span class="orange-color"> *</span>
+                Point Required<span v-if="!edit" class="orange-color"> *</span>
               </h2>
               <div class="number">
                 <span class="minus" @click="clickPoint(false)">-</span>
-                <input v-if="discount.redeem_point == 0" type="text" disabled="disabled" v-model="free" />
+                <input
+                  v-if="discount.redeem_point == 0"
+                  type="text"
+                  disabled="disabled"
+                  v-model="free"
+                />
                 <input v-else type="number" v-model="discount.redeem_point" />
                 <span class="plus" @click="clickPoint(true)">+</span>
               </div>
@@ -399,12 +435,19 @@
             <!-- Input -->
             <div class="number-box">
               <h2 class="input_title">
-                Limit buy per user<span class="orange-color"> *</span>
+                Limit buy per user<span v-if="!edit" class="orange-color">
+                  *</span
+                >
               </h2>
               <div class="number">
                 <span class="minus" @click="clickLimit(false)">-</span>
-                  <input v-if="discount.limits == 0" type="text" disabled="disabled" v-model="unlimited" />
-                  <input v-else type="number" v-model="discount.limits" />
+                <input
+                  v-if="discount.limits == 0"
+                  type="text"
+                  disabled="disabled"
+                  v-model="unlimited"
+                />
+                <input v-else type="number" v-model="discount.limits" />
                 <span class="plus" @click="clickLimit(true)">+</span>
               </div>
             </div>
@@ -412,10 +455,22 @@
           </div>
         </div>
 
-        <div class="button-section">
+        <div v-if="!edit" class="button-section">
           <button class="back_button" @click="createReturn()">Cancel</button>
           <button class="create_button" @click="ClickCreate()">
             Create Now
+          </button>
+        </div>
+
+        <div v-if="edit" class="button-section">
+          <button
+            class="back_button"
+            @click="deleteClick()"
+          >
+            Delete Discount
+          </button>
+          <button class="create_button" @click="saveClick()">
+            Save Change
           </button>
         </div>
 
@@ -438,28 +493,57 @@ import Discount from "@/models/discount";
 import DiscountService from "@/services/discount.service";
 import Upload from "../../../components/UploadPic.vue";
 
+class constructEmptyDate {
+  constructor(date) {
+    this.day = date;
+    this.month = date;
+    this.year = date;
+    this.h1 = date;
+    this.h2 = date;
+    this.m1 = date;
+    this.m2 = date;
+  }
+}
+
 class constructDate {
   constructor(date) {
-    this.day = date.day;
-    this.month = date.month;
-    this.year = date.year;
-    this.h1 = date.h1;
-    this.h2 = date.h2;
-    this.m1 = date.m1;
-    this.m2 = date.m2;
+    this.day = date
+      .getDate()
+      .toString()
+      .padStart(2, "0");
+    this.month = (date.getMonth() + 1).toString().padStart(2, "0");
+    this.year = date.getFullYear();
+    this.h1 = date
+      .getHours()
+      .toString()
+      .padStart(2, "0")[0];
+    this.h2 = date
+      .getHours()
+      .toString()
+      .padStart(2, "0")[1];
+    this.m1 = date
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")[0];
+    this.m2 = date
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")[1];
   }
 }
 
 export default {
+  props: ["discountList"],
   data() {
     return {
       discount: new Discount(""),
-      unlimited : "No Limit",
-      free: "Free"
+      unlimited: "No Limit",
+      free: "Free",
+      edit: false
     };
   },
   components: {
-    Upload,
+    Upload
   },
   mounted() {
     $(document).ready(function() {
@@ -474,11 +558,29 @@ export default {
     });
   },
   created() {
-    this.discount.period_start = new constructDate(0);
-    this.discount.period_end = new constructDate(0);
-    this.discount.expired = new constructDate(0);
-    this.discount.redeem_point = 0;
-    this.discount.limits = 0;
+    if (this.discountList != null) {
+      this.edit = true;
+      this.discount.discount_id = this.discountList.discount_id;
+      this.discount.name = this.discountList.name;
+      this.discount.description = this.discountList.description;
+      this.discount.redeem_point = this.discountList.redeem_point;
+      this.discount.limits = this.discountList.limits;
+      this.discount.period_start = new constructDate(
+        new Date(this.discountList.period_start)
+      );
+      this.discount.period_end = new constructDate(
+        new Date(this.discountList.period_end)
+      );
+      this.discount.expired = new constructDate(
+        new Date(this.discountList.expired)
+      );
+    } else {
+      this.discount.period_start = new constructEmptyDate();
+      this.discount.period_end = new constructEmptyDate();
+      this.discount.expired = new constructEmptyDate();
+      this.discount.redeem_point = 0;
+      this.discount.limits = 0;
+    }
   },
   methods: {
     createReturn() {
@@ -553,7 +655,6 @@ export default {
               res.discount_id
             ).then((res) => {
               if (res) {
-                console.log(res);
                 this.$emit("informationShow", true);
                 this.$emit("clickCreate", false);
               }
@@ -564,6 +665,88 @@ export default {
           console.log(error.message);
         }
       );
+    },
+    saveClick() {
+      this.hs = this.discount.period_start.h1 + this.discount.period_start.h2;
+      this.ms = this.discount.period_start.m1 + this.discount.period_start.m2;
+      this.he = this.discount.period_end.h1 + this.discount.period_end.h2;
+      this.me = this.discount.period_end.m1 + this.discount.period_end.m2;
+      this.hx = this.discount.expired.h1 + this.discount.expired.h2;
+      this.mx = this.discount.expired.m1 + this.discount.expired.m2;
+
+      this.discount.period_start = new Date(
+        this.discount.period_start.year +
+          "-" +
+          this.discount.period_start.month +
+          "-" +
+          this.discount.period_start.day +
+          " " +
+          this.hs +
+          ":" +
+          this.ms +
+          ":00 GMT+0700"
+      ).getTime();
+
+      this.discount.period_end = new Date(
+        this.discount.period_end.year +
+          "-" +
+          this.discount.period_end.month +
+          "-" +
+          this.discount.period_end.day +
+          " " +
+          this.he +
+          ":" +
+          this.me +
+          ":00 GMT+0700"
+      ).getTime();
+
+      this.discount.expired = new Date(
+        this.discount.expired.year +
+          "-" +
+          this.discount.expired.month +
+          "-" +
+          this.discount.expired.day +
+          " " +
+          this.hx +
+          ":" +
+          this.mx +
+          ":00 GMT+0700"
+      ).getTime();
+
+      DiscountService.editDiscount(this.discount).then(
+        (res) => {
+          if (res.discount_id) {
+            if (this.discount.discount_pic) {
+              DiscountService.uploadDiscountPic(
+                this.discount.discount_pic.formData,
+                res.discount_id
+              ).then((res) => {
+                if (res) {
+                  this.$emit("clickCreate", false);
+                }
+              });
+            } else {
+              this.$emit("clickCreate", false);
+            }
+          }
+        },
+        (error) => {
+          console.log(error.message);
+        }
+      );
+    },
+    deleteClick() {
+      if (this.discountList.status_id == "ST02") {
+        DiscountService.deleteDiscount({
+          discount_id: this.discount.discount_id
+        }).then((res) => {
+          if (res.discount_id) {
+            this.discountList.status = "Deleted";
+            this.discountList.status_id = res.status_id;
+            this.$emit("clickCreate", false);
+          }
+        });
+      }
     }
   }
 };
@@ -601,6 +784,10 @@ export default {
   padding: 0px 5px;
 }
 
+.orange_title {
+  padding-top: 0px;
+}
+
 .box-computer {
   display: flex !important;
 }
@@ -620,7 +807,7 @@ export default {
   align-items: center;
   justify-content: center;
   width: 420px;
-  height: 165px;
+  height: 153px;
   object-fit: cover;
   cursor: pointer;
 }
@@ -645,7 +832,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
@@ -791,7 +978,7 @@ option {
   border-bottom-right-radius: 8px;
 }
 
-.number > input{
+.number > input {
   text-align: center;
   border-top: 2px solid #e3e3e3;
   border-bottom: 2px solid #e3e3e3;

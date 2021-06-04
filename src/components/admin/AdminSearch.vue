@@ -2,30 +2,34 @@
   <div id="admin-report" class="event-container">
     <div>
       <div id="title-box">
-        <h1 class="title header white-color">USER</h1>
+        <h1 class="title header white-color">THIS IS A SEARCH</h1>
         <select id="select-report" v-model="filter">
-          <option value="all">All Users</option>
-          <option value="normal">Normal</option>
+          <option value="all">All Reports</option>
+          <option value="waiting">Waiting</option>
+          <option value="read">Read</option>
           <option value="banned">Banned</option>
+          <option value="deleted">Deleted</option>
         </select>
       </div>
 
       <div>
         <div id="report-menu">
           <div id="report-middle-menu">
-            <h1 id="menu-text-id" class="menu-text">USERNAME</h1>
-            <h1 class="menu-text">RATING</h1>
-            <h1 class="menu-text">ROLE</h1>
+            <h1 id="menu-text-id" class="menu-text">ID</h1>
+            <h1 class="menu-text">TITLE</h1>
+            <h1 class="menu-text">TYPE</h1>
+            <h1 class="menu-text report-cat">CAREGORIES</h1>
             <h1 class="menu-text">STATUS</h1>
           </div>
           <div id="space-button"></div>
         </div>
         <div id="report-box">
-          <div v-for="(user, i) in userListShow" :key="i">
+          <div v-for="(report, i) in reportListShow" :key="i">
             <ReportBox
-              :userList="user"
-              :user="true"
-              @customerData="customerData"
+              :approver="false"
+              :reportList="report"
+              :report="true"
+              @reportData="reportData"
             />
           </div>
         </div>
@@ -37,54 +41,58 @@
 <script>
 import ReportBox from "@/components/admin/report/ReportBox.vue";
 import AdminService from "@/services/admin.service";
-
 export default {
   name: "admin-report",
   data() {
     return {
-      userListShow: [],
-      userList: [],
+      reportListShow: [],
+      reportList: [],
       filter: "all"
     };
   },
+  components: {
+    ReportBox
+  },
   watch: {
     filter: function() {
-      this.userListShow = [];
-      if (this.filter == "all") this.userListShow = this.userList;
-      else if (this.filter == "normal") {
-        this.userListShow = this.userList.filter((user) => {
-          return user.status == "Normal";
+      this.reportListShow = [];
+      if (this.filter == "all") this.reportListShow = this.reportList;
+      else if (this.filter == "waiting") {
+        this.reportListShow = this.reportList.filter((report) => {
+          return report.status == "Waiting";
+        });
+      } else if (this.filter == "read") {
+        this.reportListShow = this.reportList.filter((report) => {
+          return report.status == "Read";
         });
       } else if (this.filter == "banned") {
-        this.userListShow = this.userList.filter((user) => {
-          return user.status == "Banned";
+        this.reportListShow = this.reportList.filter((report) => {
+          return report.status == "Banned";
+        });
+      } else if (this.filter == "deleted") {
+        this.reportListShow = this.reportList.filter((report) => {
+          return report.status == "Deleted";
         });
       }
     }
   },
   created() {
-    this.getUser();
+    AdminService.getReportList()
+      .then((res) => {
+        if (res) {
+          this.reportListShow = res;
+          this.reportList = res;
+        }
+      })
+      .catch(() => {
+        this.reportListShow = [];
+        this.reportList = [];
+      });
   },
   methods: {
-    getUser() {
-      AdminService.getUserList()
-        .then((res) => {
-          if (res) {
-            this.userListShow = res;
-            this.userList = res;
-          }
-        })
-        .catch(() => {
-          this.userListShow = [];
-          this.userList = [];
-        });
-    },
-    customerData(value) {
-      this.$emit("customerData", value);
+    reportData(value) {
+      this.$emit("reportData", value);
     }
-  },
-  components: {
-    ReportBox
   }
 };
 </script>
@@ -96,12 +104,12 @@ export default {
   overflow-x: hidden;
 }
 
-.title {
-  margin-top: 0px;
-}
-
 option {
   background-color: #a0a0a0;
+}
+
+.title {
+  margin-top: 0px;
 }
 
 .header {
@@ -134,7 +142,7 @@ option {
 
 #report-middle-menu {
   display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-columns: 15% 20% 10% 35% 20%;
   align-items: center;
   width: 100%;
 }
@@ -151,7 +159,7 @@ option {
 }
 
 #space-button {
-  width: 50px;
+  width: 68px;
 }
 
 @media screen and (max-width: 880px) {
@@ -162,7 +170,7 @@ option {
 
 @media screen and (max-width: 690px) {
   #report-middle-menu {
-    grid-template-columns: 35% 25% 30% 10%;
+    grid-template-columns: 25% 40% 20% 15%;
   }
 
   .menu-text {
@@ -170,7 +178,7 @@ option {
   }
 
   #space-button {
-    width: 69px;
+    width: 42px;
   }
 
   .report-cat {

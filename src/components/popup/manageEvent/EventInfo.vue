@@ -324,6 +324,10 @@ h1 {
     display: block;
   }
 
+  #single-button{
+    width:260px;
+  }
+
   #left,
   #right {
     margin: 0px;

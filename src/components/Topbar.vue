@@ -3,7 +3,7 @@
   <div :id="cssBlackground" class="event-container">
     <div :class="cssSearch">
       <!-- Input -->
-      <div v-if="demoRole == 1" class="left-inner-addon input-container">
+      <div class="left-inner-addon input-container">
         <i class="fa fa-search"></i>
         <input
           type="text"
@@ -17,14 +17,13 @@
       <div
         @click="pointClick()"
         id="coin-box"
-        v-if="demoRole == 1"
         class="section"
       >
         <img id="coin-logo" src="@/assets/icon/coin.png" />
-        <h1 class="black-color" id="bar-value">{{ this.$store.state.point }}</h1>
+        <h1 :class="csspointColor" id="bar-value">{{ this.$store.state.point }}</h1>
       </div>
 
-      <div v-if="demoRole == 1" id="mail-box">
+      <div id="mail-box">
         <div id="mail-circle">
           <img
             @click="notiClick()"
@@ -114,9 +113,18 @@ export default {
       }
       return admin;
     },
+    csspointColor(){
+      let user = "black-color";
+      let admin = "white-color";
+      if (this.demoRole == 1) {
+        return user;
+      }
+      return admin;
+    },
     cssSearch() {
       let user = "search-bar";
-      let admin = "search-bar-admin";
+      // let admin = "search-bar-admin";
+      let admin = "search-bar";
       if (this.demoRole == 1) {
         return user;
       }

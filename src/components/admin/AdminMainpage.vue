@@ -21,7 +21,7 @@
           <div id="report">
             <div class="title-section">
               <h1 class="title header white-color">RECENT REPORT</h1>
-              <div class="second-title">
+              <div @click="recentClick()" class="second-title">
                 <h1>See All</h1>
                 <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
               </div>
@@ -39,8 +39,14 @@
                 <div id="space-button"></div>
               </div>
               <div id="report-box">
-                <div v-for="(item, i) in eventList" :key="i">
-                  <ReportBox />
+                <div v-for="(report, i) in reportList" :key="i">
+                  <ReportBox
+                    v-if="i < 5"
+                    :approver="false"
+                    :reportList="report"
+                    :report="true"
+                    @reportData="reportData"
+                  />
                 </div>
               </div>
             </div>
@@ -75,13 +81,21 @@
                 </h1>
               </div>
               <div id="userbox">
-                <div v-show="Admin" v-for="(item, i) in testList" :key="i">
+                <div v-show="Admin" v-for="item in adminList" :key="item.user_id">
                   <Userbox :select="2" :user="item" :admin="true" />
                 </div>
-                <div v-show="Analyst" v-for="(item, i) in testList" :key="i">
+                <div
+                  v-show="Analyst"
+                  v-for="item in analystList"
+                  :key="item.user_id"
+                >
                   <Userbox :select="2" :user="item" :admin="true" />
                 </div>
-                <div v-show="Approver" v-for="(item, i) in testList" :key="i">
+                <div
+                  v-show="Approver"
+                  v-for="item in approverList"
+                  :key="item.user_id"
+                >
                   <Userbox :select="2" :user="item" :admin="true" />
                 </div>
               </div>
@@ -97,7 +111,7 @@
             <div id="container">
               <div id="list-container" class="event-container">
                 <div class="list event-flex-section">
-                  <div v-for="(item, i) in eventList" :key="i">
+                  <div v-for="(item, i) in discountList" :key="i">
                     <DiscountFlex
                       @clickDiscountFlex="clickDiscountFlex"
                     ></DiscountFlex>
@@ -117,6 +131,8 @@
 import Userbox from "@/components/popup/manageEvent/Userbox.vue";
 import DiscountFlex from "@/components/DiscountFlex.vue";
 import ReportBox from "@/components/admin/report/ReportBox.vue";
+import AdminService from "@/services/admin.service";
+
 export default {
   name: "event-page",
   data() {
@@ -124,83 +140,11 @@ export default {
       Admin: true,
       Analyst: false,
       Approver: false,
-      selected: "all",
-      eventList: 10,
-      joinList: 10,
-      testList: [
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        },
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        },
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        },
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        },
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        },
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        },
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        },
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        }
-      ]
+      reportList: [],
+      adminList: [],
+      analystList: [],
+      approverList: [],
+      discountList: []
     };
   },
   components: {
@@ -208,7 +152,43 @@ export default {
     ReportBox,
     Userbox
   },
+  created() {
+    AdminService.getReportList()
+      .then((res) => {
+        if (res) {
+          this.reportList = res;
+        }
+      })
+      .catch(() => {
+        this.reportList = [];
+      });
+    AdminService.getUserList()
+      .then((res) => {
+        if (res) {
+          this.adminList = res.filter((user) => {
+          return user.role == "Administrator";
+        });
+        this.analystList = res.filter((user) => {
+          return user.role == "Analyst";
+        });
+        this.approverList = res.filter((user) => {
+          return user.role == "Approver";
+        });
+        }
+      })
+      .catch(() => {
+        this.adminList = [];
+        this.analystList = [];
+        this.approverList = [];
+      });
+  },
   methods: {
+    recentClick() {
+      this.$emit("goToReport", true);
+    },
+    reportData(value) {
+      this.$emit("reportData", value);
+    },
     editReturn() {
       this.$emit("clickEdit", true);
     },
@@ -369,13 +349,19 @@ export default {
 
 #userbox {
   margin-top: 10px;
+  width: 100%;
+  height: 220px;
+  overflow-y: auto;
+  padding-right: 5px;
+  padding-bottom: 4px;
 }
 
 #report-middle-menu {
   display: grid;
-  grid-template-columns: 20% 20% 20% 20% 20%;
+  grid-template-columns: 15% 20% 10% 35% 20%;
   align-items: center;
   width: 100%;
+  padding-top: 5px;
 }
 
 #report-menu {
@@ -408,8 +394,9 @@ export default {
 #report-box {
   overflow-y: auto;
   overflow-x: hidden;
-  height: 278px;
+  height: 256px;
   padding-right: 15px;
+  padding-top: 8px;
 }
 
 div::-webkit-scrollbar {
@@ -420,11 +407,11 @@ div::-webkit-scrollbar {
 #black-box {
   margin-top: 10px;
   width: 450px;
-  height: 280px;
+  /* height: 280px; */
   border: none;
   background-color: #626262;
   border-radius: 8px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   padding: 8px;
 }
 
