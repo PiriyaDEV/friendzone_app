@@ -1,8 +1,9 @@
 import axios from "axios"
 
-const API_URL = "http://localhost:8080/api/admin/";
-const DIS_URL = "http://localhost:8080/api/discount/";
-const USER_URL = "http://localhost:8080/api/user/";
+const PORT = require("../services/port.config").PORT;
+const API_URL = `${PORT}/api/admin/`;
+const DIS_URL = `${PORT}/api/discount/`;
+const USER_URL = `${PORT}/api/user/`;
 
 class AdminService {
   async getReportList() {

@@ -25,6 +25,8 @@
 
 <script>
 import decode from "jwt-decode";
+const PORT = require("@/services/port.config").PORT;
+
 
 export default {
   data() {
@@ -77,7 +79,7 @@ export default {
   props: ["event"],
   computed: {
     pic() {
-      let link = "http://localhost:8080/api/event/displayPic/";
+      let link = `${PORT}/api/event/displayPic/`;
       return link + this.event.event_id;
     }
   }

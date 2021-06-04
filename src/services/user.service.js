@@ -2,8 +2,9 @@ import axios from "axios";
 import authHeader from "./auth-header";
 import decode from "jwt-decode";
 import AuthService from "./auth.service";
+const PORT = require("../services/port.config").PORT;
 
-const API_URL = "http://localhost:8080/api/user/";
+const API_URL = `${PORT}/api/user/`;
 
 class UserService {
   async changePassword(data) {
@@ -24,14 +25,19 @@ class UserService {
     return await res.data;
   }
 
-  editUser(user) {
+  async editUser(user, isAdmin) {
     let userLocal = decode(localStorage.getItem("user"));
-    console.log(userLocal);
-    return axios
+    let user_id = "";
+    if (isAdmin) {
+      user_id = user.user_id;
+    } else {
+      user_id = userLocal.user_id;
+    }
+    return await axios
       .post(
         API_URL + "editUser",
         {
-          user_id: userLocal.user_id,
+          user_id: user_id,
           username: user.username,
           email: user.email,
           birthdate: user.birthdate,
@@ -40,22 +46,23 @@ class UserService {
           phone: user.phone,
           bio: user.bio,
           gender_id: user.gender_id,
-          role_id: user.role_id
+          role_id: user.role_id,
+          status_id: user.status_id
         },
         { headers: authHeader() }
       )
       .then((res) => {
-        if (res.data.token) {
+        if (res.data.token && user_id == userLocal.user_id) {
           localStorage.setItem("user", res.data.token, { expires: 1 });
         }
+
         return res.data;
       });
   }
 
-  uploadProfile(formData) {
-    let userData = decode(localStorage.getItem("user"));
+  uploadProfile(formData, user_id) {
     return axios
-      .post(API_URL + "uploadPic/img?user_id=" + userData.user_id, formData, {
+      .post(API_URL + "uploadPic/img?user_id=" + user_id, formData, {
         headers: authHeader()
       })
       .then((response) => {

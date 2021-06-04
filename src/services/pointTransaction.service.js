@@ -1,7 +1,9 @@
 import axios from "axios";
 import decode from "jwt-decode";
+const PORT = require("../services/port.config").PORT;
 
-const URL = "http://localhost:8080/api/point/";
+
+const URL = `${PORT}/api/point/`;
 
 let months = [
   "Jan",

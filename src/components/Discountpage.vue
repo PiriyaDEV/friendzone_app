@@ -1,10 +1,8 @@
 <template>
   <div id="discount-page" class="event-container">
     <div id="banner">
-      <img
-        src="https://assets.grab.com/wp-content/uploads/sites/10/2020/03/31121328/27.03-GRABPAY-CITI-WEEKDAY-PROMO-Blog.jpg"
-        alt=""
-      />
+      <img class="banner-pc" src="../assets/Banner/Promotion_Banner_long-01.png"/>
+      <img class="banner-tablet" src="../assets/Banner/Promotion_Banner-01.png"/>
     </div>
 
     <h1 id="discount-title" class="event-header">HOT DISCOUNT</h1>
@@ -162,16 +160,34 @@ export default {
   margin-bottom: 25px;
 }
 
+#banner > img{
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  height:100%;
+}
+
+.banner-pc{
+  display:block;
+}
+
+.banner-tablet,.banner-mobile{
+  display:none;
+}
+
 #container {
   width: 340px;
   height: 50px;
 }
 
-#banner > img {
-  width: 100%;
-  height: 180px;
-  border-radius: 10px;
-  object-fit: cover;
+@media screen and (max-width: 1060px) {
+.banner-pc,.banner-mobile{
+  display:none;
+}
+
+.banner-tablet{
+  display:block;
+}
 }
 
 @media screen and (max-width: 768px) {
@@ -183,12 +199,6 @@ export default {
 @media screen and (max-width: 880px) {
   #discount-page {
     margin-top: 0px;
-  }
-}
-
-@media screen and (max-width: 490px) {
-  #banner > img {
-    height: 135px;
   }
 }
 </style>

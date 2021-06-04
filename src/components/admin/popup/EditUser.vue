@@ -20,6 +20,9 @@
                 />
                 <span @click="searchInput()">Search</span>
               </div>
+              <h1 v-if="not_found" class="input_title">
+                <span class="orange-color">* this username not found</span>
+              </h1>
             </div>
             <!-- Input -->
 
@@ -46,59 +49,69 @@
               <div id="info-box">
                 <div class="info-column">
                   <h1 class="info_title">Username</h1>
-                  <h1 class="info_data">{{ user.username }}</h1>
+                  <h1 class="info_data">{{ userData.username }}</h1>
                 </div>
                 <div class="info-column">
                   <h1 class="info_title">Name</h1>
                   <h1 class="info_data">
-                    {{ user.firstname }} {{ user.lastname }}
+                    {{ userData.firstname }} {{ userData.lastname }}
                   </h1>
                 </div>
                 <div class="info-column" v-if="editUser == false">
                   <h1 class="info_title">Birthdate</h1>
-                  <h1 class="info_data">{{ user.birthdate }}</h1>
+                  <h1 class="info_data">{{ userData.birthdate }}</h1>
                 </div>
                 <div class="info-column">
                   <h1 class="info_title">Email</h1>
-                  <h1 class="info_data">{{ user.email }}</h1>
+                  <h1 class="info_data">{{ userData.email }}</h1>
                 </div>
                 <div class="info-column" v-if="editUser == false">
                   <h1 class="info_title">Phone</h1>
-                  <h1 class="info_data">{{ user.phone }}</h1>
+                  <h1 class="info_data">{{ userData.phone }}</h1>
                 </div>
                 <div class="info-column" v-if="editUser == false">
                   <h1 class="info_title">Gender</h1>
-                  <h1 class="info_data">{{ user.gender_name }}</h1>
+                  <h1 class="info_data">{{ userData.gender_name }}</h1>
                 </div>
                 <div class="info-column" v-if="editUser == false">
-                  <h1 class="info_title">Joined date</h1>
-                  <h1 class="info_data">{{ user.created_at }}</h1>
+                  <h1 class="info_title">Joined on</h1>
+                  <h1 class="info_data">{{ userData.created_at }}</h1>
                 </div>
                 <div class="info-column" v-if="editUser == false">
-                  <h1 class="info_title">Updated date</h1>
-                  <h1 class="info_data">{{ user.updated_at }}</h1>
+                  <h1 class="info_title">Last updated</h1>
+                  <h1 class="info_data">{{ userData.updated_at }}</h1>
                 </div>
                 <hr v-if="editUser == false" class="bar" />
                 <div v-if="editUser == false" class="info-column-roles">
-                  <h1 class="info_title">Roles</h1>
+                  <h1 class="info_title">Role</h1>
                   <div>
-                    <h1 class="info_data">{{ user.role_name }}</h1>
+                    <h1 class="info_data">{{ userData.role_name }}</h1>
+                  </div>
+                </div>
+                <div v-if="editUser == false" class="info-column-roles">
+                  <h1 class="info_title">Status</h1>
+                  <div>
+                    <h1 v-if="userData.status == 'Normal'" class="info_data"><span class="green-color status-bold">{{ userData.status }}</span></h1>
+                    <h1 v-if="userData.status == 'Banned'" class="info_data"><span class="red-color status-bold">{{ userData.status }}</span></h1>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div v-if="editUser == true">
-              <h2 class="input_title">Select roles</h2>
+            <div v-if="editUser == true && !isBanned">
+              <h2 class="input_title">Select Role</h2>
 
               <div id="role-section">
-                <div :class="cssUser">
+                <div @click="userClick()" :class="cssUser">
                   <img
                     class="icon"
                     src="@/assets/icon/roles/icons8-customer-64-1.png"
                   />
                   <h1 class="role-text">USER</h1>
+
+                  <i v-if="user" class="fa fa-check"></i>
                 </div>
+            
                 <div @click="approverClick()" :class="cssApprover">
                   <img
                     class="icon"
@@ -122,12 +135,28 @@
                     class="icon"
                     src="@/assets/icon/roles/icons8-admin-settings-male-100.png"
                   />
-                  <h1 class="role-text">ADMIN</h1>
+                  <h1 class="role-text">ADMINISTRATOR</h1>
 
                   <i v-if="admin" class="fa fa-check"></i>
                 </div>
               </div>
             </div>
+
+            <div v-if="editUser == true && isBanned">
+              <h2 class="input_title">User Status</h2>
+              <div id="role-section">
+                <div :class="cssUser">
+                  <img
+                    class="icon"
+                    src="@/assets/icon/roles/icons8-customer-64-1.png"
+                  />
+                  <h1 class="role-text">BANNED</h1>
+
+                  <i v-if="user" class="fa fa-check"></i>
+                </div>
+              </div>
+            </div>
+
 
             <div v-if="editUser == false" id="verticle-button">
               <div>
@@ -143,7 +172,8 @@
 
             <div v-if="editUser == true" id="double_button">
               <button class="back_button" @click="clickBack()">Back</button>
-              <button class="create_button" @click="clickDone()">Done</button>
+              <button v-if="!isBanned" class="create_button" @click="clickDone()">Done</button>
+              <button v-else class="create_button" @click="clickUnban()">Unban</button>
             </div>
           </div>
           <img
@@ -155,12 +185,42 @@
         </div>
 
         <div v-if="editUser == true" id="delete-box" class="popup-form">
-          <h1 class="input_title" id="delete-text">
+          <h1
+            v-if="!confirmBan && !isBanned"
+            class="input_title"
+            id="delete-text"
+          >
             Want to delete this account?<span
               style="cursor: pointer"
               class="orange-color"
+              @click="clickConfirmBan(true)"
             >
-              Banned</span
+              Ban</span
+            >
+          </h1>
+          <h1
+            v-if="confirmBan && !isBanned"
+            class="input_title"
+            id="delete-text"
+          >
+            Do you confirm to ban this account?<span
+              style="cursor: pointer"
+              class="orange-color"
+              @click="clickBan()"
+            >
+              Yes</span
+            >
+            <span
+              style="cursor: pointer"
+              class="orange-color"
+              @click="clickConfirmBan(false)"
+            >
+              No</span
+            >
+          </h1>
+          <h1 v-if="isBanned" class="input_title" id="delete-text">
+            <span class="orange-color">
+              This account was banned.</span
             >
           </h1>
         </div>
@@ -170,81 +230,203 @@
 </template>
 
 <script>
+import AuthService from "@/services/auth.service";
 import UserService from "@/services/user.service";
+import decode from "jwt-decode";
 
 export default {
   data() {
     return {
       search: "",
+      selected: "",
       editUser: false,
       foundUser: false,
-      user: null,
+      userData: null,
+      user: false,
       approver: false,
       analyst: false,
       admin: false,
-      role: "User"
+      role: "",
+      not_found: false,
+      confirmBan: false,
+      isBanned: false
     };
+  },
+  watch: {
+    search: function() {
+      this.isBanned = false;
+      this.not_found = false;
+      this.foundUser = false;
+    }
   },
   methods: {
     searchInput() {
+      this.foundUser = false;
+      this.not_found = false;
+      this.role = "";
+
+      this.user = false;
+      this.approver = false;
+      this.analyst = false;
+      this.admin = false;
+
+      this.selected = "";
       if (this.search) {
         UserService.findByUsername(this.search.trim())
           .then((res) => {
             if (res.user_id) {
-              this.user = res;
+              this.userData = res;
+              this.role = res.role_name;
               this.foundUser = true;
             } else {
               this.foundUser = false;
+              this.not_found = true;
             }
           })
-          .catch(() => (this.foundUser = false));
+          .catch(() => {
+            this.foundUser = false;
+            this.not_found = true;
+          });
       }
     },
     editReturn() {
       this.$emit("clickEdit", false);
     },
+    clickConfirmBan(value) {
+      this.confirmBan = value;
+    },
+    clickBan() {
+      UserService.editUser(
+        {
+          user_id: this.userData.user_id,
+          status_id: "ST04"
+        },
+        true
+      )
+        .then((res) => {
+          if (res.user_id) {
+            let userLocal = decode(localStorage.getItem("user"));
+            if (userLocal.user_id == res.user_id) {
+              AuthService.logout();
+            } else {
+              this.isBanned = true;
+            }
+          }
+        })
+        .catch(() => {
+          console.log("Error when ban user");
+        });
+    },
+    clickUnban() {
+      UserService.editUser(
+        {
+          user_id: this.userData.user_id,
+          status_id: "ST02"
+        },
+        true
+      )
+        .then((res) => {
+          if (res.user_id) {
+            this.isBanned = false;
+          }
+        })
+        .catch(() => {
+          console.log("Error when unban user ");
+        });
+    },
     clickNext() {
       if (this.foundUser == true) {
         this.editUser = true;
+      }
+      if (this.userData.status == "Banned") {
+        this.isBanned = true;
       }
     },
     clickBack() {
       this.editUser = false;
     },
     clickDone() {
-      this.$emit("clickEdit", false);
+      if (this.selected && !this.isBanned) {
+        UserService.editUser(
+          {
+            user_id: this.userData.user_id,
+            role_id: this.selected
+          },
+          true
+        )
+          .then((res) => {
+            if (res.user_id) {
+              let userLocal = decode(localStorage.getItem("user"));
+              if (userLocal.role_id == "RO01") {
+                this.$emit("clickEdit", false);
+              } else {
+                window.location.href = "/mainpage";
+              }
+            }
+          })
+          .catch(() => {
+            console.log("Error when update user role");
+          });
+      }
+      else {
+        this.$emit("clickEdit", false);
+      }
+    },
+    userClick() {
+      if (this.role != "User") {
+        this.user = !this.user;
+        this.analyst = false;
+        this.approver = false;
+        this.admin = false;
+        this.selected = "RO04";
+      }
     },
     approverClick() {
-      this.approver = !this.approver;
-      this.analyst = false;
-      this.admin = false;
+      if (this.role != "Approver") {
+        this.approver = !this.approver;
+        this.user = false;
+        this.analyst = false;
+        this.admin = false;
+        this.selected = "RO03";
+      }
     },
     analystClick() {
-      this.analyst = !this.analyst;
-      this.approver = false;
-      this.admin = false;
+      if (this.role != "Analyst") {
+        this.analyst = !this.analyst;
+        this.user = false;
+        this.approver = false;
+        this.admin = false;
+        this.selected = "RO02";
+      }
     },
     adminClick() {
-      this.admin = !this.admin;
-      this.approver = false;
-      this.analyst = false;
+      if (this.role != "Administrator") {
+        this.admin = !this.admin;
+        this.user = false;
+        this.approver = false;
+        this.analyst = false;
+        this.selected = "RO01";
+      }
     }
   },
   computed: {
     cssUser() {
+      let select = "role-box role-box-selected";
+      let unselect = "role-box";
       let roleCorrect = "role-box role-box-block";
-      let roleUncorrect = "role-box";
       if (this.role == "User") {
         return roleCorrect;
+      } else if (this.user == true) {
+        return select;
       }
-      return roleUncorrect;
+      return unselect;
     },
     cssApprover() {
       let select = "role-box role-box-selected";
       let unselect = "role-box";
       let roleCorrect = "role-box role-box-block";
 
-      if (this.role == "Aprrover") {
+      if (this.role == "Approver") {
         return roleCorrect;
       } else if (this.approver == true) {
         return select;
@@ -268,7 +450,7 @@ export default {
       let unselect = "role-box";
       let roleCorrect = "role-box role-box-block";
 
-      if (this.role == "Admin") {
+      if (this.role == "Administrator") {
         return roleCorrect;
       } else if (this.admin == true) {
         return select;
@@ -311,6 +493,10 @@ export default {
   padding: 10px 10px;
   margin: 0;
   cursor: pointer;
+}
+
+.status-bold{
+  font-weight:500 !important;
 }
 
 #user_info {
@@ -416,6 +602,7 @@ export default {
 
 .role-box-block {
   background: #e3e3e3;
+  cursor: default !important;
   opacity: 0.7;
 }
 

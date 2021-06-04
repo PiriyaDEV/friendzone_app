@@ -196,6 +196,13 @@
     <!-- Admin -->
     <div v-if="role == 2" id="mainpage-admin">
 
+      <PointDetail v-if="pointPage == true" @point="point" />
+
+      <Notification
+        v-if="notiShow == true"
+        @notificationShow="notificationShow"
+      />
+
       <ProfileDetail
         v-if="detailShow == true"
         @clickDetail="clickDetail"
@@ -223,11 +230,13 @@
         :admin="true"
         @clickDetail="clickDetail"
         @pageReturnAdmin="pageReturnAdmin"
+        @point="point"
+        @notificationShow="notificationShow"
       />
       <!-- Mobile Top Bar -->
 
       <div id="mainpage-background" class="section">
-        <AdminMenu id="menubar" :goReport="goReport" @pageReturnAdmin="pageReturnAdmin" />
+        <AdminMenu id="menubar" :goReport="goReport" @pageReturnAdmin="pageReturnAdmin" @clickClearSearch="clickClearSearch"/>
         <div id="timeline">
           <Topbar
             @demoAdmin="demoAdmin"
@@ -236,6 +245,8 @@
             @notificationShow="notificationShow"
             @searchData="searchData"
             :demoRole="role"
+            :clearSearch="clearSearched"
+            @clickClearSearch="clickClearSearch"
           />
 
           <AdminSearch v-if="searchBar"/>
@@ -402,6 +413,7 @@ export default {
     },
     pageReturn(value) {
       this.select = value;
+      this.searchBar = "";
     },
     clickEdit(value) {
       this.editShow = value;
@@ -446,6 +458,7 @@ export default {
       this.role = value;
     },
     pageReturnAdmin(value) {
+      this.searchBar = "";
       this.selectAdmin = value;
     },
     editDatabase(value) {

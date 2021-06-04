@@ -1,6 +1,7 @@
 import axios from "axios";
+const PORT = require("../services/port.config").PORT;
 
-const URL = "http://localhost:8080/api/gender/";
+const URL = `${PORT}/api/gender/`;
 
 class GenderService {
   async getGenderList() {

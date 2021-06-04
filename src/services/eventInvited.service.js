@@ -1,10 +1,11 @@
 import axios from "axios";
 import decode from "jwt-decode";
 import authHeader from "./auth-header";
+const PORT = require("../services/port.config").PORT;
 
-const API_URL = "http://localhost:8080/api/eventInvited/";
-const USER_API_URL = "http://localhost:8080/api/user/";
-const EVENT_API_URL = "http://localhost:8080/api/event/";
+const API_URL = `${PORT}/api/eventInvited/`;
+const USER_API_URL = `${PORT}/api/user/`;
+const EVENT_API_URL = `${PORT}/api/event/`;
 
 class ReportService {
   async createInvite(invite) {

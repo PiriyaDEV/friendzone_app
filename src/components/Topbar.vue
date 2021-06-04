@@ -8,7 +8,7 @@
         <input
           type="text"
           class="search-input"
-          placeholder="find event, friend, and discount"
+          :placeholder="inputPlaceholder"
           v-model="search"
         />
       </div>
@@ -108,6 +108,14 @@ export default {
     cssBlackground() {
       let user = "topbar";
       let admin = "topbar-admin";
+      if (this.demoRole == 1) {
+        return user;
+      }
+      return admin;
+    },
+    inputPlaceholder() {
+      let user = "find event, friend, and discount";
+      let admin = "find discount, user, and report";
       if (this.demoRole == 1) {
         return user;
       }

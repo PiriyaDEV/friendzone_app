@@ -1,7 +1,8 @@
 import axios from "axios";
+const PORT = require("../services/port.config").PORT;
 
-const API_URL = "http://localhost:8080/api/analyst/";
-const CAT_URL = "http://localhost:8080/api/category/";
+const API_URL = `${PORT}/api/analyst/`;
+const CAT_URL = `${PORT}/api/category/`;
 
 class AnalystService {
   async getAppSummary() {

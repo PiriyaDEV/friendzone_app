@@ -27,7 +27,7 @@
               </div>
             </div>
 
-            <div>
+            <div v-if="reportList.length">
               <div id="report-menu">
                 <div id="report-middle-menu">
                   <h1 id="menu-text-id" class="menu-text">ID</h1>
@@ -50,6 +50,7 @@
                 </div>
               </div>
             </div>
+            <div v-else><NoInformation /></div>
           </div>
 
           <div id="employee">
@@ -84,6 +85,7 @@
                 <div v-show="Admin" v-for="item in adminList" :key="item.user_id">
                   <Userbox :select="2" :user="item" :admin="true" />
                 </div>
+                <div v-if="Admin && !adminList.length"><NoInformation /></div>
                 <div
                   v-show="Analyst"
                   v-for="item in analystList"
@@ -91,6 +93,7 @@
                 >
                   <Userbox :select="2" :user="item" :admin="true" />
                 </div>
+                <div v-if="Analyst && !analystList.length"><NoInformation /></div>
                 <div
                   v-show="Approver"
                   v-for="item in approverList"
@@ -98,6 +101,7 @@
                 >
                   <Userbox :select="2" :user="item" :admin="true" />
                 </div>
+                <div v-if="Approver && !approverList.length"><NoInformation /></div>
               </div>
             </div>
           </div>
@@ -105,7 +109,7 @@
 
         <h1 class="title header white-color">RECENT DISCOUNT</h1>
 
-        <div id="discount-page-section">
+        <div v-if="discountList.length" id="discount-page-section">
           <!-- Event -->
           <div class="event-section">
             <div id="container">
@@ -122,6 +126,7 @@
           </div>
           <!-- Event -->
         </div>
+        <div v-else><NoInformation /></div>
       </div>
     </div>
   </div>
@@ -132,6 +137,7 @@ import Userbox from "@/components/popup/manageEvent/Userbox.vue";
 import DiscountFlex from "@/components/DiscountFlex.vue";
 import ReportBox from "@/components/admin/report/ReportBox.vue";
 import AdminService from "@/services/admin.service";
+import NoInformation from "@/components/NoInformation.vue";
 
 export default {
   name: "event-page",
@@ -150,7 +156,8 @@ export default {
   components: {
     DiscountFlex,
     ReportBox,
-    Userbox
+    Userbox,
+    NoInformation
   },
   created() {
     AdminService.getReportList()

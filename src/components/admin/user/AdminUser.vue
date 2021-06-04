@@ -5,6 +5,10 @@
         <h1 class="title header white-color">USER</h1>
         <select id="select-report" v-model="filter">
           <option value="all">All Users</option>
+          <option value="admin">Admin</option>
+          <option value="analyst">Analyst</option>
+          <option value="approver">Approver</option>
+          <option value="user">User</option>
           <option value="normal">Normal</option>
           <option value="banned">Banned</option>
         </select>
@@ -12,7 +16,7 @@
 
       <div>
         <div id="report-menu">
-          <div id="report-middle-menu">
+          <div id="report-middle-menu" v-if="userListShow.length != 0">
             <h1 id="menu-text-id" class="menu-text">USERNAME</h1>
             <h1 class="menu-text">RATING</h1>
             <h1 class="menu-text">ROLE</h1>
@@ -21,6 +25,7 @@
           <div id="space-button"></div>
         </div>
         <div id="report-box">
+          <NoInformation v-if="userListShow.length == 0"/>
           <div v-for="(user, i) in userListShow" :key="i">
             <ReportBox
               :userList="user"
@@ -37,6 +42,7 @@
 <script>
 import ReportBox from "@/components/admin/report/ReportBox.vue";
 import AdminService from "@/services/admin.service";
+import NoInformation from "@/components/NoInformation.vue";
 
 export default {
   name: "admin-report",
@@ -51,7 +57,21 @@ export default {
     filter: function() {
       this.userListShow = [];
       if (this.filter == "all") this.userListShow = this.userList;
-      else if (this.filter == "normal") {
+      else if (this.filter == "admin") {
+        this.userListShow = this.userList.filter((user) => {
+          return user.role == "Administrator";
+        });
+      }
+      if (this.filter == "analyst") {
+        this.userListShow = this.userList.filter((user) => {
+          return user.role == "Analyst";
+        });
+      }
+      if (this.filter == "approver") {
+        this.userListShow = this.userList.filter((user) => {
+          return user.role == "Approver";
+        });
+      } else if (this.filter == "normal") {
         this.userListShow = this.userList.filter((user) => {
           return user.status == "Normal";
         });
@@ -84,7 +104,8 @@ export default {
     }
   },
   components: {
-    ReportBox
+    ReportBox,
+    NoInformation
   }
 };
 </script>
