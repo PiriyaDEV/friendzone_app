@@ -196,8 +196,6 @@
     <!-- Admin -->
     <div v-if="role == 2" id="mainpage-admin">
 
-      <AdminSearch v-if="searchBar"/>
-
       <ProfileDetail
         v-if="detailShow == true"
         @clickDetail="clickDetail"
@@ -240,8 +238,10 @@
             :demoRole="role"
           />
 
+          <AdminSearch v-if="searchBar"/>
+
           <AdminMainpage
-            v-if="selectAdmin == 1"
+            v-if="selectAdmin == 1 && !searchBar" 
             @clickCreate="clickCreate"
             @clickEdit="clickEdit"
             @editDatabase="editDatabase"
@@ -249,11 +249,11 @@
             @reportData="reportData"
           />
 
-          <AdminDiscount v-if="selectAdmin == 3" @editDiscountData="editDiscountData"/>
+          <AdminDiscount v-if="selectAdmin == 3 && !searchBar" @editDiscountData="editDiscountData"/>
 
-          <AdminUser v-if="selectAdmin == 4" @customerData="customerData"/>
+          <AdminUser v-if="selectAdmin == 4 && !searchBar" @customerData="customerData"/>
 
-          <AdminReport v-if="selectAdmin == 5" @reportData="reportData"/>
+          <AdminReport v-if="selectAdmin == 5 && !searchBar" @reportData="reportData"/>
 
         </div>
       </div>
