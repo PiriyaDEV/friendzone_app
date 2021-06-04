@@ -20,7 +20,6 @@ class UserService {
       }
     );
 
-
     return await res.data;
   }
 
@@ -111,6 +110,18 @@ class UserService {
       headers: authHeader()
     });
     res.data.profile_pic = API_URL + "displayPic/" + user.user_id;
+    return res.data;
+  }
+
+  async findByUsername(username) {
+    const res = await axios.post(
+      API_URL + "findByUsername",
+      { username: username },
+      {
+        headers: authHeader()
+      }
+    );
+
     return res.data;
   }
 

@@ -114,7 +114,7 @@
           <span v-if="user" class="white-color">{{ userList.role }}</span>
         </h1>
         <!-- Here -->
-        <h1 :class="cssHideBadmin">
+        <h1 v-if="!user" :class="cssHideBadmin">
           <span v-if="approver">{{ event.date }}</span>
           <span v-if="report" class="white-color">{{
             reportList.type_name
@@ -140,7 +140,7 @@
           <h1 :class="cssHideG">{{ reportList.status }}</h1>
         </div>
 
-        <div v-if="discount" id="pending-dot">
+        <div v-if="discount" id="pending-dot"></div>
           <span :class="cssStatusDiscount"></span>
           <h1 :class="cssHideG">{{ discountList.status }}</h1>
         </div>

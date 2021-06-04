@@ -42,6 +42,47 @@ class AdminService {
 
     return discountList;
   }
+
+  async searchReport(search) {
+    const res = await axios.get(`${API_URL}/searchReport?keyword=${search}`).catch(() => {
+      return "err";
+    });
+
+    return res.data;
+  }
+
+  
+  async searchUser(search) {
+    const res = await axios.get(`${API_URL}/searchUser?keyword=${search}`).catch(() => {
+      return "err";
+    });
+
+    var userList = res.data;
+
+    await userList.forEach((user) => {
+      user.profile_pic =
+      USER_URL + "displayPic/" + user.user_id;
+    });
+
+    return userList;
+  }
+
+  async searchDiscount(search) {
+    const res = await axios.get(`${API_URL}/searchDiscount?keyword=${search}`).catch(() => {
+      return "err";
+    });
+
+    var userList = res.data;
+
+    await userList.forEach((user) => {
+      user.profile_pic =
+      USER_URL + "displayPic/" + user.user_id;
+    });
+
+    return userList;
+  }
+  
+
 }
 
 export default new AdminService();

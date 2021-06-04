@@ -195,6 +195,9 @@
     
     <!-- Admin -->
     <div v-if="role == 2" id="mainpage-admin">
+
+      <AdminSearch v-if="searchBar"/>
+
       <ProfileDetail
         v-if="detailShow == true"
         @clickDetail="clickDetail"
@@ -233,6 +236,7 @@
             @clickDetail="clickDetail"
             @point="point"
             @notificationShow="notificationShow"
+            @searchData="searchData"
             :demoRole="role"
           />
 
@@ -277,6 +281,7 @@ import Searchpage from "@/components/Searchpage.vue";
 import History from "@/components/History.vue";
 import AdminMainpage from "@/components/admin/AdminMainpage.vue";
 import AdminMenu from "@/components/admin/AdminMenu.vue";
+import AdminSearch from "@/components/admin/AdminSearch.vue";
 import AdminReport from "@/components/admin/report/AdminReport.vue";
 import AdminUser from "@/components/admin/user/AdminUser.vue";
 import AdminDiscount from "@/components/admin/discount/AdminDiscount.vue";
@@ -322,7 +327,8 @@ export default {
     Notification,
     AdminUser,
     AdminDiscount,
-    ReportReview
+    ReportReview,
+    AdminSearch
   },
   watch:{
     role: function() {

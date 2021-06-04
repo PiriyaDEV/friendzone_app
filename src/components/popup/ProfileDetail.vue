@@ -453,7 +453,7 @@
             :usernameAfter="username"
             :bioAfter="bio"
             :edit="edit"
-            :user="user"
+            :user="customerData"
             :role="demoRole"
             :findUser="false"
             :day="dayPlace"

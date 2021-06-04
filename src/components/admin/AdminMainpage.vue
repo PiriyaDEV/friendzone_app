@@ -40,7 +40,13 @@
               </div>
               <div id="report-box">
                 <div v-for="(report, i) in reportList" :key="i">
-                  <ReportBox v-if="i < 5" :approver="false" :reportList="report" :report="true" @reportData="reportData"/>
+                  <ReportBox
+                    v-if="i < 5"
+                    :approver="false"
+                    :reportList="report"
+                    :report="true"
+                    @reportData="reportData"
+                  />
                 </div>
               </div>
             </div>
@@ -75,13 +81,21 @@
                 </h1>
               </div>
               <div id="userbox">
-                <div v-show="Admin" v-for="(item, i) in testList" :key="i">
+                <div v-show="Admin" v-for="item in adminList" :key="item.user_id">
                   <Userbox :select="2" :user="item" :admin="true" />
                 </div>
-                <div v-show="Analyst" v-for="(item, i) in testList" :key="i">
+                <div
+                  v-show="Analyst"
+                  v-for="item in analystList"
+                  :key="item.user_id"
+                >
                   <Userbox :select="2" :user="item" :admin="true" />
                 </div>
-                <div v-show="Approver" v-for="(item, i) in testList" :key="i">
+                <div
+                  v-show="Approver"
+                  v-for="item in approverList"
+                  :key="item.user_id"
+                >
                   <Userbox :select="2" :user="item" :admin="true" />
                 </div>
               </div>
@@ -97,7 +111,7 @@
             <div id="container">
               <div id="list-container" class="event-container">
                 <div class="list event-flex-section">
-                  <div v-for="(item, i) in eventList" :key="i">
+                  <div v-for="(item, i) in discountList" :key="i">
                     <DiscountFlex
                       @clickDiscountFlex="clickDiscountFlex"
                     ></DiscountFlex>
@@ -127,81 +141,10 @@ export default {
       Analyst: false,
       Approver: false,
       reportList: [],
-      joinList: 10,
-      testList: [
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        },
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        },
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        },
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        },
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        },
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        },
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        },
-        {
-          event_participant_id: "EP000016",
-          user_id: "US000003",
-          username: "pd.piriya",
-          status_id: "ST13",
-          moderator: "0",
-          host: 0,
-          profile_pic: "http://localhost:8080/api/user/displayPic/US000003"
-        }
-      ]
+      adminList: [],
+      analystList: [],
+      approverList: [],
+      discountList: []
     };
   },
   components: {
@@ -210,15 +153,38 @@ export default {
     Userbox
   },
   created() {
-    AdminService.getReportList().then((res) => {
-      if (res) {
-        this.reportList = res;
-      }
-    });
+    AdminService.getReportList()
+      .then((res) => {
+        if (res) {
+          this.reportList = res;
+        }
+      })
+      .catch(() => {
+        this.reportList = [];
+      });
+    AdminService.getUserList()
+      .then((res) => {
+        if (res) {
+          this.adminList = res.filter((user) => {
+          return user.role == "Administrator";
+        });
+        this.analystList = res.filter((user) => {
+          return user.role == "Analyst";
+        });
+        this.approverList = res.filter((user) => {
+          return user.role == "Approver";
+        });
+        }
+      })
+      .catch(() => {
+        this.adminList = [];
+        this.analystList = [];
+        this.approverList = [];
+      });
   },
   methods: {
     recentClick() {
-      this.$emit("goToReport",true);
+      this.$emit("goToReport", true);
     },
     reportData(value) {
       this.$emit("reportData", value);
@@ -386,7 +352,7 @@ export default {
   width: 100%;
   height: 220px;
   overflow-y: auto;
-  padding-right:5px;
+  padding-right: 5px;
   padding-bottom: 4px;
 }
 
@@ -395,7 +361,7 @@ export default {
   grid-template-columns: 15% 20% 10% 35% 20%;
   align-items: center;
   width: 100%;
-  padding-top:5px;
+  padding-top: 5px;
 }
 
 #report-menu {
@@ -430,7 +396,7 @@ export default {
   overflow-x: hidden;
   height: 256px;
   padding-right: 15px;
-  padding-top:8px;
+  padding-top: 8px;
 }
 
 div::-webkit-scrollbar {

@@ -18,7 +18,7 @@
                   type="text"
                   placeholder="enter username"
                 />
-                <span @click="searchInput()">search</span>
+                <span @click="searchInput()">Search</span>
               </div>
             </div>
             <!-- Input -->
@@ -46,40 +46,43 @@
               <div id="info-box">
                 <div class="info-column">
                   <h1 class="info_title">Username</h1>
-                  <h1 class="info_data">Harryfer</h1>
+                  <h1 class="info_data">{{ user.username }}</h1>
                 </div>
                 <div class="info-column">
                   <h1 class="info_title">Name</h1>
-                  <h1 class="info_data">Phumiphat Tatiyawongsoonthorn</h1>
+                  <h1 class="info_data">
+                    {{ user.firstname }} {{ user.lastname }}
+                  </h1>
                 </div>
                 <div class="info-column" v-if="editUser == false">
                   <h1 class="info_title">Birthdate</h1>
-                  <h1 class="info_data">1 October 2000</h1>
+                  <h1 class="info_data">{{ user.birthdate }}</h1>
                 </div>
                 <div class="info-column">
                   <h1 class="info_title">Email</h1>
-                  <h1 class="info_data">harryferr@gmail.com</h1>
+                  <h1 class="info_data">{{ user.email }}</h1>
                 </div>
                 <div class="info-column" v-if="editUser == false">
                   <h1 class="info_title">Phone</h1>
-                  <h1 class="info_data">0879902345</h1>
+                  <h1 class="info_data">{{ user.phone }}</h1>
                 </div>
                 <div class="info-column" v-if="editUser == false">
                   <h1 class="info_title">Gender</h1>
-                  <h1 class="info_data">Male</h1>
+                  <h1 class="info_data">{{ user.gender_name }}</h1>
                 </div>
                 <div class="info-column" v-if="editUser == false">
-                  <h1 class="info_title">Create date</h1>
-                  <h1 class="info_data">01 Jan 2021</h1>
+                  <h1 class="info_title">Joined date</h1>
+                  <h1 class="info_data">{{ user.created_at }}</h1>
+                </div>
+                <div class="info-column" v-if="editUser == false">
+                  <h1 class="info_title">Updated date</h1>
+                  <h1 class="info_data">{{ user.updated_at }}</h1>
                 </div>
                 <hr v-if="editUser == false" class="bar" />
                 <div v-if="editUser == false" class="info-column-roles">
                   <h1 class="info_title">Roles</h1>
                   <div>
-                    <!-- <h1 class="info_data">User</h1> -->
-                    <!-- <h1 class="info_data">Approver</h1> -->
-                    <!-- <h1 class="info_data">Analyst</h1> -->
-                    <h1 class="info_data">Admin</h1>
+                    <h1 class="info_data">{{ user.role_name }}</h1>
                   </div>
                 </div>
               </div>
@@ -129,7 +132,7 @@
             <div v-if="editUser == false" id="verticle-button">
               <div>
                 <button class="back_button" @click="editReturn()">
-                  Cancle
+                  Cancel
                 </button>
               </div>
 
@@ -167,13 +170,15 @@
 </template>
 
 <script>
+import UserService from "@/services/user.service";
+
 export default {
   data() {
     return {
       search: "",
       editUser: false,
       foundUser: false,
-      username: "harryfer",
+      user: null,
       approver: false,
       analyst: false,
       admin: false,
@@ -182,12 +187,17 @@ export default {
   },
   methods: {
     searchInput() {
-      console.log(this.search);
-      console.log(this.username);
-      if (this.search == this.username) {
-        this.foundUser = true;
-      } else {
-        this.foundUser = false;
+      if (this.search) {
+        UserService.findByUsername(this.search.trim())
+          .then((res) => {
+            if (res.user_id) {
+              this.user = res;
+              this.foundUser = true;
+            } else {
+              this.foundUser = false;
+            }
+          })
+          .catch(() => (this.foundUser = false));
       }
     },
     editReturn() {
