@@ -14,6 +14,8 @@
 
 <script>
 import WhiteMessage from "@/components/chat/message/WhiteMessage.vue";
+const PORT = require("@/services/port.config").PORT;
+
 export default {
   props: ["chat", "nextUserId", "previousUserId"],
   data() {
@@ -46,7 +48,7 @@ export default {
   },
   computed: {
     pic() {
-      let link = "http://localhost:8080/api/user/displayPic/";
+      let link = `${PORT}/api/user/displayPic/`;
       return link + this.chat.user_id;
     }
   }

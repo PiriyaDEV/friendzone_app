@@ -14,7 +14,7 @@
 
       <div>
         <div id="report-menu">
-          <div id="report-middle-menu">
+          <div id="report-middle-menu" v-if="reportListShow.length != 0">
             <h1 id="menu-text-id" class="menu-text">ID</h1>
             <h1 class="menu-text">TITLE</h1>
             <h1 class="menu-text">TYPE</h1>
@@ -24,6 +24,7 @@
           <div id="space-button"></div>
         </div>
         <div id="report-box">
+          <NoInformation v-if="reportListShow.length == 0"/>
           <div v-for="(report, i) in reportListShow" :key="i">
             <ReportBox
               :approver="false"
@@ -41,6 +42,8 @@
 <script>
 import ReportBox from "@/components/admin/report/ReportBox.vue";
 import AdminService from "@/services/admin.service";
+import NoInformation from "@/components/NoInformation.vue";
+
 export default {
   name: "admin-report",
   data() {
@@ -51,7 +54,8 @@ export default {
     };
   },
   components: {
-    ReportBox
+    ReportBox,
+    NoInformation
   },
   watch: {
     filter: function() {

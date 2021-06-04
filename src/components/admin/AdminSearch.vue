@@ -1,27 +1,88 @@
 <template>
   <div id="admin-report" class="event-container">
     <div>
+      <h1 id="searchtext" class="event-header">
+        23 items match your search
+        <span class="orange-color">“{{ searchValue }}”</span>
+      </h1>
       <div id="title-box">
-        <h1 class="title header white-color">THIS IS A SEARCH</h1>
-        <select id="select-report" v-model="filter">
-          <option value="all">All Reports</option>
-          <option value="waiting">Waiting</option>
-          <option value="read">Read</option>
-          <option value="banned">Banned</option>
-          <option value="deleted">Deleted</option>
-        </select>
+        <h1 class="title header white-color">DISCOUNT</h1>
+        <div @click="recentClick()" class="second-title">
+          <h1>See All</h1>
+          <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+        </div>
       </div>
 
       <div>
         <div id="report-menu">
-          <div id="report-middle-menu">
+          <div id="report-middle-menu-discount">
+            <h1 id="menu-text-id" class="menu-text">ID</h1>
+            <h1 class="menu-text">TITLE</h1>
+            <h1 class="menu-text">POINT USED</h1>
+            <h1 class="menu-text report-cat">BUY WITHIN</h1>
+            <h1 class="menu-text report-cat">USED WITHIN</h1>
+            <h1 class="menu-text">STATUS</h1>
+          </div>
+          <div id="space-button-discount"></div>
+        </div>
+        <div id="report-box">
+          <div v-for="(discount, i) in discountListShow" :key="i">
+            <ReportBox
+              :discountList="discount"
+              :discount="true"
+              @discountData="discountData"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div id="title-box" class="title-box-space">
+        <h1 class="title header white-color">USER</h1>
+        <div @click="recentClick()" class="second-title">
+          <h1>See All</h1>
+          <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div>
+        <div id="report-menu">
+          <div id="report-middle-menu-user">
+            <h1 id="menu-text-id" class="menu-text">USERNAME</h1>
+            <h1 class="menu-text">RATING</h1>
+            <h1 class="menu-text">ROLE</h1>
+            <h1 class="menu-text">STATUS</h1>
+          </div>
+          <div id="space-button-user"></div>
+        </div>
+        <div id="report-box">
+          <div v-for="(user, i) in userListShow" :key="i">
+            <ReportBox
+              :userList="user"
+              :user="true"
+              @customerData="customerData"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div id="title-box" class="title-box-space">
+        <h1 class="title header white-color">REPORT</h1>
+         <div @click="recentClick()" class="second-title">
+          <h1>See All</h1>
+          <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div>
+        <div id="report-menu">
+          <div id="report-middle-menu-report">
             <h1 id="menu-text-id" class="menu-text">ID</h1>
             <h1 class="menu-text">TITLE</h1>
             <h1 class="menu-text">TYPE</h1>
             <h1 class="menu-text report-cat">CAREGORIES</h1>
             <h1 class="menu-text">STATUS</h1>
           </div>
-          <div id="space-button"></div>
+          <div id="space-button-report"></div>
         </div>
         <div id="report-box">
           <div v-for="(report, i) in reportListShow" :key="i">
@@ -117,6 +178,10 @@ option {
   margin: 0px;
 }
 
+.title-box-space{
+  margin-top:20px;
+}
+
 #title-box {
   display: flex;
   align-items: center;
@@ -133,6 +198,30 @@ option {
   font-weight: 500;
 }
 
+
+.second-title {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.fa-long-arrow-right,
+.second-title > h1 {
+  color: #ffffff;
+  margin: 0px 0px 0px 7px;
+  font-size: 2em;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+#searchtext {
+  color:#FFFFFF;
+  margin-top: 0px;
+  font-size: 2em;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
 #report-menu {
   align-items: center;
   display: flex;
@@ -140,9 +229,23 @@ option {
   padding: 3px;
 }
 
-#report-middle-menu {
+#report-middle-menu-report {
   display: grid;
   grid-template-columns: 15% 20% 10% 35% 20%;
+  align-items: center;
+  width: 100%;
+}
+
+#report-middle-menu-user {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  align-items: center;
+  width: 100%;
+}
+
+#report-middle-menu-discount {
+  display: grid;
+  grid-template-columns: 15% 20% 15% 15% 15% 20%;
   align-items: center;
   width: 100%;
 }
@@ -158,18 +261,20 @@ option {
   padding: 0px 30px;
 }
 
-#space-button {
+#space-button-discount {
+  width: 48px;
+}
+
+#space-button-report {
   width: 68px;
 }
 
-@media screen and (max-width: 880px) {
-  #admin-report {
-    margin-top: 0px;
-  }
+#space-button-user {
+  width: 50px;
 }
 
 @media screen and (max-width: 690px) {
-  #report-middle-menu {
+  #report-middle-menu-report {
     grid-template-columns: 25% 40% 20% 15%;
   }
 
@@ -177,7 +282,23 @@ option {
     font-size: 1.2em;
   }
 
-  #space-button {
+  #space-button-report {
+    width: 42px;
+  }
+
+  #report-middle-menu-user {
+    grid-template-columns: 35% 25% 30% 10%;
+  }
+
+  #space-button-user {
+    width: 69px;
+  }
+
+  #report-middle-menu-discount {
+    grid-template-columns: 25% 40% 20% 15%;
+  }
+
+  #space-button-discount {
     width: 42px;
   }
 

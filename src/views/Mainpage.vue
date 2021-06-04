@@ -196,7 +196,12 @@
     <!-- Admin -->
     <div v-if="role == 2" id="mainpage-admin">
 
-      <AdminSearch v-if="searchBar"/>
+      <PointDetail v-if="pointPage == true" @point="point" />
+
+      <Notification
+        v-if="notiShow == true"
+        @notificationShow="notificationShow"
+      />
 
       <ProfileDetail
         v-if="detailShow == true"
@@ -225,11 +230,13 @@
         :admin="true"
         @clickDetail="clickDetail"
         @pageReturnAdmin="pageReturnAdmin"
+        @point="point"
+        @notificationShow="notificationShow"
       />
       <!-- Mobile Top Bar -->
 
       <div id="mainpage-background" class="section">
-        <AdminMenu id="menubar" :goReport="goReport" @pageReturnAdmin="pageReturnAdmin" />
+        <AdminMenu id="menubar" :goReport="goReport" @pageReturnAdmin="pageReturnAdmin" @clickClearSearch="clickClearSearch"/>
         <div id="timeline">
           <Topbar
             @demoAdmin="demoAdmin"
@@ -238,10 +245,14 @@
             @notificationShow="notificationShow"
             @searchData="searchData"
             :demoRole="role"
+            :clearSearch="clearSearched"
+            @clickClearSearch="clickClearSearch"
           />
 
+          <AdminSearch v-if="searchBar"/>
+
           <AdminMainpage
-            v-if="selectAdmin == 1"
+            v-if="selectAdmin == 1 && !searchBar" 
             @clickCreate="clickCreate"
             @clickEdit="clickEdit"
             @editDatabase="editDatabase"
@@ -249,11 +260,11 @@
             @reportData="reportData"
           />
 
-          <AdminDiscount v-if="selectAdmin == 3" @editDiscountData="editDiscountData"/>
+          <AdminDiscount v-if="selectAdmin == 3 && !searchBar" @editDiscountData="editDiscountData"/>
 
-          <AdminUser v-if="selectAdmin == 4" @customerData="customerData"/>
+          <AdminUser v-if="selectAdmin == 4 && !searchBar" @customerData="customerData"/>
 
-          <AdminReport v-if="selectAdmin == 5" @reportData="reportData"/>
+          <AdminReport v-if="selectAdmin == 5 && !searchBar" @reportData="reportData"/>
 
         </div>
       </div>
@@ -402,6 +413,7 @@ export default {
     },
     pageReturn(value) {
       this.select = value;
+      this.searchBar = "";
     },
     clickEdit(value) {
       this.editShow = value;
@@ -446,6 +458,7 @@ export default {
       this.role = value;
     },
     pageReturnAdmin(value) {
+      this.searchBar = "";
       this.selectAdmin = value;
     },
     editDatabase(value) {

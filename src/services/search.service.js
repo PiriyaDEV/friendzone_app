@@ -1,7 +1,7 @@
 import axios from "axios";
 import decode from "jwt-decode";
-
-const API_URL = "http://localhost:8080/api/search";
+const PORT = require("../services/port.config").PORT;
+const API_URL =`${PORT}/api/search`;
 
 let months = [
   "Jan",
@@ -26,7 +26,7 @@ class SearchService {
       .then((response) => {
         response.data.forEach(user => {
           user.profile_pic =
-          "http://localhost:8080/api/user/displayPic/" + user.user_id;
+          `${PORT}/api/user/displayPic/` + user.user_id;
         })
         return response.data;
       });
@@ -39,7 +39,7 @@ class SearchService {
       .then((response) => {
         response.data.forEach(user => {
           user.profile_pic =
-          "http://localhost:8080/api/user/displayPic/" + user.user_id;
+          `${PORT}/api/user/displayPic/` + user.user_id;
         })
         return response.data;
       });
@@ -49,9 +49,9 @@ class SearchService {
     let userData = decode(localStorage.getItem("user"));
     return axios.get(`${API_URL}/event?keyword=${search}&user_id=${userData.user_id}`).then((response) => {
       response.data.forEach((event) => {
-        event.event_pic = "http://localhost:8080/api/event/displayPic/" + event.event_id;
+        event.event_pic = `${PORT}/api/event/displayPic/` + event.event_id;
         event.host_pic =
-          "http://localhost:8080/api/user/displayPic/" + event.user_id;
+        `${PORT}/api/user/displayPic/` + event.user_id;
   
         let start_at = new Date(event.start_at);
         let end_at = new Date(event.end_at);
@@ -80,7 +80,7 @@ class SearchService {
     });
     await res.data.forEach((discount) => {
       discount.discount_pic =
-        "http://localhost:8080/api/discount/displayPic/" + discount.discount_id;
+        `${PORT}/api/discount/displayPic/` + discount.discount_id;
 
       let start_at = new Date(discount.period_start);
       let end_at = new Date(discount.period_end);

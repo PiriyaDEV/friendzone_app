@@ -38,7 +38,6 @@
             </div>
           </div>
 
-
           <div v-if="adminEdit" id="left">
             <div v-if="cancel || (!edit && !save)" id="profile-frame">
               <img id="profile-pic" :src="showprofile_pic" />
@@ -147,7 +146,6 @@
               </textarea>
             </div>
 
-
             <div id="double-flex">
               <!-- Rating -->
               <div id="rating">
@@ -233,33 +231,33 @@
               <!-- Rating -->
               <div v-if="!adminEdit">
                 <div v-if="role == `RO01`">
-                <div v-if="demoRole == 1 && !edit" id="switch-button">
-                  <button
-                    v-if="
-                      (findUser == true && dataUser == user.username) ||
-                        findUser == false
-                    "
-                    @click="clickDemoAdmin()"
-                  >
-                    Switch to Admin
-                  </button>
-                </div>
+                  <div v-if="demoRole == 1 && !edit" id="switch-button">
+                    <button
+                      v-if="
+                        (findUser == true && dataUser == user.username) ||
+                          findUser == false
+                      "
+                      @click="clickDemoAdmin()"
+                    >
+                      Switch to Admin
+                    </button>
+                  </div>
 
-                <div
-                  v-if="demoRole == 2 && !edit && dataUser != user.username"
-                  id="switch-button"
-                >
-                  <button
-                    v-if="
-                      (findUser == true && dataUser == user.username) ||
-                        findUser == false
-                    "
-                    @click="clickDemoAdmin()"
+                  <div
+                    v-if="demoRole == 2 && !edit && dataUser != user.username"
+                    id="switch-button"
                   >
-                    Switch to User
-                  </button>
+                    <button
+                      v-if="
+                        (findUser == true && dataUser == user.username) ||
+                          findUser == false
+                      "
+                      @click="clickDemoAdmin()"
+                    >
+                      Switch to User
+                    </button>
+                  </div>
                 </div>
-              </div>
               </div>
             </div>
 
@@ -277,7 +275,7 @@
                   <h1 class="title-box">Host</h1>
                 </div>
 
-                <div v-if="adminEdit"  class="verticle-box">
+                <div v-if="adminEdit" class="verticle-box">
                   <h1 class="number-box">{{ customerData.host }}</h1>
                   <h1 class="title-box">Host</h1>
                 </div>
@@ -325,11 +323,10 @@
                   <h1 class="title-box">Following</h1>
                 </div>
 
-                 <div v-if="adminEdit" class="verticle-box">
+                <div v-if="adminEdit" class="verticle-box">
                   <h1 class="number-box">{{ customerData.following }}</h1>
                   <h1 class="title-box">Following</h1>
                 </div>
-
               </div>
             </div>
             <!-- Follower -->
@@ -354,7 +351,7 @@
               </textarea>
             </div>
 
-             <div v-if="adminEdit" id="bio-default">
+            <div v-if="adminEdit" id="bio-default">
               <h1 v-if="!edit" id="bio">
                 <span>{{ customerData.bio }}</span>
               </h1>
@@ -423,44 +420,43 @@
                 <button @click="clickPassword()">CHANGE PASSWORD</button>
               </div>
             </div>
-
           </div>
         </div>
         <div id="middle">
           <div v-if="!adminEdit">
             <EditProfile
-            v-if="interestShow == false && changePassword == false"
-            @editReturn="editReturn"
-            :usernameAfter="username"
-            :bioAfter="bio"
-            :edit="edit"
-            :user="user"
-            :role="demoRole"
-            :findUser="findUser"
-            :dataUser="dataUser"
-            :userList="searchUserList"
-            :day="dayPlace"
-            :month="monthPlace + 1"
-            :year="yearPlace"
-            @saveUser="saveUser"
-          />
+              v-if="interestShow == false && changePassword == false"
+              @editReturn="editReturn"
+              :usernameAfter="username"
+              :bioAfter="bio"
+              :edit="edit"
+              :user="user"
+              :role="demoRole"
+              :findUser="findUser"
+              :dataUser="dataUser"
+              :userList="searchUserList"
+              :day="dayPlace"
+              :month="monthPlace + 1"
+              :year="yearPlace"
+              @saveUser="saveUser"
+            />
           </div>
 
           <div v-if="adminEdit">
             <EditProfile
-            v-if="interestShow == false && changePassword == false"
-            @editReturn="editReturn"
-            :usernameAfter="username"
-            :bioAfter="bio"
-            :edit="edit"
-            :user="customerData"
-            :role="demoRole"
-            :findUser="false"
-            :day="dayPlace"
-            :month="monthPlace + 1"
-            :year="yearPlace"
-            @saveUser="saveUser"
-          />
+              v-if="interestShow == false && changePassword == false"
+              @editReturn="editReturn"
+              :usernameAfter="username"
+              :bioAfter="bio"
+              :edit="edit"
+              :user="customerData"
+              :role="demoRole"
+              :findUser="false"
+              :day="dayPlace"
+              :month="monthPlace + 1"
+              :year="yearPlace"
+              @saveUser="saveUser"
+            />
           </div>
 
           <ProfileInterest
@@ -490,6 +486,7 @@ import UserService from "./../../services/user.service";
 import Upload from "./../../components/UploadPic.vue";
 import SearchService from "./../../services/search.service";
 import decode from "jwt-decode";
+const PORT = require("@/services/port.config").PORT;
 
 export default {
   data() {
@@ -528,7 +525,7 @@ export default {
       adminEdit: false
     };
   },
-  props: ["demoRole", "findUser", "dataUser","customerData"],
+  props: ["demoRole", "findUser", "dataUser", "customerData"],
   components: {
     EditProfile,
     Upload,
@@ -537,7 +534,7 @@ export default {
   },
   created() {
     this.getRole();
-    if(this.customerData != null) {
+    if (this.customerData != null) {
       this.adminEdit = true;
       this.username = this.customerData.username;
       this.bio = this.customerData.bio;
@@ -550,44 +547,43 @@ export default {
       this.monthPlace = month;
       this.yearPlace = year;
       this.customerData.birthdate = `${date} ${this.months[month]} ${year}`;
-        if (this.customerData.rating > 0) {
-            this.showRating.fill(true, 0, this.customerData.rating.toFixed(0));
-          } else {
-            this.showRating.fill(true, 0, 5);
-          }
-    }
-    else {
-      UserService.getUserDetail().then((res) => {
-      if (res) {
-        this.user = res;
-        this.username = this.user.username;
-        this.bio = this.user.bio;
-        this.showprofile_pic = this.user.profile_pic;
-        let birthdate = new Date(this.user.birthdate);
-        let date = birthdate.getDate();
-        let month = birthdate.getMonth();
-        let year = birthdate.getFullYear();
-        this.dayPlace = date;
-        this.monthPlace = month;
-        this.yearPlace = year;
-        this.user.birthdate = `${date} ${this.months[month]} ${year}`;
-        if (this.findUser == true) {
-          if (this.dataUser == this.user.username) {
-            console.log("sameUser");
-          } else {
-            this.functionGetApi(this.dataUser);
-          }
-        }
-        if (!this.findUser || this.dataUser == this.user.username) {
-          if (this.user.rating > 0) {
-            this.showRating.fill(true, 0, this.user.rating.toFixed(0));
-          } else {
-            this.showRating.fill(true, 0, 5);
-          }
-        }
+      if (this.customerData.rating > 0) {
+        this.showRating.fill(true, 0, this.customerData.rating.toFixed(0));
+      } else {
+        this.showRating.fill(true, 0, 5);
       }
-    });
-    } 
+    } else {
+      UserService.getUserDetail().then((res) => {
+        if (res) {
+          this.user = res;
+          this.username = this.user.username;
+          this.bio = this.user.bio;
+          this.showprofile_pic = this.user.profile_pic;
+          let birthdate = new Date(this.user.birthdate);
+          let date = birthdate.getDate();
+          let month = birthdate.getMonth();
+          let year = birthdate.getFullYear();
+          this.dayPlace = date;
+          this.monthPlace = month;
+          this.yearPlace = year;
+          this.user.birthdate = `${date} ${this.months[month]} ${year}`;
+          if (this.findUser == true) {
+            if (this.dataUser == this.user.username) {
+              console.log("sameUser");
+            } else {
+              this.functionGetApi(this.dataUser);
+            }
+          }
+          if (!this.findUser || this.dataUser == this.user.username) {
+            if (this.user.rating > 0) {
+              this.showRating.fill(true, 0, this.user.rating.toFixed(0));
+            } else {
+              this.showRating.fill(true, 0, 5);
+            }
+          }
+        }
+      });
+    }
   },
   methods: {
     detailReturn() {
@@ -633,15 +629,33 @@ export default {
       this.edit = false;
       this.save = true;
       value.role_id = this.role;
-      UserService.editUser(value).then((res) => {
-        if (res) {
-          UserService.uploadProfile(this.profile_pic.formData).then((res) => {
-            if (res) {
-              window.location.href = "/mainpage";
-            }
-          });
-        }
-      });
+      if (this.adminEdit) {
+        UserService.editUser(value, true).then((res) => {
+          if (res) {
+            UserService.uploadProfile(
+              this.profile_pic.formData,
+              res.user_id
+            ).then((res) => {
+              if (res) {
+                window.location.href = "/mainpage";
+              }
+            });
+          }
+        });
+      } else {
+        UserService.editUser(value, false).then((res) => {
+          if (res) {
+            UserService.uploadProfile(
+              this.profile_pic.formData,
+              res.user_id
+            ).then((res) => {
+              if (res) {
+                window.location.href = "/mainpage";
+              }
+            });
+          }
+        });
+      }
     },
     getRole() {
       let userData = decode(localStorage.getItem("user"));
@@ -653,8 +667,7 @@ export default {
           if (res) {
             this.searchUserList = res.find((user) => user.username == value);
             this.profile_User =
-              "http://localhost:8080/api/user/displayPic/" +
-              this.searchUserList.user_id;
+              `${PORT}/api/user/displayPic/` + this.searchUserList.user_id;
             let birthdate = new Date(this.searchUserList.birthdate);
             let date = birthdate.getDate();
             let month = birthdate.getMonth();

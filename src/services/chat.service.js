@@ -1,8 +1,9 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 import decode from "jwt-decode";
+const PORT = require("../services/port.config").PORT;
 
-const URL = "http://localhost:8080/api/chat/";
+const URL = `${PORT}/api/chat/`;
 
 class ChatService {
   async getChatList() {

@@ -1,8 +1,9 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 import decode from "jwt-decode";
+const PORT = require("../services/port.config").PORT;
 
-const API_URL = "http://localhost:8080/api/event/";
+const API_URL = `${PORT}/api/event/`;
 
 let months = [
   "Jan",
@@ -162,7 +163,7 @@ class EventService {
 
     await res.data.forEach((participant) => {
       participant.profile_pic =
-        "http://localhost:8080/api/user/displayPic/" + participant.user_id;
+        `${PORT}/api/user/displayPic/` + participant.user_id;
     });
 
     return res.data;
@@ -230,7 +231,7 @@ class EventService {
     await res.data.forEach((event) => {
       event.event_pic = API_URL + "displayPic/" + event.event_id;
       event.host_pic =
-        "http://localhost:8080/api/user/displayPic/" + user.user_id;
+        `${PORT}/api/user/displayPic/` + user.user_id;
 
       let start_at = new Date(event.start_at);
       let end_at = new Date(event.end_at);
@@ -262,7 +263,7 @@ class EventService {
     await res.data.forEach((event) => {
       event.event_pic = API_URL + "displayPic/" + event.event_id;
       event.host_pic =
-        "http://localhost:8080/api/user/displayPic/" + event.user_id;
+        `${PORT}/api/user/displayPic/` + event.user_id;
 
       let start_at = new Date(event.start_at);
       let end_at = new Date(event.end_at);
@@ -294,7 +295,7 @@ class EventService {
     await res.data.forEach((event) => {
       event.event_pic = API_URL + "displayPic/" + event.event_id;
       event.host_pic =
-        "http://localhost:8080/api/user/displayPic/" + event.user_id;
+        `${PORT}/api/user/displayPic/` + event.user_id;
 
       let start_at = new Date(event.start_at);
       let end_at = new Date(event.end_at);
@@ -329,7 +330,7 @@ class EventService {
     await res.data.forEach((event) => {
       event.event_pic = API_URL + "displayPic/" + event.event_id;
       event.host_pic =
-        "http://localhost:8080/api/user/displayPic/" + event.user_id;
+        `${PORT}/api/user/displayPic/` + event.user_id;
 
       let start_at = new Date(event.start_at);
       let end_at = new Date(event.end_at);
@@ -364,7 +365,7 @@ class EventService {
     await res.data.forEach((event) => {
       event.event_pic = API_URL + "displayPic/" + event.event_id;
       event.host_pic =
-        "http://localhost:8080/api/user/displayPic/" + event.user_id;
+        `${PORT}/api/user/displayPic/` + event.user_id;
 
       let start_at = new Date(event.start_at);
       let end_at = new Date(event.end_at);
@@ -399,7 +400,7 @@ class EventService {
     await res.data.forEach((event) => {
       event.event_pic = API_URL + "displayPic/" + event.event_id;
       event.host_pic =
-        "http://localhost:8080/api/user/displayPic/" + event.user_id;
+        `${PORT}/api/user/displayPic/` + event.user_id;
 
       let start_at = new Date(event.start_at);
       let end_at = new Date(event.end_at);

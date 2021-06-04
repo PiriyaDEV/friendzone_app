@@ -30,7 +30,7 @@
                   </div>
                   <div v-else slot="activator">
                     <img
-                      class="pictureUpload"
+                      :class="cssDeletePic"
                       style="position: relative"
                       :src="discount.discount_pic.imageURL"
                       alt="discount_pic"
@@ -40,23 +40,33 @@
               </div>
             </div>
             <div v-if="edit" id="select-photo-section" class="section">
-              <Upload v-model="discount.discount_pic">
+              <div v-if="disable">
                 <img
-                  v-if="!discount.discount_pic"
                   slot="activator"
-                  class="pictureUpload"
+                  :class="cssDeletePic"
                   style="position: relative"
                   :src="discountList.discount_pic"
                 />
-                <div v-else slot="activator">
+              </div>
+              <div v-else>
+                <Upload v-model="discount.discount_pic">
                   <img
-                    class="pictureUpload"
+                    v-if="!discount.discount_pic"
+                    slot="activator"
+                    :class="cssDeletePic"
                     style="position: relative"
-                    :src="discount.discount_pic.imageURL"
-                    alt="discount_pic"
+                    :src="discountList.discount_pic"
                   />
-                </div>
-              </Upload>
+                  <div v-else slot="activator">
+                    <img
+                      :class="cssDeletePic"
+                      style="position: relative"
+                      :src="discount.discount_pic.imageURL"
+                      alt="discount_pic"
+                    />
+                  </div>
+                </Upload>
+              </div>
             </div>
             <!-- Input -->
 
@@ -70,7 +80,8 @@
               </h2>
               <input
                 v-model="discount.name"
-                class="input_box"
+                :class="cssInput"
+                :disabled="disable"
                 type="text"
                 maxlength="64"
                 size="64"
@@ -86,7 +97,8 @@
               </h2>
               <textarea
                 v-model="discount.description"
-                class="input_textarea_box bio"
+                :class="cssInputBio"
+                :disabled="disable"
                 maxlength="256"
                 size="256"
                 name="bio"
@@ -108,8 +120,15 @@
                   type="text"
                   disabled="disabled"
                   v-model="free"
+                  :class="cssPoint"
                 />
-                <input v-else type="number" v-model="discount.redeem_point" />
+                <input
+                  v-else
+                  type="number"
+                  :class="cssPoint"
+                  :disabled="disable"
+                  v-model="discount.redeem_point"
+                />
                 <span class="plus" @click="clickPoint(true)">+</span>
               </div>
             </div>
@@ -124,7 +143,8 @@
               <div class="date-section">
                 <input
                   id="day"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="2"
@@ -136,7 +156,8 @@
                 <input
                   id="month"
                   style="margin-left: 10px"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="2"
@@ -148,7 +169,8 @@
                 <input
                   id="year"
                   style="margin-left: 10px"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="4"
@@ -160,7 +182,8 @@
               <div class="time-section">
                 <input
                   id="h1"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="1"
@@ -171,7 +194,8 @@
                 <input
                   id="h2"
                   style="margin-left: 10px"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="1"
@@ -192,7 +216,8 @@
                 <input
                   id="m1"
                   style="margin-left: 10px"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="1"
@@ -203,7 +228,8 @@
                 <input
                   id="m2"
                   style="margin-left: 10px"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="1"
@@ -223,7 +249,8 @@
               <div class="date-section">
                 <input
                   id="day"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="2"
@@ -235,7 +262,8 @@
                 <input
                   id="month"
                   style="margin-left: 10px"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="2"
@@ -247,7 +275,8 @@
                 <input
                   id="year"
                   style="margin-left: 10px"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="4"
@@ -259,7 +288,8 @@
               <div class="time-section">
                 <input
                   id="h1"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="1"
@@ -270,7 +300,8 @@
                 <input
                   id="h2"
                   style="margin-left: 10px"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="1"
@@ -291,7 +322,8 @@
                 <input
                   id="m1"
                   style="margin-left: 10px"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="1"
@@ -302,7 +334,8 @@
                 <input
                   id="m2"
                   style="margin-left: 10px"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="1"
@@ -322,7 +355,8 @@
               <div class="date-section">
                 <input
                   id="day"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="2"
@@ -334,7 +368,8 @@
                 <input
                   id="month"
                   style="margin-left: 10px"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="2"
@@ -346,7 +381,8 @@
                 <input
                   id="year"
                   style="margin-left: 10px"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="4"
@@ -358,7 +394,8 @@
               <div class="time-section">
                 <input
                   id="h1"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="1"
@@ -369,7 +406,8 @@
                 <input
                   id="h2"
                   style="margin-left: 10px"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="1"
@@ -390,7 +428,8 @@
                 <input
                   id="m1"
                   style="margin-left: 10px"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="1"
@@ -401,7 +440,8 @@
                 <input
                   id="m2"
                   style="margin-left: 10px"
-                  class="date_box_popup"
+                  :class="cssDateBox"
+                  :disabled="disable"
                   type="text"
                   pattern="[0-9]*"
                   maxlength="1"
@@ -425,8 +465,15 @@
                   type="text"
                   disabled="disabled"
                   v-model="free"
+                  :class="cssPoint"
                 />
-                <input v-else type="number" v-model="discount.redeem_point" />
+                <input
+                  v-else
+                  type="number"
+                  :class="cssPoint"
+                  :disabled="disable"
+                  v-model="discount.redeem_point"
+                />
                 <span class="plus" @click="clickPoint(true)">+</span>
               </div>
             </div>
@@ -446,8 +493,15 @@
                   type="text"
                   disabled="disabled"
                   v-model="unlimited"
+                  :class="cssPoint"
                 />
-                <input v-else type="number" v-model="discount.limits" />
+                <input
+                  v-else
+                  type="number"
+                  :class="cssPoint"
+                  :disabled="disable"
+                  v-model="discount.limits"
+                />
                 <span class="plus" @click="clickLimit(true)">+</span>
               </div>
             </div>
@@ -462,15 +516,21 @@
           </button>
         </div>
 
-        <div v-if="edit" class="button-section">
-          <button
-            class="back_button"
-            @click="deleteClick()"
-          >
+        <div v-if="edit && status != 'Deleted'" class="button-section">
+          <button v-if="status == `Inactive` || status == `Active`" class="back_button" @click="deleteClick()">
             Delete Discount
           </button>
-          <button class="create_button" @click="saveClick()">
+          <button v-if="status == `Inactive`" class="create_button" @click="saveClick()">
             Save Change
+          </button>
+          <button v-if="status == 'Active'" class="create_button" @click="createReturn()">
+            Done
+          </button>
+        </div>
+
+        <div v-if="edit && status == 'Deleted'" id="single-button">
+          <button class="create_button" @click="createReturn()">
+            Done
           </button>
         </div>
 
@@ -539,7 +599,10 @@ export default {
       discount: new Discount(""),
       unlimited: "No Limit",
       free: "Free",
-      edit: false
+      edit: false,
+      disable: false,
+      delete_pic: false,
+      status: ""
     };
   },
   components: {
@@ -559,12 +622,22 @@ export default {
   },
   created() {
     if (this.discountList != null) {
+      if (
+        this.discountList.status == "Active" ||
+        this.discountList.status == "Deleted"
+      ) {
+        this.disable = true;
+      }
+      if (this.discountList.status == "Deleted") {
+        this.delete_pic = true;
+      }
       this.edit = true;
       this.discount.discount_id = this.discountList.discount_id;
       this.discount.name = this.discountList.name;
       this.discount.description = this.discountList.description;
       this.discount.redeem_point = this.discountList.redeem_point;
       this.discount.limits = this.discountList.limits;
+      this.status = this.discountList.status;
       this.discount.period_start = new constructDate(
         new Date(this.discountList.period_start)
       );
@@ -582,23 +655,69 @@ export default {
       this.discount.limits = 0;
     }
   },
+  computed: {
+    cssInput() {
+      let normal = "input_box";
+      let block = "input_box disable";
+      if (!this.disable) {
+        return normal;
+      }
+      return block;
+    },
+    cssDeletePic() {
+      let normal = "pictureUpload";
+      let deletepic = "pictureUpload discount-delete-pic";
+      if (this.delete_pic) {
+        return deletepic;
+      }
+      return normal;
+    },
+    cssDateBox() {
+      let normal = "date_box_popup";
+      let block = "date_box_popup disable";
+      if (!this.disable) {
+        return normal;
+      }
+      return block;
+    },
+    cssPoint() {
+      let normal = "";
+      let block = "disable";
+      if (!this.disable) {
+        return normal;
+      }
+      return block;
+    },
+    cssInputBio() {
+      let normal = "input_textarea_box bio";
+      let block = "input_textarea_box bio disable";
+      if (!this.disable) {
+        return normal;
+      }
+      return block;
+    }
+  },
   methods: {
     createReturn() {
       this.$emit("clickCreate", false);
     },
     clickPoint(status) {
-      this.discount.redeem_point = parseInt(this.discount.redeem_point);
-      if (!status) {
-        if (this.discount.redeem_point > 0)
-          this.discount.redeem_point = this.discount.redeem_point - 1;
-      } else this.discount.redeem_point = this.discount.redeem_point + 1;
+      if (!this.disable) {
+        this.discount.redeem_point = parseInt(this.discount.redeem_point);
+        if (!status) {
+          if (this.discount.redeem_point > 0)
+            this.discount.redeem_point = this.discount.redeem_point - 1;
+        } else this.discount.redeem_point = this.discount.redeem_point + 1;
+      }
     },
     clickLimit(status) {
-      this.discount.limits = parseInt(this.discount.limits);
-      if (!status) {
-        if (this.discount.limits > 0)
-          this.discount.limits = this.discount.limits - 1;
-      } else this.discount.limits = this.discount.limits + 1;
+      if (!this.disable) {
+        this.discount.limits = parseInt(this.discount.limits);
+        if (!status) {
+          if (this.discount.limits > 0)
+            this.discount.limits = this.discount.limits - 1;
+        } else this.discount.limits = this.discount.limits + 1;
+      }
     },
     ClickCreate() {
       this.hs = this.discount.period_start.h1 + this.discount.period_start.h2;
@@ -800,6 +919,12 @@ export default {
   padding-bottom: 35px;
 }
 
+#single-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .pictureUpload {
   position: relative;
   overflow: hidden;
@@ -810,6 +935,11 @@ export default {
   height: 153px;
   object-fit: cover;
   cursor: pointer;
+}
+
+.disable {
+  color: #a0a0a0 !important;
+  background-color: #e3e3e3;
 }
 
 .input_select {
@@ -829,6 +959,10 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.discount-delete-pic {
+  filter: grayscale(100%) !important;
 }
 
 /* Firefox */

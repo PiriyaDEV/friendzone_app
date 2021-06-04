@@ -1,8 +1,10 @@
 import axios from "axios";
 import decode from "jwt-decode";
 import authHeader from "./auth-header";
+const PORT = require("../services/port.config").PORT;
 
-const API_URL = "http://localhost:8080/api/report/";
+
+const API_URL = `${PORT}/api/report/`;
 
 class ReportService {
   async createReport(report) {

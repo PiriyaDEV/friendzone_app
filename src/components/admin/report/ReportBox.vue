@@ -19,7 +19,7 @@
             discountList.name
           }}</span>
           <div v-if="user" class="rating-box">
-            <span class="white-color">rating</span>
+            <span class="white-color">Rating</span>
             <!-- Rating -->
             <div id="star-box" class="section">
               <!-- Star -->
@@ -98,7 +98,7 @@
               </div>
               <!-- Star -->
             </div>
-            <span class="mobile-rating">5.0</span>
+            <span class="mobile-rating">{{ rating }}</span>
           </div>
           <!-- Rating -->
         </h1>
@@ -113,6 +113,7 @@
           >
           <span v-if="user" class="white-color">{{ userList.role }}</span>
         </h1>
+
         <!-- Here -->
         <h1 v-if="!user" :class="cssHideBadmin">
           <span v-if="approver">{{ event.date }}</span>
@@ -140,7 +141,7 @@
           <h1 :class="cssHideG">{{ reportList.status }}</h1>
         </div>
 
-        <div v-if="discount" id="pending-dot"></div>
+        <div v-if="discount" id="pending-dot">
           <span :class="cssStatusDiscount"></span>
           <h1 :class="cssHideG">{{ discountList.status }}</h1>
         </div>
@@ -162,7 +163,8 @@
 export default {
   data() {
     return {
-      showRating: [false, false, false, false, false]
+      showRating: [false, false, false, false, false],
+      rating: 5.0,
     };
   },
   props: [
@@ -184,11 +186,15 @@ export default {
     }
   },
   created() {
-    if (this.user) {
+    console.log(this.userList)
+    if (this.user) 
+    {
       if (this.userList.rating > 0) {
         this.showRating.fill(true, 0, this.userList.rating.toFixed(0));
+        this.rating = this.userList.rating.toFixed(1);
       } else {
         this.showRating.fill(true, 0, 5);
+        this.rating = "5.0";
       }
     }
   },
@@ -225,16 +231,16 @@ export default {
       let waitingReport = "dot yellow";
       let readReport = "dot green";
       let banReport = "dot red";
-      let deleteReport = "dot black";
+      let deleteReport = "dot red";
       if (this.reportList.status == "Waiting") return waitingReport;
       else if (this.reportList.status == "Read") return readReport;
       else if (this.reportList.status == "Banned") return banReport;
       return deleteReport;
     },
     cssStatusDiscount() {
-      let inactiveDiscount = "dot red";
+      let inactiveDiscount = "dot black";
       let activeDiscount = "dot green";
-      let deleteDiscount = "dot black";
+      let deleteDiscount = "dot red";
       if (this.discountList.status == "Inactive") {
         return inactiveDiscount;
       } else if (this.discountList.status == "Active") {
@@ -398,6 +404,7 @@ export default {
   object-fit: cover;
   border-radius: 50%;
   margin-right: 14px;
+  border: 0.5px solid #FFFFFF;
 }
 
 .user-font {

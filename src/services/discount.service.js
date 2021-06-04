@@ -1,8 +1,9 @@
 import axios from "axios";
 import decode from "jwt-decode";
 import authHeader from "./auth-header";
+const PORT = require("../services/port.config").PORT;
 
-const API_URL = "http://localhost:8080/api/discount/";
+const API_URL = `${PORT}/api/discount/`;
 
 let months = [
   "Jan",
@@ -70,7 +71,7 @@ class DiscountService {
     });
     await res.data.forEach((discount) => {
       discount.discount_pic =
-        "http://localhost:8080/api/discount/displayPic/" + discount.discount_id;
+        `${PORT}/api/discount/displayPic/` + discount.discount_id;
 
       let start_at = new Date(discount.period_start);
       let end_at = new Date(discount.period_end);
@@ -122,7 +123,7 @@ class DiscountService {
     });
     await res.data.forEach((discount) => {
       discount.discount_pic =
-        "http://localhost:8080/api/discount/displayPic/" + discount.discount_id;
+        `${PORT}/api/discount/displayPic/` + discount.discount_id;
 
       let start_at = new Date(discount.period_start);
       let end_at = new Date(discount.period_end);
@@ -176,7 +177,7 @@ class DiscountService {
       });
     await res.data.forEach((discount) => {
       discount.discount_pic =
-        "http://localhost:8080/api/discount/displayPic/" + discount.discount_id;
+        `${PORT}/api/discount/displayPic/` + discount.discount_id;
 
       let currentTime = new Date().getTime();
       let isExpired = currentTime > discount.expired ? true : false;

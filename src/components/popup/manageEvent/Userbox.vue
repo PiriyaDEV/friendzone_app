@@ -194,7 +194,7 @@ export default {
   computed: {
     cssUserbox() {
       let userRole = "userbox";
-      if (this.select == 1) {
+      if (this.select == 2) {
         let adminRole = "userbox-admin";
         let HostRole = "userbox host-box";
         let ModeratorRole = "userbox moderator-box";
@@ -464,9 +464,9 @@ background-color: #f0f0f0;
 }
 
 @media screen and (max-width: 1350px) {
-  .userbox-admin {
+  /* .userbox-admin {
     justify-content: center;
-  }
+  } */
 }
 
 @media screen and (max-width: 1024px) {

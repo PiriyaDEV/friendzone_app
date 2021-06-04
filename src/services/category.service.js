@@ -1,9 +1,19 @@
 import axios from "axios";
 import decode from "jwt-decode";
+import authHeader from "./auth-header";
 
-const URL = "http://localhost:8080/api/category/";
+const PORT = require("../services/port.config").PORT;
+const URL = `${PORT}/api/category/`;
 
 class CategoryService {
+  async create(data) {
+    return axios
+      .post(URL + "create", data, { headers: authHeader() })
+      .then((response) => {
+        return response.data;
+      });
+  }
+  
   async getCategoryList() {
     const res = await axios.get(URL + "getCategoryList");
 

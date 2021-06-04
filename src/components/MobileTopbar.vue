@@ -71,7 +71,6 @@
         </div>
         <div id="right">
           <img
-            v-if="!admin"
             @click="pointClick()"
             id="coin-logo"
             src="@/assets/icon/coin.png"
@@ -140,10 +139,14 @@
         </div>
         <div id="right">
           <img
-            v-if="!admin"
             @click="pointClick()"
             id="coin-logo"
             src="@/assets/icon/coin.png"
+          />
+          <img
+            @click="notiClick()"
+            id="mail-logo"
+            src="@/assets/icon/icons8-important-mail-96@2x.png"
           />
           <div class="badge-box">
             <img

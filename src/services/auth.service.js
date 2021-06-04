@@ -1,6 +1,7 @@
 import axios from "axios";
+const PORT = require("../services/port.config").PORT;
 
-const URL = "http://localhost:8080/api/auth/";
+const URL = `${PORT}/api/auth/`;
 
 class AuthService {
   async login(user) {
