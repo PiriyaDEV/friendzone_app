@@ -60,7 +60,7 @@ export default {
     return {
       users: 0,
       events: 0,
-      discounts: 0,
+      discounts: 0
     };
   },
   created() {
@@ -73,7 +73,7 @@ export default {
         });
       }
     });
-  },
+  }
 };
 </script>
 

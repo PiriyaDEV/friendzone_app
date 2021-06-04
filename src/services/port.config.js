@@ -1,3 +1,3 @@
 module.exports = {
-    PORT: "http://localhost:8080"
+  PORT: "http://localhost:8080"
 };

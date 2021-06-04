@@ -21,7 +21,6 @@ class UserService {
       }
     );
 
-
     return await res.data;
   }
 
@@ -138,7 +137,7 @@ class UserService {
     const res = await axios.post(API_URL + "following/", {
       follower_id: user.user_id,
       following_id: following_id
-    });
+    },  { headers: authHeader() });
 
     return await res.data;
   }
@@ -148,7 +147,7 @@ class UserService {
     const res = await axios.post(API_URL + "unfollowing/", {
       follower_id: user.user_id,
       following_id: following_id
-    });
+    },  { headers: authHeader() });
 
     return await res.data;
   }

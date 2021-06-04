@@ -30,17 +30,21 @@ class DiscountService {
   }
 
   async editDiscount(discount) {
-    const res = await axios.post(API_URL + "editDiscount", discount).catch(() => {
-      return "err";
-    });
+    const res = await axios
+      .post(API_URL + "editDiscount", discount, { headers: authHeader() })
+      .catch(() => {
+        return "err";
+      });
 
     return res.data;
   }
 
   async deleteDiscount(discount) {
-    const res = await axios.post(API_URL + "deleteDiscount", discount).catch(() => {
-      return "err";
-    });
+    const res = await axios
+      .post(API_URL + "deleteDiscount", discount, { headers: authHeader() })
+      .catch(() => {
+        return "err";
+      });
 
     return res.data;
   }
@@ -66,9 +70,11 @@ class DiscountService {
 
   async getHotDiscount() {
     let userData = decode(localStorage.getItem("user"));
-    const res = await axios.get(API_URL + "getHotDiscount/" + userData.user_id).catch(() => {
-      return "err";
-    });
+    const res = await axios
+      .get(API_URL + "getHotDiscount/" + userData.user_id, { headers: authHeader() })
+      .catch(() => {
+        return "err";
+      });
     await res.data.forEach((discount) => {
       discount.discount_pic =
         `${PORT}/api/discount/displayPic/` + discount.discount_id;
@@ -118,9 +124,11 @@ class DiscountService {
 
   async getBrowseDiscount() {
     let userData = decode(localStorage.getItem("user"));
-    const res = await axios.get(API_URL + "getBrowseDiscount/" + userData.user_id).catch(() => {
-      return "err";
-    });
+    const res = await axios
+      .get(API_URL + "getBrowseDiscount/" + userData.user_id, { headers: authHeader() })
+      .catch(() => {
+        return "err";
+      });
     await res.data.forEach((discount) => {
       discount.discount_pic =
         `${PORT}/api/discount/displayPic/` + discount.discount_id;
@@ -171,7 +179,7 @@ class DiscountService {
   async getMyDiscount() {
     let userData = decode(localStorage.getItem("user"));
     const res = await axios
-      .get(API_URL + "getMyDiscount/" + userData.user_id)
+      .get(API_URL + "getMyDiscount/" + userData.user_id, { headers: authHeader() })
       .catch(() => {
         return "err";
       });
@@ -230,7 +238,7 @@ class DiscountService {
     const res = await axios.post(API_URL + "useDiscount", data, {
       headers: authHeader()
     });
-    
+
     let updated_at = new Date(res.data.updated_at);
     let updateDate = updated_at.getDate();
     let updateMonth = updated_at.getMonth();

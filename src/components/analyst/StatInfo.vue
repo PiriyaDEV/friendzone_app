@@ -214,10 +214,10 @@ export default {
           if (i < 5) {
             this.reportStats.orders[i].type = item.type;
             this.reportStats.orders[i].percent = item.percent;
-          }
-          else {
+          } else {
             this.reportStats.orders[5].type = "others";
-            this.reportStats.orders[5].percent = this.reportStats.orders[5].percent + item.percent;
+            this.reportStats.orders[5].percent =
+              this.reportStats.orders[5].percent + item.percent;
           }
         });
       }

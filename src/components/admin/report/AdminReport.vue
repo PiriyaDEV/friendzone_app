@@ -24,7 +24,7 @@
           <div id="space-button"></div>
         </div>
         <div id="report-box">
-          <NoInformation v-if="reportListShow.length == 0"/>
+          <NoInformation v-if="reportListShow.length == 0" />
           <div v-for="(report, i) in reportListShow" :key="i">
             <ReportBox
               :approver="false"

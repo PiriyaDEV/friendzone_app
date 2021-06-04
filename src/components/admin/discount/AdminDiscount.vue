@@ -24,7 +24,7 @@
           <div id="space-button"></div>
         </div>
         <div id="report-box">
-          <NoInformation v-if="discountListShow.length == 0"/>
+          <NoInformation v-if="discountListShow.length == 0" />
           <div v-for="(discount, i) in discountListShow" :key="i">
             <ReportBox
               :discountList="discount"
@@ -68,7 +68,7 @@ export default {
         this.discountListShow = this.discountList.filter((discount) => {
           return discount.status == "Inactive";
         });
-      }else if (this.filter == "deleted") {
+      } else if (this.filter == "deleted") {
         this.discountListShow = this.discountList.filter((discount) => {
           return discount.status == "Deleted";
         });

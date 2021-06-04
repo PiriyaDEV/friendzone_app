@@ -39,14 +39,14 @@ class ReportService {
         headers: authHeader()
       }
     );
-    
+
     return res.data;
   }
 
   async getNotification() {
     let user = decode(localStorage.getItem("user"));
     const res = await axios
-      .get(API_URL + "getNotification/" + user.user_id)
+      .get(API_URL + "getNotification/" + user.user_id,  { headers: authHeader() })
       .catch(() => {
         return "err";
       });
@@ -56,7 +56,7 @@ class ReportService {
         item.pic = USER_API_URL + "displayPic/" + item.user_id;
       else if (item.type == "accept")
         item.pic = EVENT_API_URL + "displayPic/" + item.event_id;
-        else if (item.type == "eventRequest")
+      else if (item.type == "eventRequest")
         item.pic = USER_API_URL + "displayPic/" + item.user_id;
       else if (item.type == "eventApproval")
         item.pic = EVENT_API_URL + "displayPic/" + item.event_id;

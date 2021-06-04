@@ -47,12 +47,12 @@ export default {
       interestList: []
     };
   },
-  props: ["profileDetail"],
+  props: ["profileDetail", "userId"],
   created() {
     CategoryService.getCategoryList().then((res) => {
       if (res) {
         this.categoryList = res;
-        CategoryService.getCategoryFromUserID().then((res) => {
+        CategoryService.getCategoryFromUserID(this.userId).then((res) => {
           if (res) {
             this.interest = res;
             this.interestData();

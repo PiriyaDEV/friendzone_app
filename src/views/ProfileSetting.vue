@@ -242,7 +242,7 @@ export default {
     },
     profile_pic: function() {
       this.invalidProfilePic = false;
-    },
+    }
   },
   computed: {
     loggedIn() {
@@ -306,12 +306,12 @@ export default {
         this.invalidProfilePic = true;
         this.alertProfilePic = "profile picture required";
       }
-      if(!letters.test(this.firstname)) {
-          this.invalidFirstname = true;
-          this.alertFirstname = "Invalid firstname";
-        } else if(!letters.test(this.lastname)) {
-          this.invalidLastname = true;
-          this.alertLastname = "Invalid lastname";
+      if (!letters.test(this.firstname)) {
+        this.invalidFirstname = true;
+        this.alertFirstname = "Invalid firstname";
+      } else if (!letters.test(this.lastname)) {
+        this.invalidLastname = true;
+        this.alertLastname = "Invalid lastname";
       }
       if (
         !this.invalidFirstname &&

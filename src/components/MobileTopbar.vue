@@ -110,7 +110,7 @@
             <a @click="userClick()" id="chat" class="menu-box">
               <img
                 class="menu-icon"
-                src="@/assets/icon/icon-white/icons8-chat-52-w.png"
+                src="@/assets/icon/icon-white/icons8-user-male-144-w.png"
               />
               <span class="menu-text">User</span>
             </a>

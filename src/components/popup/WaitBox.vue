@@ -44,8 +44,9 @@
             <span v-if="error.type == `gender`">
               Gender:
               <span v-for="(gender, i) in error.gender" :key="i">
-                {{ gender.gender_name }}</span>
-              <br /> 
+                {{ gender.gender_name }}</span
+              >
+              <br />
             </span>
             <span v-if="error.type == `age`">
               Minimum Age: {{ error.min }} <br />

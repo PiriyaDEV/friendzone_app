@@ -124,7 +124,7 @@ export default {
     return {
       showRating: [false, false, false, false, false],
       user: new User(""),
-      following: false,
+      following: false
     };
   },
   created() {

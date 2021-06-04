@@ -15,42 +15,29 @@
             <hr id="bar" />
           </div>
         </div>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
+        <div v-for="type in typeUserList" :key="type.report_type_id">
+          <h1 class="report-name">{{ type.type_name }}</h1>
+        </div>
+
         <div id="report-title-section">
           <h1 class="report-title">Report Event</h1>
           <div>
             <hr id="bar" />
           </div>
         </div>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
+        <div v-for="type in typeEventList" :key="type.report_type_id">
+          <h1 class="report-name">{{ type.type_name }}</h1>
+        </div>
+
         <div id="report-title-section">
           <h1 class="report-title">Report Web App</h1>
           <div>
             <hr id="bar" />
           </div>
         </div>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
-        <h1 class="report-name">pretending to be someone else</h1>
+        <div v-for="type in typeWebList" :key="type.report_type_id">
+          <h1 class="report-name">{{ type.type_name }}</h1>
+        </div>
       </div>
       <div id="right">
         <!-- Input -->
@@ -59,17 +46,13 @@
           <select
             name="gender"
             class="input_select minimal"
-            v-model="selected"
+            v-model="typeSelected"
             required
           >
             <option value="" disabled selected hidden>select type</option>
-            <option
-              v-for="(category, index) in categoryList"
-              :key="index"
-              :value="category"
-            >
-              {{ categoryList[index].category_name }}
-            </option>
+            <option value="user">User</option>
+            <option value="event">Event</option>
+            <option value="web">Web</option>
           </select>
         </div>
         <!-- Input -->
@@ -82,20 +65,20 @@
           <select
             name="gender"
             class="input_select minimal"
-            v-model="selected"
+            v-model="deleteSelected"
             required
           >
-            <option value="" disabled selected hidden>select report</option>
+            <option value="" disabled selected hidden>select type</option>
             <option
-              v-for="(category, index) in categoryList"
-              :key="index"
-              :value="category"
+              v-for="type in selectList"
+              :key="type.report_type_id"
+              :value="type.report_type_id"
             >
-              {{ categoryList[index].category_name }}
+              {{ type.type_name }}
             </option>
           </select>
           <div class="button">
-            <button @click="renameCategory()">Delete</button>
+            <button @click="deleteReportType()">Delete</button>
           </div>
         </div>
         <!-- Input -->
@@ -105,30 +88,31 @@
           <select
             name="gender"
             class="input_select minimal"
-            v-model="selected"
+            v-model="renameSelected"
             required
           >
-            <option value="" disabled selected hidden>select report</option>
+            <option value="" disabled selected hidden>select type</option>
             <option
-              v-for="(category, index) in categoryList"
-              :key="index"
-              :value="category"
+              v-for="type in selectList"
+              :key="type.report_type_id"
+              :value="type.report_type_id"
             >
-              {{ categoryList[index].category_name }}
+              {{ type.type_name }}
             </option>
           </select>
           <div>
             <input
+              v-model="renameReportType"
               class="input_box"
               type="text"
-              maxlength="7"
-              size="7"
+              maxlength="64"
+              size="64"
               placeholder="enter new report name"
             />
           </div>
 
           <div class="button">
-            <button @click="renameCategory()">Rename</button>
+            <button @click="renameReportType()">Rename</button>
           </div>
         </div>
         <!-- Input -->
@@ -137,22 +121,22 @@
           <h2 class="input_title">Add New Report Type</h2>
           <div>
             <input
+              v-model="newReportType"
               class="input_box"
               type="text"
-              maxlength="7"
-              size="7"
+              maxlength="64"
+              size="64"
               placeholder="enter new report name"
             />
           </div>
 
           <div class="button">
-            <button @click="renameCategory()">Rename</button>
+            <button @click="addReportType()">Add</button>
           </div>
         </div>
         <!-- Input -->
         <div class="button-section">
-          <button class="back_button" @click="cancel()">Cancel</button>
-          <button class="create_button" @click="save()">Save</button>
+          <button class="create_button" @click="done()">Done</button>
         </div>
       </div>
     </div>
@@ -160,24 +144,100 @@
 </template>
 
 <script>
-import CategoryService from "@/services/category.service";
+import ReportService from "@/services/report.service";
+
 export default {
   data() {
     return {
-      categoryList: null,
-      selected: ""
+      typeUserList: [],
+      typeEventList: [],
+      typeWebList: [],
+      selectList: [],
+      typeSelected: "",
+      deleteSelected: "",
+      renameSelected: "",
+      renameReportType: "",
+      newReportType: ""
     };
   },
-  created() {
-    CategoryService.getCategoryList().then((res) => {
-      if (res) {
-        this.categoryList = res;
+  watch: {
+    typeSelected: function() {
+      if (this.typeSelected == "user") {
+        this.selectList = this.typeUserList;
       }
-    });
+      else if (this.typeSelected == "event") {
+        this.selectList = this.typeEventList;
+      }
+      else if (this.typeSelected == "web") {
+        this.selectList = this.typeWebList;
+      }
+    }
+  },
+  created() {
+    this.getReportTypeUser();
+    this.getReportTypeEvent();
+    this.getReportTypeWeb();
   },
   methods: {
+    done() {
+      window.location.href = "/admin";
+    },
     back() {
       this.$emit("reportReturn", false);
+    },
+    getReportTypeUser() {
+      ReportService.getReportTypeUserList()
+        .then((res) => {
+          if (res) {
+            this.typeUserList = res;
+          }
+        })
+        .catch(() => {
+          this.typeUserList = [];
+          console.log("Error when get report type list");
+        });
+    },
+    getReportTypeEvent() {
+      ReportService.getReportTypeEventList()
+        .then((res) => {
+          if (res) {
+            this.typeEventList = res;
+          }
+        })
+        .catch(() => {
+          this.typeEventList = [];
+          console.log("Error when get report type list");
+        });
+    },
+    getReportTypeWeb() {
+      ReportService.getReportTypeWebList()
+        .then((res) => {
+          if (res) {
+            this.typeWebList = res;
+          }
+        })
+        .catch(() => {
+          this.typeWebList = [];
+          console.log("Error when get report type list");
+        });
+    },
+    deleteReportType() {
+      if(this.selectList.length > 3) {
+        ReportService.update({report_type_id: this.deleteSelected, status_id: "ST07"}).then(res => {
+          if (res.report_type_id) {
+      //       let index = this.selectList.findIndex(
+      //   (user) => (user.user_id = user_id)
+      // );
+      // if (index > -1) {
+      //   this.requestedList.splice(index, 1);
+      // }
+            console.log(res)
+          }
+        })
+      }
+      else {
+        console.log("Minimum 3 report types")
+      }
     }
   }
 };
@@ -376,8 +436,12 @@ option {
   padding: 5px 18px;
 }
 
+.button-section {
+    justify-content:flex-end !important;
+  }
+
 .input_box {
-  width: calc(100% - 30px) !important;
+  width: 250px !important;
   margin-top: 10px !important;
 }
 
@@ -387,6 +451,7 @@ option {
   }
 
   .button-section {
+    width:inherit;
     margin-top: 10px;
   }
 

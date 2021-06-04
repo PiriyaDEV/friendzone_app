@@ -17,11 +17,27 @@
           <h1 @click="clickEventDetail()" :class="cssEventDetail">
             Event Details
           </h1>
-          <h1 v-if="!eventPending " @click="clickParticipants()" :class="cssParticipants">
+          <h1
+            v-if="!eventPending"
+            @click="clickParticipants()"
+            :class="cssParticipants"
+          >
             Participants
           </h1>
-          <h1 v-if="!eventPending && !showEnd && joined"  @click="clickRequest()" :class="cssRequest">Request</h1>
-          <h1 v-if="!eventPending && !showEnd && joined"  @click="clickInvite()" :class="cssInvite">Invite</h1>
+          <h1
+            v-if="!eventPending && !showEnd && joined"
+            @click="clickRequest()"
+            :class="cssRequest"
+          >
+            Request
+          </h1>
+          <h1
+            v-if="!eventPending && !showEnd && joined"
+            @click="clickInvite()"
+            :class="cssInvite"
+          >
+            Invite
+          </h1>
         </div>
         <hr id="bar" />
 
@@ -77,13 +93,21 @@ export default {
       participants: false,
       request: false,
       invite: false,
-      valueShow: 1,
+      valueShow: 1
     };
   },
-  props: ["Event", "valueDetail", "valueManage","eventPending","valueView","showEnd","joined"],
+  props: [
+    "Event",
+    "valueDetail",
+    "valueManage",
+    "eventPending",
+    "valueView",
+    "showEnd",
+    "joined"
+  ],
   components: {
     EventInfo,
-    Participant,
+    Participant
   },
   methods: {
     cancelManage() {
@@ -124,8 +148,11 @@ export default {
       this.$emit("updateStatus", value);
     },
     information(value) {
-      this.$emit("confirmDelete", {event_id: this.Event.event_id, title: this.Event.title});
-      this.$emit("informationShow",value)
+      this.$emit("confirmDelete", {
+        event_id: this.Event.event_id,
+        title: this.Event.title
+      });
+      this.$emit("informationShow", value);
     }
   },
   computed: {
@@ -160,8 +187,8 @@ export default {
         return select;
       }
       return deselect;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -227,7 +254,6 @@ h1 {
 }
 
 @media screen and (max-width: 690px) {
-
   #bar {
     margin-top: -11px;
   }

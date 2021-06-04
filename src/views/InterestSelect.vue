@@ -83,7 +83,10 @@ export default {
 
       this.categoryList.forEach((category) => {
         if (category.status) {
-          categoryInterest.push({category_id: category.category_id, interest: true});
+          categoryInterest.push({
+            category_id: category.category_id,
+            interest: true
+          });
         }
       });
 

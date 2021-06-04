@@ -1,8 +1,9 @@
 <template>
-  <div id="admin-report" class="event-container">
+  <div id="admin-search" class="event-container">
     <div>
       <h1 id="searchtext" class="event-header">
-        23 items match your search
+        {{ discountList.length + userList.length + reportList.length }} items
+        match your search
         <span class="orange-color">“{{ searchValue }}”</span>
       </h1>
       <div id="title-box">
@@ -13,7 +14,7 @@
         </div>
       </div>
 
-      <div>
+      <div v-if="discountList.length">
         <div id="report-menu">
           <div id="report-middle-menu-discount">
             <h1 id="menu-text-id" class="menu-text">ID</h1>
@@ -26,7 +27,7 @@
           <div id="space-button-discount"></div>
         </div>
         <div id="report-box">
-          <div v-for="(discount, i) in discountListShow" :key="i">
+          <div v-for="discount in discountList" :key="discount.discount_id">
             <ReportBox
               :discountList="discount"
               :discount="true"
@@ -35,6 +36,7 @@
           </div>
         </div>
       </div>
+      <div v-else><NoInformation :adminSearch="true" /></div>
 
       <div id="title-box" class="title-box-space">
         <h1 class="title header white-color">USER</h1>
@@ -44,7 +46,7 @@
         </div>
       </div>
 
-      <div>
+      <div v-if="userList.length">
         <div id="report-menu">
           <div id="report-middle-menu-user">
             <h1 id="menu-text-id" class="menu-text">USERNAME</h1>
@@ -55,7 +57,7 @@
           <div id="space-button-user"></div>
         </div>
         <div id="report-box">
-          <div v-for="(user, i) in userListShow" :key="i">
+          <div v-for="user in userList" :key="user.user_id">
             <ReportBox
               :userList="user"
               :user="true"
@@ -64,16 +66,17 @@
           </div>
         </div>
       </div>
+      <div v-else><NoInformation :adminSearch="true" /></div>
 
       <div id="title-box" class="title-box-space">
         <h1 class="title header white-color">REPORT</h1>
-         <div @click="recentClick()" class="second-title">
+        <div @click="recentClick()" class="second-title">
           <h1>See All</h1>
           <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
         </div>
       </div>
 
-      <div>
+      <div v-if="reportList.length">
         <div id="report-menu">
           <div id="report-middle-menu-report">
             <h1 id="menu-text-id" class="menu-text">ID</h1>
@@ -85,7 +88,7 @@
           <div id="space-button-report"></div>
         </div>
         <div id="report-box">
-          <div v-for="(report, i) in reportListShow" :key="i">
+          <div v-for="report in reportList" :key="report.report_id">
             <ReportBox
               :approver="false"
               :reportList="report"
@@ -95,6 +98,7 @@
           </div>
         </div>
       </div>
+      <div v-else><NoInformation :adminSearch="true" /></div>
     </div>
   </div>
 </template>
@@ -102,64 +106,74 @@
 <script>
 import ReportBox from "@/components/admin/report/ReportBox.vue";
 import AdminService from "@/services/admin.service";
+import NoInformation from "@/components/NoInformation.vue";
+
 export default {
-  name: "admin-report",
+  name: "admin-search",
   data() {
     return {
-      reportListShow: [],
-      reportList: [],
-      filter: "all"
+      discountList: [],
+      userList: [],
+      reportList: []
     };
   },
   components: {
-    ReportBox
+    ReportBox,
+    NoInformation
+  },
+  props: ["searchValue"],
+  created() {
+    this.search(this.searchValue);
   },
   watch: {
-    filter: function() {
-      this.reportListShow = [];
-      if (this.filter == "all") this.reportListShow = this.reportList;
-      else if (this.filter == "waiting") {
-        this.reportListShow = this.reportList.filter((report) => {
-          return report.status == "Waiting";
-        });
-      } else if (this.filter == "read") {
-        this.reportListShow = this.reportList.filter((report) => {
-          return report.status == "Read";
-        });
-      } else if (this.filter == "banned") {
-        this.reportListShow = this.reportList.filter((report) => {
-          return report.status == "Banned";
-        });
-      } else if (this.filter == "deleted") {
-        this.reportListShow = this.reportList.filter((report) => {
-          return report.status == "Deleted";
-        });
-      }
+    searchValue: function(searchValue) {
+      this.discountList = [];
+      this.userList = [];
+      this.reportList = [];
+      this.search(searchValue);
     }
-  },
-  created() {
-    AdminService.getReportList()
-      .then((res) => {
-        if (res) {
-          this.reportListShow = res;
-          this.reportList = res;
-        }
-      })
-      .catch(() => {
-        this.reportListShow = [];
-        this.reportList = [];
-      });
   },
   methods: {
     reportData(value) {
       this.$emit("reportData", value);
+    },
+    search(searchValue) {
+      if (searchValue) {
+        AdminService.searchDiscount(searchValue)
+          .then((res) => {
+            if (res) {
+              this.discountList = res;
+            }
+          })
+          .catch(() => {
+            this.discountList = [];
+          });
+        AdminService.searchUser(searchValue)
+          .then((res) => {
+            if (res) {
+              this.userList = res;
+            }
+          })
+          .catch(() => {
+            this.userList = [];
+          });
+        AdminService.searchReport(searchValue)
+          .then((res) => {
+            if (res) {
+              this.reportList = res;
+            }
+          })
+          .catch(() => {
+            this.reportList = [];
+          });
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-#admin-report {
+#admin-search {
   margin-top: 110px;
   margin-bottom: 30px;
   overflow-x: hidden;
@@ -178,8 +192,8 @@ option {
   margin: 0px;
 }
 
-.title-box-space{
-  margin-top:20px;
+.title-box-space {
+  margin-top: 20px;
 }
 
 #title-box {
@@ -198,7 +212,6 @@ option {
   font-weight: 500;
 }
 
-
 .second-title {
   display: flex;
   align-items: center;
@@ -215,7 +228,7 @@ option {
 }
 
 #searchtext {
-  color:#FFFFFF;
+  color: #ffffff;
   margin-top: 0px;
   font-size: 2em;
   font-weight: 500;
@@ -271,6 +284,12 @@ option {
 
 #space-button-user {
   width: 50px;
+}
+
+@media screen and (max-width: 880px) {
+  #admin-search {
+    margin-top: 0px;
+  }
 }
 
 @media screen and (max-width: 690px) {

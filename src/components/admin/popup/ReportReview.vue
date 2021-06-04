@@ -235,15 +235,13 @@ export default {
     min-width: inherit;
   }
 
-  #drop-btn
-    {
+  #drop-btn {
     margin-right: 10px;
-    }
+  }
 
-  #action-btn
-    {
+  #action-btn {
     margin-left: 10px;
-    }
+  }
 
   .create_button,
   .back_button {

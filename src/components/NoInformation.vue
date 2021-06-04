@@ -1,14 +1,14 @@
 <template>
   <div id="box-container" class="section">
-    <div id="info-box">
+    <div id="info-box" :class="cssAdmin">
       <h1>No Information.</h1>
     </div>
   </div>
 </template>
-
+ :class=""
 <script>
 export default {
-    props:["invite"],
+    props:["invite","adminSearch"],
     computed: {
       cssinvite() {
         let invitepage = "info-box-invite"
@@ -17,7 +17,15 @@ export default {
             return invitepage
           }
           return anotherpage
-      }
+      },
+      cssAdmin() {
+        let searchpage = "noinfo-admin-search";
+        let anotherpage = "";
+         if(this.adminSearch == true) {
+           return searchpage
+         }
+         return anotherpage
+      },
     }
 };
 </script>
@@ -32,6 +40,10 @@ export default {
   padding: 80px 10px;
   width: 100%;
   text-align: center;
+}
+
+.noinfo-admin-search{
+  padding: 25px 10px !important;
 }
 
 #info-box > h1 {

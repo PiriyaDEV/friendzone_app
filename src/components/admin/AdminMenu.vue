@@ -134,7 +134,7 @@ import AuthService from "./../../services/auth.service";
 
 export default {
   name: "Mainpage",
-  props:["goReport"],
+  props: ["goReport"],
   data() {
     return {
       mainpageselect: true,
@@ -146,8 +146,8 @@ export default {
   },
   watch: {
     goReport: function() {
-      if(this.goReport == true) {
-        this.reportClick()
+      if (this.goReport == true) {
+        this.reportClick();
       }
     }
   },
