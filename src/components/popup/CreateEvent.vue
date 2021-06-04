@@ -479,40 +479,39 @@ export default {
       this.role = userData.role_id;
     },
     ClickCreate() {
-      if(!this.event.title) {
-        alert("Invalid title")
-      } else if(!this.event.description) {
-        alert("Invalid description")
-      } else if(!this.event_pic) {
-        alert("Invalid event_pic")
-      } else if(!this.event.location) {
-        alert("Invalid location")
-      } else if(!this.date_start.h1) {
-        alert("Invalid location")
-      } else if(!this.date_start.h2) {
-        alert("Invalid location")
-      } else if(!this.date_start.m1) {
-        alert("Invalid location")
-      } else if(!this.date_start.m2) {
-        alert("Invalid location")
-      } else if(!this.date_end.h1) {
-        alert("Invalid location")
-      } else if(!this.date_end.h2) {
-        alert("Invalid location")
-      } else if(!this.date_end.m1) {
-        alert("Invalid location")
-      } else if(!this.date_end.m2) {
-        alert("Invalid location")
-      } else if(!this.gender_value) {
-        alert("Invalid gender")
-      } else if(!this.category_value) {
-        alert("Invalid category")
-      } else if(this.event.min_age < 13) {
-        alert("Invalid age")
+      if (!this.event.title) {
+        alert("Invalid title");
+      } else if (!this.event.description) {
+        alert("Invalid description");
+      } else if (!this.event_pic) {
+        alert("Invalid event_pic");
+      } else if (!this.event.location) {
+        alert("Invalid location");
+      } else if (!this.date_start.h1) {
+        alert("Invalid location");
+      } else if (!this.date_start.h2) {
+        alert("Invalid location");
+      } else if (!this.date_start.m1) {
+        alert("Invalid location");
+      } else if (!this.date_start.m2) {
+        alert("Invalid location");
+      } else if (!this.date_end.h1) {
+        alert("Invalid location");
+      } else if (!this.date_end.h2) {
+        alert("Invalid location");
+      } else if (!this.date_end.m1) {
+        alert("Invalid location");
+      } else if (!this.date_end.m2) {
+        alert("Invalid location");
+      } else if (!this.gender_value) {
+        alert("Invalid gender");
+      } else if (!this.category_value) {
+        alert("Invalid category");
+      } else if (this.event.min_age < 13) {
+        alert("Invalid age");
       } else if (this.event.max_participant < 1) {
-        alert("Invalid participant")
-      }
-      else {
+        alert("Invalid participant");
+      } else {
         this.hs = this.date_start.h1 + this.date_start.h2;
         this.ms = this.date_start.m1 + this.date_start.m1;
         this.he = this.date_end.h1 + this.date_end.h2;
@@ -566,9 +565,9 @@ export default {
               ).then((res) => {
                 if (res) {
                   console.log(res);
-                  if(this.role == "RO01") {
+                  if (this.role == "RO01") {
                     this.$router.push("/");
-                  }else {
+                  } else {
                     this.$emit("informationShow", true);
                   }
                 }

@@ -358,7 +358,7 @@ export default {
             if (res.user_id) {
               let userLocal = decode(localStorage.getItem("user"));
               if (userLocal.role_id == "RO01") {
-                this.$emit("clickEdit", false);
+                window.location.href = "/admin";
               } else {
                 window.location.href = "/mainpage";
               }

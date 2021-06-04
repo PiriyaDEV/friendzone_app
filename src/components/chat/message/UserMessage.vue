@@ -68,7 +68,7 @@ export default {
 #message {
   display: flex;
   justify-content: flex-start;
-  position:relative;
+  position: relative;
 }
 
 #username {

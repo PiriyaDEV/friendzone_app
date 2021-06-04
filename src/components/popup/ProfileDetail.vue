@@ -415,9 +415,16 @@
 
             <div v-if="adminEdit" id="profile-button-section">
               <div id="profile-button">
-                <button @click="clickEdit()">EDIT PROFILE</button>
-                <button @click="clickInterest()">INTERESTED</button>
-                <button @click="clickPassword()">CHANGE PASSWORD</button>
+                <div>
+                </div>
+                <div>
+                  <button @click="clickEdit()">EDIT PROFILE</button>
+                </div>
+                <div>
+                  <button @click="clickInterest()">INTERESTED</button>
+                </div>
+                <div>
+                </div>
               </div>
             </div>
           </div>
@@ -459,11 +466,24 @@
             />
           </div>
 
-          <ProfileInterest
+          <div v-if="!adminEdit">
+            <ProfileInterest
             v-if="interestShow == true"
             @showBack="showBack"
             :profileDetail="interestShow"
-          />
+            :userId="user.user_id"
+            />
+          </div>
+
+          <div  v-if="adminEdit">
+            <ProfileInterest
+            v-if="interestShow == true"
+            @showBack="showBack"
+            :profileDetail="interestShow"
+            :userId="customerData.user_id"
+            />
+          </div>
+          
           <ChangePassword v-if="changePassword == true" @showBack="showBack" />
         </div>
 
@@ -592,11 +612,9 @@ export default {
     },
     clickDemoAdmin() {
       if (this.demoRole == 1) {
-        this.$emit("demoAdmin", 2);
-        this.$emit("clickDetail", false);
+        this.$router.push("/admin");
       } else {
-        this.$emit("demoAdmin", 1);
-        this.$emit("clickDetail", false);
+        this.$router.push("/");
       }
     },
     clickEdit() {
@@ -637,7 +655,7 @@ export default {
               res.user_id
             ).then((res) => {
               if (res) {
-                window.location.href = "/mainpage";
+                window.location.href = "/admin";
               }
             });
           }

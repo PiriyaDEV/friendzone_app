@@ -1,8 +1,14 @@
 <template>
   <div id="discount-page" class="event-container">
     <div id="banner">
-      <img class="banner-pc" src="../assets/Banner/Promotion_Banner_long-01.png"/>
-      <img class="banner-tablet" src="../assets/Banner/Promotion_Banner-01.png"/>
+      <img
+        class="banner-pc"
+        src="../assets/Banner/Promotion_Banner_long-01.png"
+      />
+      <img
+        class="banner-tablet"
+        src="../assets/Banner/Promotion_Banner-01.png"
+      />
     </div>
 
     <h1 id="discount-title" class="event-header">HOT DISCOUNT</h1>
@@ -90,12 +96,12 @@ export default {
   watch: {
     decrement: function() {
       if (this.decrement != null) {
-        this.discountBrowseList.forEach(discount => {
+        this.discountBrowseList.forEach((discount) => {
           if (discount.discount_id == this.decrement) {
             discount.myDiscount++;
           }
         });
-        this.discountHotList.forEach(discount => {
+        this.discountHotList.forEach((discount) => {
           if (discount.discount_id == this.decrement) {
             discount.myDiscount++;
           }
@@ -160,19 +166,20 @@ export default {
   margin-bottom: 25px;
 }
 
-#banner > img{
+#banner > img {
   width: 100%;
   border-radius: 10px;
   object-fit: cover;
-  height:100%;
+  height: 100%;
 }
 
-.banner-pc{
-  display:block;
+.banner-pc {
+  display: block;
 }
 
-.banner-tablet,.banner-mobile{
-  display:none;
+.banner-tablet,
+.banner-mobile {
+  display: none;
 }
 
 #container {
@@ -181,13 +188,14 @@ export default {
 }
 
 @media screen and (max-width: 1060px) {
-.banner-pc,.banner-mobile{
-  display:none;
-}
+  .banner-pc,
+  .banner-mobile {
+    display: none;
+  }
 
-.banner-tablet{
-  display:block;
-}
+  .banner-tablet {
+    display: block;
+  }
 }
 
 @media screen and (max-width: 768px) {

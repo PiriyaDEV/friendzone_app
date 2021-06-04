@@ -127,7 +127,7 @@
 
         <!-- <button>Click</button> -->
       </div>
-      
+
       <div v-if="isMod">
         <button @click="declineRequest()" class="button decline">
           Decline
@@ -317,11 +317,12 @@ h1 {
   color: #444444;
 }
 
-.userbox{
-background-color: #f0f0f0;
+.userbox {
+  background-color: #f0f0f0;
 }
 
-.userbox-admin,.userbox{
+.userbox-admin,
+.userbox {
   border-radius: 23px;
   border: none;
   padding: 3px;

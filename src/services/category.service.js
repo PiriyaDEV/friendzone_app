@@ -1,5 +1,4 @@
 import axios from "axios";
-import decode from "jwt-decode";
 import authHeader from "./auth-header";
 
 const PORT = require("../services/port.config").PORT;
@@ -13,9 +12,40 @@ class CategoryService {
         return response.data;
       });
   }
-  
+
+  async update(data) {
+    return axios
+      .post(URL + "update", data, { headers: authHeader() })
+      .then((response) => {
+        return response.data;
+      });
+  }
+
+  async uploadCategoryIcon(formData, category_id, color) {
+    return await axios
+      .post(
+        URL +
+          "uploadCategoryIcon?category_id=" +
+          category_id +
+          "&type=" +
+          color,
+        formData,
+        {
+          headers: authHeader()
+        }
+      )
+      .then((response) => {
+        console.log("response " + response);
+        return response.data;
+      })
+      .catch(() => {
+        // console.log("err" + err)
+        return "err";
+      });
+  }
+
   async getCategoryList() {
-    const res = await axios.get(URL + "getCategoryList");
+    const res = await axios.get(URL + "getCategoryList", { headers: authHeader() });
 
     var categoryList = res.data;
 
@@ -29,11 +59,10 @@ class CategoryService {
     return categoryList;
   }
 
-  async getCategoryFromUserID() {
-    let userData = decode(localStorage.getItem("user"));
-    const res = await axios.get(URL + "getCategoryFromUserID/" + userData.user_id);
-    var categoryList = res.data;
-    return categoryList;
+  async getCategoryFromUserID(user_id) {
+    const res = await axios.get(URL + "getCategoryFromUserID/" + user_id , { headers: authHeader() });
+
+    return res.data;
   }
 }
 

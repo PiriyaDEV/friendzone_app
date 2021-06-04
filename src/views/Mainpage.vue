@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- User -->
-    <div v-if="role == 1" id="mainpage">
+    <div id="mainpage">
       <CreateEvent
         v-if="createShow == true"
         @clickCreate="clickCreate"
@@ -193,83 +193,6 @@
     </div>
     <!-- User -->
     
-    <!-- Admin -->
-    <div v-if="role == 2" id="mainpage-admin">
-
-      <PointDetail v-if="pointPage == true" @point="point" />
-
-      <Notification
-        v-if="notiShow == true"
-        @notificationShow="notificationShow"
-      />
-
-      <ProfileDetail
-        v-if="detailShow == true"
-        @clickDetail="clickDetail"
-        @demoAdmin="demoAdmin"
-        :customerData="customer"
-        :dataUser="dataUser"
-        :findUser="findUser"
-        :demoRole="role"
-      />
-
-      <ReportReview v-if="reportReviewShow == true" :reportList="dataReport" @reportData="reportData"/>
-
-      <EditUser v-if="editShow" @clickEdit="clickEdit" />
-
-      <EditDatabase
-        v-if="editDatabaseShow == true"
-        @editDatabase="editDatabase"
-      />
-
-      <CreateDiscount v-if="createShow" :discountList="dataDiscountEdit" @clickCreate="clickCreate" />
-
-      <!-- Mobile Top Bar -->
-      <MobileTopbar
-        id="mobile-topbar"
-        :admin="true"
-        @clickDetail="clickDetail"
-        @pageReturnAdmin="pageReturnAdmin"
-        @point="point"
-        @notificationShow="notificationShow"
-      />
-      <!-- Mobile Top Bar -->
-
-      <div id="mainpage-background" class="section">
-        <AdminMenu id="menubar" :goReport="goReport" @pageReturnAdmin="pageReturnAdmin" @clickClearSearch="clickClearSearch"/>
-        <div id="timeline">
-          <Topbar
-            @demoAdmin="demoAdmin"
-            @clickDetail="clickDetail"
-            @point="point"
-            @notificationShow="notificationShow"
-            @searchData="searchData"
-            :demoRole="role"
-            :clearSearch="clearSearched"
-            @clickClearSearch="clickClearSearch"
-          />
-
-          <AdminSearch v-if="searchBar"/>
-
-          <AdminMainpage
-            v-if="selectAdmin == 1 && !searchBar" 
-            @clickCreate="clickCreate"
-            @clickEdit="clickEdit"
-            @editDatabase="editDatabase"
-            @goToReport="goToReport"
-            @reportData="reportData"
-          />
-
-          <AdminDiscount v-if="selectAdmin == 3 && !searchBar" @editDiscountData="editDiscountData"/>
-
-          <AdminUser v-if="selectAdmin == 4 && !searchBar" @customerData="customerData"/>
-
-          <AdminReport v-if="selectAdmin == 5 && !searchBar" @reportData="reportData"/>
-
-        </div>
-      </div>
-    </div>
-    <!-- Admin -->
   </div>
 </template>
 
@@ -290,16 +213,6 @@ import DiscountPopup from "@/components/popup/DiscountPopup.vue";
 import ManageEvent from "@/components/popup/manageEvent/ManageEvent.vue";
 import Searchpage from "@/components/Searchpage.vue";
 import History from "@/components/History.vue";
-import AdminMainpage from "@/components/admin/AdminMainpage.vue";
-import AdminMenu from "@/components/admin/AdminMenu.vue";
-import AdminSearch from "@/components/admin/AdminSearch.vue";
-import AdminReport from "@/components/admin/report/AdminReport.vue";
-import AdminUser from "@/components/admin/user/AdminUser.vue";
-import AdminDiscount from "@/components/admin/discount/AdminDiscount.vue";
-import CreateDiscount from "@/components/admin/popup/CreateDiscount.vue";
-import EditUser from "@/components/admin/popup/EditUser.vue";
-import ReportReview from "@/components/admin/popup/ReportReview.vue";
-import EditDatabase from "@/components/admin/popup/EditDatabase.vue";
 import WaitBox from "@/components/popup/WaitBox.vue";
 import AnalystPage from "@/components/AnalystPage.vue";
 import ApproverPage from "@/components/ApproverPage.vue";
@@ -324,27 +237,12 @@ export default {
     ManageEvent,
     Searchpage,
     History,
-    AdminMainpage,
-    AdminMenu,
-    AdminReport,
-    CreateDiscount,
-    EditUser,
-    EditDatabase,
     MobileTopbar,
     WaitBox,
     AnalystPage,
     ApproverPage,
     PointDetail,
     Notification,
-    AdminUser,
-    AdminDiscount,
-    ReportReview,
-    AdminSearch
-  },
-  watch:{
-    role: function() {
-      this.selectAdmin = 1
-    }
   },
   data() {
     return {
@@ -361,10 +259,8 @@ export default {
       clearSearched: false,
       confirmDeleteData: null,
       manageShow: false,
-      editDatabaseShow: false,
       discount: [],
       role: 1,
-      selectAdmin: 1,
       eventData: "",
       deleteShow: false,
       valueDetail: false,
@@ -381,11 +277,6 @@ export default {
       notiShow: false,
       waitboxError: "",
       Quota: "",
-      goReport: false,
-      reportReviewShow: false,
-      dataReport:[],
-      dataDiscountEdit: null,
-      customer:null,
     };
   },
   computed: {
@@ -399,18 +290,6 @@ export default {
     }
   },
   methods: {
-    editDiscountData(value) {
-      this.dataDiscountEdit = value;
-      this.createShow = true;
-    },
-    reportData(value) {
-      if(value == false) {
-        this.reportReviewShow = value;
-      } else {
-        this.dataReport = value;
-       this.reportReviewShow = true;
-      }
-    },
     pageReturn(value) {
       this.select = value;
       this.searchBar = "";
@@ -453,16 +332,6 @@ export default {
     },
     clickDiscount2(value) {
       this.discountShow2 = value;
-    },
-    demoAdmin(value) {
-      this.role = value;
-    },
-    pageReturnAdmin(value) {
-      this.searchBar = "";
-      this.selectAdmin = value;
-    },
-    editDatabase(value) {
-      this.editDatabaseShow = value;
     },
     thisEvent(value) {
       this.eventData = value;
@@ -554,13 +423,6 @@ export default {
     },
     decrementQuota(value) {
       this.Quota = value;
-    },
-    goToReport(value) {
-      this.goReport = value;
-    },
-    customerData(value) {
-      this.customer = value;
-      this.detailShow = true;
     },
   }
 };

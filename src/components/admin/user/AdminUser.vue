@@ -25,7 +25,7 @@
           <div id="space-button"></div>
         </div>
         <div id="report-box">
-          <NoInformation v-if="userListShow.length == 0"/>
+          <NoInformation v-if="userListShow.length == 0" />
           <div v-for="(user, i) in userListShow" :key="i">
             <ReportBox
               :userList="user"
@@ -61,15 +61,17 @@ export default {
         this.userListShow = this.userList.filter((user) => {
           return user.role == "Administrator";
         });
-      }
-      if (this.filter == "analyst") {
+      } else if (this.filter == "analyst") {
         this.userListShow = this.userList.filter((user) => {
           return user.role == "Analyst";
         });
-      }
-      if (this.filter == "approver") {
+      } else if (this.filter == "approver") {
         this.userListShow = this.userList.filter((user) => {
           return user.role == "Approver";
+        });
+      } else if (this.filter == "user") {
+        this.userListShow = this.userList.filter((user) => {
+          return user.role == "User";
         });
       } else if (this.filter == "normal") {
         this.userListShow = this.userList.filter((user) => {

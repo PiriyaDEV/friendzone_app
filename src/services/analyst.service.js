@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "./auth-header";
 const PORT = require("../services/port.config").PORT;
 
 const API_URL = `${PORT}/api/analyst/`;
@@ -6,7 +7,7 @@ const CAT_URL = `${PORT}/api/category/`;
 
 class AnalystService {
   async getAppSummary() {
-    const res = await axios.get(API_URL + "getAppSummary").catch(() => {
+    const res = await axios.get(API_URL + "getAppSummary",  { headers: authHeader() }).catch(() => {
       return "err";
     });
 
@@ -14,7 +15,7 @@ class AnalystService {
   }
 
   async getEventSummary() {
-    const res = await axios.get(API_URL + "getEventSummary").catch(() => {
+    const res = await axios.get(API_URL + "getEventSummary",  { headers: authHeader() }).catch(() => {
       return "err";
     });
 
@@ -22,22 +23,27 @@ class AnalystService {
   }
 
   async getEventCategorySummary() {
-    const res = await axios.get(API_URL + "getEventCategorySummary").catch(() => {
-      return "err";
-    });
+    const res = await axios
+      .get(API_URL + "getEventCategorySummary",  { headers: authHeader() })
+      .catch(() => {
+        return "err";
+      });
 
     var categoryList = res.data;
 
     await categoryList.forEach((category) => {
       category.icon_white =
-      CAT_URL + "displayIcon?category_id=" + category.category_id + "&type=white";
+        CAT_URL +
+        "displayIcon?category_id=" +
+        category.category_id +
+        "&type=white";
     });
 
     return categoryList;
   }
 
   async getUserSummary() {
-    const res = await axios.get(API_URL + "getUserSummary").catch(() => {
+    const res = await axios.get(API_URL + "getUserSummary",  { headers: authHeader() }).catch(() => {
       return "err";
     });
 
@@ -45,7 +51,7 @@ class AnalystService {
   }
 
   async getUserHistorySummary() {
-    const res = await axios.get(API_URL + "getUserHistorySummary").catch(() => {
+    const res = await axios.get(API_URL + "getUserHistorySummary",  { headers: authHeader() }).catch(() => {
       return "err";
     });
 
@@ -53,7 +59,7 @@ class AnalystService {
   }
 
   async getDiscountSummary() {
-    const res = await axios.get(API_URL + "getDiscountSummary").catch(() => {
+    const res = await axios.get(API_URL + "getDiscountSummary",  { headers: authHeader() }).catch(() => {
       return "err";
     });
 
@@ -61,7 +67,7 @@ class AnalystService {
   }
 
   async getReportSummary() {
-    const res = await axios.get(API_URL + "getReportSummary").catch(() => {
+    const res = await axios.get(API_URL + "getReportSummary",  { headers: authHeader() }).catch(() => {
       return "err";
     });
 
@@ -69,7 +75,7 @@ class AnalystService {
   }
 
   async getReportTypeSummary() {
-    const res = await axios.get(API_URL + "getReportTypeSummary").catch(() => {
+    const res = await axios.get(API_URL + "getReportTypeSummary",  { headers: authHeader() }).catch(() => {
       return "err";
     });
 
@@ -78,4 +84,3 @@ class AnalystService {
 }
 
 export default new AnalystService();
-

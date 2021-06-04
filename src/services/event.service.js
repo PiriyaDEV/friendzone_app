@@ -59,6 +59,8 @@ class EventService {
   async findEventByID(event_id) {
     const res = await axios.post(API_URL + "findEventByID", {
       event_id: event_id
+    },{
+      headers: authHeader()
     });
     if (res) {
       return res.data;
@@ -230,8 +232,7 @@ class EventService {
 
     await res.data.forEach((event) => {
       event.event_pic = API_URL + "displayPic/" + event.event_id;
-      event.host_pic =
-        `${PORT}/api/user/displayPic/` + user.user_id;
+      event.host_pic = `${PORT}/api/user/displayPic/` + user.user_id;
 
       let start_at = new Date(event.start_at);
       let end_at = new Date(event.end_at);
@@ -262,8 +263,7 @@ class EventService {
 
     await res.data.forEach((event) => {
       event.event_pic = API_URL + "displayPic/" + event.event_id;
-      event.host_pic =
-        `${PORT}/api/user/displayPic/` + event.user_id;
+      event.host_pic = `${PORT}/api/user/displayPic/` + event.user_id;
 
       let start_at = new Date(event.start_at);
       let end_at = new Date(event.end_at);
@@ -294,8 +294,7 @@ class EventService {
 
     await res.data.forEach((event) => {
       event.event_pic = API_URL + "displayPic/" + event.event_id;
-      event.host_pic =
-        `${PORT}/api/user/displayPic/` + event.user_id;
+      event.host_pic = `${PORT}/api/user/displayPic/` + event.user_id;
 
       let start_at = new Date(event.start_at);
       let end_at = new Date(event.end_at);
@@ -329,8 +328,7 @@ class EventService {
 
     await res.data.forEach((event) => {
       event.event_pic = API_URL + "displayPic/" + event.event_id;
-      event.host_pic =
-        `${PORT}/api/user/displayPic/` + event.user_id;
+      event.host_pic = `${PORT}/api/user/displayPic/` + event.user_id;
 
       let start_at = new Date(event.start_at);
       let end_at = new Date(event.end_at);
@@ -364,8 +362,7 @@ class EventService {
 
     await res.data.forEach((event) => {
       event.event_pic = API_URL + "displayPic/" + event.event_id;
-      event.host_pic =
-        `${PORT}/api/user/displayPic/` + event.user_id;
+      event.host_pic = `${PORT}/api/user/displayPic/` + event.user_id;
 
       let start_at = new Date(event.start_at);
       let end_at = new Date(event.end_at);
@@ -399,8 +396,7 @@ class EventService {
 
     await res.data.forEach((event) => {
       event.event_pic = API_URL + "displayPic/" + event.event_id;
-      event.host_pic =
-        `${PORT}/api/user/displayPic/` + event.user_id;
+      event.host_pic = `${PORT}/api/user/displayPic/` + event.user_id;
 
       let start_at = new Date(event.start_at);
       let end_at = new Date(event.end_at);
@@ -441,7 +437,7 @@ class EventService {
   }
 
   async getEventCount() {
-    const res = await axios.get(API_URL + "getEventCount");
+    const res = await axios.get(API_URL + "getEventCount",  { headers: authHeader() });
     return res.data;
   }
 

@@ -27,7 +27,6 @@
 import decode from "jwt-decode";
 const PORT = require("@/services/port.config").PORT;
 
-
 export default {
   data() {
     return {

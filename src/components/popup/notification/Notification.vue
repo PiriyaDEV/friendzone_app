@@ -8,7 +8,10 @@
 
         <div v-if="notificationList.length" id="noti-list-box">
           <div v-for="(item, i) in notificationList" :key="i" id="noti-list">
-            <NotificationBox :information="item" @decrementList="decrementList(i)"/>
+            <NotificationBox
+              :information="item"
+              @decrementList="decrementList(i)"
+            />
           </div>
         </div>
         <div v-else class="no-info-noti"><NoInformation /></div>
@@ -53,7 +56,7 @@ export default {
       if (value > -1) {
         this.notificationList.splice(value, 1);
       }
-    },
+    }
   }
 };
 </script>
@@ -78,7 +81,7 @@ div::-webkit-scrollbar {
   margin-bottom: 30px;
 }
 
-.no-info-noti{
+.no-info-noti {
   width: 300px;
 }
 
@@ -97,9 +100,9 @@ div::-webkit-scrollbar {
     padding: 0px 30px !important;
   }
 
-  .no-info-noti{
-  width: 240px;
-}
+  .no-info-noti {
+    width: 240px;
+  }
 
   #noti-list {
     max-height: 375px;

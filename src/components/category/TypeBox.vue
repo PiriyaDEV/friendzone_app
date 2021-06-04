@@ -120,7 +120,7 @@ export default {
   .box-admin {
     width: 100px !important;
     padding-left: 10px !important;
-    font-size:0.8em !important;
+    font-size: 0.8em !important;
   }
 }
 
@@ -134,7 +134,6 @@ export default {
   #text-box {
     width: 182px;
   }
-
 }
 
 @media screen and (max-width: 570px) {
@@ -153,7 +152,6 @@ export default {
     padding-left: 10px;
   }
 
-
   #text-box > h1 {
     font-size: 1.5em;
   }
@@ -163,8 +161,6 @@ export default {
   #text-box {
     width: 144px;
   }
-
-
 }
 
 @media screen and (max-width: 450px) {
@@ -186,7 +182,6 @@ export default {
     justify-content: flex-start;
     margin-bottom: 10px;
   }
-
 
   #category-list {
     width: 100%;

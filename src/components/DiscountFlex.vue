@@ -16,7 +16,7 @@
               FREE
             </span>
             <span v-else>
-              {{discount.redeem_point}}
+              {{ discount.redeem_point }}
             </span>
           </h1>
         </div>
@@ -63,7 +63,7 @@ export default {
 
 .discount-title {
   width: 200px;
-  padding-top:4px;
+  padding-top: 4px;
   height: 34px;
   margin-top: 0px;
   margin-bottom: 0px;

@@ -194,42 +194,6 @@ export default {
     reportReturn() {
       this.$emit("clickReport", false);
     },
-    getReportTypeUser() {
-      ReportService.getReportTypeUserList()
-        .then((res) => {
-          if (res) {
-            this.reportTypeList = res;
-          }
-        })
-        .catch(() => {
-          this.reportTypeList = [];
-          console.log("Error when get report type list");
-        });
-    },
-    getReportTypeEvent() {
-      ReportService.getReportTypeEventList()
-        .then((res) => {
-          if (res) {
-            this.reportTypeList = res;
-          }
-        })
-        .catch(() => {
-          this.reportTypeList = [];
-          console.log("Error when get report type list");
-        });
-    },
-    getReportTypeWeb() {
-      ReportService.getReportTypeWebList()
-        .then((res) => {
-          if (res) {
-            this.reportTypeList = res;
-          }
-        })
-        .catch(() => {
-          this.reportTypeList = [];
-          console.log("Error when get report type list");
-        });
-    },
     checkUsername() {
       if (this.username) {
         AuthService.checkUniqueExists({ username: this.username }).then(
@@ -239,12 +203,10 @@ export default {
               if (res.user_id == user.user_id) {
                 this.invalidUsername = true;
                 this.alertUsername = "you can't report yourself";
-              }
-              else {
+              } else {
                 this.report.suspect_id = res.user_id;
               }
-            } 
-            else {
+            } else {
               this.invalidUsername = true;
               this.alertUsername = "not found this username";
             }

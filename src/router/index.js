@@ -4,10 +4,10 @@ import Homepage from "../views/Homepage.vue";
 import Register from "../views/Register.vue";
 import Login from "../views/Login.vue";
 import Mainpage from "../views/Mainpage.vue";
-import Backup from "../components/popup/PointDetail.vue";
 import ProfileSetting from "../views/ProfileSetting.vue";
 import InterestSelect from "../views/InterestSelect.vue";
-import Popup from "../components/admin/popup/ReportReview.vue";
+import Adminpage from "../views/Adminpage.vue";
+import Notfound from "../views/Notfound.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -32,11 +32,6 @@ const routes = [
     component: Mainpage
   },
   {
-    path: "/backup",
-    name: "Backup",
-    component: Backup
-  },
-  {
     path: "/profileSetting",
     name: "ProfileSetting",
     component: ProfileSetting
@@ -47,9 +42,14 @@ const routes = [
     component: InterestSelect
   },
   {
-    path: "/popup",
-    name: "Popup",
-    component: Popup
+    path: "/admin",
+    name: "Adminpage",
+    component: Adminpage
+  },
+  {
+    path: "*",
+    name: "Notfound",
+    component: Notfound
   }
 ];
 

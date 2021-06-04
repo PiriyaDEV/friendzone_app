@@ -164,7 +164,7 @@ export default {
   data() {
     return {
       showRating: [false, false, false, false, false],
-      rating: 5.0,
+      rating: 5.0
     };
   },
   props: [
@@ -186,9 +186,7 @@ export default {
     }
   },
   created() {
-    console.log(this.userList)
-    if (this.user) 
-    {
+    if (this.user) {
       if (this.userList.rating > 0) {
         this.showRating.fill(true, 0, this.userList.rating.toFixed(0));
         this.rating = this.userList.rating.toFixed(1);
@@ -404,7 +402,7 @@ export default {
   object-fit: cover;
   border-radius: 50%;
   margin-right: 14px;
-  border: 0.5px solid #FFFFFF;
+  border: 0.5px solid #ffffff;
 }
 
 .user-font {

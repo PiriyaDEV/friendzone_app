@@ -82,7 +82,11 @@
                 </h1>
               </div>
               <div id="userbox">
-                <div v-show="Admin" v-for="item in adminList" :key="item.user_id">
+                <div
+                  v-show="Admin"
+                  v-for="item in adminList"
+                  :key="item.user_id"
+                >
                   <Userbox :select="2" :user="item" :admin="true" />
                 </div>
                 <div v-if="Admin && !adminList.length"><NoInformation /></div>
@@ -93,7 +97,9 @@
                 >
                   <Userbox :select="2" :user="item" :admin="true" />
                 </div>
-                <div v-if="Analyst && !analystList.length"><NoInformation /></div>
+                <div v-if="Analyst && !analystList.length">
+                  <NoInformation />
+                </div>
                 <div
                   v-show="Approver"
                   v-for="item in approverList"
@@ -101,7 +107,9 @@
                 >
                   <Userbox :select="2" :user="item" :admin="true" />
                 </div>
-                <div v-if="Approver && !approverList.length"><NoInformation /></div>
+                <div v-if="Approver && !approverList.length">
+                  <NoInformation />
+                </div>
               </div>
             </div>
           </div>
@@ -173,14 +181,14 @@ export default {
       .then((res) => {
         if (res) {
           this.adminList = res.filter((user) => {
-          return user.role == "Administrator";
-        });
-        this.analystList = res.filter((user) => {
-          return user.role == "Analyst";
-        });
-        this.approverList = res.filter((user) => {
-          return user.role == "Approver";
-        });
+            return user.role == "Administrator";
+          });
+          this.analystList = res.filter((user) => {
+            return user.role == "Analyst";
+          });
+          this.approverList = res.filter((user) => {
+            return user.role == "Approver";
+          });
         }
       })
       .catch(() => {

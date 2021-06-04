@@ -130,55 +130,55 @@
 
         <div class="middle-menu">
           <!-- Analyst -->
-        <div
-          v-if="role == `RO02` || role == `RO01`"
-          @click="analystClick()"
-          style="cursor: pointer;"
-          class="middle-menu section"
-          :class="analystbox"
-        >
-          <div>
-            <img
-              v-show="analystselect == false"
-              class="menu-icon"
-              src="@/assets/icon/icons8-increase-profits-96-b.png"
-            />
-            <img
-              v-show="analystselect == true"
-              class="menu-icon"
-              src="@/assets/icon/icons8-increase-profits-96-o.png"
-            />
+          <div
+            v-if="role == `RO02` || role == `RO01`"
+            @click="analystClick()"
+            style="cursor: pointer;"
+            class="middle-menu section"
+            :class="analystbox"
+          >
+            <div>
+              <img
+                v-show="analystselect == false"
+                class="menu-icon"
+                src="@/assets/icon/icons8-increase-profits-96-b.png"
+              />
+              <img
+                v-show="analystselect == true"
+                class="menu-icon"
+                src="@/assets/icon/icons8-increase-profits-96-o.png"
+              />
+            </div>
+            <div>
+              <h1 :class="analysttext">Analyst</h1>
+            </div>
           </div>
-          <div>
-            <h1 :class="analysttext">Analyst</h1>
+          <!-- Analyst -->
+          <!-- Approver -->
+          <div
+            v-if="role == `RO03` || role == `RO01`"
+            @click="approverClick()"
+            style="cursor: pointer;"
+            class="section"
+            :class="approverbox"
+          >
+            <div>
+              <img
+                v-show="approverselect == false"
+                class="menu-icon"
+                src="@/assets/icon/icons8-verified-badge-96-b.png"
+              />
+              <img
+                v-show="approverselect == true"
+                class="menu-icon"
+                src="@/assets/icon/icons8-verified-badge-96-o.png"
+              />
+            </div>
+            <div>
+              <h1 :class="approvertext">Approver</h1>
+            </div>
           </div>
-        </div>
-        <!-- Analyst -->
-        <!-- Approver -->
-        <div
-          v-if="role == `RO03` || role == `RO01`"
-          @click="approverClick()"
-          style="cursor: pointer;"
-          class="section"
-          :class="approverbox"
-        >
-          <div>
-            <img
-              v-show="approverselect == false"
-              class="menu-icon"
-              src="@/assets/icon/icons8-verified-badge-96-b.png"
-            />
-            <img
-              v-show="approverselect == true"
-              class="menu-icon"
-              src="@/assets/icon/icons8-verified-badge-96-o.png"
-            />
-          </div>
-          <div>
-            <h1 :class="approvertext">Approver</h1>
-          </div>
-        </div>
-        <!-- Approver -->
+          <!-- Approver -->
         </div>
 
         <!-- Report -->
@@ -254,7 +254,7 @@ export default {
     };
   },
   created() {
-    this.getRole()
+    this.getRole();
   },
   methods: {
     createdReturn() {

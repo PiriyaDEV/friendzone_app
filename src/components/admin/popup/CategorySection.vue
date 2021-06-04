@@ -6,6 +6,9 @@
           <!-- Input -->
           <div>
             <h2 class="input_title">Select Category to edit</h2>
+            <h2 v-show="invalidSelectChange" class="input_title">
+              <span class="orange-color"> * {{ alertSelectChange }}</span>
+            </h2>
             <select
               name="gender"
               class="input_select minimal"
@@ -242,7 +245,12 @@
         <div id="right">
           <!-- Input -->
           <div>
-            <h2 class="input_title">Rename Category</h2>
+            <div class="input_inline">
+              <h2 class="input_title">Rename Category</h2>
+              <h2 v-show="invalidNameChange" class="input_title">
+                <span class="orange-color"> * {{ alertNameChange }}</span>
+              </h2>
+            </div>
             <div class="button-section">
               <input
                 class="input_box"
@@ -261,7 +269,12 @@
 
           <!-- Input -->
           <div>
-            <h2 class="input_title">Change Color</h2>
+            <div class="input_inline">
+              <h2 class="input_title">Change Color</h2>
+              <h2 v-show="invalidColorChange" class="input_title">
+                <span class="orange-color"> * {{ alertColorChange }}</span>
+              </h2>
+            </div>
             <div class="button-section">
               <input
                 class="input_box"
@@ -280,7 +293,12 @@
 
           <!-- Input -->
           <div>
-            <h2 class="input_title">Change Category Icon</h2>
+            <div class="input_inline">
+              <h2 class="input_title">Change Category Icon</h2>
+              <h2 v-show="invalidIconChange" class="input_title">
+                <span class="orange-color"> * {{ alertIconChange }}</span>
+              </h2>
+            </div>
             <div class="button-section">
               <Upload v-model="newIconWhite">
                 <div slot="activator" class="select-photo-inside">
@@ -310,22 +328,24 @@
             </div>
           </div>
           <!-- Input -->
-
+          <h2 v-show="invalidChange" class="input_title">
+                <span class="orange-color"> * {{ alertChange }}</span>
+              </h2>
           <!-- Input -->
-          <div id="delete">
+          <!-- <div id="delete">
             <div class="button-section">
               <h2 class="input_title">Want to delete this category?</h2>
               <div class="button">
                 <button @click="clickInterest()">Delete</button>
               </div>
             </div>
-          </div>
+          </div> -->
           <!-- Input -->
         </div>
       </div>
       <div class="button-section">
         <button class="back_button" @click="cancel()">Cancel</button>
-        <button class="create_button" @click="save()">Save</button>
+        <button class="create_button" @click="update()">Save</button>
       </div>
     </div>
     <div v-if="!Case">
@@ -515,7 +535,12 @@
         <div id="right">
           <!-- Input -->
           <div>
-            <h2 class="input_title">Add Name Category</h2>
+            <div class="input_inline">
+              <h2 class="input_title">Add Name Category</h2>
+              <h2 v-show="invalidNameAdd" class="input_title">
+                <span class="orange-color"> * {{ alertNameAdd }}</span>
+              </h2>
+            </div>
             <div class="button-section">
               <input
                 class="input_box"
@@ -534,7 +559,12 @@
 
           <!-- Input -->
           <div>
-            <h2 class="input_title">Add Color</h2>
+            <div class="input_inline">
+              <h2 class="input_title">Add Color</h2>
+              <h2 v-show="invalidColorAdd" class="input_title">
+                <span class="orange-color"> * {{ alertColorAdd }}</span>
+              </h2>
+            </div>
             <div class="button-section">
               <input
                 class="input_box"
@@ -553,7 +583,12 @@
 
           <!-- Input -->
           <div>
-            <h2 class="input_title">Add Category Icon</h2>
+            <div class="input_inline">
+              <h2 class="input_title">Add Category Icon</h2>
+              <h2 v-show="invalidIconAdd" class="input_title">
+                <span class="orange-color"> * {{ alertIconAdd }}</span>
+              </h2>
+            </div>
             <div class="button-section">
               <Upload v-model="addIconWhite">
                 <div slot="activator" class="select-photo-inside">
@@ -629,10 +664,28 @@ export default {
       defaultName: "Add name",
       defaultColor: "#f11111",
       defaultIcon: "@/assets/icon/coin.png",
+      invalidSelectChange: false,
+      invalidNameChange: false,
+      invalidNameAdd: false,
+      invalidColorChange: false,
+      invalidColorAdd: false,
+      invalidIconChange: false,
+      invalidIconAdd: false,
+      invalidChange: false,
+      alertSelectChange: "",
+      alertNameChange: "",
+      alertNameAdd: "",
+      alertColorChange: "",
+      alertColorAdd: "",
+      alertIconChange: "",
+      alertIconAdd: "",
+      alertChange: "",
+      isWhiteUpload: false,
+      isBlackUpload: false
     };
   },
   watch: {
-    selected: function () {
+    selected: function() {
       this.newNameCategory = false;
       this.newColorCategory = false;
       this.newIconCategory = false;
@@ -645,10 +698,20 @@ export default {
       this.newIconWhite.imageURL = null;
       this.newIconBlack.imageURL = null;
     },
+    addNewName: function() {
+      if (!this.addNewName) {
+        this.nameAdd = false;
+      }
+    },
+    addNewColor: function() {
+      if (!this.addNewColor) {
+        this.colorAdd = false;
+      }
+    }
   },
   components: {
     TypeBox,
-    Upload,
+    Upload
   },
   created() {
     CategoryService.getCategoryList().then((res) => {
@@ -658,6 +721,9 @@ export default {
     });
   },
   methods: {
+    cancel() {
+      this.$emit("cancel", false);
+    },
     renameCategory() {
       this.changeName = this.newName;
       this.newNameCategory = true;
@@ -672,17 +738,132 @@ export default {
       this.newIconCategory = true;
     },
     addNameCategory() {
-      this.nameAdd = true;
+      if (this.addNewName) this.nameAdd = true;
     },
     addColorCategory() {
-      this.colorAdd = true;
+      if (this.addNewColor) this.colorAdd = true;
     },
     addIcon() {
       this.iconAdd = true;
       this.addNewIconWhite = this.addIconWhite.imageURL;
       this.addNewIconBlack = this.addIconBlack.imageURL;
     },
-  },
+    save() {
+      if (
+        this.addNewName &&
+        this.addNewColor &&
+        this.addIconWhite.formData &&
+        this.addIconBlack.formData
+      ) {
+        CategoryService.create({
+          category_name: this.addNewName,
+          color_code: this.addNewColor
+        }).then(async (res) => {
+          if (res) {
+            await CategoryService.uploadCategoryIcon(
+              this.addIconWhite.formData,
+              res.category_id,
+              "white"
+            ).then((res) => {
+              console.log(res);
+              this.isWhiteUpload = true;
+            });
+
+            await CategoryService.uploadCategoryIcon(
+              this.addIconBlack.formData,
+              res.category_id,
+              "black"
+            ).then((res) => {
+              console.log(res);
+              this.isBlackUpload = true;
+            });
+
+            if (this.isWhiteUpload && this.isBlackUpload) {
+              window.location.href = "/admin";
+            }
+          }
+        });
+      } else {
+        if (!this.addNewName) {
+          this.invalidNameAdd = true;
+          this.alertNameAdd = "required category name";
+        }
+        if (!this.addNewColor) {
+          this.invalidColorAdd = true;
+          this.alertColorAdd = "required color code";
+        }
+        if (!this.addIconWhite.formData && !this.addIconBlack.formData) {
+          this.invalidIconAdd = true;
+          this.alertIconAdd = "required icon";
+        } else if (!this.addIconWhite.formData) {
+          this.invalidIconAdd = true;
+          this.alertIconAdd = "required white icon";
+        } else if (!this.addIconBlack.formData) {
+          this.invalidIconAdd = true;
+          this.alertIconAdd = "required dark icon";
+        }
+      }
+    },
+    async update() {
+      if (this.selected) {
+        if (
+          this.newName ||
+          this.newColor ||
+          this.newIconWhite.formData ||
+          this.newIconBlack.formData
+        ) {
+          if (this.newName || this.newColor) {
+            let category = {
+              category_id: this.selected.category_id,
+              category_name: this.newName,
+              color_code: this.newColor
+            };
+
+            if (!this.newName) {
+              delete category.category_name;
+            }
+            if (!this.newColor) {
+              delete category.color_code;
+            }
+
+            await CategoryService.update(category).then((res) => {
+              if (res) {
+                console.log(res);
+              }
+            });
+          }
+
+          if (this.newIconWhite.formData) {
+            await CategoryService.uploadCategoryIcon(
+              this.newIconWhite.formData,
+              this.selected.category_id,
+              "white"
+            ).then((res) => {
+              console.log(res);
+            });
+          }
+
+          if (this.newIconBlack.formData) {
+            await CategoryService.uploadCategoryIcon(
+              this.newIconBlack.formData,
+              this.selected.category_id,
+              "black"
+            ).then((res) => {
+              console.log(res);
+            });
+          }
+
+          await this.$emit("exitClick", false);
+        } else {
+          this.invalidChange = true;
+          this.alertChange = "nothing to change";
+        }
+      } else {
+        this.invalidSelectChange = true;
+        this.alertSelectChange = "required category to edit";
+      }
+    }
+  }
 };
 </script>
 
@@ -699,6 +880,15 @@ export default {
 
 #right {
   margin-left: 10px;
+}
+
+.input_inline {
+  display: flex;
+  align-items: center;
+}
+
+.input_inline > h2:nth-child(2) {
+  padding-left: 10px;
 }
 
 .input_box {
@@ -858,6 +1048,13 @@ option {
 
 #delete {
   margin-top: 15px;
+}
+
+@media screen and (min-width: 1920px) {
+  #result,
+  #result-add {
+    width: 500px;
+  }
 }
 
 @media screen and (max-width: 1024px) {

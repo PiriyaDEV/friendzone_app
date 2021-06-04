@@ -27,7 +27,7 @@
       <hr id="bar" />
 
       <div>
-        <CategorySection :Case="caseCategory" />
+        <CategorySection :Case="caseCategory" @exitClick="exitClick" @cancel="cancel"/>
       </div>
     </div>
   </div>
@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       categoryList: null,
-      caseCategory: true,
+      caseCategory: true
     };
   },
   created() {
@@ -52,7 +52,7 @@ export default {
     });
   },
   components: {
-    CategorySection,
+    CategorySection
   },
   methods: {
     back() {
@@ -64,6 +64,12 @@ export default {
     addNew() {
       this.caseCategory = false;
     },
+    cancel(value) {
+      this.$emit("categoryReturn", value);
+    },
+    exitClick(value) {
+      this.$emit("editDatabase", value);
+    }
   },
   computed: {
     cssEdit() {
@@ -81,8 +87,8 @@ export default {
         return select;
       }
       return unselect;
-    },
-  },
+    }
+  }
 };
 </script>
 

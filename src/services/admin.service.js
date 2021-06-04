@@ -1,4 +1,5 @@
-import axios from "axios"
+import axios from "axios";
+import authHeader from "./auth-header";
 
 const PORT = require("../services/port.config").PORT;
 const API_URL = `${PORT}/api/admin/`;
@@ -7,7 +8,7 @@ const USER_URL = `${PORT}/api/user/`;
 
 class AdminService {
   async getReportList() {
-    const res = await axios.get(API_URL + "getReportList").catch(() => {
+    const res = await axios.get(API_URL + "getReportList",  { headers: authHeader() }).catch(() => {
       return "err";
     });
 
@@ -15,75 +16,74 @@ class AdminService {
   }
 
   async getUserList() {
-    const res = await axios.get(API_URL + "getUserList").catch(() => {
+    const res = await axios.get(API_URL + "getUserList", { headers: authHeader() }).catch(() => {
       return "err";
     });
 
     var userList = res.data;
 
     await userList.forEach((user) => {
-      user.profile_pic =
-      USER_URL + "displayPic/" + user.user_id;
+      user.profile_pic = USER_URL + "displayPic/" + user.user_id;
     });
 
     return userList;
   }
 
   async getDiscountList() {
-    const res = await axios.get(API_URL + "getDiscountList").catch(() => {
+    const res = await axios.get(API_URL + "getDiscountList", { headers: authHeader() }).catch(() => {
       return "err";
     });
 
     var discountList = res.data;
 
     await discountList.forEach((discount) => {
-      discount.discount_pic =
-      DIS_URL + "displayPic/" + discount.discount_id;
+      discount.discount_pic = DIS_URL + "displayPic/" + discount.discount_id;
     });
 
     return discountList;
   }
 
   async searchReport(search) {
-    const res = await axios.get(`${API_URL}/searchReport?keyword=${search}`).catch(() => {
-      return "err";
-    });
+    const res = await axios
+      .get(`${API_URL}searchReport?keyword=${search}`, { headers: authHeader() })
+      .catch(() => {
+        return "err";
+      });
 
     return res.data;
   }
 
-  
   async searchUser(search) {
-    const res = await axios.get(`${API_URL}/searchUser?keyword=${search}`).catch(() => {
-      return "err";
-    });
+    const res = await axios
+      .get(`${API_URL}searchUser?keyword=${search}`, { headers: authHeader() })
+      .catch(() => {
+        return "err";
+      });
 
     var userList = res.data;
 
     await userList.forEach((user) => {
-      user.profile_pic =
-      USER_URL + "displayPic/" + user.user_id;
+      user.profile_pic = USER_URL + "displayPic/" + user.user_id;
     });
 
     return userList;
   }
 
   async searchDiscount(search) {
-    const res = await axios.get(`${API_URL}/searchDiscount?keyword=${search}`).catch(() => {
-      return "err";
-    });
+    const res = await axios
+      .get(`${API_URL}searchDiscount?keyword=${search}`, { headers: authHeader() })
+      .catch(() => {
+        return "err";
+      });
 
     var userList = res.data;
 
     await userList.forEach((user) => {
-      user.profile_pic =
-      USER_URL + "displayPic/" + user.user_id;
+      user.profile_pic = USER_URL + "displayPic/" + user.user_id;
     });
 
     return userList;
   }
-  
-
 }
 
 export default new AdminService();

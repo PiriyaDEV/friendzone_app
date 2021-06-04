@@ -517,13 +517,25 @@
         </div>
 
         <div v-if="edit && status != 'Deleted'" class="button-section">
-          <button v-if="status == `Inactive` || status == `Active`" class="back_button" @click="deleteClick()">
+          <button
+            v-if="status == `Inactive` || status == `Active`"
+            class="back_button"
+            @click="deleteClick()"
+          >
             Delete Discount
           </button>
-          <button v-if="status == `Inactive`" class="create_button" @click="saveClick()">
+          <button
+            v-if="status == `Inactive`"
+            class="create_button"
+            @click="saveClick()"
+          >
             Save Change
           </button>
-          <button v-if="status == 'Active'" class="create_button" @click="createReturn()">
+          <button
+            v-if="status == 'Active'"
+            class="create_button"
+            @click="createReturn()"
+          >
             Done
           </button>
         </div>

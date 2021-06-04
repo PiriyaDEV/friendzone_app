@@ -14,13 +14,11 @@
       </div>
       <!-- Input -->
 
-      <div
-        @click="pointClick()"
-        id="coin-box"
-        class="section"
-      >
+      <div @click="pointClick()" id="coin-box" class="section">
         <img id="coin-logo" src="@/assets/icon/coin.png" />
-        <h1 :class="csspointColor" id="bar-value">{{ this.$store.state.point }}</h1>
+        <h1 :class="csspointColor" id="bar-value">
+          {{ this.$store.state.point }}
+        </h1>
       </div>
 
       <div id="mail-box">
@@ -42,7 +40,11 @@
         >
           <img id="profile-logo" :src="user.profile_pic" />
           <h1 class="black-color" id="bar-value">{{ user.username }}</h1>
-          <img v-if="role != `RO04`" class="verified-badge" src="@/assets/icon/verified-badge.png"/>
+          <img
+            v-if="role != `RO04`"
+            class="verified-badge"
+            src="@/assets/icon/verified-badge.png"
+          />
         </div>
       </div>
     </div>
@@ -121,7 +123,7 @@ export default {
       }
       return admin;
     },
-    csspointColor(){
+    csspointColor() {
       let user = "black-color";
       let admin = "white-color";
       if (this.demoRole == 1) {
@@ -155,17 +157,18 @@ export default {
   background-color: #f8f3ec;
 }
 
-.verified-badge{
-  width:15px;
-  height:15px;
-  padding-left:10px;
+.verified-badge {
+  width: 15px;
+  height: 15px;
+  padding-left: 10px;
 }
 
 #topbar-admin {
   background-color: #444444;
 }
 
-.search-bar,.search-bar-admin{
+.search-bar,
+.search-bar-admin {
   display: flex;
   align-items: center;
 }
@@ -174,7 +177,7 @@ export default {
   justify-content: space-between;
 }
 
-.search-bar-admin{
+.search-bar-admin {
   justify-content: flex-end;
 }
 
@@ -266,7 +269,7 @@ i {
   background-color: #ffffff;
   border-radius: 27px;
   padding: 7px 20px 7px 7px;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   /* margin-left: 57px; */
@@ -292,7 +295,8 @@ i {
     display: none;
   }
 
-  .search-bar,.search-bar-admin {
+  .search-bar,
+  .search-bar-admin {
     display: block;
   }
 

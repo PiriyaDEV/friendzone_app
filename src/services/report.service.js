@@ -3,7 +3,6 @@ import decode from "jwt-decode";
 import authHeader from "./auth-header";
 const PORT = require("../services/port.config").PORT;
 
-
 const API_URL = `${PORT}/api/report/`;
 
 class ReportService {
@@ -18,7 +17,7 @@ class ReportService {
   }
 
   async getReportTypeUserList() {
-    const res = await axios.get(API_URL + "getReportTypeUserList").catch(() => {
+    const res = await axios.get(API_URL + "getReportTypeUserList",  { headers: authHeader() }).catch(() => {
       return "err";
     });
 
@@ -27,7 +26,7 @@ class ReportService {
 
   async getReportTypeEventList() {
     const res = await axios
-      .get(API_URL + "getReportTypeEventList")
+      .get(API_URL + "getReportTypeEventList",  { headers: authHeader() })
       .catch(() => {
         return "err";
       });
@@ -36,7 +35,7 @@ class ReportService {
   }
 
   async getReportTypeWebList() {
-    const res = await axios.get(API_URL + "getReportTypeWebList").catch(() => {
+    const res = await axios.get(API_URL + "getReportTypeWebList",  { headers: authHeader() }).catch(() => {
       return "err";
     });
 
@@ -45,13 +44,17 @@ class ReportService {
 
   async approveReport(data) {
     let userData = decode(localStorage.getItem("user"));
-    const res = await axios.post(API_URL + "approveReport", {
-      admin_id: userData.user_id,
-      report_id: data.report_id,
-      takeAction: data.takeAction
-    }, {
-      headers: authHeader()
-    });
+    const res = await axios.post(
+      API_URL + "approveReport",
+      {
+        admin_id: userData.user_id,
+        report_id: data.report_id,
+        takeAction: data.takeAction
+      },
+      {
+        headers: authHeader()
+      }
+    );
 
     return res.data[0];
   }
