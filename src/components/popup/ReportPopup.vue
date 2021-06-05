@@ -194,42 +194,6 @@ export default {
     reportReturn() {
       this.$emit("clickReport", false);
     },
-    getReportTypeUser() {
-      ReportService.getReportTypeUserList()
-        .then((res) => {
-          if (res) {
-            this.reportTypeList = res;
-          }
-        })
-        .catch(() => {
-          this.reportTypeList = [];
-          console.log("Error when get report type list");
-        });
-    },
-    getReportTypeEvent() {
-      ReportService.getReportTypeEventList()
-        .then((res) => {
-          if (res) {
-            this.reportTypeList = res;
-          }
-        })
-        .catch(() => {
-          this.reportTypeList = [];
-          console.log("Error when get report type list");
-        });
-    },
-    getReportTypeWeb() {
-      ReportService.getReportTypeWebList()
-        .then((res) => {
-          if (res) {
-            this.reportTypeList = res;
-          }
-        })
-        .catch(() => {
-          this.reportTypeList = [];
-          console.log("Error when get report type list");
-        });
-    },
     checkUsername() {
       if (this.username) {
         AuthService.checkUniqueExists({ username: this.username }).then(
