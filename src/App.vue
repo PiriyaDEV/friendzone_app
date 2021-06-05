@@ -9,7 +9,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+  created() {
+    console.log(this.$route.path)
+  },
+};
 </script>
 
 <style>
@@ -26,10 +30,9 @@ button {
   overflow-x: hidden;
 }
 
-html,
-body {
-  position: fixed;
-  overflow: hidden;
+body,html{
+  position:fixed;
+  overflow:hidden;
 }
 
 textarea {

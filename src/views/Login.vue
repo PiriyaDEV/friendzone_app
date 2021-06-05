@@ -56,9 +56,9 @@
                   />
                 </div>
               </div>
-              <!-- <h3 v-if="invalidPassword === true" class="invalid">
+              <h3 v-if="invalidPassword === true" class="invalid">
                 * {{ alertPassword }}
-              </h3> -->
+              </h3>
             </div>
             <!-- Input -->
 
@@ -118,6 +118,7 @@ export default {
     },
     checkLogin() {
       this.invalidIdentification = false;
+      this.invalidPassword = false;
       if (this.identification && this.password) {
         this.$store
           .dispatch("auth/login", {
@@ -135,8 +136,8 @@ export default {
                 this.alertIdentification = "You have been banned from friendzone, please contact admin";
               }
               else if(error.message == "Request failed with status code 401"){
-                this.invalidIdentification = true;
-                this.alertIdentification = "Invalid Password!";
+                this.invalidPassword = true;
+                this.alertPassword = "Invalid Password!";
               }
               else {
                 this.invalidIdentification = true;
