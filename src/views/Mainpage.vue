@@ -241,7 +241,7 @@ export default {
     AnalystPage,
     ApproverPage,
     PointDetail,
-    Notification,
+    Notification
   },
   data() {
     return {
@@ -275,7 +275,7 @@ export default {
       waitShow: "",
       notiShow: false,
       waitboxError: "",
-      Quota: "",
+      Quota: ""
     };
   },
   computed: {
@@ -422,13 +422,12 @@ export default {
     },
     decrementQuota(value) {
       this.Quota = value;
-    },
+    }
   }
 };
 </script>
 
 <style scoped>
-
 #mainpage,
 #mainpage-admin {
   /* background-image: url("../assets/harryfer-background.jpg"); */

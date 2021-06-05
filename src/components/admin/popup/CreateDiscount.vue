@@ -10,8 +10,9 @@
             <!-- Input -->
             <div>
               <h2 class="input_title">
-                Discount Picture<span v-if="!edit" class="orange-color">
-                  *</span
+                Discount Picture<span class="orange-color"> *</span>
+                <span class="orange-color" v-if="invalidDiscount_pic">
+                  {{ alertDiscount_pic }}</span
                 >
               </h2>
               <div v-if="!edit" id="select-photo-section" class="section">
@@ -74,10 +75,17 @@
             <div>
               <h2 v-if="!edit" class="input_title">
                 Discount Name<span class="orange-color"> *</span>
+                <span class="orange-color" v-if="alertName">
+                  {{ alertName }}</span
+                >
               </h2>
               <h2 v-if="edit" class="input_title">
-                Title
+                Title<span class="orange-color"> *</span
+                ><span class="orange-color" v-if="alertName">
+                  {{ alertName }}</span
+                >
               </h2>
+
               <input
                 v-model="discount.name"
                 :class="cssInput"
@@ -94,6 +102,9 @@
             <div>
               <h2 class="input_title">
                 Description<span v-if="!edit" class="orange-color"> *</span>
+                <span class="orange-color" v-if="invalidDescription">
+                  {{ alertDescription }}</span
+                >
               </h2>
               <textarea
                 v-model="discount.description"
@@ -112,6 +123,9 @@
             <div class="number-box box-computer">
               <h2 class="input_title">
                 Point Required<span v-if="!edit" class="orange-color"> *</span>
+                <span class="orange-color" v-if="invalidPoint">
+                  {{ alertPoint }}</span
+                >
               </h2>
               <div class="number">
                 <span class="minus" @click="clickPoint(false)">-</span>
@@ -139,6 +153,9 @@
             <div>
               <h2 class="input_title">
                 Start On<span v-if="!edit" class="orange-color"> *</span>
+                <span class="orange-color" v-if="invalidStartDate">
+                  {{ alertStartDate }}</span
+                >
               </h2>
               <div class="date-section">
                 <input
@@ -245,6 +262,9 @@
             <div>
               <h2 class="input_title">
                 End On<span v-if="!edit" class="orange-color"> *</span>
+                <span class="orange-color" v-if="invalidEndDate">
+                  {{ alertEndDate }}</span
+                >
               </h2>
               <div class="date-section">
                 <input
@@ -351,6 +371,9 @@
             <div>
               <h2 class="input_title">
                 Expire Date<span v-if="!edit" class="orange-color"> *</span>
+                <span class="orange-color" v-if="invalidExpireDate">
+                  {{ alertExpireDate }}</span
+                >
               </h2>
               <div class="date-section">
                 <input
@@ -457,6 +480,9 @@
             <div class="number-box box-tablet">
               <h2 class="input_title">
                 Point Required<span v-if="!edit" class="orange-color"> *</span>
+                <span class="orange-color" v-if="invalidPoint">
+                  {{ alertPoint }}</span
+                >
               </h2>
               <div class="number">
                 <span class="minus" @click="clickPoint(false)">-</span>
@@ -484,6 +510,9 @@
               <h2 class="input_title">
                 Limit buy per user<span v-if="!edit" class="orange-color">
                   *</span
+                >
+                <span class="orange-color" v-if="invalidLimit">
+                  {{ alertLimit }}</span
                 >
               </h2>
               <div class="number">
@@ -614,7 +643,23 @@ export default {
       edit: false,
       disable: false,
       delete_pic: false,
-      status: ""
+      status: "",
+      invalidDiscount_pic: false,
+      invalidName: false,
+      invalidDescription: false,
+      invalidStartDate: false,
+      invalidEndDate: false,
+      invalidExpireDate: false,
+      invalidPoint: false,
+      invalidLimit: false,
+      alertDiscount_pic: "",
+      alertName: "",
+      alertDescription: "",
+      alertStartDate: "",
+      alertEndDate: "",
+      alertExpireDate: "",
+      alertPoint: "",
+      alertLimit: ""
     };
   },
   components: {
@@ -709,6 +754,198 @@ export default {
       return block;
     }
   },
+  watch: {
+    "discount.discount_pic": function() {
+      this.invalidDiscount_pic = false;
+      if (!this.discount.discount_pic) {
+        this.invalidDiscount_pic = true;
+        this.alertDiscount_pic = "required discount picture";
+      }
+    },
+    "discount.name": function() {
+      this.invalidName = false;
+      if (!this.discount.name) {
+        this.invalidName = true;
+        this.alertName = "required name";
+      }
+    },
+    "discount.description": function() {
+      this.invalidDescription = false;
+      if (!this.discount.description) {
+        this.invalidDescription = true;
+        this.alertDescription = "required description";
+      }
+    },
+    "discount.redeem_point": function() {
+      var reg = /^\d*\.?\d+$/;
+      this.invalidPoint = false;
+      if (!this.discount.redeem_point) {
+        this.invalidPoint = true;
+        this.alertPoint = "required redeem point";
+      } else if (!reg.test(this.discount.redeem_point)) {
+        this.invalidPoint = true;
+        this.alertPoint = "must be only numbers";
+      }
+    },
+    "discount.limits": function() {
+      var reg = /^\d*\.?\d+$/;
+      this.invalidLimit = false;
+      if (!this.discount.limits) {
+        this.invalidLimit = true;
+        this.alertLimit = "required limits per user";
+      } else if (!reg.test(this.discount.limits)) {
+        this.invalidLimit = true;
+        this.alertLimit = "must be only numbers";
+      }
+    },
+    "discount.period_start.day": function() {
+      this.invalidStartDate = false;
+      if (!this.discount.period_start.day) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "required start date";
+      }
+    },
+    "discount.period_start.month": function() {
+      this.invalidStartDate = false;
+      if (!this.discount.period_start.month) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "required start date";
+      }
+    },
+    "discount.period_start.year": function() {
+      this.invalidStartDate = false;
+      if (!this.discount.period_start.year) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "required start date";
+      }
+    },
+    "discount.period_start.h1": function() {
+      this.invalidStartDate = false;
+      if (!this.discount.period_start.h1) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "required start date";
+      }
+    },
+    "discount.period_start.h2": function() {
+      this.invalidStartDate = false;
+      if (!this.discount.period_start.h2) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "required start date";
+      }
+    },
+    "discount.period_start.m1": function() {
+      this.invalidStartDate = false;
+      if (!this.discount.period_start.m1) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "required start date";
+      }
+    },
+    "discount.period_start.m2": function() {
+      this.invalidStartDate = false;
+      if (!this.discount.period_start.m2) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "required start date";
+      }
+    },
+    "discount.period_end.day": function() {
+      this.invalidEndDate = false;
+      if (!this.discount.period_end.day) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "required end date";
+      }
+    },
+    "discount.period_end.month": function() {
+      this.invalidEndDate = false;
+      if (!this.discount.period_end.month) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "required end date";
+      }
+    },
+    "discount.period_end.year": function() {
+      this.invalidEndDate = false;
+      if (!this.discount.period_end.year) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "required end date";
+      }
+    },
+    "discount.period_end.h1": function() {
+      this.invalidEndDate = false;
+      if (!this.discount.period_end.h1) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "required end date";
+      }
+    },
+    "discount.period_end.h2": function() {
+      this.invalidEndDate = false;
+      if (!this.discount.period_end.h2) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "required end date";
+      }
+    },
+    "discount.period_end.m1": function() {
+      this.invalidEndDate = false;
+      if (!this.discount.period_end.m1) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "required end date";
+      }
+    },
+    "discount.period_end.m2": function() {
+      this.invalidEndDate = false;
+      if (!this.discount.period_end.m2) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "required end date";
+      }
+    },
+    "discount.expired.day": function() {
+      this.invalidExpireDate = false;
+      if (!this.discount.expired.day) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "required expired date";
+      }
+    },
+    "discount.expired.month": function() {
+      this.invalidExpireDate = false;
+      if (!this.discount.expired.month) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "required expired date";
+      }
+    },
+    "discount.expired.year": function() {
+      this.invalidExpireDate = false;
+      if (!this.discount.expired.year) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "required expired date";
+      }
+    },
+    "discount.expired.h1": function() {
+      this.invalidExpireDate = false;
+      if (!this.discount.expired.h1) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "required expired date";
+      }
+    },
+    "discount.expired.h2": function() {
+      this.invalidExpireDate = false;
+      if (!this.discount.expired.h2) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "required expired date";
+      }
+    },
+    "discount.expired.m1": function() {
+      this.invalidExpireDate = false;
+      if (!this.discount.expired.m1) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "required expired date";
+      }
+    },
+    "discount.expired.m2": function() {
+      this.invalidExpireDate = false;
+      if (!this.discount.expired.m2) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "required expired date";
+      }
+    }
+  },
   methods: {
     createReturn() {
       this.$emit("clickCreate", false);
@@ -778,24 +1015,48 @@ export default {
           ":00 GMT+0700"
       ).getTime();
 
-      DiscountService.create(this.discount).then(
-        (res) => {
-          if (res.discount_id) {
-            DiscountService.uploadDiscountPic(
-              this.discount.discount_pic.formData,
-              res.discount_id
-            ).then((res) => {
-              if (res) {
-                this.$emit("informationShow", true);
-                this.$emit("clickCreate", false);
-              }
-            });
+      if (this.discount.period_start <= new Date().getTime()) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "must start after the current time";
+      }
+      if (this.discount.period_end <= this.discount.period_end) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "end date must be after start date";
+      }
+      if (this.discount.expired <= this.discount.period_end) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "expire date must be after end date";
+      }
+
+      if (
+        !this.invalidDiscount_pic ||
+        !this.invalidName ||
+        !this.invalidDescription ||
+        !this.invalidStartDate ||
+        !this.invalidEndDate ||
+        !this.invalidExpireDate ||
+        !this.invalidPoint ||
+        !this.invalidLimit
+      ) {
+        DiscountService.create(this.discount).then(
+          (res) => {
+            if (res.discount_id) {
+              DiscountService.uploadDiscountPic(
+                this.discount.discount_pic.formData,
+                res.discount_id
+              ).then((res) => {
+                if (res) {
+                  this.$emit("informationShow", true);
+                  this.$emit("clickCreate", false);
+                }
+              });
+            }
+          },
+          (error) => {
+            console.log(error.message);
           }
-        },
-        (error) => {
-          console.log(error.message);
-        }
-      );
+        );
+      }
     },
     saveClick() {
       this.hs = this.discount.period_start.h1 + this.discount.period_start.h2;
@@ -844,27 +1105,245 @@ export default {
           ":00 GMT+0700"
       ).getTime();
 
-      DiscountService.editDiscount(this.discount).then(
-        (res) => {
-          if (res.discount_id) {
-            if (this.discount.discount_pic) {
-              DiscountService.uploadDiscountPic(
-                this.discount.discount_pic.formData,
-                res.discount_id
-              ).then((res) => {
-                if (res) {
-                  this.$emit("clickCreate", false);
-                }
-              });
-            } else {
-              this.$emit("clickCreate", false);
+      if (this.discount.period_start <= new Date().getTime()) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "must start after the current time";
+      }
+      if (this.discount.period_end <= this.discount.period_end) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "end date must be after start date";
+      }
+      if (this.discount.expired <= this.discount.period_end) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "expire date must be after end date";
+      }
+      if (
+        !this.invalidDiscount_pic ||
+        !this.invalidName ||
+        !this.invalidDescription ||
+        !this.invalidStartDate ||
+        !this.invalidEndDate ||
+        !this.invalidExpireDate ||
+        !this.invalidPoint ||
+        !this.invalidLimit
+      ) {
+        DiscountService.editDiscount(this.discount).then(
+          (res) => {
+            if (res.discount_id) {
+              if (this.discount.discount_pic) {
+                DiscountService.uploadDiscountPic(
+                  this.discount.discount_pic.formData,
+                  res.discount_id
+                ).then((res) => {
+                  if (res) {
+                    this.$emit("clickCreate", false);
+                  }
+                });
+              } else {
+                this.$emit("clickCreate", false);
+              }
             }
+          },
+          (error) => {
+            console.log(error.message);
           }
-        },
-        (error) => {
-          console.log(error.message);
-        }
-      );
+        );
+      }
+    },
+    validateStartDate() {
+      this.invalidStartDate = false;
+      var reg = /^\d*\.?\d+$/;
+
+      if (!reg.test(this.date_start.day)) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "date must be only numbers";
+      } else if (this.date_start.day < 1 || this.date_start.day > 31) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "day must be only 1-31";
+      } else if (
+        (this.date_start.month == 4 && this.date_start.day > 30) ||
+        (this.date_start.month == 6 && this.date_start.day > 30) ||
+        (this.date_start.month == 9 && this.date_start.day > 30) ||
+        (this.date_start.month == 11 && this.date_start.day > 30)
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "day or month is invalid";
+      } else if (this.date_start.month == 2 && this.date_start.day > 29) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "day or month is invalid";
+      } else if (
+        this.date_start.month == 2 &&
+        this.date_start.day == 29 &&
+        !(
+          (0 == this.date_start.year % 4 && 0 != this.date_start.year % 100) ||
+          0 == this.date_start.year % 400
+        )
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "not a leap year";
+      } else if (!reg.test(this.date_start.month)) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "date must be only numbers";
+      } else if (this.date_start.month < 1 || this.date_start.month > 12) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "month must be only 1-12";
+      } else if (!reg.test(this.date_start.year)) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "date must be only numbers";
+      } else if (this.date_start.year < 2021) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "year must start at 2021";
+      } else if (
+        !reg.test(this.date_start.h1) ||
+        !reg.test(this.date_start.h2) ||
+        !reg.test(this.date_start.m1) ||
+        !reg.test(this.date_start.m2)
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "time must be only numbers";
+      } else if (
+        (this.date_start.h1 == 2 && this.date_start.h2 > 3) ||
+        this.date_start.h1 > 2
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "hour must be in 00-23";
+      } else if (
+        (this.date_start.m1 == 5 && this.date_start.m2 > 9) ||
+        this.date_start.m1 > 5
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "minute must be in 00-59";
+      }
+    },
+    validateEndDate() {
+      this.invalidEndDate = false;
+      var reg = /^\d*\.?\d+$/;
+
+      if (!reg.test(this.date_end.day)) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "date must be only numbers";
+      } else if (this.date_end.day < 1 || this.date_end.day > 31) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "day must be only 1-31";
+      } else if (
+        (this.date_end.month == 4 && this.date_end.day > 30) ||
+        (this.date_end.month == 6 && this.date_end.day > 30) ||
+        (this.date_end.month == 9 && this.date_end.day > 30) ||
+        (this.date_end.month == 11 && this.date_end.day > 30)
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "day or month is invalid";
+      } else if (this.date_end.month == 2 && this.date_end.day > 29) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "day or month is invalid";
+      } else if (
+        this.date_end.month == 2 &&
+        this.date_end.day == 29 &&
+        !(
+          (0 == this.date_end.year % 4 && 0 != this.date_end.year % 100) ||
+          0 == this.date_end.year % 400
+        )
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "not a leap year";
+      } else if (!reg.test(this.date_end.month)) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "date must be only numbers";
+      } else if (this.date_end.month < 1 || this.date_end.month > 12) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "month must be only 1-12";
+      } else if (!reg.test(this.date_end.year)) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "date must be only numbers";
+      } else if (this.date_end.year < 2021) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "year must start at 2021";
+      } else if (
+        !reg.test(this.date_end.h1) ||
+        !reg.test(this.date_end.h2) ||
+        !reg.test(this.date_end.m1) ||
+        !reg.test(this.date_end.m2)
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "time must be only numbers";
+      } else if (
+        (this.date_end.h1 == 2 && this.date_end.h2 > 3) ||
+        this.date_end.h1 > 2
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "hour must be in 00-23";
+      } else if (
+        (this.date_end.m1 == 5 && this.date_end.m2 > 9) ||
+        this.date_end.m1 > 5
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "minute must be in 00-59";
+      }
+    },
+    validateExpireDate() {
+      this.invalidExpireDate = false;
+      var reg = /^\d*\.?\d+$/;
+
+      if (!reg.test(this.expired.day)) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "date must be only numbers";
+      } else if (this.expired.day < 1 || this.expired.day > 31) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "day must be only 1-31";
+      } else if (
+        (this.expired.month == 4 && this.expired.day > 30) ||
+        (this.expired.month == 6 && this.expired.day > 30) ||
+        (this.expired.month == 9 && this.expired.day > 30) ||
+        (this.expired.month == 11 && this.expired.day > 30)
+      ) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "day or month is invalid";
+      } else if (this.expired.month == 2 && this.expired.day > 29) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "day or month is invalid";
+      } else if (
+        this.expired.month == 2 &&
+        this.expired.day == 29 &&
+        !(
+          (0 == this.expired.year % 4 && 0 != this.expired.year % 100) ||
+          0 == this.expired.year % 400
+        )
+      ) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "not a leap year";
+      } else if (!reg.test(this.expired.month)) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "date must be only numbers";
+      } else if (this.expired.month < 1 || this.expired.month > 12) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "month must be only 1-12";
+      } else if (!reg.test(this.expired.year)) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "date must be only numbers";
+      } else if (this.expired.year < 2021) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "year must start at 2021";
+      } else if (
+        !reg.test(this.expired.h1) ||
+        !reg.test(this.expired.h2) ||
+        !reg.test(this.expired.m1) ||
+        !reg.test(this.expired.m2)
+      ) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "time must be only numbers";
+      } else if (
+        (this.expired.h1 == 2 && this.expired.h2 > 3) ||
+        this.expired.h1 > 2
+      ) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "hour must be in 00-23";
+      } else if (
+        (this.expired.m1 == 5 && this.expired.m2 > 9) ||
+        this.expired.m1 > 5
+      ) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "minute must be in 00-59";
+      }
     },
     deleteClick() {
       if (this.discountList.status_id == "ST02") {

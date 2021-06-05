@@ -42,10 +42,10 @@
       </button>
       <button
         v-if="information.type == 'inviteRequest'"
-        class="done"
+        class="approved"
         @click="approveInviteRequest()"
       >
-        <i class="icon fa fa-check"></i><span class="btn-text">Join</span>
+        <i class="icon fa fa-check"></i><span class="btn-text">Accept</span>
       </button>
       <button v-else class="approved" @click="approveEventRequest()">
         <i class="icon fa fa-check"></i><span class="btn-text">Approve</span>

@@ -87,7 +87,7 @@
                   v-for="item in adminList"
                   :key="item.user_id"
                 >
-                  <Userbox :select="2" :user="item" :admin="true" />
+                  <Userbox :select="2" :user="item" :adminPage="true" />
                 </div>
                 <div v-if="Admin && !adminList.length"><NoInformation /></div>
                 <div
@@ -95,7 +95,7 @@
                   v-for="item in analystList"
                   :key="item.user_id"
                 >
-                  <Userbox :select="2" :user="item" :admin="true" />
+                  <Userbox :select="2" :user="item" :adminPage="true" />
                 </div>
                 <div v-if="Analyst && !analystList.length">
                   <NoInformation />
@@ -105,7 +105,7 @@
                   v-for="item in approverList"
                   :key="item.user_id"
                 >
-                  <Userbox :select="2" :user="item" :admin="true" />
+                  <Userbox :select="2" :user="item" :adminPage="true" />
                 </div>
                 <div v-if="Approver && !approverList.length">
                   <NoInformation />
@@ -125,6 +125,7 @@
                 <div class="list event-flex-section">
                   <div v-for="(discount, i) in discountList" :key="i">
                     <DiscountFlex
+                      v-if="i < 10"
                       :discount="discount"
                       @clickDiscountFlex="clickDiscountFlex"
                       @discountData="discountData"
@@ -241,7 +242,7 @@ export default {
     },
     discountData(value) {
       this.$emit("editDiscountData", value);
-    },
+    }
   },
   computed: {
     cssAdmin() {
@@ -482,6 +483,11 @@ div::-webkit-scrollbar {
   #middle-column {
     display: block;
   }
+
+  #userbox {
+  max-height: 220px;
+  height:100%;
+}
 
   #black-menu {
     justify-content: space-between;

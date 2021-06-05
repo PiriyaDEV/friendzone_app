@@ -107,9 +107,14 @@
           <span v-if="approver">{{ event.location }}</span>
           <span v-if="report" class="white-color">{{ reportList.type }}</span>
           <span v-if="discount" class="coin-box white-color"
-            ><img id="coin-logo" src="@/assets/icon/coin.png" />{{
-              discountList.redeem_point
-            }}</span
+            ><img id="coin-logo" src="@/assets/icon/coin.png" />
+          <span v-if="discountList.redeem_point == 0">
+            FREE
+          </span>
+          <span v-else>
+            {{ discountList.redeem_point }}
+          </span>
+          </span
           >
           <span v-if="user" class="white-color">{{ userList.role }}</span>
         </h1>

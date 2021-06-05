@@ -174,8 +174,13 @@
             <div id="term">
               <p>
                 By continuing you accept the
-                <span style="color: #ff8864">Terms of Use</span> and
-                <span style="color: #ff8864"> Privacy Policy </span>, <br />
+                <span @click="clickPolicy()" style="cursor:pointer; color: #ff8864;"
+                  >Terms of Use</span
+                >
+                and
+                <span @click="clickPolicy()" style="cursor:pointer; color: #ff8864;">
+                  Privacy Policy </span
+                >, <br />
                 that your data will be stored, and that you are 13 years or
                 older.
               </p>
@@ -319,11 +324,14 @@ export default {
     }
   },
   methods: {
+    clickPolicy() {
+      this.$router.push("/policy");
+    },
     goMainpage() {
-      window.location.href = "/";
+      this.$router.push("/");
     },
     goLogin() {
-      window.location.href = "/login";
+      this.$router.push("/login");
     },
     switchVisibility() {
       this.passwordFieldType =
@@ -366,7 +374,7 @@ export default {
       } else if (!reg.test(this.year)) {
         this.invalidDate = true;
         this.alertDate = "date must be only numbers";
-      } else if (this.year < 1921) {
+      } else if (this.year < 1922) {
         this.invalidDate = true;
         this.alertDate = "you are too old";
       } else if (this.year > 2007) {

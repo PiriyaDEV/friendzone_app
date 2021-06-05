@@ -1,13 +1,12 @@
 <template>
   <div>
     <div v-if="status == false" :id="cssBox">
-      <img class="category-icon" @click="goMainpage()" :src="icon" />
+      <img class="category-icon" :src="icon" />
       <h1 class="category-text">{{ nameCategory }}</h1>
     </div>
     <div v-if="status == true" :id="cssBoxClick">
       <img
         class="category-icon-click"
-        @click="goMainpage()"
         :style="changeBg"
         :src="icon"
       />
@@ -80,6 +79,9 @@ export default {
 .category-icon,
 .category-icon-click {
   width: 18px;
+  height:18px;
+  object-fit:cover;
+  -o-object-fit:cover;
   border: none;
 }
 

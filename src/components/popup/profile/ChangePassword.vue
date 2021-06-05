@@ -158,6 +158,16 @@ export default {
         this.alertPasswordNew =
           "password must have at least 1 special characters";
       }
+      if (this.passwordNew == this.passwordOld) {
+        this.invalidPasswordNew = true;
+        this.alertPasswordNew = "new password must not match to the old";
+      }
+      if (this.passwordNew != this.passwordConfirm) {
+        this.invalidPasswordConfirm = true;
+        this.alertPasswordConfirm = "password does not match";
+      } else {
+        this.invalidPasswordConfirm = false;
+      }
       if (!this.passwordNew) this.invalidPasswordNew = false;
     },
     passwordConfirm: function() {
