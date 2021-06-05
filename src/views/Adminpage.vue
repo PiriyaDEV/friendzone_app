@@ -48,6 +48,7 @@
         <AdminMenu
           id="menubar"
           :goReport="goReport"
+          :selectMenu="selectAdmin"
           @pageReturnAdmin="pageReturnAdmin"
           @clickClearSearch="clickClearSearch"
         />
@@ -69,6 +70,7 @@
             @customerData="customerData"
             @reportData="reportData"
             @pageReturnAdmin="pageReturnAdmin"
+            @clickClearSearch="clickClearSearch"
           />
 
           <AdminMainpage

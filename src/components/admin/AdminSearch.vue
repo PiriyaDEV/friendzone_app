@@ -8,7 +8,7 @@
       </h1>
       <div id="title-box">
         <h1 class="title header white-color">DISCOUNT</h1>
-        <div @click="recentClick(discount)" class="second-title">
+        <div @click="recentClick(3)" class="second-title">
           <h1>See All</h1>
           <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
         </div>
@@ -40,7 +40,7 @@
 
       <div id="title-box" class="title-box-space">
         <h1 class="title header white-color">USER</h1>
-        <div @click="recentClick(user)" class="second-title">
+        <div @click="recentClick(4)" class="second-title">
           <h1>See All</h1>
           <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
         </div>
@@ -70,7 +70,7 @@
 
       <div id="title-box" class="title-box-space">
         <h1 class="title header white-color">REPORT</h1>
-        <div @click="recentClick(report)" class="second-title">
+        <div @click="recentClick(5)" class="second-title">
           <h1>See All</h1>
           <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
         </div>
@@ -135,15 +135,8 @@ export default {
   },
   methods: {
     recentClick(value) {
-        if(value == "discount") {
-          this.$emit("pageReturnAdmin",3)
-        }
-        if(value == "user") {
-          this.$emit("pageReturnAdmin",4)
-        }
-        if(value == "report") {
-          this.$emit("pageReturnAdmin",5)
-        }
+      this.$emit("pageReturnAdmin",value)
+      this.$emit("clickClearSearch", true);
     },
     search(searchValue) {
       if (searchValue) {
