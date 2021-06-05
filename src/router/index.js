@@ -1,55 +1,47 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Homepage from "../views/Homepage.vue";
-import Register from "../views/Register.vue";
-import Login from "../views/Login.vue";
-import Mainpage from "../views/Mainpage.vue";
-import ProfileSetting from "../views/ProfileSetting.vue";
-import InterestSelect from "../views/InterestSelect.vue";
-import Adminpage from "../views/Adminpage.vue";
-import Notfound from "../views/Notfound.vue";
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
     name: "Homepage",
-    component: Homepage
+    component: () => import ("../views/Homepage.vue")
   },
   {
     path: "/register",
     name: "Register",
-    component: Register
+    component: () => import ("../views/Register.vue")
   },
   {
     path: "/login",
     name: "Login",
-    component: Login
+    component: () => import ("../views/Login.vue")
   },
   {
     path: "/mainpage",
     name: "Mainpage",
-    component: Mainpage
+    component: () => import ("../views/Mainpage.vue")
   },
   {
     path: "/profileSetting",
     name: "ProfileSetting",
-    component: ProfileSetting
+    component: () => import ("../views/ProfileSetting.vue")
   },
   {
     path: "/interestSelect",
     name: "InterestSelect",
-    component: InterestSelect
+    component: () => import ("../views/InterestSelect.vue")
   },
   {
     path: "/admin",
     name: "Adminpage",
-    component: Adminpage
+    component: () => import ("../views/Adminpage.vue")
   },
   {
     path: "*",
     name: "Notfound",
-    component: Notfound
+    component: () => import ("../views/Notfound.vue")
   }
 ];
 

@@ -134,7 +134,7 @@ import AuthService from "./../../services/auth.service";
 
 export default {
   name: "Mainpage",
-  props: ["goReport"],
+  props: ["goReport","selectMenu"],
   data() {
     return {
       mainpageselect: true,
@@ -148,6 +148,24 @@ export default {
     goReport: function() {
       if (this.goReport == true) {
         this.reportClick();
+      }
+    },
+    selectMenu: function() {
+      if(this.selectMenu == 3) {
+        this.mainpageselect = false;
+        this.userselect = false;
+        this.reportselect = false;
+        this.discountselect = true;
+      } else if(this.selectMenu == 4) {
+        this.mainpageselect = false;
+        this.userselect = true;
+        this.reportselect = false;
+        this.discountselect = false;
+      } else if(this.selectMenu == 5) {
+        this.mainpageselect = false;
+        this.userselect = false;
+        this.reportselect = true;
+        this.discountselect = false;;
       }
     }
   },

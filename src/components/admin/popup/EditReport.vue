@@ -42,14 +42,19 @@
       <div id="right">
         <!-- Input -->
         <div>
-          <h2 class="input_title">Select Report Type</h2>
+          <h2 class="input_title">Select Type Category</h2>
+          <h2 v-show="invalidCategory" class="input_title">
+            <span class="orange-color"> * {{ alertCategory }}</span>
+          </h2>
           <select
             name="gender"
             class="input_select minimal"
             v-model="typeSelected"
             required
           >
-            <option value="" disabled selected hidden>select type</option>
+            <option value="" disabled selected hidden
+              >select type category</option
+            >
             <option value="user">User</option>
             <option value="event">Event</option>
             <option value="web">Web</option>
@@ -61,18 +66,23 @@
         </div>
         <!-- Input -->
         <div>
-          <h2 class="input_title">Delete Report</h2>
+          <h2 class="input_title">Delete Report Type</h2>
+          <h2 v-show="invalidDelete" class="input_title">
+            <span class="orange-color"> * {{ alertDelete }}</span>
+          </h2>
           <select
             name="gender"
             class="input_select minimal"
             v-model="deleteSelected"
             required
           >
-            <option value="" disabled selected hidden>select type</option>
+            <option value="" disabled selected hidden
+              >select report type</option
+            >
             <option
-              v-for="type in selectList"
+              v-for="(type, i) in selectList"
               :key="type.report_type_id"
-              :value="type.report_type_id"
+              :value="i"
             >
               {{ type.type_name }}
             </option>
@@ -84,30 +94,35 @@
         <!-- Input -->
         <!-- Input -->
         <div>
-          <h2 class="input_title">Rename Report</h2>
+          <h2 class="input_title">Rename Report Type</h2>
+          <h2 v-show="invalidRename" class="input_title">
+            <span class="orange-color"> * {{ alertRename }}</span>
+          </h2>
           <select
             name="gender"
             class="input_select minimal"
             v-model="renameSelected"
             required
           >
-            <option value="" disabled selected hidden>select type</option>
+            <option value="" disabled selected hidden
+              >select report type</option
+            >
             <option
-              v-for="type in selectList"
+              v-for="(type, i) in selectList"
               :key="type.report_type_id"
-              :value="type.report_type_id"
+              :value="i"
             >
               {{ type.type_name }}
             </option>
           </select>
           <div>
             <input
-              v-model="renameReportType"
+              v-model="newNameReportType"
               class="input_box"
               type="text"
               maxlength="64"
               size="64"
-              placeholder="enter new report name"
+              placeholder="enter new type name"
             />
           </div>
 
@@ -119,6 +134,9 @@
         <!-- Input -->
         <div>
           <h2 class="input_title">Add New Report Type</h2>
+          <h2 v-show="invalidAdd" class="input_title">
+            <span class="orange-color"> * {{ alertAdd }}</span>
+          </h2>
           <div>
             <input
               v-model="newReportType"
@@ -126,7 +144,7 @@
               type="text"
               maxlength="64"
               size="64"
-              placeholder="enter new report name"
+              placeholder="enter new type name"
             />
           </div>
 
@@ -156,21 +174,45 @@ export default {
       typeSelected: "",
       deleteSelected: "",
       renameSelected: "",
-      renameReportType: "",
-      newReportType: ""
+      newNameReportType: "",
+      newReportType: "",
+      alertCategory: false,
+      alertType: "",
+      invalidDelete: false,
+      alertDelete: "",
+      invalidRename: false,
+      alertRename: "",
+      invalidAdd: false,
+      alertAdd: ""
     };
   },
   watch: {
     typeSelected: function() {
+      this.invalidCategory = false;
+      this.invalidDelete = false;
+      this.invalidRename = false;
+      this.invalidAdd = false;
+      this.deleteSelected = "";
+      this.renameSelected = "";
       if (this.typeSelected == "user") {
         this.selectList = this.typeUserList;
-      }
-      else if (this.typeSelected == "event") {
+      } else if (this.typeSelected == "event") {
         this.selectList = this.typeEventList;
-      }
-      else if (this.typeSelected == "web") {
+      } else if (this.typeSelected == "web") {
         this.selectList = this.typeWebList;
       }
+    },
+    deleteSelected: function() {
+      this.invalidDelete = false;
+    },
+    renameSelected: function() {
+      this.invalidRename = false;
+    },
+    newNameReportType: function() {
+      if (this.newNameReportType) this.invalidRename = false;
+    },
+    newReportType: function() {
+      if (this.newReportType) this.invalidAdd = false;
     }
   },
   created() {
@@ -222,21 +264,78 @@ export default {
         });
     },
     deleteReportType() {
-      if(this.selectList.length > 3) {
-        ReportService.update({report_type_id: this.deleteSelected, status_id: "ST07"}).then(res => {
+      if (!this.typeSelected) {
+        this.invalidCategory = true;
+        this.alertCategory = "required type category";
+      } else if (!this.deleteSelected) {
+        this.invalidDelete = true;
+        this.alertDelete = "required report type";
+      } else if (this.selectList.length <= 3) {
+        this.invalidDelete = true;
+        this.alertDelete = "minimum 3 types/category";
+      } else {
+        ReportService.updateType({
+          report_type_id: this.selectList[this.deleteSelected].report_type_id,
+          status_id: "ST07"
+        }).then((res) => {
           if (res.report_type_id) {
-      //       let index = this.selectList.findIndex(
-      //   (user) => (user.user_id = user_id)
-      // );
-      // if (index > -1) {
-      //   this.requestedList.splice(index, 1);
-      // }
-            console.log(res)
+            this.selectList.splice(this.deleteSelected, 1);
+            this.deleteSelected = "";
           }
-        })
+        });
       }
-      else {
-        console.log("Minimum 3 report types")
+    },
+    renameReportType() {
+      if (!this.typeSelected) {
+        this.invalidCategory = true;
+        this.alertCategory = "required type category";
+      } else if (!this.renameSelected) {
+        this.invalidRename = true;
+        this.alertRename = "required report type";
+      } else if (!this.newNameReportType) {
+        this.invalidRename = true;
+        this.alertRename = "required new type name";
+      } else {
+        ReportService.updateType({
+          report_type_id: this.selectList[this.renameSelected].report_type_id,
+          type_name: this.newNameReportType
+        }).then((res) => {
+          if (res.report_type_id) {
+            this.selectList[this.renameSelected].type_name = res.type_name;
+            this.renameSelected = "";
+            this.newNameReportType = "";
+          }
+        });
+      }
+    },
+    addReportType() {
+      if (!this.typeSelected) {
+        this.invalidCategory = true;
+        this.alertCategory = "required type category";
+      } else if (!this.newReportType) {
+        this.invalidAdd = true;
+        this.alertAdd = "required new type name";
+      } else {
+        let reportType = {
+          type_name: this.newReportType,
+          status_id: "ST02"
+        };
+        if (this.typeSelected == "user") {
+          reportType.require_event = false;
+          reportType.require_suspect = true;
+        } else if (this.typeSelected == "event") {
+          reportType.require_event = true;
+          reportType.require_suspect = false;
+        } else if (this.typeSelected == "web") {
+          reportType.require_event = false;
+          reportType.require_suspect = false;
+        }
+        ReportService.createType(reportType).then((res) => {
+          if (res.report_type_id) {
+            this.selectList.push(res);
+            this.newReportType = "";
+          }
+        });
       }
     }
   }
@@ -437,8 +536,8 @@ option {
 }
 
 .button-section {
-    justify-content:flex-end !important;
-  }
+  justify-content: flex-end !important;
+}
 
 .input_box {
   width: 250px !important;
@@ -451,7 +550,7 @@ option {
   }
 
   .button-section {
-    width:inherit;
+    width: inherit;
     margin-top: 10px;
   }
 

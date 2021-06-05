@@ -8,7 +8,7 @@
       </h1>
       <div id="title-box">
         <h1 class="title header white-color">DISCOUNT</h1>
-        <div @click="recentClick()" class="second-title">
+        <div @click="recentClick(3)" class="second-title">
           <h1>See All</h1>
           <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
         </div>
@@ -40,7 +40,7 @@
 
       <div id="title-box" class="title-box-space">
         <h1 class="title header white-color">USER</h1>
-        <div @click="recentClick()" class="second-title">
+        <div @click="recentClick(4)" class="second-title">
           <h1>See All</h1>
           <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
         </div>
@@ -70,7 +70,7 @@
 
       <div id="title-box" class="title-box-space">
         <h1 class="title header white-color">REPORT</h1>
-        <div @click="recentClick()" class="second-title">
+        <div @click="recentClick(5)" class="second-title">
           <h1>See All</h1>
           <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
         </div>
@@ -134,8 +134,9 @@ export default {
     }
   },
   methods: {
-    reportData(value) {
-      this.$emit("reportData", value);
+    recentClick(value) {
+      this.$emit("pageReturnAdmin",value)
+      this.$emit("clickClearSearch", true);
     },
     search(searchValue) {
       if (searchValue) {
@@ -167,6 +168,15 @@ export default {
             this.reportList = [];
           });
       }
+    },
+    discountData(value) {
+      this.$emit("editDiscountData", value);
+    },
+    reportData(value) {
+      this.$emit("reportData", value);
+    },
+    customerData(value) {
+      this.$emit("customerData", value);
     }
   }
 };

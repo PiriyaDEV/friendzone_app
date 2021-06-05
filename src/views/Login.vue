@@ -117,6 +117,7 @@ export default {
         this.passwordFieldType === "password" ? "text" : "password";
     },
     checkLogin() {
+      this.invalidIdentification = false;
       if (this.identification && this.password) {
         this.$store
           .dispatch("auth/login", {
@@ -128,10 +129,16 @@ export default {
               this.$router.push("/mainpage");
             },
             (error) => {
+              console.log(error)
               if (error.message == "Request failed with status code 403") {
                 this.invalidIdentification = true;
                 this.alertIdentification = "You have been banned from friendzone, please contact admin";
-              } else {
+              }
+              else if(error.message == "Request failed with status code 401"){
+                this.invalidIdentification = true;
+                this.alertIdentification = "Invalid Password!";
+              }
+              else {
                 this.invalidIdentification = true;
                 this.alertIdentification = "Incorrect username or email";
               }
