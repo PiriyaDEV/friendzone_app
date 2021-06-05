@@ -26,6 +26,12 @@ button {
   overflow-x: hidden;
 }
 
+html,
+body {
+  position: fixed;
+  overflow: hidden;
+}
+
 textarea {
   resize: none;
 }

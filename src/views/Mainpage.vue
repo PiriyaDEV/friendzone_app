@@ -192,7 +192,6 @@
       </div>
     </div>
     <!-- User -->
-    
   </div>
 </template>
 

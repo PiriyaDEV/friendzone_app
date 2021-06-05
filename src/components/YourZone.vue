@@ -269,7 +269,7 @@ export default {
   name: "Yourzone",
   data() {
     return {
-      user: null,
+      user: "",
       hostFilter: "all",
       joinFilter: "all",
       requestFilter: "all",
@@ -460,16 +460,18 @@ export default {
     NoInformation
   },
   created() {
-    UserService.getUserDetail().then((res) => {
-      if (res) {
-        this.user = res;
-      } else {
+    UserService.getUserDetail()
+      .then((res) => {
+        if (res) {
+          this.user = res;
+        }
+      })
+      .catch(() => {
         this.user.host = 0;
-        this.user.joined = 0;
-        this.follower = 0;
-        this.following = 0;
-      }
-    });
+        this.user.join = 0;
+        this.user.follower = 0;
+        this.user.following = 0;
+      });
     this.getHostedEventList();
   },
   methods: {
