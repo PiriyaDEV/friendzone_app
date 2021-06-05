@@ -61,18 +61,18 @@ export default {
     }
   },
   created() {
-    CategoryService.getCategoryList().then((res) => {
-      if (res) {
-        this.categoryList = res;
-      }
-    });
     if (this.loggedIn) {
       this.$router.push("/mainpage");
     }
     var user = this.$store.state.user;
     if (!user.username || !user.email || !user.password || !user.phone) {
-      window.location.href = "/register";
+      this.$router.push("/register");
     }
+    CategoryService.getCategoryList().then((res) => {
+      if (res) {
+        this.categoryList = res;
+      }
+    });
   },
   components: {
     CategoryBox

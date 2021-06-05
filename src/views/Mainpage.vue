@@ -287,7 +287,6 @@ export default {
     if (!this.loggedIn) {
       this.$router.push("/");
     }
-    this.$store.state.isAdmin = false;
   },
   methods: {
     pageReturn(value) {

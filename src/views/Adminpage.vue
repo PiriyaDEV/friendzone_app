@@ -166,16 +166,14 @@ export default {
       return this.$store.state.auth.status.loggedIn;
     }
   },
-  beforeCreate() {
-    this.$store.state.isAdmin = true;
-  },
   created() {
-    this.getRole();
     if (!this.loggedIn) {
       this.$router.push("/");
-    }
-    if (this.roleAccount != "RO01") {
-      this.$router.push("/");
+    } else {
+      this.getRole();
+      if (this.roleAccount != "RO01") {
+        this.$router.push("/");
+      }
     }
   },
   methods: {

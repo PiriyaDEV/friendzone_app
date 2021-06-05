@@ -10,9 +10,6 @@
 
 <script>
 export default {
-  created() {
-    console.log(this.$route.path)
-  },
 };
 </script>
 
@@ -28,11 +25,6 @@ button {
   font-family: "Atten-Round-New";
   font-size: 8px;
   overflow-x: hidden;
-}
-
-body,html{
-  position:fixed;
-  overflow:hidden;
 }
 
 textarea {

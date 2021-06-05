@@ -39,6 +39,11 @@ const routes = [
     component: () => import ("../views/Adminpage.vue")
   },
   {
+    path: "/policy",
+    name: "Policy",
+    component: () => import ("../views/Policy.vue")
+  },
+  {
     path: "*",
     name: "Notfound",
     component: () => import ("../views/Notfound.vue")
