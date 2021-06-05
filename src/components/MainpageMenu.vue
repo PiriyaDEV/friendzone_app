@@ -622,7 +622,7 @@ export default {
   }
 
   .bottom-menu {
-    margin-top: 70px !important;
+    margin-top: 35px !important;
   }
 
   .menu-box,
@@ -631,7 +631,7 @@ export default {
     width: inherit;
     border: none;
     margin-left: 0px;
-    margin-top: 25px;
+    margin-top: 15px;
   }
 
   #create-text {

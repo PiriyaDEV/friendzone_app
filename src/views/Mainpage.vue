@@ -287,6 +287,7 @@ export default {
     if (!this.loggedIn) {
       this.$router.push("/");
     }
+    this.$store.state.isAdmin = false;
   },
   methods: {
     pageReturn(value) {
@@ -428,6 +429,7 @@ export default {
 </script>
 
 <style scoped>
+
 #mainpage,
 #mainpage-admin {
   /* background-image: url("../assets/harryfer-background.jpg"); */

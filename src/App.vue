@@ -9,7 +9,8 @@
 </template>
 
 <script>
-export default {};
+export default {
+};
 </script>
 
 <style>
@@ -24,12 +25,6 @@ button {
   font-family: "Atten-Round-New";
   font-size: 8px;
   overflow-x: hidden;
-}
-
-html,
-body {
-  position: fixed;
-  overflow: hidden;
 }
 
 textarea {

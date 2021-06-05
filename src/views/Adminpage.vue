@@ -166,6 +166,9 @@ export default {
       return this.$store.state.auth.status.loggedIn;
     }
   },
+  beforeCreate() {
+    this.$store.state.isAdmin = true;
+  },
   created() {
     this.getRole();
     if (!this.loggedIn) {
