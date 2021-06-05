@@ -16,6 +16,22 @@ class ReportService {
     return res.data;
   }
 
+  async createType(reportType) {
+    const res = await axios.post(API_URL + "createType", reportType, {
+      headers: authHeader()
+    });
+
+    return res.data;
+  }
+
+  async updateType(reportType) {
+    const res = await axios.post(API_URL + "updateType", reportType, {
+      headers: authHeader()
+    });
+
+    return res.data;
+  }
+
   async getReportTypeUserList() {
     const res = await axios.get(API_URL + "getReportTypeUserList",  { headers: authHeader() }).catch(() => {
       return "err";

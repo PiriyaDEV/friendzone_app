@@ -62,13 +62,21 @@
             @clickClearSearch="clickClearSearch"
           />
 
-          <AdminSearch v-if="searchBar" :searchValue="searchBar" />
+          <AdminSearch
+            v-if="searchBar"
+            :searchValue="searchBar"
+            @editDiscountData="editDiscountData"
+            @customerData="customerData"
+            @reportData="reportData"
+            @pageReturnAdmin="pageReturnAdmin"
+          />
 
           <AdminMainpage
             v-if="selectAdmin == 1 && !searchBar"
             @clickCreate="clickCreate"
             @clickEdit="clickEdit"
             @editDatabase="editDatabase"
+            @editDiscountData="editDiscountData"
             @goToReport="goToReport"
             @reportData="reportData"
           />
@@ -148,7 +156,7 @@ export default {
       selectAdmin: 1,
       dataReport: [],
       searchBar: "",
-      roleAccount: "",
+      roleAccount: ""
     };
   },
   computed: {
@@ -164,13 +172,12 @@ export default {
     if (this.roleAccount != "RO01") {
       this.$router.push("/");
     }
-    
   },
   methods: {
     getRole() {
       let userData = decode(localStorage.getItem("user"));
       this.roleAccount = userData.role_id;
-    },         
+    },
     point(value) {
       this.pointPage = value;
     },

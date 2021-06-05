@@ -123,9 +123,11 @@
             <div id="container">
               <div id="list-container" class="event-container">
                 <div class="list event-flex-section">
-                  <div v-for="(item, i) in discountList" :key="i">
+                  <div v-for="(discount, i) in discountList" :key="i">
                     <DiscountFlex
+                      :discount="discount"
                       @clickDiscountFlex="clickDiscountFlex"
+                      @discountData="discountData"
                     ></DiscountFlex>
                   </div>
                 </div>
@@ -196,6 +198,15 @@ export default {
         this.analystList = [];
         this.approverList = [];
       });
+    AdminService.getDiscountList()
+      .then((res) => {
+        if (res) {
+          this.discountList = res;
+        }
+      })
+      .catch(() => {
+        this.discountList = [];
+      });
   },
   methods: {
     recentClick() {
@@ -227,7 +238,10 @@ export default {
       this.Admin = false;
       this.Analyst = false;
       this.Approver = true;
-    }
+    },
+    discountData(value) {
+      this.$emit("editDiscountData", value);
+    },
   },
   computed: {
     cssAdmin() {
