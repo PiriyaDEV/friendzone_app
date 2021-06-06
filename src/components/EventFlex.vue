@@ -285,46 +285,45 @@ export default {
     },
     joinEvent() {
       let user = decode(localStorage.getItem("user"));
-      
-      if (!this.ongoingEvent) {  
-        if (this.event.joined == this.event.max_participant) {        
-          this.$emit("titleError", {type: "full"});
+
+      if (!this.ongoingEvent) {
+        if (this.event.joined == this.event.max_participant) {
+          this.$emit("titleError", { type: "full" });
         } else {
-          EventService.getEventGenderList(this.event.event_id)
-            .then((res) => {
-              console.log(res)
-              if (res.length) {
-                let found = res.find(
-                  (gender) => user.gender_id == gender.gender_id
-                );
-                if (found) {
-                  let age = this.calculate_age(new Date(user.birthdate));
-                  console.log("my age : " + age);
-                  if (age >= this.event.min_age && age <= this.event.max_age) {
-                    EventService.joinEvent(this.event.event_id)
-                      .then((result) => {
-                        if (result) {
-                          this.showPending = true;
-                        }
-                      })
-                      .catch(() => {
-                        console.log("Error when joining the event");
-                      });
-                  } else {
-                    this.$emit("titleError", {
-                      type: "age",
-                      min: this.event.min_age,
-                      max: this.event.max_age
+          EventService.getEventGenderList(this.event.event_id).then((res) => {
+            console.log(res);
+            if (res.length) {
+              let found = res.find(
+                (gender) => user.gender_id == gender.gender_id
+              );
+              if (found) {
+                let age = this.calculate_age(new Date(user.birthdate));
+                console.log("my age : " + age);
+                if (age >= this.event.min_age && age <= this.event.max_age) {
+                  EventService.joinEvent(this.event.event_id)
+                    .then((result) => {
+                      if (result) {
+                        this.showPending = true;
+                      }
+                    })
+                    .catch(() => {
+                      console.log("Error when joining the event");
                     });
-                  }
-                } else {                  
+                } else {
                   this.$emit("titleError", {
-                    type: "gender",
-                    gender: res
+                    type: "age",
+                    min: this.event.min_age,
+                    max: this.event.max_age
                   });
                 }
+              } else {
+                this.$emit("titleError", {
+                  type: "gender",
+                  gender: res
+                });
               }
-            })
+            }
+          });
         }
       }
     },

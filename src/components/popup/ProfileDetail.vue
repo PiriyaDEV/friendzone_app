@@ -70,17 +70,17 @@
                   dataUser
                 }}</span>
                 <span v-else>{{ user.username }}</span>
-                <img
+                <!-- <img
                   v-if="role != `RO04` && !findUser"
                   class="verified-badge"
                   src="../../assets/icon/verified-badge.png"
-                />
+                /> -->
               </h1>
               <input
                 v-else
                 class="input_username_box"
                 type="text"
-                maxlength="30"
+                maxlength="16"
                 size="30"
                 name="name"
                 autocomplete="off"
@@ -91,23 +91,30 @@
             <div v-if="adminEdit" id="username-box">
               <h1 v-if="!edit" id="name_title">
                 <span>{{ customerData.username }}</span>
-                <img
+                <!-- <img
                   v-if="role != `RO04`"
                   class="verified-badge"
                   src="../../assets/icon/verified-badge.png"
-                />
+                /> -->
               </h1>
               <input
                 v-else
                 class="input_username_box"
                 type="text"
-                maxlength="30"
+                maxlength="16"
                 size="30"
                 name="name"
                 autocomplete="off"
                 v-model="username"
               />
             </div>
+
+            <h2
+              v-if="invalidUsername && edit"
+              class="orange-color invalid-text"
+            >
+              * {{ alertUsername }}
+            </h2>
 
             <div v-if="!adminEdit" id="bio-mobile">
               <h1 v-if="!edit" id="bio">
@@ -120,7 +127,7 @@
                 v-else
                 class="input_bio_box"
                 type="text"
-                maxlength="256"
+                maxlength="150"
                 size="256"
                 name="name"
                 autocomplete="off"
@@ -137,7 +144,7 @@
                 v-else
                 class="input_bio_box"
                 type="text"
-                maxlength="256"
+                maxlength="150"
                 size="256"
                 name="name"
                 autocomplete="off"
@@ -342,7 +349,7 @@
                 v-else
                 class="input_bio_box"
                 type="text"
-                maxlength="256"
+                maxlength="150"
                 size="256"
                 name="name"
                 autocomplete="off"
@@ -359,7 +366,7 @@
                 v-else
                 class="input_bio_box"
                 type="text"
-                maxlength="256"
+                maxlength="150"
                 size="256"
                 name="name"
                 autocomplete="off"
@@ -432,17 +439,15 @@
             <EditProfile
               v-if="interestShow == false && changePassword == false"
               @editReturn="editReturn"
-              :usernameAfter="username"
-              :bioAfter="bio"
               :edit="edit"
               :user="user"
               :role="demoRole"
               :findUser="findUser"
               :dataUser="dataUser"
               :userList="searchUserList"
-              :day="dayPlace"
-              :month="monthPlace + 1"
-              :year="yearPlace"
+              :prop_day="dayPlace"
+              :prop_month="monthPlace + 1"
+              :prop_year="yearPlace"
               @saveUser="saveUser"
             />
           </div>
@@ -451,15 +456,14 @@
             <EditProfile
               v-if="interestShow == false && changePassword == false"
               @editReturn="editReturn"
-              :usernameAfter="username"
-              :bioAfter="bio"
               :edit="edit"
               :user="customerData"
               :role="demoRole"
               :findUser="false"
-              :day="dayPlace"
-              :month="monthPlace + 1"
-              :year="yearPlace"
+              :userList="searchUserList"
+              :prop_day="dayPlace"
+              :prop_month="monthPlace + 1"
+              :prop_year="yearPlace"
               @saveUser="saveUser"
             />
           </div>
@@ -500,9 +504,10 @@
 import ProfileInterest from "@/components/popup/profile/ProfileInterest.vue";
 import ChangePassword from "@/components/popup/profile/ChangePassword.vue";
 import EditProfile from "@/components/popup/EditProfile.vue";
-import UserService from "./../../services/user.service";
-import Upload from "./../../components/UploadPic.vue";
-import SearchService from "./../../services/search.service";
+import UserService from "@/services/user.service";
+import Upload from "@/components/UploadPic.vue";
+import SearchService from "@/services/search.service";
+import AuthService from "@/services/auth.service";
 import decode from "jwt-decode";
 const PORT = require("@/services/port.config").PORT;
 
@@ -540,7 +545,9 @@ export default {
       searchUserList: [],
       profile_User: "",
       role: "",
-      adminEdit: false
+      adminEdit: false,
+      invalidUsername: false,
+      alertUsername: ""
     };
   },
   props: ["demoRole", "findUser", "dataUser", "customerData"],
@@ -549,6 +556,32 @@ export default {
     Upload,
     ProfileInterest,
     ChangePassword
+  },
+  watch: {
+    username: function() {
+      this.invalidUsername = false;
+      if (this.username.length < 3) {
+        this.invalidUsername = true;
+        this.alertUsername = "username is too short";
+      } else if (/[^A-Za-z0-9_.]/.test(this.username)) {
+        this.invalidUsername = true;
+        this.alertUsername =
+          "username can only use letters, numbers, underscores and periods";
+      } else if (this.username[0] == ".") {
+        this.invalidUsername = true;
+        this.alertUsername = "username can't start with period";
+      } else if (this.username[this.username.length - 1] == ".") {
+        this.invalidUsername = true;
+        this.alertUsername = "username can't end with period";
+      } else {
+        if (!this.adminEdit) {
+          if (this.username != this.user.username) this.checkUniqueUsername();
+        } else {
+          if (this.username != this.customerData.username)
+            this.checkUniqueUsername();
+        }
+      }
+    }
   },
   created() {
     this.getRole();
@@ -610,22 +643,30 @@ export default {
     },
     clickDemoAdmin() {
       if (this.demoRole == 1) {
-        this.$router.push("/admin");
+        window.location.href = "/admin";
       } else {
-        this.$router.push("/");
+        window.location.href = "/mainpage";
       }
     },
     clickEdit() {
       this.edit = true;
       this.cancel = false;
-      this.profile_pic = "";
+      this.invalidUsername = false;
       this.interestShow = false;
       this.changePassword = false;
     },
     editReturn(value) {
       this.edit = value;
       this.cancel = true;
-      this.profile_pic.imageURL = "";
+      if (this.adminEdit == true) {
+        this.username = this.customerData.username;
+        this.bio = this.customerData.bio;
+        this.profile_pic = "";
+      } else {
+        this.username = this.user.username;
+        this.bio = this.user.bio;
+        this.profile_pic = "";
+      }
     },
     clickInterest() {
       this.interestShow = true;
@@ -641,36 +682,46 @@ export default {
       this.interestShow = value;
       this.changePassword = value;
     },
-    saveUser(value) {
-      this.edit = false;
-      this.save = true;
-      value.role_id = this.role;
-      if (this.adminEdit) {
-        UserService.editUser(value, true).then((res) => {
-          if (res) {
-            UserService.uploadProfile(
-              this.profile_pic.formData,
-              res.user_id
-            ).then((res) => {
-              if (res) {
-                window.location.href = "/admin";
-              }
-            });
-          }
-        });
-      } else {
-        UserService.editUser(value, false).then((res) => {
-          if (res) {
-            UserService.uploadProfile(
-              this.profile_pic.formData,
-              res.user_id
-            ).then((res) => {
-              if (res) {
-                window.location.href = "/mainpage";
-              }
-            });
-          }
-        });
+    saveUser(user) {
+      if (!this.username) {
+        this.invalidUsername = true;
+        this.alertUsername = "username required";
+      }
+      if (!this.invalidUsername) {
+        this.edit = false;
+        this.save = true;
+        user.role_id = this.role;
+        user.username = this.username;
+        user.bio = this.bio;
+        if (this.adminEdit) {
+          UserService.editUser(user, true).then((res) => {
+            if (res) {
+              UserService.uploadProfile(
+                this.profile_pic.formData,
+                res.user_id
+              ).then((res) => {
+                if (res) {
+                  this.detailReturn();
+                  window.location.href = "/admin";
+                }
+              });
+            }
+          });
+        } else {
+          UserService.editUser(user, false).then((res) => {
+            if (res) {
+              UserService.uploadProfile(
+                this.profile_pic.formData,
+                res.user_id
+              ).then((res) => {
+                if (res) {
+                  this.detailReturn();
+                  window.location.href = "/mainpage";
+                }
+              });
+            }
+          });
+        }
       }
     },
     getRole() {
@@ -681,7 +732,7 @@ export default {
       SearchService.getSearchUser(value)
         .then((res) => {
           if (res) {
-            this.searchUserList = res.find((user) => user.username == value);
+            this.searchUserList = res.find((item) => item.username == value);
             this.profile_User =
               `${PORT}/api/user/displayPic/` + this.searchUserList.user_id;
             let birthdate = new Date(this.searchUserList.birthdate);
@@ -722,6 +773,20 @@ export default {
           console.log("send!");
         }
       });
+    },
+    checkUniqueUsername() {
+      if (this.username) {
+        AuthService.checkUniqueExists({ username: this.username }).then(
+          (res) => {
+            if (res.exist) {
+              this.invalidUsername = res.exist;
+              this.alertUsername = "this username has been used";
+            } else {
+              this.invalidUsername = res.exist;
+            }
+          }
+        );
+      }
     }
   }
 };
@@ -788,6 +853,10 @@ export default {
   color: #ffffff !important;
   border: 2px solid #ff8864 !important;
   background-color: #ff8864 !important;
+}
+.invalid-text {
+  margin: 3px 0px -10px 0px;
+  font-weight: 400;
 }
 #bio {
   color: #444444;
@@ -937,7 +1006,7 @@ export default {
   }
   .input_username_box,
   .input_bio_box {
-    width: 100%;
+    width: calc(100% - 20px);
   }
   #left {
     display: flex;
@@ -975,6 +1044,9 @@ export default {
   #profile-pic {
     width: 100px;
     height: 100px;
+  }
+  .invalid-text[data-v-2dec0db7] {
+    padding-left: 20px;
   }
   #name_title {
     padding-top: 15px;

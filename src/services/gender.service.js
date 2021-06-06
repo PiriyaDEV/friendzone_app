@@ -6,7 +6,9 @@ const URL = `${PORT}/api/gender/`;
 
 class GenderService {
   async getGenderList() {
-    const res = await axios.get(URL + "getGenderList",  { headers: authHeader() });
+    const res = await axios.get(URL + "getGenderList", {
+      headers: authHeader()
+    });
     return res.data;
   }
 }

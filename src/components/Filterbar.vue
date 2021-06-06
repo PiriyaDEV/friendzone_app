@@ -7,7 +7,7 @@
 
     <div>
       <h1 class="title">Friends</h1>
-      
+
       <div class="checkbox" v-for="item in FriendData" :key="item.value">
         <!-- <input
             type="checkbox"
@@ -29,9 +29,13 @@
 
     <div>
       <h1 class="title">Events</h1>
-      
+
       <h1 class="subtitle">Categories</h1>
-      <div class="checkbox" v-for="item in CategoriesData" :key="item.category_id">
+      <div
+        class="checkbox"
+        v-for="item in CategoriesData"
+        :key="item.category_id"
+      >
         <!-- <input
             type="checkbox"
             :value="item.location"
@@ -50,7 +54,7 @@
       </div>
 
       <h1 class="subtitle sub-top">Gender</h1>
-      
+
       <div class="checkbox" v-for="item in GenderData" :key="item.gender_id">
         <!-- <input
             type="checkbox"
@@ -72,7 +76,7 @@
 
     <div>
       <h1 class="title">Discount</h1>
-      
+
       <div class="checkbox" v-for="item in DiscountData" :key="item.value">
         <!-- <input
             type="checkbox"
@@ -139,10 +143,16 @@ export default {
       this.$emit("friendFilter", this.selectedFriend);
     },
     selectedCategories: function() {
-      this.$emit("eventFilter", this.selectedCategories.concat(this.selectedGender));
+      this.$emit(
+        "eventFilter",
+        this.selectedCategories.concat(this.selectedGender)
+      );
     },
     selectedGender: function() {
-      this.$emit("eventFilter", this.selectedCategories.concat(this.selectedGender));
+      this.$emit(
+        "eventFilter",
+        this.selectedCategories.concat(this.selectedGender)
+      );
     },
     selectedDiscount: function() {
       this.$emit("discountFilter", this.selectedDiscount);

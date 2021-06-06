@@ -128,7 +128,8 @@ export default {
   font-weight: 500;
 }
 
-#delete-box,#ongoing-box {
+#delete-box,
+#ongoing-box {
   padding: 5px 10px;
   border-radius: 16px;
   text-align: center;
@@ -186,7 +187,8 @@ export default {
     height: 120px;
   }
 
-  #ongoing-box,#delete-box {
+  #ongoing-box,
+  #delete-box {
     top: 93px;
     left: 13px;
   }

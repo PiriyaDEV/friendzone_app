@@ -257,7 +257,7 @@ export default {
 
 #mainpage-admin {
   background-color: #444444;
-  position:fixed;
+  position: fixed;
 }
 
 #timeline {

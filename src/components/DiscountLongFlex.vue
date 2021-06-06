@@ -17,13 +17,15 @@
       <!-- ShowBox -->
 
       <!-- ShowBox -->
-      <div v-if="(discount.status_id == 'ST16') && discount.isExpired" id="expired-box">
+      <div
+        v-if="discount.status_id == 'ST16' && discount.isExpired"
+        id="expired-box"
+      >
         <h1>DISCOUNT IS EXPIRED</h1>
       </div>
       <!-- ShowBox -->
 
       <img :class="cssImgEnd" :src="discount.discount_pic" />
-      
 
       <div id="title-section">
         <h1 class="discount-title">
@@ -73,11 +75,11 @@ export default {
       }
     }
   },
-  computed:{
+  computed: {
     cssImgEnd() {
       let default_pic = "discount-pic";
       let end_pic = "discount-pic end-pic";
-      if (this.discount.status_id == 'ST17' || this.discount.isExpired) {
+      if (this.discount.status_id == "ST17" || this.discount.isExpired) {
         return end_pic;
       } else {
         return default_pic;
@@ -91,7 +93,7 @@ export default {
       } else {
         return pointer_cursor;
       }
-    },
+    }
   },
   props: ["statusYourZone", "discount"]
 };
@@ -107,7 +109,7 @@ export default {
 }
 
 .discount-title {
-  padding-top:2px;
+  padding-top: 2px;
   margin: 0px 15px;
   color: #444444;
   font-size: 1.75em;
@@ -122,11 +124,11 @@ export default {
   -webkit-box-orient: vertical;
 }
 
-.discount-cursor{
+.discount-cursor {
   cursor: pointer;
 }
 
-.end-pic{
+.end-pic {
   filter: grayscale(100%) !important;
 }
 
@@ -197,13 +199,15 @@ export default {
   /* padding: 50px 15px 0px; */
 }
 
-#used-box > h1, #expired-box > h1{
+#used-box > h1,
+#expired-box > h1 {
   margin: 0;
   font-size: 1em;
   font-weight: 500;
 }
 
-#expired-box,#used-box {
+#expired-box,
+#used-box {
   padding: 5px 10px;
   border-radius: 16px;
   text-align: center;
@@ -213,12 +217,12 @@ export default {
   z-index: 3;
 }
 
-#expired-box{
+#expired-box {
   color: #ff8864;
   background-color: white;
 }
 
-#used-box{
+#used-box {
   color: white;
   background-color: #ff8864;
 }

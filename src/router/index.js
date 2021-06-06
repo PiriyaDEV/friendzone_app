@@ -6,47 +6,47 @@ const routes = [
   {
     path: "/",
     name: "Homepage",
-    component: () => import ("../views/Homepage.vue")
+    component: () => import("../views/Homepage.vue")
   },
   {
     path: "/register",
     name: "Register",
-    component: () => import ("../views/Register.vue")
+    component: () => import("../views/Register.vue")
   },
   {
     path: "/login",
     name: "Login",
-    component: () => import ("../views/Login.vue")
+    component: () => import("../views/Login.vue")
   },
   {
     path: "/mainpage",
     name: "Mainpage",
-    component: () => import ("../views/Mainpage.vue")
+    component: () => import("../views/Mainpage.vue")
   },
   {
     path: "/profileSetting",
     name: "ProfileSetting",
-    component: () => import ("../views/ProfileSetting.vue")
+    component: () => import("../views/ProfileSetting.vue")
   },
   {
     path: "/interestSelect",
     name: "InterestSelect",
-    component: () => import ("../views/InterestSelect.vue")
+    component: () => import("../views/InterestSelect.vue")
   },
   {
     path: "/admin",
     name: "Adminpage",
-    component: () => import ("../views/Adminpage.vue")
+    component: () => import("../views/Adminpage.vue")
   },
   {
     path: "/policy",
     name: "Policy",
-    component: () => import ("../views/Policy.vue")
+    component: () => import("../views/Policy.vue")
   },
   {
     path: "*",
     name: "Notfound",
-    component: () => import ("../views/Notfound.vue")
+    component: () => import("../views/Notfound.vue")
   }
 ];
 

@@ -337,14 +337,15 @@ export default {
         this.$store.dispatch("auth/register", this.$store.state.user).then(
           async (res) => {
             if (res.user_id) {
-              await UserService.uploadProfile(this.profile_pic.formData, res.user_id).then(
-                (res) => {
-                  if (res) {
-                    console.log(res);
-                    this.$router.push("/interestSelect");
-                  }
+              await UserService.uploadProfile(
+                this.profile_pic.formData,
+                res.user_id
+              ).then((res) => {
+                if (res) {
+                  console.log(res);
+                  this.$router.push("/interestSelect");
                 }
-              );
+              });
             }
           },
           (error) => {

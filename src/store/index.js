@@ -11,7 +11,7 @@ export default new Vuex.Store({
   state: {
     user: new User(""),
     gender: new Gender(""),
-    point: 0,
+    point: 0
   },
   mutations: {},
   actions: {},

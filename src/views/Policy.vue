@@ -128,12 +128,12 @@ html,
   overflow: hidden;
 }
 
-#fz-logo{
-  width:600px;
+#fz-logo {
+  width: 600px;
 }
 
-#photo{
-  width:100%;
+#photo {
+  width: 100%;
 }
 
 p#start {
@@ -469,9 +469,9 @@ h1 sub {
     font-size: 350%;
   }
 
-  #fz-logo{
-  width:100%;
-}
+  #fz-logo {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 690px) {
@@ -491,4 +491,3 @@ h1 sub {
   }
 }
 </style>
-

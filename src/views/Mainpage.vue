@@ -429,7 +429,6 @@ export default {
 </script>
 
 <style scoped>
-
 #mainpage,
 #mainpage-admin {
   /* background-image: url("../assets/harryfer-background.jpg"); */
@@ -444,7 +443,7 @@ export default {
 
 #mainpage {
   background-color: #f8f3ec;
-  position:fixed;
+  position: fixed;
 }
 
 #mainpage-admin {

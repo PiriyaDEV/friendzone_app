@@ -45,7 +45,9 @@ class CategoryService {
   }
 
   async getCategoryList() {
-    const res = await axios.get(URL + "getCategoryList", { headers: authHeader() });
+    const res = await axios.get(URL + "getCategoryList", {
+      headers: authHeader()
+    });
 
     var categoryList = res.data;
 
@@ -60,7 +62,9 @@ class CategoryService {
   }
 
   async getCategoryFromUserID(user_id) {
-    const res = await axios.get(URL + "getCategoryFromUserID/" + user_id , { headers: authHeader() });
+    const res = await axios.get(URL + "getCategoryFromUserID/" + user_id, {
+      headers: authHeader()
+    });
 
     return res.data;
   }

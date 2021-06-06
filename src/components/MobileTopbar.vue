@@ -32,14 +32,24 @@
               />
               <span class="menu-text">Chat</span>
             </a>
-            <a  v-if="role == `RO02` || role == `RO01`" @click="analystClick()" id="analyst" class="menu-box">
+            <a
+              v-if="role == `RO02` || role == `RO01`"
+              @click="analystClick()"
+              id="analyst"
+              class="menu-box"
+            >
               <img
                 class="menu-icon"
                 src="@/assets/icon/icon-white/icons8-increase-profits-96-w.png"
               />
               <span class="menu-text">Analyst</span>
             </a>
-            <a v-if="role == `RO03` || role == `RO01`" @click="approverClick()" id="approver" class="menu-box">
+            <a
+              v-if="role == `RO03` || role == `RO01`"
+              @click="approverClick()"
+              id="approver"
+              class="menu-box"
+            >
               <img
                 class="menu-icon"
                 src="@/assets/icon/icon-white/icons8-verified-badge-96-w.png"
@@ -82,11 +92,11 @@
           />
           <div class="badge-box">
             <img
-            @click="detailReturn()"
-            id="profile-logo"
-            :src="user.profile_pic"
-          />
-          <img v-if="role == `RO01`" class="verified-badge" src="@/assets/icon/verified-badge.png"/>
+              @click="detailReturn()"
+              id="profile-logo"
+              :src="user.profile_pic"
+            />
+            <!-- <img v-if="role == `RO01`" class="verified-badge" src="@/assets/icon/verified-badge.png"/> -->
           </div>
         </div>
       </div>
@@ -150,11 +160,11 @@
           />
           <div class="badge-box">
             <img
-            @click="detailReturn()"
-            id="profile-logo"
-            :src="user.profile_pic"
-          />
-          <img v-if="role == `RO01`" class="verified-badge" src="@/assets/icon/verified-badge.png"/>
+              @click="detailReturn()"
+              id="profile-logo"
+              :src="user.profile_pic"
+            />
+            <!-- <img v-if="role == `RO01`" class="verified-badge" src="@/assets/icon/verified-badge.png"/> -->
           </div>
         </div>
       </div>
@@ -177,13 +187,13 @@ export default {
   props: ["admin"],
   data() {
     return {
-      role:"",
+      role: "",
       user: new User({ username: "", profile_pic: "" }),
       point: ""
     };
   },
   created() {
-    this.getRole()
+    this.getRole();
     UserService.getTopBarInfo().then((res) => {
       if (res) {
         this.user = res;
@@ -253,9 +263,9 @@ export default {
       this.$emit("pageReturnAdmin", 4);
     },
     notiClick() {
-      console.log("test")
+      console.log("test");
       this.$emit("notificationShow", true);
-    },
+    }
   },
   computed: {}
 };
@@ -286,11 +296,11 @@ export default {
   padding-left: 5px;
 }
 
-.verified-badge{
-  width:15px;
-  height:15px;
-  padding-left:10px;
-  position:absolute;
+.verified-badge {
+  width: 15px;
+  height: 15px;
+  padding-left: 10px;
+  position: absolute;
   bottom: 2px;
   right: -3px;
 }
@@ -321,7 +331,7 @@ export default {
   align-items: center;
 }
 
-.badge-box{
+.badge-box {
   position: relative;
 }
 
@@ -373,13 +383,13 @@ export default {
     margin-left: 25px;
   }
 
-  .verified-badge{
-  width:10px;
-  height:10px;
-  position:absolute;
-  bottom: 2px;
-  right: -2px;
-}
+  .verified-badge {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    bottom: 2px;
+    right: -2px;
+  }
 }
 
 @media screen and (max-width: 375px) {

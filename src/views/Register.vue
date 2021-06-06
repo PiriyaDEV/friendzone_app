@@ -174,11 +174,16 @@
             <div id="term">
               <p>
                 By continuing you accept the
-                <span @click="clickPolicy()" style="cursor:pointer; color: #ff8864;"
+                <span
+                  @click="clickPolicy()"
+                  style="cursor:pointer; color: #ff8864;"
                   >Terms of Use</span
                 >
                 and
-                <span @click="clickPolicy()" style="cursor:pointer; color: #ff8864;">
+                <span
+                  @click="clickPolicy()"
+                  style="cursor:pointer; color: #ff8864;"
+                >
                   Privacy Policy </span
                 >, <br />
                 that your data will be stored, and that you are 13 years or
@@ -202,7 +207,7 @@
 
 <script>
 import $ from "jquery";
-import AuthService from "../services/auth.service";
+import AuthService from "@/services/auth.service";
 
 export default {
   name: "register",
@@ -309,7 +314,6 @@ export default {
       }
       if (!this.passwordConfirm) this.invalidPasswordConfirm = false;
     },
-    // Leap year is incompleted
     day: function() {
       this.validateDate();
       if (!this.day) this.invalidDate = false;

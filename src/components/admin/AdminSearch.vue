@@ -135,7 +135,7 @@ export default {
   },
   methods: {
     recentClick(value) {
-      this.$emit("pageReturnAdmin",value)
+      this.$emit("pageReturnAdmin", value);
       this.$emit("clickClearSearch", true);
     },
     search(searchValue) {
