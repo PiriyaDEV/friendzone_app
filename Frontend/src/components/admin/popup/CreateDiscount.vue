@@ -704,9 +704,7 @@ export default {
       this.period_end = new constructDate(
         new Date(this.discountList.period_end)
       );
-      this.expired = new constructDate(
-        new Date(this.discountList.expired)
-      );
+      this.expired = new constructDate(new Date(this.discountList.expired));
     } else {
       this.discount.redeem_point = 0;
       this.discount.limits = 0;
@@ -857,250 +855,29 @@ export default {
       }
     },
     ClickCreate() {
-      // var reg = /^\d*\.?\d+$/;
-
-      // if (!this.discount.discount_pic) {
-      //   this.invalidDiscount_pic = true;
-      //   this.alertDiscount_pic = "required discount picture";
-      // }
-      // if (!this.discount.name) {
-      //   this.invalidName = true;
-      //   this.alertName = "required name";
-      // }
-      // if (!this.discount.description) {
-      //   this.invalidDescription = true;
-      //   this.alertDescription = "required description";
-      // }
-
-      // if (
-      //   !this.period_start.day ||
-      //   !this.period_start.month ||
-      //   !this.period_start.year
-      // ) {
-      //   this.invalidStartDate = true;
-      //   this.alertStartDate = "required start date";
-      // } else if (
-      //   !this.period_start.h1 ||
-      //   !this.period_start.h2 ||
-      //   !this.period_start.m1 ||
-      //   !this.period_start.m2
-      // ) {
-      //   this.invalidStartDate = true;
-      //   this.alertStartDate = "required start time";
-      // } else {
-      //   this.validateStartDate();
-      // }
-
-      // if (
-      //   !this.period_end.day ||
-      //   !this.period_end.month ||
-      //   !this.period_end.year
-      // ) {
-      //   this.invalidEndDate = true;
-      //   this.alertEndDate = "required end date";
-      // } else if (
-      //   !this.period_end.h1 ||
-      //   !this.period_end.h2 ||
-      //   !this.period_end.m1 ||
-      //   !this.period_end.m2
-      // ) {
-      //   this.invalidEndDate = true;
-      //   this.alertEndDate = "required end time";
-      // } else {
-      //   this.validateEndDate();
-      // }
-
-      // if (
-      //   !this.expired.day ||
-      //   !this.expired.month ||
-      //   !this.expired.year
-      // ) {
-      //   this.invalidExpireDate = true;
-      //   this.alertExpireDate = "required expired date";
-      // } else if (
-      //   !this.expired.h1 ||
-      //   !this.expired.h2 ||
-      //   !this.expired.m1 ||
-      //   !this.expired.m2
-      // ) {
-      //   this.invalidExpireDate = true;
-      //   this.alertExpireDate = "required expired time";
-      // } else {
-      //   this.validateExpireDate();
-      // }
-
-      // if (
-      //   this.discount.redeem_point == "" ||
-      //   isNaN(this.discount.redeem_point)
-      // ) {
-      //   this.discount.redeem_point = 0;
-      // } else if (!reg.test(this.discount.redeem_point)) {
-      //   this.invalidPoint = true;
-      //   this.alertPoint = "must be only numbers";
-      // }
-      // if (this.discount.limits == "" || isNaN(this.discount.limits)) {
-      //   this.discount.limits = 0;
-      // } else if (!reg.test(this.discount.limits)) {
-      //   this.invalidLimit = true;
-      //   this.alertLimit = "must be only numbers";
-      // }
-      // if (
-      //   !this.invalidStartDate &&
-      //   !this.invalidEndDate &&
-      //   !this.invalidExpireDate
-      // ) {
-      //   this.hs = this.period_start.h1 + this.period_start.h2;
-      //   this.ms = this.period_start.m1 + this.period_start.m2;
-      //   this.he = this.period_end.h1 + this.period_end.h2;
-      //   this.me = this.period_end.m1 + this.period_end.m2;
-      //   this.hx = this.expired.h1 + this.expired.h2;
-      //   this.mx = this.expired.m1 + this.expired.m2;
-
-      //   this.discount.period_start = new Date(
-      //     this.period_start.year +
-      //       "-" +
-      //       this.period_start.month +
-      //       "-" +
-      //       this.period_start.day +
-      //       " " +
-      //       this.hs +
-      //       ":" +
-      //       this.ms +
-      //       ":00 GMT+0700"
-      //   ).getTime();
-
-      //   this.discount.period_end = new Date(
-      //     this.period_end.year +
-      //       "-" +
-      //       this.period_end.month +
-      //       "-" +
-      //       this.period_end.day +
-      //       " " +
-      //       this.he +
-      //       ":" +
-      //       this.me +
-      //       ":00 GMT+0700"
-      //   ).getTime();
-
-      //   this.discount.expired = new Date(
-      //     this.expired.year +
-      //       "-" +
-      //       this.expired.month +
-      //       "-" +
-      //       this.expired.day +
-      //       " " +
-      //       this.hx +
-      //       ":" +
-      //       this.mx +
-      //       ":00 GMT+0700"
-      //   ).getTime();
-
-      //   if (this.discount.period_start <= new Date().getTime()) {
-      //     this.invalidStartDate = true;
-      //     this.alertStartDate = "must start after the current time";
-      //   }
-      //   if (this.discount.period_end <= this.discount.period_start) {
-      //     this.invalidEndDate = true;
-      //     this.alertEndDate = "end date must be after start date";
-      //   }
-      //   if (this.discount.expired <= this.discount.period_end) {
-      //     this.invalidExpireDate = true;
-      //     this.alertExpireDate = "expire date must be after end date";
-      //   }
-
-        if (
-          this.validateData
-        ) {
-          // DiscountService.create(this.discount).then(
-          //   (res) => {
-          //     if (res.discount_id) {
-          //       DiscountService.uploadDiscountPic(
-          //         this.discount.discount_pic.formData,
-          //         res.discount_id
-          //       ).then((res) => {
-          //         if (res) {
-          //           this.$emit("informationShow", true);
-          //           this.$emit("clickCreate", false);
-          //         }
-          //       });
-          //     }
-          //   },
-          //   (error) => {
-          //     console.log(error.message);
-          //   }
-          // );
-        }
-      
+      if (this.validateData()) {
+        DiscountService.create(this.discount).then(
+          (res) => {
+            if (res.discount_id) {
+              DiscountService.uploadDiscountPic(
+                this.discount.discount_pic.formData,
+                res.discount_id
+              ).then((res) => {
+                if (res) {
+                  this.$emit("informationShow", true);
+                  window.location.href = "/admin";
+                }
+              });
+            }
+          },
+          (error) => {
+            console.log(error.message);
+          }
+        );
+      }
     },
     saveClick() {
-      this.hs = this.period_start.h1 + this.period_start.h2;
-      this.ms = this.period_start.m1 + this.period_start.m2;
-      this.he = this.period_end.h1 + this.period_end.h2;
-      this.me = this.period_end.m1 + this.period_end.m2;
-      this.hx = this.expired.h1 + this.expired.h2;
-      this.mx = this.expired.m1 + this.expired.m2;
-
-      this.discount.period_start = new Date(
-        this.period_start.year +
-          "-" +
-          this.period_start.month +
-          "-" +
-          this.period_start.day +
-          " " +
-          this.hs +
-          ":" +
-          this.ms +
-          ":00 GMT+0700"
-      ).getTime();
-
-      this.discount.period_end = new Date(
-        this.period_end.year +
-          "-" +
-          this.period_end.month +
-          "-" +
-          this.period_end.day +
-          " " +
-          this.he +
-          ":" +
-          this.me +
-          ":00 GMT+0700"
-      ).getTime();
-
-      this.discount.expired = new Date(
-        this.expired.year +
-          "-" +
-          this.expired.month +
-          "-" +
-          this.expired.day +
-          " " +
-          this.hx +
-          ":" +
-          this.mx +
-          ":00 GMT+0700"
-      ).getTime();
-
-      if (this.discount.period_start <= new Date().getTime()) {
-        this.invalidStartDate = true;
-        this.alertStartDate = "must start after the current time";
-      }
-      if (this.discount.period_end <= this.discount.period_start) {
-        this.invalidEndDate = true;
-        this.alertEndDate = "end date must be after start date";
-      }
-      if (this.discount.expired <= this.discount.period_end) {
-        this.invalidExpireDate = true;
-        this.alertExpireDate = "expire date must be after end date";
-      }
-      if (
-        !this.invalidDiscount_pic ||
-        !this.invalidName ||
-        !this.invalidDescription ||
-        !this.invalidStartDate ||
-        !this.invalidEndDate ||
-        !this.invalidExpireDate ||
-        !this.invalidPoint ||
-        !this.invalidLimit
-      ) {
+      if (this.validateData()) {
         DiscountService.editDiscount(this.discount).then(
           (res) => {
             if (res.discount_id) {
@@ -1110,11 +887,11 @@ export default {
                   res.discount_id
                 ).then((res) => {
                   if (res) {
-                    this.$emit("clickCreate", false);
+                    window.location.href = "/admin";
                   }
                 });
               } else {
-                this.$emit("clickCreate", false);
+                window.location.href = "/admin";
               }
             }
           },
@@ -1127,7 +904,7 @@ export default {
     validateData() {
       var reg = /^\d*\.?\d+$/;
 
-      if (!this.discount.discount_pic) {
+      if (!this.discount.discount_pic && this.discountList == null) {
         this.invalidDiscount_pic = true;
         this.alertDiscount_pic = "required discount picture";
       }
@@ -1178,11 +955,7 @@ export default {
         this.validateEndDate();
       }
 
-      if (
-        !this.expired.day ||
-        !this.expired.month ||
-        !this.expired.year
-      ) {
+      if (!this.expired.day || !this.expired.month || !this.expired.year) {
         this.invalidExpireDate = true;
         this.alertExpireDate = "required expired date";
       } else if (
@@ -1286,11 +1059,10 @@ export default {
           !this.invalidPoint &&
           !this.invalidLimit
         ) {
-          console.log(true)
           return true;
         } else {
-          console.log(false)
-          return false};
+          return false;
+        }
       }
     },
     validateStartDate() {
@@ -1300,28 +1072,18 @@ export default {
       if (!reg.test(this.period_start.day)) {
         this.invalidStartDate = true;
         this.alertStartDate = "date must be only numbers";
-      } else if (
-        this.period_start.day < 1 ||
-        this.period_start.day > 31
-      ) {
+      } else if (this.period_start.day < 1 || this.period_start.day > 31) {
         this.invalidStartDate = true;
         this.alertStartDate = "day must be only 1-31";
       } else if (
-        (this.period_start.month == 4 &&
-          this.period_start.day > 30) ||
-        (this.period_start.month == 6 &&
-          this.period_start.day > 30) ||
-        (this.period_start.month == 9 &&
-          this.period_start.day > 30) ||
-        (this.period_start.month == 11 &&
-          this.period_start.day > 30)
+        (this.period_start.month == 4 && this.period_start.day > 30) ||
+        (this.period_start.month == 6 && this.period_start.day > 30) ||
+        (this.period_start.month == 9 && this.period_start.day > 30) ||
+        (this.period_start.month == 11 && this.period_start.day > 30)
       ) {
         this.invalidStartDate = true;
         this.alertStartDate = "day or month is invalid";
-      } else if (
-        this.period_start.month == 2 &&
-        this.period_start.day > 29
-      ) {
+      } else if (this.period_start.month == 2 && this.period_start.day > 29) {
         this.invalidStartDate = true;
         this.alertStartDate = "day or month is invalid";
       } else if (
@@ -1338,10 +1100,7 @@ export default {
       } else if (!reg.test(this.period_start.month)) {
         this.invalidStartDate = true;
         this.alertStartDate = "date must be only numbers";
-      } else if (
-        this.period_start.month < 1 ||
-        this.period_start.month > 12
-      ) {
+      } else if (this.period_start.month < 1 || this.period_start.month > 12) {
         this.invalidStartDate = true;
         this.alertStartDate = "month must be only 1-12";
       } else if (!reg.test(this.period_start.year)) {
@@ -1359,15 +1118,13 @@ export default {
         this.invalidStartDate = true;
         this.alertStartDate = "time must be only numbers";
       } else if (
-        (this.period_start.h1 == 2 &&
-          this.period_start.h2 > 3) ||
+        (this.period_start.h1 == 2 && this.period_start.h2 > 3) ||
         this.period_start.h1 > 2
       ) {
         this.invalidStartDate = true;
         this.alertStartDate = "hour must be in 00-23";
       } else if (
-        (this.period_start.m1 == 5 &&
-          this.period_start.m2 > 9) ||
+        (this.period_start.m1 == 5 && this.period_start.m2 > 9) ||
         this.period_start.m1 > 5
       ) {
         this.invalidStartDate = true;
@@ -1381,36 +1138,25 @@ export default {
       if (!reg.test(this.period_end.day)) {
         this.invalidEndDate = true;
         this.alertEndDate = "date must be only numbers";
-      } else if (
-        this.period_end.day < 1 ||
-        this.period_end.day > 31
-      ) {
+      } else if (this.period_end.day < 1 || this.period_end.day > 31) {
         this.invalidEndDate = true;
         this.alertEndDate = "day must be only 1-31";
       } else if (
-        (this.period_end.month == 4 &&
-          this.period_end.day > 30) ||
-        (this.period_end.month == 6 &&
-          this.period_end.day > 30) ||
-        (this.period_end.month == 9 &&
-          this.period_end.day > 30) ||
-        (this.period_end.month == 11 &&
-          this.period_end.day > 30)
+        (this.period_end.month == 4 && this.period_end.day > 30) ||
+        (this.period_end.month == 6 && this.period_end.day > 30) ||
+        (this.period_end.month == 9 && this.period_end.day > 30) ||
+        (this.period_end.month == 11 && this.period_end.day > 30)
       ) {
         this.invalidEndDate = true;
         this.alertEndDate = "day or month is invalid";
-      } else if (
-        this.period_end.month == 2 &&
-        this.period_end.day > 29
-      ) {
+      } else if (this.period_end.month == 2 && this.period_end.day > 29) {
         this.invalidEndDate = true;
         this.alertEndDate = "day or month is invalid";
       } else if (
         this.period_end.month == 2 &&
         this.period_end.day == 29 &&
         !(
-          (0 == this.period_end.year % 4 &&
-            0 != this.period_end.year % 100) ||
+          (0 == this.period_end.year % 4 && 0 != this.period_end.year % 100) ||
           0 == this.period_end.year % 400
         )
       ) {
@@ -1419,10 +1165,7 @@ export default {
       } else if (!reg.test(this.period_end.month)) {
         this.invalidEndDate = true;
         this.alertEndDate = "date must be only numbers";
-      } else if (
-        this.period_end.month < 1 ||
-        this.period_end.month > 12
-      ) {
+      } else if (this.period_end.month < 1 || this.period_end.month > 12) {
         this.invalidEndDate = true;
         this.alertEndDate = "month must be only 1-12";
       } else if (!reg.test(this.period_end.year)) {
@@ -1460,10 +1203,7 @@ export default {
       if (!reg.test(this.expired.day)) {
         this.invalidExpireDate = true;
         this.alertExpireDate = "date must be only numbers";
-      } else if (
-        this.expired.day < 1 ||
-        this.expired.day > 31
-      ) {
+      } else if (this.expired.day < 1 || this.expired.day > 31) {
         this.invalidExpireDate = true;
         this.alertExpireDate = "day must be only 1-31";
       } else if (
@@ -1474,18 +1214,14 @@ export default {
       ) {
         this.invalidExpireDate = true;
         this.alertExpireDate = "day or month is invalid";
-      } else if (
-        this.expired.month == 2 &&
-        this.expired.day > 29
-      ) {
+      } else if (this.expired.month == 2 && this.expired.day > 29) {
         this.invalidExpireDate = true;
         this.alertExpireDate = "day or month is invalid";
       } else if (
         this.expired.month == 2 &&
         this.expired.day == 29 &&
         !(
-          (0 == this.expired.year % 4 &&
-            0 != this.expired.year % 100) ||
+          (0 == this.expired.year % 4 && 0 != this.expired.year % 100) ||
           0 == this.expired.year % 400
         )
       ) {
@@ -1494,10 +1230,7 @@ export default {
       } else if (!reg.test(this.expired.month)) {
         this.invalidExpireDate = true;
         this.alertExpireDate = "date must be only numbers";
-      } else if (
-        this.expired.month < 1 ||
-        this.expired.month > 12
-      ) {
+      } else if (this.expired.month < 1 || this.expired.month > 12) {
         this.invalidExpireDate = true;
         this.alertExpireDate = "month must be only 1-12";
       } else if (!reg.test(this.expired.year)) {

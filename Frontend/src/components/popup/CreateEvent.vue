@@ -113,7 +113,6 @@
                     {{ alertStartDate }}</span
                   >
                 </h2>
-                <h1>Now : {{ new Date() }}</h1>
                 <div class="date-section">
                   <input
                     id="day"
