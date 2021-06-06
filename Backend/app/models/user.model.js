@@ -212,6 +212,7 @@ User.getUser = (user_id, result) => {
                      ON US.user_id = EP.participant_id
               WHERE  EP.participant_id = '${user_id}' AND NOT 
                      EP.status_id = 'ST15' AND 
+                     EV.status_id = 'ST03' AND 
                      EV.host_id = EP.event_participant_id) AS host,
       (SELECT COUNT(*)
               FROM EventParticipant EP

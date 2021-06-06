@@ -53,7 +53,7 @@ Analyst.getEventCategorySummary = (result) => {
     CA.color_code,
     CA.icon_white,
     COALESCE(COUNT(EC.category_id), 0) AS count,
-    COALESCE((COUNT(*) / (SELECT COUNT(*) FROM Event) * 100), 0) AS percent
+    COALESCE((COUNT(EC.category_id) / (SELECT COUNT(*) FROM Event) * 100), 0) AS percent
     FROM Category CA
     LEFT JOIN EventCategory EC 
            ON CA.category_id = EC.category_id

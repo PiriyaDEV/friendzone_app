@@ -15,7 +15,6 @@ var corsOptions = {
   origin: "*",
   credentials: false,
   Headers: "x-access-token"
-
 };
 app.use(cors(corsOptions));
 app.use(cookieParser(secretKey));
@@ -23,9 +22,6 @@ app.use(cookieParser(secretKey));
 app.use(bodyParser.json({ limit: "50mb" }));
 
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
-
-//db
-// const db = require("./app/models/user.model.js");
 
 //initial route
 app.get("/", (req, res) => {
@@ -45,7 +41,6 @@ require("./app/routes/report.routes")(app);
 require("./app/routes/analyst.routes")(app);
 require("./app/routes/eventInvited.routes")(app);
 require("./app/routes/admin.routes")(app);
-
 
 //listening
 const PORT = process.env.PORT || 8080;

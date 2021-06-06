@@ -120,7 +120,7 @@ export default {
   },
   created() {
     if (this.waitShow) {
-      this.error="";
+      this.error = "";
     }
   },
   methods: {

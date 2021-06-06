@@ -57,11 +57,15 @@ class EventService {
   }
 
   async findEventByID(event_id) {
-    const res = await axios.post(API_URL + "findEventByID", {
-      event_id: event_id
-    },{
-      headers: authHeader()
-    });
+    const res = await axios.post(
+      API_URL + "findEventByID",
+      {
+        event_id: event_id
+      },
+      {
+        headers: authHeader()
+      }
+    );
     if (res) {
       return res.data;
     }
@@ -437,7 +441,9 @@ class EventService {
   }
 
   async getEventCount() {
-    const res = await axios.get(API_URL + "getEventCount",  { headers: authHeader() });
+    const res = await axios.get(API_URL + "getEventCount", {
+      headers: authHeader()
+    });
     return res.data;
   }
 

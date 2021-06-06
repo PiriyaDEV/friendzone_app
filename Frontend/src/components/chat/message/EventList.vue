@@ -34,48 +34,59 @@ export default {
       datetime: ""
     };
   },
-  created() {
-    if (this.event.message) {
-      let userData = decode(localStorage.getItem("user"));
-      if (this.event.participant_id == userData.user_id) {
-        this.myMessage = true;
-      }
+  watch: {
+    event: function() {
+      this.getEvent();
     }
-    if (this.event.created) {
-      let createTime = new Date(this.event.created);
-      let currentTime = new Date();
-      let createDate = createTime.getDate();
-      let createMonth = createTime.getMonth();
-      let createYear = createTime.getFullYear();
-      let currentDate = currentTime.getDate();
-      let currentMonth = currentTime.getMonth();
-      let currentYear = currentTime.getFullYear();
-      if (
-        createDate == currentDate &&
-        createMonth == currentMonth &&
-        createYear == currentYear
-      ) {
-        this.datetime =
-          createTime
-            .getHours()
-            .toString()
-            .padStart(2, "0") +
-          ":" +
-          createTime
-            .getMinutes()
-            .toString()
-            .padStart(2, "0");
-      } else {
-        this.datetime =
-          createDate.toString().padStart(2, "0") +
-          "/" +
-          (createMonth + 1).toString().padStart(2, "0") +
-          "/" +
-          createYear.toString().substr(-2);
+  },
+  created() {
+    this.getEvent();
+  },
+  props: ["event"],
+  methods: {
+    getEvent() {
+      this.myMessage = false;
+      if (this.event.message) {
+        let userData = decode(localStorage.getItem("user"));
+        if (this.event.participant_id == userData.user_id) {
+          this.myMessage = true;
+        }
+      }
+      if (this.event.created) {
+        let createTime = new Date(this.event.created);
+        let currentTime = new Date();
+        let createDate = createTime.getDate();
+        let createMonth = createTime.getMonth();
+        let createYear = createTime.getFullYear();
+        let currentDate = currentTime.getDate();
+        let currentMonth = currentTime.getMonth();
+        let currentYear = currentTime.getFullYear();
+        if (
+          createDate == currentDate &&
+          createMonth == currentMonth &&
+          createYear == currentYear
+        ) {
+          this.datetime =
+            createTime
+              .getHours()
+              .toString()
+              .padStart(2, "0") +
+            ":" +
+            createTime
+              .getMinutes()
+              .toString()
+              .padStart(2, "0");
+        } else {
+          this.datetime =
+            createDate.toString().padStart(2, "0") +
+            "/" +
+            (createMonth + 1).toString().padStart(2, "0") +
+            "/" +
+            createYear.toString().substr(-2);
+        }
       }
     }
   },
-  props: ["event"],
   computed: {
     pic() {
       let link = `${PORT}/api/event/displayPic/`;

@@ -61,7 +61,7 @@ EventInvited.getNotification = (user_id, result) => {
     (SELECT "inviteRequest" AS type, EI.event_invited_id AS inviter_id, US.user_id, 
            US.username, EV.event_id, EV.title, 
            DATE_FORMAT(FROM_UNIXTIME(EI.updated_at/1000),'%d %b %Y %H:%i') AS date,
-           1 AS status,
+           IF(EV.start_at >= UNIX_TIMESTAMP(NOW()) *1000, 1, 0) AS status,
            EI.updated_at AS TIMESTAMP
     FROM EventInvited EI 
     INNER JOIN EventParticipant EP 
@@ -94,7 +94,8 @@ EventInvited.getNotification = (user_id, result) => {
     (SELECT "eventRequest" AS type, null AS inviter_id, US.user_id,
          US.username, EV.event_id, EV.title, 
          DATE_FORMAT(FROM_UNIXTIME(EP.updated_at/1000),'%d %b %Y %H:%i') AS date,
-         1 AS status, EP.updated_at AS TIMESTAMP
+         IF(EV.start_at >= UNIX_TIMESTAMP(NOW()) *1000, 1, 0) AS status,
+         EP.updated_at AS TIMESTAMP
     FROM User US 
     INNER JOIN EventParticipant EP 
         ON EP.participant_id = US.user_id

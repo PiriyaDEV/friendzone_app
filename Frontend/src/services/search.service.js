@@ -24,8 +24,9 @@ class SearchService {
     let userData = decode(localStorage.getItem("user"));
     return axios
       .get(
-        `${API_URL}/userToInvite?keyword=${search}&user_id=${userData.user_id}&event_id=${event_id}`
-        ,  { headers: authHeader() })
+        `${API_URL}/userToInvite?keyword=${search}&user_id=${userData.user_id}&event_id=${event_id}`,
+        { headers: authHeader() }
+      )
       .then((response) => {
         response.data.forEach((user) => {
           user.profile_pic = `${PORT}/api/user/displayPic/` + user.user_id;
@@ -37,7 +38,9 @@ class SearchService {
   getSearchUser(search) {
     let userData = decode(localStorage.getItem("user"));
     return axios
-      .get(`${API_URL}/user?keyword=${search}&user_id=${userData.user_id}`,  { headers: authHeader() })
+      .get(`${API_URL}/user?keyword=${search}&user_id=${userData.user_id}`, {
+        headers: authHeader()
+      })
       .then((response) => {
         response.data.forEach((user) => {
           user.profile_pic = `${PORT}/api/user/displayPic/` + user.user_id;
@@ -49,7 +52,9 @@ class SearchService {
   getSearchEvent(search) {
     let userData = decode(localStorage.getItem("user"));
     return axios
-      .get(`${API_URL}/event?keyword=${search}&user_id=${userData.user_id}`,  { headers: authHeader() })
+      .get(`${API_URL}/event?keyword=${search}&user_id=${userData.user_id}`, {
+        headers: authHeader()
+      })
       .then((response) => {
         response.data.forEach((event) => {
           event.event_pic = `${PORT}/api/event/displayPic/` + event.event_id;
@@ -78,7 +83,7 @@ class SearchService {
 
   async getSearchDiscount(search) {
     const res = await axios
-      .get(`${API_URL}/discount?keyword=${search}`,  { headers: authHeader() })
+      .get(`${API_URL}/discount?keyword=${search}`, { headers: authHeader() })
       .catch(() => {
         return "err";
       });

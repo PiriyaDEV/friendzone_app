@@ -26,6 +26,13 @@
           </div>
         </div>
       </div>
+      <h2
+        style="margin-top:15px; margin-bottom:0px; text-align:center;"
+        class="orange-color"
+        v-show="invalidSelect"
+      >
+        ** {{ alertSelect }} **
+      </h2>
       <div class="button-section">
         <button class="back_button" @click="cancel()">Cancel</button>
         <button class="create_button" @click="clickSave()">Save</button>
@@ -44,7 +51,9 @@ export default {
     return {
       categoryList: null,
       interest: [],
-      interestList: []
+      interestList: [],
+      invalidSelect: false,
+      alertSelect: ""
     };
   },
   props: ["profileDetail", "userId"],
@@ -90,20 +99,27 @@ export default {
     },
     clickSave() {
       var categoryInterest = [];
+      var count = 0;
 
       this.categoryList.forEach((category) => {
+        if (category.status) {
+          count++;
+        }
         categoryInterest.push({
           category_id: category.category_id,
           interest: category.status
         });
       });
 
-      if (categoryInterest.length > 0) {
-        UserService.updateUserCategory(categoryInterest).then((res) => {
-          if (res) window.location.href = "/mainpage";
-        });
+      if (count > 0) {
+        UserService.updateUserCategory(categoryInterest, this.userId).then(
+          (res) => {
+            if (res) this.cancel();
+          }
+        );
       } else {
-        window.location.href = "/mainpage";
+        this.invalidSelect = true;
+        this.alertSelect = "Require at least one interested category";
       }
     }
   }

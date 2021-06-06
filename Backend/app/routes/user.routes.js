@@ -12,9 +12,9 @@ module.exports = function (app) {
 
   app.get("/api/user/displayPic/:user_id", controller.displayPic);
 
-  app.get("/api/user/getUsername/:user_id", auth,controller.getUsername);
+  app.get("/api/user/getUsername/:user_id", auth, controller.getUsername);
 
-  app.get("/api/user/getUserDetail/:user_id", auth,controller.getUserDetail);
+  app.get("/api/user/getUserDetail/:user_id", auth, controller.getUserDetail);
 
   app.post("/api/user/findByUsername", auth, controller.findByUsername);
 

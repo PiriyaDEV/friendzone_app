@@ -86,15 +86,15 @@ exports.signin = (req, res) => {
         return res.status(401).send({
           accessToken: null,
           message: "Invalid Password!",
-          status : 401
+          status: 401
         });
       }
-      if(user.status_id === 'ST04') {
-        return res.status(403).send ({
+      if (user.status_id === "ST04") {
+        return res.status(403).send({
           accessToken: null,
           message: "You are banned from the server!",
-          status : 403
-        })
+          status: 403
+        });
       }
 
       const payload = {

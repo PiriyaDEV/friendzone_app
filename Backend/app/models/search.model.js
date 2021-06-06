@@ -21,7 +21,7 @@ Search.getSearchUserToInvite = (keyword, user_id, event_id, result) => {
                                          participant_id = '${user_id}')),1,0) AS invited
   FROM User US 
   WHERE US.user_id NOT IN (SELECT participant_id FROM EventParticipant WHERE event_id = '${event_id}') 
-      AND US.username LIKE '%${keyword}%'`,
+      AND US.username LIKE '%${keyword}%' AND NOT US.status_id = 'ST04'`,
     (err, res) => {
       if (err) {
         console.log("error : ", err);

@@ -329,8 +329,8 @@
           </div>
           <!-- Input -->
           <h2 v-show="invalidChange" class="input_title">
-                <span class="orange-color"> * {{ alertChange }}</span>
-              </h2>
+            <span class="orange-color"> * {{ alertChange }}</span>
+          </h2>
           <!-- Input -->
           <!-- <div id="delete">
             <div class="button-section">

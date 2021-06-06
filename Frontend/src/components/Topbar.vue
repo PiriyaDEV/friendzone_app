@@ -40,11 +40,11 @@
         >
           <img id="profile-logo" :src="user.profile_pic" />
           <h1 class="black-color" id="bar-value">{{ user.username }}</h1>
-          <img
+          <!-- <img
             v-if="role != `RO04`"
             class="verified-badge"
             src="@/assets/icon/verified-badge.png"
-          />
+          /> -->
         </div>
       </div>
     </div>

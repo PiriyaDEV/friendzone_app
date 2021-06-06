@@ -113,9 +113,9 @@ export default {
     onEvent(value) {
       this.$emit("onEvent", value);
     },
-    titleError(value){
-      console.log(value)
-      this.$emit("titleError",value);
+    titleError(value) {
+      console.log(value);
+      this.$emit("titleError", value);
     },
     getEventList() {
       EventService.getUserCateogryInterestEvent()
@@ -137,8 +137,8 @@ export default {
       this.$emit("thisEvent", value);
     },
     onJoined(value) {
-      this.$emit("onJoined",value);
-    },
+      this.$emit("onJoined", value);
+    }
   }
 };
 </script>

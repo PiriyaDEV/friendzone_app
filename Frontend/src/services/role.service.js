@@ -1,6 +1,5 @@
 import decode from "jwt-decode";
 
-
 class RoleService {
   getRole() {
     let userData = decode(localStorage.getItem("user"));

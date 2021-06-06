@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import decode from "jwt-decode";
 import authHeader from "./auth-header";
@@ -47,7 +46,9 @@ class ReportService {
   async getNotification() {
     let user = decode(localStorage.getItem("user"));
     const res = await axios
-      .get(API_URL + "getNotification/" + user.user_id,  { headers: authHeader() })
+      .get(API_URL + "getNotification/" + user.user_id, {
+        headers: authHeader()
+      })
       .catch(() => {
         return "err";
       });

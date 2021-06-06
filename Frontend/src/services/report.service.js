@@ -33,16 +33,18 @@ class ReportService {
   }
 
   async getReportTypeUserList() {
-    const res = await axios.get(API_URL + "getReportTypeUserList",  { headers: authHeader() }).catch(() => {
-      return "err";
-    });
+    const res = await axios
+      .get(API_URL + "getReportTypeUserList", { headers: authHeader() })
+      .catch(() => {
+        return "err";
+      });
 
     return res.data;
   }
 
   async getReportTypeEventList() {
     const res = await axios
-      .get(API_URL + "getReportTypeEventList",  { headers: authHeader() })
+      .get(API_URL + "getReportTypeEventList", { headers: authHeader() })
       .catch(() => {
         return "err";
       });
@@ -51,9 +53,11 @@ class ReportService {
   }
 
   async getReportTypeWebList() {
-    const res = await axios.get(API_URL + "getReportTypeWebList",  { headers: authHeader() }).catch(() => {
-      return "err";
-    });
+    const res = await axios
+      .get(API_URL + "getReportTypeWebList", { headers: authHeader() })
+      .catch(() => {
+        return "err";
+      });
 
     return res.data;
   }

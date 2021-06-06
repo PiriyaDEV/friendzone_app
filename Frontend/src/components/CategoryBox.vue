@@ -5,11 +5,7 @@
       <h1 class="category-text">{{ nameCategory }}</h1>
     </div>
     <div v-if="status == true" :id="cssBoxClick">
-      <img
-        class="category-icon-click"
-        :style="changeBg"
-        :src="icon"
-      />
+      <img class="category-icon-click" :style="changeBg" :src="icon" />
       <h1 class="category-text">{{ nameCategory }}</h1>
     </div>
   </div>
@@ -79,9 +75,9 @@ export default {
 .category-icon,
 .category-icon-click {
   width: 18px;
-  height:18px;
-  object-fit:cover;
-  -o-object-fit:cover;
+  height: 18px;
+  object-fit: cover;
+  -o-object-fit: cover;
   border: none;
 }
 

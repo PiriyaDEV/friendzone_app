@@ -71,7 +71,9 @@ class DiscountService {
   async getHotDiscount() {
     let userData = decode(localStorage.getItem("user"));
     const res = await axios
-      .get(API_URL + "getHotDiscount/" + userData.user_id, { headers: authHeader() })
+      .get(API_URL + "getHotDiscount/" + userData.user_id, {
+        headers: authHeader()
+      })
       .catch(() => {
         return "err";
       });
@@ -125,7 +127,9 @@ class DiscountService {
   async getBrowseDiscount() {
     let userData = decode(localStorage.getItem("user"));
     const res = await axios
-      .get(API_URL + "getBrowseDiscount/" + userData.user_id, { headers: authHeader() })
+      .get(API_URL + "getBrowseDiscount/" + userData.user_id, {
+        headers: authHeader()
+      })
       .catch(() => {
         return "err";
       });
@@ -179,7 +183,9 @@ class DiscountService {
   async getMyDiscount() {
     let userData = decode(localStorage.getItem("user"));
     const res = await axios
-      .get(API_URL + "getMyDiscount/" + userData.user_id, { headers: authHeader() })
+      .get(API_URL + "getMyDiscount/" + userData.user_id, {
+        headers: authHeader()
+      })
       .catch(() => {
         return "err";
       });

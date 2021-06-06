@@ -5,7 +5,7 @@
       <!-- Top -->
       <div id="top-half" class="section">
         <div>
-          <img id="logo" src="@/assets/longlogo.png" />
+          <img style="cursor: pointer;" @click="mainpageClick()" id="logo" src="@/assets/longlogo.png" />
           <img
             @click="mainpageClick()"
             id="mobile-logo"

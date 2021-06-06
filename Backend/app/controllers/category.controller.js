@@ -148,33 +148,36 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).single("uploadedImages");
 
 exports.displayCategoryIcon = (req, res) => {
-  Category.getCategoryIconPath(req.query.category_id, async (err, categoryIcon) => {
-    if (err) return res.status(500).send({ message: err.message });
-    if (!categoryIcon)
-      return res.status(404).send({ message: "this category is not found" });
-    else {
-      let icon;
-      if (req.query.type == "white") icon = categoryIcon.icon_white;
-      else if (req.query.type == "black") icon = categoryIcon.icon_black;
+  Category.getCategoryIconPath(
+    req.query.category_id,
+    async (err, categoryIcon) => {
+      if (err) return res.status(500).send({ message: err.message });
+      if (!categoryIcon)
+        return res.status(404).send({ message: "this category is not found" });
+      else {
+        let icon;
+        if (req.query.type == "white") icon = categoryIcon.icon_white;
+        else if (req.query.type == "black") icon = categoryIcon.icon_black;
 
-      let fileType = path.extname(icon);
+        let fileType = path.extname(icon);
 
-      if (fileType === ".png") contentType = "image/png";
-      else if (fileType === ".jpg") contentType = "image/jpg";
-      else if (fileType === ".jpeg") contentType = "image/jpeg";
-      else contentType = "text/plain";
+        if (fileType === ".png") contentType = "image/png";
+        else if (fileType === ".jpg") contentType = "image/jpg";
+        else if (fileType === ".jpeg") contentType = "image/jpeg";
+        else contentType = "text/plain";
 
-      fs.readFile(_profilePicDir + icon, function (error, content) {
-        if (error) {
-          res.writeHead(500, { "Content-Type": "text/plain" });
-          res.end("Internal server error");
-        } else {
-          res.writeHead(200, { "Content-Type": contentType });
-          res.end(content);
-        }
-      });
+        fs.readFile(_profilePicDir + icon, function (error, content) {
+          if (error) {
+            res.writeHead(500, { "Content-Type": "text/plain" });
+            res.end("Internal server error");
+          } else {
+            res.writeHead(200, { "Content-Type": contentType });
+            res.end(content);
+          }
+        });
+      }
     }
-  });
+  );
 };
 
 exports.getCategoryFromUserID = (req, res) => {

@@ -27,7 +27,11 @@
       <hr id="bar" />
 
       <div>
-        <CategorySection :Case="caseCategory" @exitClick="exitClick" @cancel="cancel"/>
+        <CategorySection
+          :Case="caseCategory"
+          @exitClick="exitClick"
+          @cancel="cancel"
+        />
       </div>
     </div>
   </div>

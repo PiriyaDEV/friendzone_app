@@ -1,21 +1,22 @@
 <template>
   <div id="notfound-page" :class="cssBackground">
     <div>
-        <h1 class="title" v-on:click="harryCount += 1">Sorry.</h1>
+      <h1 class="title" v-on:click="harryCount += 1">Sorry.</h1>
       <h1 class="detail">
-        <span v-if="harryCount > 12">Hi! I'm Harry, </span>Look like something went wrong on our end <br />
+        <span v-if="harryCount > 12">Hi! I'm Harry, </span>Look like something
+        went wrong on our end <br />
         Head back to the Friendzone homepage.
       </h1>
 
       <iframe
-      v-if="harryCount > 12"
-      type="text/html"
-      src="https://www.youtube.com/embed/3L4_V4JVtRE?autoplay=1"
-      frameborder="0"
-      style="visibility:hidden"
-      allow="autoplay"
-      height="0px;"
-    ></iframe>
+        v-if="harryCount > 12"
+        type="text/html"
+        src="https://www.youtube.com/embed/3L4_V4JVtRE?autoplay=1"
+        frameborder="0"
+        style="visibility:hidden"
+        allow="autoplay"
+        height="0px;"
+      ></iframe>
       <div class="section">
         <button @click="goMainpage()" id="join_button">GO BACK</button>
       </div>
@@ -28,7 +29,7 @@ export default {
   data() {
     return {
       harryCount: 0
-    }
+    };
   },
   methods: {
     goMainpage() {
@@ -39,11 +40,11 @@ export default {
     cssBackground() {
       let defaultPic = "default-img section";
       let harry = "harry-img section";
-      if(this.harryCount > 12){
+      if (this.harryCount > 12) {
         return harry;
       }
       return defaultPic;
-    },
+    }
   }
 };
 </script>
@@ -56,12 +57,12 @@ export default {
   background-size: cover;
 }
 
-.default-img{
+.default-img {
   background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url("../assets/friendzone-background.jpg");
 }
 
-.harry-img{
+.harry-img {
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
     url("../assets/harryfer-background.jpg");
 }
@@ -115,22 +116,22 @@ export default {
 }
 
 @media screen and (max-width: 690px) {
-  .default-img{
+  .default-img {
     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
       url("../assets/friendzone-tablet-background.jpg");
   }
 
-  .harry-img{
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url("../assets/harryfer-tablet-background.jpg");
-}
+  .harry-img {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+      url("../assets/harryfer-tablet-background.jpg");
+  }
 
-  .title{
+  .title {
     font-size: 6.5em;
   }
 
-  .detail{
-    font-size:1.75em;
+  .detail {
+    font-size: 1.75em;
   }
 }
 </style>

@@ -125,7 +125,7 @@ export default {
       content.scrollTop = content.scrollHeight;
     },
     sendMessage() {
-      if (this.inputMessage) {
+      if (this.inputMessage.trim()) {
         ChatService.create({
           event_id: this.event_id,
           message: this.inputMessage

@@ -62,32 +62,35 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).single("uploadedImages");
 
 exports.displayPic = (req, res) => {
-  Discount.getDiscountPicturePath(req.params.discount_id, async (err, discount) => {
-    if (err) return res.status(500).send({ message: err.message });
-    if (!discount)
-      return res.status(404).send({ message: "this discount is not found" });
-    else {
-      let fileType = path.extname(discount.discount_pic);
+  Discount.getDiscountPicturePath(
+    req.params.discount_id,
+    async (err, discount) => {
+      if (err) return res.status(500).send({ message: err.message });
+      if (!discount)
+        return res.status(404).send({ message: "this discount is not found" });
+      else {
+        let fileType = path.extname(discount.discount_pic);
 
-      if (fileType === ".png") contentType = "image/png";
-      else if (fileType === ".jpg") contentType = "image/jpg";
-      else if (fileType === ".jpeg") contentType = "image/jpeg";
-      else contentType = "text/plain";
+        if (fileType === ".png") contentType = "image/png";
+        else if (fileType === ".jpg") contentType = "image/jpg";
+        else if (fileType === ".jpeg") contentType = "image/jpeg";
+        else contentType = "text/plain";
 
-      fs.readFile(
-        _discountPicDir + discount.discount_pic,
-        function (error, content) {
-          if (error) {
-            res.writeHead(500, { "Content-Type": "text/plain" });
-            res.end("Internal server error");
-          } else {
-            res.writeHead(200, { "Content-Type": contentType });
-            res.end(content);
+        fs.readFile(
+          _discountPicDir + discount.discount_pic,
+          function (error, content) {
+            if (error) {
+              res.writeHead(500, { "Content-Type": "text/plain" });
+              res.end("Internal server error");
+            } else {
+              res.writeHead(200, { "Content-Type": contentType });
+              res.end(content);
+            }
           }
-        }
-      );
+        );
+      }
     }
-  });
+  );
 };
 
 exports.create = (req, res) => {

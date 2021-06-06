@@ -9,7 +9,7 @@ const EventCategory = function (eventCategory) {
 };
 
 EventCategory.create = (newEventCategory, result) => {
-  console.log(newEventCategory)
+  console.log(newEventCategory);
   sql.query(
     `INSERT INTO EventCategory VALUES ?`,
     [newEventCategory],

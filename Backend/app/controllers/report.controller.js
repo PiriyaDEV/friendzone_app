@@ -55,7 +55,13 @@ exports.createType = (req, res) => {
       reportType.updated_at = getTimeStamp();
       ReportType.create(reportType, (err, reportType) => {
         if (err) return res.status(500).send({ message: err.message });
-        else return res.status(200).send({report_type_id: reportType.report_type_id, type_name: reportType.type_name});
+        else
+          return res
+            .status(200)
+            .send({
+              report_type_id: reportType.report_type_id,
+              type_name: reportType.type_name
+            });
       });
     }
   });
@@ -72,7 +78,13 @@ exports.updateType = (req, res) => {
 
   ReportType.update(req.body, (err, reportType) => {
     if (err) return res.status(500).send({ message: err.message });
-    if (reportType) return res.status(200).send({report_type_id: reportType.report_type_id, type_name: reportType.type_name});
+    if (reportType)
+      return res
+        .status(200)
+        .send({
+          report_type_id: reportType.report_type_id,
+          type_name: reportType.type_name
+        });
   });
 };
 

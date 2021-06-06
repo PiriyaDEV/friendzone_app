@@ -3,7 +3,6 @@ import decode from "jwt-decode";
 const PORT = require("../services/port.config").PORT;
 import authHeader from "./auth-header";
 
-
 const URL = `${PORT}/api/point/`;
 
 let months = [
@@ -24,13 +23,17 @@ let months = [
 class PointTransactionService {
   async getPoint() {
     let userLocal = decode(localStorage.getItem("user"));
-    const res = await axios.get(URL + "getPoint/" + userLocal.user_id,  { headers: authHeader() });
+    const res = await axios.get(URL + "getPoint/" + userLocal.user_id, {
+      headers: authHeader()
+    });
     return res.data;
   }
 
   async getPointLog() {
     let userLocal = decode(localStorage.getItem("user"));
-    const res = await axios.get(URL + "getPointLog/" + userLocal.user_id,  { headers: authHeader() });
+    const res = await axios.get(URL + "getPointLog/" + userLocal.user_id, {
+      headers: authHeader()
+    });
 
     await res.data.forEach((point) => {
       let created_at = new Date(point.created_at);

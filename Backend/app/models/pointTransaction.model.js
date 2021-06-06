@@ -34,7 +34,10 @@ PointTransaction.getPoint = (user_id, result) => {
           FROM PointTransaction PT
            INNER JOIN EventParticipant EP 
                ON EP.participant_id = '${user_id}' AND 
-                  EP.event_participant_id = PT.participant_id)
+                  EP.event_participant_id = PT.participant_id
+           INNER JOIN Event EV 	
+               ON EV.event_id = EP.event_id AND NOT 
+                  EV.status_id = 'ST07')
         UNION 
           (SELECT COALESCE(SUM(amount *-1),0) AS point
             FROM PointTransaction PT
@@ -119,7 +122,8 @@ PointTransaction.getPointLog = (user_id, result) => {
                  ON EP.participant_id = '${user_id}' AND 
                     EP.event_participant_id = PT.participant_id
          INNER JOIN Event EV 
-                ON EP.event_id = EV.event_id)
+                ON EP.event_id = EV.event_id AND NOT 
+                EV.status_id = 'ST07')
       UNION ALL
        (SELECT COALESCE(amount*-1 ,0) AS point, DC.name AS title, PT.description, PT.created_at
         FROM PointTransaction PT

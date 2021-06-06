@@ -493,23 +493,24 @@ Event.getUserCateogryInterestEvent = (user_id, result) => {
   sql.query(
     `
     SELECT EV.* , US.username,US.user_id, (SELECT Count(*) FROM EventParticipant WHERE event_id = EV.event_id AND status_id = "ST11") AS joined, 
-    COALESCE((SELECT interest FROM UserInterest WHERE user_id =  '${user_id}'  AND event_id = EP.event_id ),0) AS interest
-FROM EventParticipant EP
-LEFT JOIN Event EV
+    COALESCE((SELECT interest FROM UserInterest WHERE user_id =  '${user_id}'  AND event_id = EP.event_id ),0) AS interest, EC.category_id
+FROM Event EV
+LEFT JOIN EventParticipant EP
     ON EP.event_participant_id = EV.host_id
 LEFT JOIN User US
     ON US.user_id = EP.participant_id
-LEFT JOIN EventCategory EC
+INNER JOIN EventCategory EC
     ON EV.event_id = EC.event_id
-LEFT JOIN UserCategory UC
-    ON US.user_id = UC.user_id
+INNER JOIN UserCategory UC
+    ON UC.user_id = '${user_id}' AND 
+       UC.category_id = EC.category_id
 WHERE    NOT EP.status_id = 'ST15' AND 
        (NOT EV.event_id IN (SELECT EP.event_id 
                     FROM EventParticipant EP 
                     WHERE EP.participant_id =  '${user_id}') OR
             EV.event_id IN (SELECT EP.event_id 
                     FROM EventParticipant EP 
-                    WHERE EP.participant_id =  '${user_id}'AND EP.status_id =  '${user_id}')) AND          
+                    WHERE EP.participant_id =  '${user_id}' AND EP.status_id =  '${user_id}')) AND          
          EC.status = 1 AND UC.interest = 1 AND 
          EV.start_at > ROUND(UNIX_TIMESTAMP(CURTIME(4)) * 1000) AND 
          EV.status_id = 'ST03'

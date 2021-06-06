@@ -402,7 +402,7 @@ export default {
       } else if (this.joinFilter == "approved") {
         this.joinedEventShow = this.joinedEventList.filter((event) => {
           let currentTime = new Date().getTime();
-          return currentTime < event.end_at;
+          return currentTime < event.end_at && event.status_id != "ST07";
         });
       } else if (this.joinFilter == "ended") {
         this.joinedEventShow = this.joinedEventList.filter((event) => {

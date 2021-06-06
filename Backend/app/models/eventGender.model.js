@@ -9,7 +9,7 @@ const EventGender = function (event) {
 };
 
 EventGender.create = (newEventGender, result) => {
-  console.log(newEventGender)
+  console.log(newEventGender);
   sql.query(
     `INSERT INTO EventGender VALUES ?`,
     [newEventGender],

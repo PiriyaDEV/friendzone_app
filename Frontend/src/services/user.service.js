@@ -74,13 +74,12 @@ class UserService {
       });
   }
 
-  updateUserCategory(categoryInterest) {
-    let userData = decode(localStorage.getItem("user"));
-    return axios
+  async updateUserCategory(categoryInterest, user_id) {
+    return await axios
       .post(
         API_URL + "updateUserCategory",
         {
-          user_id: userData.user_id,
+          user_id: user_id,
           categoryInterest: categoryInterest
         },
         {
@@ -92,7 +91,6 @@ class UserService {
         return response.data;
       })
       .catch(() => {
-        // console.log("err" + err)
         return "err";
       });
   }
@@ -134,20 +132,28 @@ class UserService {
 
   async following(following_id) {
     let user = decode(localStorage.getItem("user"));
-    const res = await axios.post(API_URL + "following/", {
-      follower_id: user.user_id,
-      following_id: following_id
-    },  { headers: authHeader() });
+    const res = await axios.post(
+      API_URL + "following/",
+      {
+        follower_id: user.user_id,
+        following_id: following_id
+      },
+      { headers: authHeader() }
+    );
 
     return await res.data;
   }
 
   async unFollowing(following_id) {
     let user = decode(localStorage.getItem("user"));
-    const res = await axios.post(API_URL + "unfollowing/", {
-      follower_id: user.user_id,
-      following_id: following_id
-    },  { headers: authHeader() });
+    const res = await axios.post(
+      API_URL + "unfollowing/",
+      {
+        follower_id: user.user_id,
+        following_id: following_id
+      },
+      { headers: authHeader() }
+    );
 
     return await res.data;
   }

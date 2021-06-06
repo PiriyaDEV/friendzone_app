@@ -194,7 +194,7 @@ export default {
     reportReturn() {
       this.$emit("clickReport", false);
     },
-        getReportTypeUser() {
+    getReportTypeUser() {
       ReportService.getReportTypeUserList()
         .then((res) => {
           if (res) {

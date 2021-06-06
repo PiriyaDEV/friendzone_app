@@ -5,28 +5,28 @@
     </div>
   </div>
 </template>
- :class=""
+:class=""
 <script>
 export default {
-    props:["invite","adminSearch"],
-    computed: {
-      cssinvite() {
-        let invitepage = "info-box-invite"
-        let anotherpage = "info-box"
-          if(this.invite == true) {
-            return invitepage
-          }
-          return anotherpage
-      },
-      cssAdmin() {
-        let searchpage = "noinfo-admin-search";
-        let anotherpage = "";
-         if(this.adminSearch == true) {
-           return searchpage
-         }
-         return anotherpage
-      },
+  props: ["invite", "adminSearch"],
+  computed: {
+    cssinvite() {
+      let invitepage = "info-box-invite";
+      let anotherpage = "info-box";
+      if (this.invite == true) {
+        return invitepage;
+      }
+      return anotherpage;
+    },
+    cssAdmin() {
+      let searchpage = "noinfo-admin-search";
+      let anotherpage = "";
+      if (this.adminSearch == true) {
+        return searchpage;
+      }
+      return anotherpage;
     }
+  }
 };
 </script>
 
@@ -42,7 +42,7 @@ export default {
   text-align: center;
 }
 
-.noinfo-admin-search{
+.noinfo-admin-search {
   padding: 25px 10px !important;
 }
 
