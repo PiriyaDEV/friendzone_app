@@ -444,6 +444,7 @@ export default {
 
 #mainpage {
   background-color: #f8f3ec;
+  position:fixed;
 }
 
 #mainpage-admin {
