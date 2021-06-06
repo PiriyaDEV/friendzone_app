@@ -96,8 +96,8 @@
                   v-model="event.location"
                   class="input_box"
                   type="text"
-                  maxlength="30"
-                  size="30"
+                  maxlength="128"
+                  size="128"
                   placeholder="enter your location"
                 />
               </div>
@@ -113,6 +113,7 @@
                     {{ alertStartDate }}</span
                   >
                 </h2>
+                <h1>Now : {{ new Date() }}</h1>
                 <div class="date-section">
                   <input
                     id="day"
@@ -609,6 +610,7 @@ export default {
     },
     ClickCreate() {
       var reg = /^\d*\.?\d+$/;
+
       if (!this.event_pic) {
         this.invalidEvent_pic = true;
         this.alertEvent_pic = "required event picture";

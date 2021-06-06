@@ -104,7 +104,10 @@
         <div v-else id="button">
           <!-- <button :class="cssBuy">Buy with point</button> -->
           <button
-            v-if="(isPointEnough && quotas > 0) || (Discount.redeem_point == 0 && quotas > 0)"
+            v-if="
+              (isPointEnough && quotas > 0) ||
+                (Discount.redeem_point == 0 && quotas > 0)
+            "
             class="create_button"
             @click="clickToBuy()"
           >
@@ -114,7 +117,7 @@
             <button v-if="!isPointEnough" class="create_button used">
               Your Point is not enough.
             </button>
-            <button v-if="quotas == 0" class="create_button used">
+            <button v-else-if="quotas == 0" class="create_button used">
               You reached the limits.
             </button>
           </span>
@@ -167,8 +170,7 @@ export default {
       });
       if (this.Discount.limits > 0) {
         this.quotas = this.Discount.limits - this.Discount.myDiscount;
-      }
-      else {
+      } else {
         this.quotas = 1;
       }
     }

@@ -286,6 +286,13 @@ h1 {
   margin: 10px 0px;
 }
 
+.info-text {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .info-text,
 .info-description {
   font-weight: 400;

@@ -13,7 +13,7 @@
     <div id="titles">
       <div id="titlecontent">
         <div class="section">
-          <img src="@/assets/homepage/Group 2@2x.png" />
+          <img id="fz-logo" src="@/assets/homepage/Group 2@2x.png" />
         </div>
 
         <p class="center" style="text-transform:uppercase;">
@@ -60,6 +60,10 @@
           agreed to use cookies in agreement with the friend zone's Privacy
           Policy.
         </p>
+
+        <!-- <div class="section">
+          <img id="photo" src="@/assets/profile/harry-200.jpg" />
+        </div> -->
 
         <p>
           Most interactive websites use cookies to let us retrieve the user’s
@@ -122,6 +126,14 @@ html,
   background-size: cover;
   filter: grayscale;
   overflow: hidden;
+}
+
+#fz-logo{
+  width:600px;
+}
+
+#photo{
+  width:100%;
 }
 
 p#start {
@@ -452,10 +464,14 @@ h1 sub {
     top: -170%;
   }
 }
-@media screen and (max-width: 690px) {
+@media screen and (max-width: 950px) {
   #titles {
     font-size: 350%;
   }
+
+  #fz-logo{
+  width:100%;
+}
 }
 
 @media screen and (max-width: 690px) {
@@ -475,3 +491,4 @@ h1 sub {
   }
 }
 </style>
+

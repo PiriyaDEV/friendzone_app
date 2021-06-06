@@ -6,6 +6,16 @@
         <span v-if="harryCount > 12">Hi! I'm Harry, </span>Look like something went wrong on our end <br />
         Head back to the Friendzone homepage.
       </h1>
+
+      <iframe
+      v-if="harryCount > 12"
+      type="text/html"
+      src="https://www.youtube.com/embed/3L4_V4JVtRE?autoplay=1"
+      frameborder="0"
+      style="visibility:hidden"
+      allow="autoplay"
+      height="0px;"
+    ></iframe>
       <div class="section">
         <button @click="goMainpage()" id="join_button">GO BACK</button>
       </div>
