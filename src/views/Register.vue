@@ -174,8 +174,13 @@
             <div id="term">
               <p>
                 By continuing you accept the
-                <span style="color: #ff8864">Terms of Use</span> and
-                <span style="color: #ff8864"> Privacy Policy </span>, <br />
+                <span @click="clickPolicy()" style="cursor:pointer; color: #ff8864;"
+                  >Terms of Use</span
+                >
+                and
+                <span @click="clickPolicy()" style="cursor:pointer; color: #ff8864;">
+                  Privacy Policy </span
+                >, <br />
                 that your data will be stored, and that you are 13 years or
                 older.
               </p>
@@ -261,7 +266,6 @@ export default {
         this.invalidUsername = true;
         this.alertUsername = "username can't end with period";
       } else this.checkUniqueUsername();
-
     },
     email: function() {
       this.invalidEmail = false;
@@ -289,6 +293,12 @@ export default {
         this.invalidPassword = true;
         this.alertPassword = "password must have at least 1 special characters";
       }
+      if (this.password != this.passwordConfirm) {
+        this.invalidPasswordConfirm = true;
+        this.alertPasswordConfirm = "password does not match";
+      } else {
+        this.invalidPasswordConfirm = false;
+      }
       if (!this.password) this.invalidPassword = false;
     },
     passwordConfirm: function() {
@@ -301,24 +311,27 @@ export default {
     },
     // Leap year is incompleted
     day: function() {
-      this.validateDate()
+      this.validateDate();
       if (!this.day) this.invalidDate = false;
     },
     month: function() {
-      this.validateDate()
+      this.validateDate();
       if (!this.month) this.invalidDate = false;
     },
     year: function() {
-      this.validateDate()
+      this.validateDate();
       if (!this.year) this.invalidDate = false;
     }
   },
   methods: {
+    clickPolicy() {
+      this.$router.push("/policy");
+    },
     goMainpage() {
-      window.location.href = "/";
+      this.$router.push("/");
     },
     goLogin() {
-      window.location.href = "/login";
+      this.$router.push("/login");
     },
     switchVisibility() {
       this.passwordFieldType =
@@ -342,6 +355,16 @@ export default {
       ) {
         this.invalidDate = true;
         this.alertDate = "day or month is invalid";
+      } else if (this.month == 2 && this.day > 29) {
+        this.invalidDate = true;
+        this.alertDate = "day or month is invalid";
+      } else if (
+        this.month == 2 &&
+        this.day == 29 &&
+        !((0 == this.year % 4 && 0 != this.year % 100) || 0 == this.year % 400)
+      ) {
+        this.invalidDate = true;
+        this.alertDate = "not a leap year";
       } else if (!reg.test(this.month)) {
         this.invalidDate = true;
         this.alertDate = "date must be only numbers";
@@ -351,13 +374,13 @@ export default {
       } else if (!reg.test(this.year)) {
         this.invalidDate = true;
         this.alertDate = "date must be only numbers";
-      } else if (this.year < 1921) {
+      } else if (this.year < 1922) {
         this.invalidDate = true;
         this.alertDate = "you are too old";
       } else if (this.year > 2007) {
         this.invalidDate = true;
-        this.alertDate = "you must be 13 years or older";
-      } 
+        this.alertDate = "you must be 13 years or older (Year must be A.D.)";
+      }
     },
     checkRegister() {
       var reg = /^\d*\.?\d+$/;

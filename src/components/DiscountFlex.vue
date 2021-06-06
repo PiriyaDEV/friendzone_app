@@ -1,7 +1,26 @@
 <template>
   <div id="discount-box" @click="Onclick()">
-    <img class="cover" :src="discount.discount_pic" />
+    <img :class="cssImgEnd" :src="discount.discount_pic" />
     <div id="text-box">
+      <!-- ShowBox -->
+      <div id="delete-box" v-if="discount.status == `Deleted`">
+        <h1>
+          DELETED DISCOUNT<i style="margin-left:5px;" class="fa fa-trash-o"></i>
+        </h1>
+      </div>
+      <!-- ShowBox -->
+
+      <!-- ShowBox -->
+      <div v-if="discount.status == `Active`" id="ongoing-box">
+        <h1>
+          DISCOUNT ON-GOING<i
+            style="margin-left:5px;"
+            class="fa fa-play-circle-o"
+          ></i>
+        </h1>
+      </div>
+      <!-- ShowBox -->
+
       <h1 class="discount-title">
         {{ discount.name }}
       </h1>
@@ -34,6 +53,17 @@ export default {
       this.$emit("clickDiscountFlex", true);
       this.$emit("discountData", this.discount);
     }
+  },
+  computed: {
+    cssImgEnd() {
+      let default_pic = "cover";
+      let end_pic = "cover end-pic";
+      if (this.discount.status == "Deleted") {
+        return end_pic;
+      } else {
+        return default_pic;
+      }
+    }
   }
 };
 </script>
@@ -47,6 +77,11 @@ export default {
   height: 150px;
   margin-bottom: 20px;
   cursor: pointer;
+  position: relative;
+}
+
+.end-pic {
+  filter: grayscale(100%) !important;
 }
 
 .cover {
@@ -86,6 +121,33 @@ export default {
   color: #444444;
 }
 
+#ongoing-box > h1,
+#delete-box > h1 {
+  margin: 0;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+#delete-box,#ongoing-box {
+  padding: 5px 10px;
+  border-radius: 16px;
+  text-align: center;
+  position: absolute;
+  top: 123px;
+  left: 13px;
+  z-index: 3;
+}
+
+#ongoing-box {
+  color: #ffffff;
+  background-color: #ff8864;
+}
+
+#delete-box {
+  color: #fd6363;
+  background-color: white;
+}
+
 .coin-section {
   display: flex;
   align-items: center;
@@ -122,6 +184,11 @@ export default {
 @media screen and (max-width: 880px) {
   #discount-box {
     height: 120px;
+  }
+
+  #ongoing-box,#delete-box {
+    top: 93px;
+    left: 13px;
   }
 
   .coin-section {

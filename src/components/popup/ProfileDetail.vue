@@ -71,7 +71,7 @@
                 }}</span>
                 <span v-else>{{ user.username }}</span>
                 <img
-                  v-if="role != `RO04`"
+                  v-if="role != `RO04` && !findUser"
                   class="verified-badge"
                   src="../../assets/icon/verified-badge.png"
                 />
@@ -415,16 +415,14 @@
 
             <div v-if="adminEdit" id="profile-button-section">
               <div id="profile-button">
-                <div>
-                </div>
+                <div></div>
                 <div>
                   <button @click="clickEdit()">EDIT PROFILE</button>
                 </div>
                 <div>
                   <button @click="clickInterest()">INTERESTED</button>
                 </div>
-                <div>
-                </div>
+                <div></div>
               </div>
             </div>
           </div>
@@ -468,22 +466,22 @@
 
           <div v-if="!adminEdit">
             <ProfileInterest
-            v-if="interestShow == true"
-            @showBack="showBack"
-            :profileDetail="interestShow"
-            :userId="user.user_id"
+              v-if="interestShow == true"
+              @showBack="showBack"
+              :profileDetail="interestShow"
+              :userId="user.user_id"
             />
           </div>
 
-          <div  v-if="adminEdit">
+          <div v-if="adminEdit">
             <ProfileInterest
-            v-if="interestShow == true"
-            @showBack="showBack"
-            :profileDetail="interestShow"
-            :userId="customerData.user_id"
+              v-if="interestShow == true"
+              @showBack="showBack"
+              :profileDetail="interestShow"
+              :userId="customerData.user_id"
             />
           </div>
-          
+
           <ChangePassword v-if="changePassword == true" @showBack="showBack" />
         </div>
 

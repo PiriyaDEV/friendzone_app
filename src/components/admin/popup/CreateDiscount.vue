@@ -10,8 +10,9 @@
             <!-- Input -->
             <div>
               <h2 class="input_title">
-                Discount Picture<span v-if="!edit" class="orange-color">
-                  *</span
+                Discount Picture<span class="orange-color"> *</span>
+                <span class="orange-color" v-if="invalidDiscount_pic">
+                  {{ alertDiscount_pic }}</span
                 >
               </h2>
               <div v-if="!edit" id="select-photo-section" class="section">
@@ -74,10 +75,17 @@
             <div>
               <h2 v-if="!edit" class="input_title">
                 Discount Name<span class="orange-color"> *</span>
+                <span class="orange-color" v-if="invalidName">
+                  {{ alertName }}</span
+                >
               </h2>
               <h2 v-if="edit" class="input_title">
-                Title
+                Title<span class="orange-color"> *</span
+                ><span class="orange-color" v-if="invalidName">
+                  {{ alertName }}</span
+                >
               </h2>
+
               <input
                 v-model="discount.name"
                 :class="cssInput"
@@ -94,6 +102,9 @@
             <div>
               <h2 class="input_title">
                 Description<span v-if="!edit" class="orange-color"> *</span>
+                <span class="orange-color" v-if="invalidDescription">
+                  {{ alertDescription }}</span
+                >
               </h2>
               <textarea
                 v-model="discount.description"
@@ -112,6 +123,9 @@
             <div class="number-box box-computer">
               <h2 class="input_title">
                 Point Required<span v-if="!edit" class="orange-color"> *</span>
+                <span class="orange-color" v-if="invalidPoint">
+                  {{ alertPoint }}</span
+                >
               </h2>
               <div class="number">
                 <span class="minus" @click="clickPoint(false)">-</span>
@@ -139,6 +153,9 @@
             <div>
               <h2 class="input_title">
                 Start On<span v-if="!edit" class="orange-color"> *</span>
+                <span class="orange-color" v-if="invalidStartDate">
+                  {{ alertStartDate }}</span
+                >
               </h2>
               <div class="date-section">
                 <input
@@ -150,7 +167,7 @@
                   maxlength="2"
                   size="2"
                   placeholder="day"
-                  v-model="discount.period_start.day"
+                  v-model="period_start.day"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
                 <input
@@ -163,7 +180,7 @@
                   maxlength="2"
                   size="2"
                   placeholder="month"
-                  v-model="discount.period_start.month"
+                  v-model="period_start.month"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
                 <input
@@ -176,7 +193,7 @@
                   maxlength="4"
                   size="4"
                   placeholder="year"
-                  v-model="discount.period_start.year"
+                  v-model="period_start.year"
                 />
               </div>
               <div class="time-section">
@@ -189,7 +206,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
-                  v-model="discount.period_start.h1"
+                  v-model="period_start.h1"
                 />
                 <input
                   id="h2"
@@ -201,7 +218,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
-                  v-model="discount.period_start.h2"
+                  v-model="period_start.h2"
                 />
                 <h1
                   style="
@@ -223,7 +240,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
-                  v-model="discount.period_start.m1"
+                  v-model="period_start.m1"
                 />
                 <input
                   id="m2"
@@ -235,7 +252,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
-                  v-model="discount.period_start.m2"
+                  v-model="period_start.m2"
                 />
               </div>
             </div>
@@ -245,6 +262,9 @@
             <div>
               <h2 class="input_title">
                 End On<span v-if="!edit" class="orange-color"> *</span>
+                <span class="orange-color" v-if="invalidEndDate">
+                  {{ alertEndDate }}</span
+                >
               </h2>
               <div class="date-section">
                 <input
@@ -256,7 +276,7 @@
                   maxlength="2"
                   size="2"
                   placeholder="day"
-                  v-model="discount.period_end.day"
+                  v-model="period_end.day"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
                 <input
@@ -269,7 +289,7 @@
                   maxlength="2"
                   size="2"
                   placeholder="month"
-                  v-model="discount.period_end.month"
+                  v-model="period_end.month"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
                 <input
@@ -282,7 +302,7 @@
                   maxlength="4"
                   size="4"
                   placeholder="year"
-                  v-model="discount.period_end.year"
+                  v-model="period_end.year"
                 />
               </div>
               <div class="time-section">
@@ -295,7 +315,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
-                  v-model="discount.period_end.h1"
+                  v-model="period_end.h1"
                 />
                 <input
                   id="h2"
@@ -307,7 +327,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
-                  v-model="discount.period_end.h2"
+                  v-model="period_end.h2"
                 />
                 <h1
                   style="
@@ -329,7 +349,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
-                  v-model="discount.period_end.m1"
+                  v-model="period_end.m1"
                 />
                 <input
                   id="m2"
@@ -341,7 +361,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
-                  v-model="discount.period_end.m2"
+                  v-model="period_end.m2"
                 />
               </div>
             </div>
@@ -351,6 +371,9 @@
             <div>
               <h2 class="input_title">
                 Expire Date<span v-if="!edit" class="orange-color"> *</span>
+                <span class="orange-color" v-if="invalidExpireDate">
+                  {{ alertExpireDate }}</span
+                >
               </h2>
               <div class="date-section">
                 <input
@@ -362,7 +385,7 @@
                   maxlength="2"
                   size="2"
                   placeholder="day"
-                  v-model="discount.expired.day"
+                  v-model="expired.day"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
                 <input
@@ -375,7 +398,7 @@
                   maxlength="2"
                   size="2"
                   placeholder="month"
-                  v-model="discount.expired.month"
+                  v-model="expired.month"
                 />
                 <h1 style="margin-left: 10px; color: #e3e3e3">/</h1>
                 <input
@@ -388,7 +411,7 @@
                   maxlength="4"
                   size="4"
                   placeholder="year"
-                  v-model="discount.expired.year"
+                  v-model="expired.year"
                 />
               </div>
               <div class="time-section">
@@ -401,7 +424,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
-                  v-model="discount.expired.h1"
+                  v-model="expired.h1"
                 />
                 <input
                   id="h2"
@@ -413,7 +436,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
-                  v-model="discount.expired.h2"
+                  v-model="expired.h2"
                 />
                 <h1
                   style="
@@ -435,7 +458,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
-                  v-model="discount.expired.m1"
+                  v-model="expired.m1"
                 />
                 <input
                   id="m2"
@@ -447,7 +470,7 @@
                   maxlength="1"
                   size="1"
                   placeholder="0"
-                  v-model="discount.expired.m2"
+                  v-model="expired.m2"
                 />
               </div>
             </div>
@@ -457,6 +480,9 @@
             <div class="number-box box-tablet">
               <h2 class="input_title">
                 Point Required<span v-if="!edit" class="orange-color"> *</span>
+                <span class="orange-color" v-if="invalidPoint">
+                  {{ alertPoint }}</span
+                >
               </h2>
               <div class="number">
                 <span class="minus" @click="clickPoint(false)">-</span>
@@ -485,11 +511,14 @@
                 Limit buy per user<span v-if="!edit" class="orange-color">
                   *</span
                 >
+                <span class="orange-color" v-if="invalidLimit">
+                  {{ alertLimit }}</span
+                >
               </h2>
               <div class="number">
                 <span class="minus" @click="clickLimit(false)">-</span>
                 <input
-                  v-if="discount.limits == 0"
+                  v-if="discount.limits == 0 || discount.limits == ''"
                   type="text"
                   disabled="disabled"
                   v-model="unlimited"
@@ -567,13 +596,13 @@ import Upload from "../../../components/UploadPic.vue";
 
 class constructEmptyDate {
   constructor(date) {
-    this.day = date;
-    this.month = date;
-    this.year = date;
-    this.h1 = date;
-    this.h2 = date;
-    this.m1 = date;
-    this.m2 = date;
+    this.day = date.day;
+    this.month = date.month;
+    this.year = date.year;
+    this.h1 = date.h1;
+    this.h2 = date.h2;
+    this.m1 = date.m1;
+    this.m2 = date.m2;
   }
 }
 
@@ -609,12 +638,31 @@ export default {
   data() {
     return {
       discount: new Discount(""),
+      period_start: new constructEmptyDate(""),
+      period_end: new constructEmptyDate(""),
+      expired: new constructEmptyDate(""),
       unlimited: "No Limit",
       free: "Free",
       edit: false,
       disable: false,
       delete_pic: false,
-      status: ""
+      status: "",
+      invalidDiscount_pic: false,
+      invalidName: false,
+      invalidDescription: false,
+      invalidStartDate: false,
+      invalidEndDate: false,
+      invalidExpireDate: false,
+      invalidPoint: false,
+      invalidLimit: false,
+      alertDiscount_pic: "",
+      alertName: "",
+      alertDescription: "",
+      alertStartDate: "",
+      alertEndDate: "",
+      alertExpireDate: "",
+      alertPoint: "",
+      alertLimit: ""
     };
   },
   components: {
@@ -650,19 +698,16 @@ export default {
       this.discount.redeem_point = this.discountList.redeem_point;
       this.discount.limits = this.discountList.limits;
       this.status = this.discountList.status;
-      this.discount.period_start = new constructDate(
+      this.period_start = new constructDate(
         new Date(this.discountList.period_start)
       );
-      this.discount.period_end = new constructDate(
+      this.period_end = new constructDate(
         new Date(this.discountList.period_end)
       );
-      this.discount.expired = new constructDate(
+      this.expired = new constructDate(
         new Date(this.discountList.expired)
       );
     } else {
-      this.discount.period_start = new constructEmptyDate();
-      this.discount.period_end = new constructEmptyDate();
-      this.discount.expired = new constructEmptyDate();
       this.discount.redeem_point = 0;
       this.discount.limits = 0;
     }
@@ -709,6 +754,86 @@ export default {
       return block;
     }
   },
+  watch: {
+    "discount.discount_pic": function() {
+      this.invalidDiscount_pic = false;
+    },
+    "discount.name": function() {
+      this.invalidName = false;
+    },
+    "discount.description": function() {
+      this.invalidDescription = false;
+    },
+    "discount.redeem_point": function() {
+      this.invalidPoint = false;
+    },
+    "discount.limits": function() {
+      this.invalidLimit = false;
+    },
+    "period_start.day": function() {
+      this.invalidStartDate = false;
+    },
+    "period_start.month": function() {
+      this.invalidStartDate = false;
+    },
+    "period_start.year": function() {
+      this.invalidStartDate = false;
+    },
+    "period_start.h1": function() {
+      this.invalidStartDate = false;
+    },
+    "period_start.h2": function() {
+      this.invalidStartDate = false;
+    },
+    "period_start.m1": function() {
+      this.invalidStartDate = false;
+    },
+    "period_start.m2": function() {
+      this.invalidStartDate = false;
+    },
+    "period_end.day": function() {
+      this.invalidEndDate = false;
+    },
+    "period_end.month": function() {
+      this.invalidEndDate = false;
+    },
+    "period_end.year": function() {
+      this.invalidEndDate = false;
+    },
+    "period_end.h1": function() {
+      this.invalidEndDate = false;
+    },
+    "period_end.h2": function() {
+      this.invalidEndDate = false;
+    },
+    "period_end.m1": function() {
+      this.invalidEndDate = false;
+    },
+    "period_end.m2": function() {
+      this.invalidEndDate = false;
+    },
+    "expired.day": function() {
+      this.invalidExpireDate = false;
+    },
+    "expired.month": function() {
+      this.invalidExpireDate = false;
+    },
+    "expired.year": function() {
+      this.invalidExpireDate = false;
+    },
+    "expired.h1": function() {
+      this.invalidExpireDate = false;
+    },
+    "expired.h2": function() {
+      this.invalidExpireDate = false;
+    },
+    "expired.m1": function() {
+      this.invalidExpireDate = false;
+    },
+    "expired.m2": function() {
+      this.invalidExpireDate = false;
+    }
+  },
   methods: {
     createReturn() {
       this.$emit("clickCreate", false);
@@ -732,85 +857,195 @@ export default {
       }
     },
     ClickCreate() {
-      this.hs = this.discount.period_start.h1 + this.discount.period_start.h2;
-      this.ms = this.discount.period_start.m1 + this.discount.period_start.m2;
-      this.he = this.discount.period_end.h1 + this.discount.period_end.h2;
-      this.me = this.discount.period_end.m1 + this.discount.period_end.m2;
-      this.hx = this.discount.expired.h1 + this.discount.expired.h2;
-      this.mx = this.discount.expired.m1 + this.discount.expired.m2;
+      // var reg = /^\d*\.?\d+$/;
 
-      this.discount.period_start = new Date(
-        this.discount.period_start.year +
-          "-" +
-          this.discount.period_start.month +
-          "-" +
-          this.discount.period_start.day +
-          " " +
-          this.hs +
-          ":" +
-          this.ms +
-          ":00 GMT+0700"
-      ).getTime();
+      // if (!this.discount.discount_pic) {
+      //   this.invalidDiscount_pic = true;
+      //   this.alertDiscount_pic = "required discount picture";
+      // }
+      // if (!this.discount.name) {
+      //   this.invalidName = true;
+      //   this.alertName = "required name";
+      // }
+      // if (!this.discount.description) {
+      //   this.invalidDescription = true;
+      //   this.alertDescription = "required description";
+      // }
 
-      this.discount.period_end = new Date(
-        this.discount.period_end.year +
-          "-" +
-          this.discount.period_end.month +
-          "-" +
-          this.discount.period_end.day +
-          " " +
-          this.he +
-          ":" +
-          this.me +
-          ":00 GMT+0700"
-      ).getTime();
+      // if (
+      //   !this.period_start.day ||
+      //   !this.period_start.month ||
+      //   !this.period_start.year
+      // ) {
+      //   this.invalidStartDate = true;
+      //   this.alertStartDate = "required start date";
+      // } else if (
+      //   !this.period_start.h1 ||
+      //   !this.period_start.h2 ||
+      //   !this.period_start.m1 ||
+      //   !this.period_start.m2
+      // ) {
+      //   this.invalidStartDate = true;
+      //   this.alertStartDate = "required start time";
+      // } else {
+      //   this.validateStartDate();
+      // }
 
-      this.discount.expired = new Date(
-        this.discount.expired.year +
-          "-" +
-          this.discount.expired.month +
-          "-" +
-          this.discount.expired.day +
-          " " +
-          this.hx +
-          ":" +
-          this.mx +
-          ":00 GMT+0700"
-      ).getTime();
+      // if (
+      //   !this.period_end.day ||
+      //   !this.period_end.month ||
+      //   !this.period_end.year
+      // ) {
+      //   this.invalidEndDate = true;
+      //   this.alertEndDate = "required end date";
+      // } else if (
+      //   !this.period_end.h1 ||
+      //   !this.period_end.h2 ||
+      //   !this.period_end.m1 ||
+      //   !this.period_end.m2
+      // ) {
+      //   this.invalidEndDate = true;
+      //   this.alertEndDate = "required end time";
+      // } else {
+      //   this.validateEndDate();
+      // }
 
-      DiscountService.create(this.discount).then(
-        (res) => {
-          if (res.discount_id) {
-            DiscountService.uploadDiscountPic(
-              this.discount.discount_pic.formData,
-              res.discount_id
-            ).then((res) => {
-              if (res) {
-                this.$emit("informationShow", true);
-                this.$emit("clickCreate", false);
-              }
-            });
-          }
-        },
-        (error) => {
-          console.log(error.message);
+      // if (
+      //   !this.expired.day ||
+      //   !this.expired.month ||
+      //   !this.expired.year
+      // ) {
+      //   this.invalidExpireDate = true;
+      //   this.alertExpireDate = "required expired date";
+      // } else if (
+      //   !this.expired.h1 ||
+      //   !this.expired.h2 ||
+      //   !this.expired.m1 ||
+      //   !this.expired.m2
+      // ) {
+      //   this.invalidExpireDate = true;
+      //   this.alertExpireDate = "required expired time";
+      // } else {
+      //   this.validateExpireDate();
+      // }
+
+      // if (
+      //   this.discount.redeem_point == "" ||
+      //   isNaN(this.discount.redeem_point)
+      // ) {
+      //   this.discount.redeem_point = 0;
+      // } else if (!reg.test(this.discount.redeem_point)) {
+      //   this.invalidPoint = true;
+      //   this.alertPoint = "must be only numbers";
+      // }
+      // if (this.discount.limits == "" || isNaN(this.discount.limits)) {
+      //   this.discount.limits = 0;
+      // } else if (!reg.test(this.discount.limits)) {
+      //   this.invalidLimit = true;
+      //   this.alertLimit = "must be only numbers";
+      // }
+      // if (
+      //   !this.invalidStartDate &&
+      //   !this.invalidEndDate &&
+      //   !this.invalidExpireDate
+      // ) {
+      //   this.hs = this.period_start.h1 + this.period_start.h2;
+      //   this.ms = this.period_start.m1 + this.period_start.m2;
+      //   this.he = this.period_end.h1 + this.period_end.h2;
+      //   this.me = this.period_end.m1 + this.period_end.m2;
+      //   this.hx = this.expired.h1 + this.expired.h2;
+      //   this.mx = this.expired.m1 + this.expired.m2;
+
+      //   this.discount.period_start = new Date(
+      //     this.period_start.year +
+      //       "-" +
+      //       this.period_start.month +
+      //       "-" +
+      //       this.period_start.day +
+      //       " " +
+      //       this.hs +
+      //       ":" +
+      //       this.ms +
+      //       ":00 GMT+0700"
+      //   ).getTime();
+
+      //   this.discount.period_end = new Date(
+      //     this.period_end.year +
+      //       "-" +
+      //       this.period_end.month +
+      //       "-" +
+      //       this.period_end.day +
+      //       " " +
+      //       this.he +
+      //       ":" +
+      //       this.me +
+      //       ":00 GMT+0700"
+      //   ).getTime();
+
+      //   this.discount.expired = new Date(
+      //     this.expired.year +
+      //       "-" +
+      //       this.expired.month +
+      //       "-" +
+      //       this.expired.day +
+      //       " " +
+      //       this.hx +
+      //       ":" +
+      //       this.mx +
+      //       ":00 GMT+0700"
+      //   ).getTime();
+
+      //   if (this.discount.period_start <= new Date().getTime()) {
+      //     this.invalidStartDate = true;
+      //     this.alertStartDate = "must start after the current time";
+      //   }
+      //   if (this.discount.period_end <= this.discount.period_start) {
+      //     this.invalidEndDate = true;
+      //     this.alertEndDate = "end date must be after start date";
+      //   }
+      //   if (this.discount.expired <= this.discount.period_end) {
+      //     this.invalidExpireDate = true;
+      //     this.alertExpireDate = "expire date must be after end date";
+      //   }
+
+        if (
+          this.validateData
+        ) {
+          // DiscountService.create(this.discount).then(
+          //   (res) => {
+          //     if (res.discount_id) {
+          //       DiscountService.uploadDiscountPic(
+          //         this.discount.discount_pic.formData,
+          //         res.discount_id
+          //       ).then((res) => {
+          //         if (res) {
+          //           this.$emit("informationShow", true);
+          //           this.$emit("clickCreate", false);
+          //         }
+          //       });
+          //     }
+          //   },
+          //   (error) => {
+          //     console.log(error.message);
+          //   }
+          // );
         }
-      );
+      
     },
     saveClick() {
-      this.hs = this.discount.period_start.h1 + this.discount.period_start.h2;
-      this.ms = this.discount.period_start.m1 + this.discount.period_start.m2;
-      this.he = this.discount.period_end.h1 + this.discount.period_end.h2;
-      this.me = this.discount.period_end.m1 + this.discount.period_end.m2;
-      this.hx = this.discount.expired.h1 + this.discount.expired.h2;
-      this.mx = this.discount.expired.m1 + this.discount.expired.m2;
+      this.hs = this.period_start.h1 + this.period_start.h2;
+      this.ms = this.period_start.m1 + this.period_start.m2;
+      this.he = this.period_end.h1 + this.period_end.h2;
+      this.me = this.period_end.m1 + this.period_end.m2;
+      this.hx = this.expired.h1 + this.expired.h2;
+      this.mx = this.expired.m1 + this.expired.m2;
 
       this.discount.period_start = new Date(
-        this.discount.period_start.year +
+        this.period_start.year +
           "-" +
-          this.discount.period_start.month +
+          this.period_start.month +
           "-" +
-          this.discount.period_start.day +
+          this.period_start.day +
           " " +
           this.hs +
           ":" +
@@ -819,11 +1054,11 @@ export default {
       ).getTime();
 
       this.discount.period_end = new Date(
-        this.discount.period_end.year +
+        this.period_end.year +
           "-" +
-          this.discount.period_end.month +
+          this.period_end.month +
           "-" +
-          this.discount.period_end.day +
+          this.period_end.day +
           " " +
           this.he +
           ":" +
@@ -832,11 +1067,11 @@ export default {
       ).getTime();
 
       this.discount.expired = new Date(
-        this.discount.expired.year +
+        this.expired.year +
           "-" +
-          this.discount.expired.month +
+          this.expired.month +
           "-" +
-          this.discount.expired.day +
+          this.expired.day +
           " " +
           this.hx +
           ":" +
@@ -844,27 +1079,454 @@ export default {
           ":00 GMT+0700"
       ).getTime();
 
-      DiscountService.editDiscount(this.discount).then(
-        (res) => {
-          if (res.discount_id) {
-            if (this.discount.discount_pic) {
-              DiscountService.uploadDiscountPic(
-                this.discount.discount_pic.formData,
-                res.discount_id
-              ).then((res) => {
-                if (res) {
-                  this.$emit("clickCreate", false);
-                }
-              });
-            } else {
-              this.$emit("clickCreate", false);
+      if (this.discount.period_start <= new Date().getTime()) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "must start after the current time";
+      }
+      if (this.discount.period_end <= this.discount.period_start) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "end date must be after start date";
+      }
+      if (this.discount.expired <= this.discount.period_end) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "expire date must be after end date";
+      }
+      if (
+        !this.invalidDiscount_pic ||
+        !this.invalidName ||
+        !this.invalidDescription ||
+        !this.invalidStartDate ||
+        !this.invalidEndDate ||
+        !this.invalidExpireDate ||
+        !this.invalidPoint ||
+        !this.invalidLimit
+      ) {
+        DiscountService.editDiscount(this.discount).then(
+          (res) => {
+            if (res.discount_id) {
+              if (this.discount.discount_pic) {
+                DiscountService.uploadDiscountPic(
+                  this.discount.discount_pic.formData,
+                  res.discount_id
+                ).then((res) => {
+                  if (res) {
+                    this.$emit("clickCreate", false);
+                  }
+                });
+              } else {
+                this.$emit("clickCreate", false);
+              }
             }
+          },
+          (error) => {
+            console.log(error.message);
           }
-        },
-        (error) => {
-          console.log(error.message);
+        );
+      }
+    },
+    validateData() {
+      var reg = /^\d*\.?\d+$/;
+
+      if (!this.discount.discount_pic) {
+        this.invalidDiscount_pic = true;
+        this.alertDiscount_pic = "required discount picture";
+      }
+      if (!this.discount.name) {
+        this.invalidName = true;
+        this.alertName = "required name";
+      }
+      if (!this.discount.description) {
+        this.invalidDescription = true;
+        this.alertDescription = "required description";
+      }
+
+      if (
+        !this.period_start.day ||
+        !this.period_start.month ||
+        !this.period_start.year
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "required start date";
+      } else if (
+        !this.period_start.h1 ||
+        !this.period_start.h2 ||
+        !this.period_start.m1 ||
+        !this.period_start.m2
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "required start time";
+      } else {
+        this.validateStartDate();
+      }
+
+      if (
+        !this.period_end.day ||
+        !this.period_end.month ||
+        !this.period_end.year
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "required end date";
+      } else if (
+        !this.period_end.h1 ||
+        !this.period_end.h2 ||
+        !this.period_end.m1 ||
+        !this.period_end.m2
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "required end time";
+      } else {
+        this.validateEndDate();
+      }
+
+      if (
+        !this.expired.day ||
+        !this.expired.month ||
+        !this.expired.year
+      ) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "required expired date";
+      } else if (
+        !this.expired.h1 ||
+        !this.expired.h2 ||
+        !this.expired.m1 ||
+        !this.expired.m2
+      ) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "required expired time";
+      } else {
+        this.validateExpireDate();
+      }
+
+      if (
+        this.discount.redeem_point == "" ||
+        isNaN(this.discount.redeem_point)
+      ) {
+        this.discount.redeem_point = 0;
+      } else if (!reg.test(this.discount.redeem_point)) {
+        this.invalidPoint = true;
+        this.alertPoint = "must be only numbers";
+      }
+      if (this.discount.limits == "" || isNaN(this.discount.limits)) {
+        this.discount.limits = 0;
+      } else if (!reg.test(this.discount.limits)) {
+        this.invalidLimit = true;
+        this.alertLimit = "must be only numbers";
+      }
+      if (
+        !this.invalidStartDate &&
+        !this.invalidEndDate &&
+        !this.invalidExpireDate
+      ) {
+        this.hs = this.period_start.h1 + this.period_start.h2;
+        this.ms = this.period_start.m1 + this.period_start.m2;
+        this.he = this.period_end.h1 + this.period_end.h2;
+        this.me = this.period_end.m1 + this.period_end.m2;
+        this.hx = this.expired.h1 + this.expired.h2;
+        this.mx = this.expired.m1 + this.expired.m2;
+
+        this.discount.period_start = new Date(
+          this.period_start.year +
+            "-" +
+            this.period_start.month +
+            "-" +
+            this.period_start.day +
+            " " +
+            this.hs +
+            ":" +
+            this.ms +
+            ":00 GMT+0700"
+        ).getTime();
+
+        this.discount.period_end = new Date(
+          this.period_end.year +
+            "-" +
+            this.period_end.month +
+            "-" +
+            this.period_end.day +
+            " " +
+            this.he +
+            ":" +
+            this.me +
+            ":00 GMT+0700"
+        ).getTime();
+
+        this.discount.expired = new Date(
+          this.expired.year +
+            "-" +
+            this.expired.month +
+            "-" +
+            this.expired.day +
+            " " +
+            this.hx +
+            ":" +
+            this.mx +
+            ":00 GMT+0700"
+        ).getTime();
+
+        if (this.discount.period_start <= new Date().getTime()) {
+          this.invalidStartDate = true;
+          this.alertStartDate = "must start after the current time";
         }
-      );
+        if (this.discount.period_end <= this.discount.period_start) {
+          this.invalidEndDate = true;
+          this.alertEndDate = "end date must be after start date";
+        }
+        if (this.discount.expired <= this.discount.period_end) {
+          this.invalidExpireDate = true;
+          this.alertExpireDate = "expire date must be after end date";
+        }
+
+        if (
+          !this.invalidDiscount_pic &&
+          !this.invalidName &&
+          !this.invalidDescription &&
+          !this.invalidStartDate &&
+          !this.invalidEndDate &&
+          !this.invalidExpireDate &&
+          !this.invalidPoint &&
+          !this.invalidLimit
+        ) {
+          console.log(true)
+          return true;
+        } else {
+          console.log(false)
+          return false};
+      }
+    },
+    validateStartDate() {
+      this.invalidStartDate = false;
+      var reg = /^\d*\.?\d+$/;
+
+      if (!reg.test(this.period_start.day)) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "date must be only numbers";
+      } else if (
+        this.period_start.day < 1 ||
+        this.period_start.day > 31
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "day must be only 1-31";
+      } else if (
+        (this.period_start.month == 4 &&
+          this.period_start.day > 30) ||
+        (this.period_start.month == 6 &&
+          this.period_start.day > 30) ||
+        (this.period_start.month == 9 &&
+          this.period_start.day > 30) ||
+        (this.period_start.month == 11 &&
+          this.period_start.day > 30)
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "day or month is invalid";
+      } else if (
+        this.period_start.month == 2 &&
+        this.period_start.day > 29
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "day or month is invalid";
+      } else if (
+        this.period_start.month == 2 &&
+        this.period_start.day == 29 &&
+        !(
+          (0 == this.period_start.year % 4 &&
+            0 != this.period_start.year % 100) ||
+          0 == this.period_start.year % 400
+        )
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "not a leap year";
+      } else if (!reg.test(this.period_start.month)) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "date must be only numbers";
+      } else if (
+        this.period_start.month < 1 ||
+        this.period_start.month > 12
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "month must be only 1-12";
+      } else if (!reg.test(this.period_start.year)) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "date must be only numbers";
+      } else if (this.period_start.year < 2021) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "year must start at 2021";
+      } else if (
+        !reg.test(this.period_start.h1) ||
+        !reg.test(this.period_start.h2) ||
+        !reg.test(this.period_start.m1) ||
+        !reg.test(this.period_start.m2)
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "time must be only numbers";
+      } else if (
+        (this.period_start.h1 == 2 &&
+          this.period_start.h2 > 3) ||
+        this.period_start.h1 > 2
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "hour must be in 00-23";
+      } else if (
+        (this.period_start.m1 == 5 &&
+          this.period_start.m2 > 9) ||
+        this.period_start.m1 > 5
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "minute must be in 00-59";
+      }
+    },
+    validateEndDate() {
+      this.invalidEndDate = false;
+      var reg = /^\d*\.?\d+$/;
+
+      if (!reg.test(this.period_end.day)) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "date must be only numbers";
+      } else if (
+        this.period_end.day < 1 ||
+        this.period_end.day > 31
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "day must be only 1-31";
+      } else if (
+        (this.period_end.month == 4 &&
+          this.period_end.day > 30) ||
+        (this.period_end.month == 6 &&
+          this.period_end.day > 30) ||
+        (this.period_end.month == 9 &&
+          this.period_end.day > 30) ||
+        (this.period_end.month == 11 &&
+          this.period_end.day > 30)
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "day or month is invalid";
+      } else if (
+        this.period_end.month == 2 &&
+        this.period_end.day > 29
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "day or month is invalid";
+      } else if (
+        this.period_end.month == 2 &&
+        this.period_end.day == 29 &&
+        !(
+          (0 == this.period_end.year % 4 &&
+            0 != this.period_end.year % 100) ||
+          0 == this.period_end.year % 400
+        )
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "not a leap year";
+      } else if (!reg.test(this.period_end.month)) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "date must be only numbers";
+      } else if (
+        this.period_end.month < 1 ||
+        this.period_end.month > 12
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "month must be only 1-12";
+      } else if (!reg.test(this.period_end.year)) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "date must be only numbers";
+      } else if (this.period_end.year < 2021) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "year must start at 2021";
+      } else if (
+        !reg.test(this.period_end.h1) ||
+        !reg.test(this.period_end.h2) ||
+        !reg.test(this.period_end.m1) ||
+        !reg.test(this.period_end.m2)
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "time must be only numbers";
+      } else if (
+        (this.period_end.h1 == 2 && this.period_end.h2 > 3) ||
+        this.period_end.h1 > 2
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "hour must be in 00-23";
+      } else if (
+        (this.period_end.m1 == 5 && this.period_end.m2 > 9) ||
+        this.period_end.m1 > 5
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "minute must be in 00-59";
+      }
+    },
+    validateExpireDate() {
+      this.invalidExpireDate = false;
+      var reg = /^\d*\.?\d+$/;
+
+      if (!reg.test(this.expired.day)) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "date must be only numbers";
+      } else if (
+        this.expired.day < 1 ||
+        this.expired.day > 31
+      ) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "day must be only 1-31";
+      } else if (
+        (this.expired.month == 4 && this.expired.day > 30) ||
+        (this.expired.month == 6 && this.expired.day > 30) ||
+        (this.expired.month == 9 && this.expired.day > 30) ||
+        (this.expired.month == 11 && this.expired.day > 30)
+      ) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "day or month is invalid";
+      } else if (
+        this.expired.month == 2 &&
+        this.expired.day > 29
+      ) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "day or month is invalid";
+      } else if (
+        this.expired.month == 2 &&
+        this.expired.day == 29 &&
+        !(
+          (0 == this.expired.year % 4 &&
+            0 != this.expired.year % 100) ||
+          0 == this.expired.year % 400
+        )
+      ) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "not a leap year";
+      } else if (!reg.test(this.expired.month)) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "date must be only numbers";
+      } else if (
+        this.expired.month < 1 ||
+        this.expired.month > 12
+      ) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "month must be only 1-12";
+      } else if (!reg.test(this.expired.year)) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "date must be only numbers";
+      } else if (this.expired.year < 2021) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "year must start at 2021";
+      } else if (
+        !reg.test(this.expired.h1) ||
+        !reg.test(this.expired.h2) ||
+        !reg.test(this.expired.m1) ||
+        !reg.test(this.expired.m2)
+      ) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "time must be only numbers";
+      } else if (
+        (this.expired.h1 == 2 && this.expired.h2 > 3) ||
+        this.expired.h1 > 2
+      ) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "hour must be in 00-23";
+      } else if (
+        (this.expired.m1 == 5 && this.expired.m2 > 9) ||
+        this.expired.m1 > 5
+      ) {
+        this.invalidExpireDate = true;
+        this.alertExpireDate = "minute must be in 00-59";
+      }
     },
     deleteClick() {
       if (this.discountList.status_id == "ST02") {

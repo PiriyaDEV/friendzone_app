@@ -170,7 +170,7 @@ export default {
     "user",
     "detailPage",
     "managePage",
-    "admin",
+    "adminPage",
     "showEnd",
     "participant_id"
   ],
@@ -194,24 +194,25 @@ export default {
   computed: {
     cssUserbox() {
       let userRole = "userbox";
-      if (this.select == 2) {
-        let adminRole = "userbox-admin";
-        let HostRole = "userbox host-box";
-        let ModeratorRole = "userbox moderator-box";
-        if (this.admin == true) {
-          return adminRole;
-        } else if (this.user.host) {
+      let adminRole = "userbox-admin";
+      let HostRole = "userbox host-box";
+      let ModeratorRole = "userbox moderator-box";
+      if (this.select == 1) {
+        if (this.user.host) {
           return HostRole;
         } else if (!this.showModButton) {
           return ModeratorRole;
         }
+        return userRole;
+      } else if (this.select == 2 && this.adminPage == true) {
+        return adminRole;
       }
       return userRole;
     },
     cssName() {
       let userRole = "namerole";
       let adminRole = "namerole-admin";
-      if (this.admin == true) {
+      if (this.adminPage == true) {
         return adminRole;
       }
       return userRole;
@@ -219,7 +220,7 @@ export default {
     cssRate() {
       let userRole = "rating";
       let adminRole = "rating-admin";
-      if (this.admin == true) {
+      if (this.adminPage == true) {
         return adminRole;
       }
       return userRole;

@@ -26,20 +26,20 @@
           THE REQUIREMENT
         </h1>
         <div class="section">
-          <h1 v-if="waitShow == `create`" id="info">
+          <h1 v-if="waitShow == `create`" class="info">
             Your event is now wait in the lists for approval and the event will
             be post after get approved by approver
           </h1>
-          <h1 v-if="waitShow == `discount`" id="info">
+          <h1 v-if="waitShow == `discount`" class="info">
             Note : Please you the discount before it expired. Thank you for your
             purchase, !
           </h1>
-          <h1 v-if="waitShow == `report`" id="info">
+          <h1 v-if="waitShow == `report`" class="info">
             Your report is now wait in the lists to our admin, We will rapidly
             check your report. Thank you!
           </h1>
-          <h1 v-if="error.type == `full`">This event is full</h1>
-          <h1 v-if="error.type == `gender` || error.type == `age`" id="info">
+          <h1 v-if="error.type == `full`" class="info">This event is full</h1>
+          <h1 v-if="error.type == `gender` || error.type == `age`" class="info">
             This event allow only: <br />
             <span v-if="error.type == `gender`">
               Gender:
@@ -118,6 +118,11 @@ export default {
   data() {
     return {};
   },
+  created() {
+    if (this.waitShow) {
+      this.error="";
+    }
+  },
   methods: {
     exit() {
       this.$router.push("/");
@@ -152,7 +157,7 @@ export default {
 </script>
 
 <style scoped>
-#info {
+.info {
   font-size: 1.6em;
   color: #444444;
   width: 220px;
@@ -184,7 +189,7 @@ export default {
 }
 
 @media screen and (max-width: 1024px) {
-  #info {
+  .info {
     margin: 0px;
   }
 }

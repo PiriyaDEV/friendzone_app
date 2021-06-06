@@ -33,6 +33,7 @@
                     :event="event"
                     :eventPage="true"
                     @detailReturn="detailReturn"
+                    @userProfile="userProfile"
                   />
                 </div>
               </div>
@@ -61,6 +62,7 @@
                         :event="event"
                         :eventPage="true"
                         @detailReturn="detailReturn"
+                        @userProfile="userProfile"
                       />
                     </div>
                   </div>
@@ -94,6 +96,7 @@
                 :event="event"
                 :eventPage="true"
                 @detailReturn="detailReturn"
+                @userProfile="userProfile"
               />
             </div>
           </div>
@@ -127,6 +130,9 @@ export default {
   methods: {
     back() {
       this.$emit("categoryClick", false);
+    },
+    userProfile(value) {
+      this.$emit("userProfile", value);
     },
     backCategory() {
       this.showTitle = true;

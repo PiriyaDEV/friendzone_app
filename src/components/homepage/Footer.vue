@@ -6,8 +6,8 @@
           <img id="logo" src="@/assets/homepage/Group 2@2x.png" alt="" />
         </div>
         <div id="term">
-          <h1 class="term-text">Terms of use</h1>
-          <h1 class="term-text">Privacy Policy</h1>
+          <h1 @click="clickPolicy()" class="term-text">Terms of use</h1>
+          <h1 @click="clickPolicy()" class="term-text">Privacy Policy</h1>
           <h1 class="term-text">© 2021 Friendzone, All Rights Reserved.</h1>
         </div>
       </div>
@@ -16,7 +16,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    clickPolicy() {
+      this.$router.push("/policy");
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -31,6 +37,11 @@ export default {};
 #term {
   display: flex;
   align-items: center;
+}
+
+#term > .term-text:nth-child(1),
+#term > .term-text:nth-child(2) {
+  cursor: pointer;
 }
 
 #footer-container {

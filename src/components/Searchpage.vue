@@ -67,8 +67,8 @@
                   @thisEvent="thisEvent"
                   @manageReturn="manageReturn"
                   @detailReturn="detailReturn"
-                  @showProfile="showProfile"
                   @titleError="titleError"
+                  @userProfile="userProfile"
                 />
               </div>
             </div>
@@ -181,7 +181,7 @@ export default {
         this.searchDiscountShow = [];
         let max = Math.max(...this.discountFilter);
         this.searchDiscountShow = this.searchDiscountList.filter(
-          (discount) => discount.redeem_point < max
+          (discount) => discount.redeem_point <= max
         );
       } else {
         this.searchDiscountShow = this.searchDiscountList;
@@ -238,6 +238,9 @@ export default {
       this.friendSelect = false;
       this.eventSelect = false;
       this.discountSelect = true;
+    },
+    userProfile(value) {
+      this.$emit("userProfile", value);
     },
     showProfile(value) {
       console.log(value);

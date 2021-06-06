@@ -16,7 +16,7 @@
 
             <div id="term">
               <p>
-                We <span style="color: #ff8864">recommend</span> you to choose
+                You <span style="color: #ff8864">must</span> choose
                 <span style="color: #ff8864">at least 1</span> <br />so we can
                 suggest an event you might interested in.
               </p>
@@ -31,6 +31,14 @@
                 :status="categoryList[i].status"
               />
             </div>
+
+            <h2
+              style="margin-top:15px; margin-bottom:0px; text-align:center;"
+              class="orange-color"
+              v-show="invalidSelect"
+            >
+              ** {{ alertSelect }} **
+            </h2>
 
             <button id="signin_button" @click="clickStart()">
               Start using FRIENDZONE !
@@ -52,7 +60,9 @@ export default {
   name: "interest",
   data() {
     return {
-      categoryList: null
+      categoryList: null,
+      invalidSelect: false,
+      alertSelect: ""
     };
   },
   computed: {
@@ -61,18 +71,18 @@ export default {
     }
   },
   created() {
-    CategoryService.getCategoryList().then((res) => {
-      if (res) {
-        this.categoryList = res;
-      }
-    });
     if (this.loggedIn) {
       this.$router.push("/mainpage");
     }
     var user = this.$store.state.user;
     if (!user.username || !user.email || !user.password || !user.phone) {
-      window.location.href = "/register";
+      this.$router.push("/register");
     }
+    CategoryService.getCategoryList().then((res) => {
+      if (res) {
+        this.categoryList = res;
+      }
+    });
   },
   components: {
     CategoryBox
@@ -95,19 +105,13 @@ export default {
           if (res) window.location.href = "/mainpage";
         });
       } else {
-        window.location.href = "/mainpage";
+        this.invalidSelect = true;
+        this.alertSelect = "Require at least one interested category";
       }
     },
     clicktest(ev, i) {
-      console.log(i + 1);
+      this.invalidSelect = false;
       this.categoryList[i].status = !this.categoryList[i].status;
-      console.log(this.categoryList[0].status);
-      console.log(this.categoryList[1].status);
-      console.log(this.categoryList[2].status);
-      console.log(this.categoryList[3].status);
-      console.log(this.categoryList[4].status);
-      console.log(this.categoryList[5].status);
-      console.log(this.categoryList[6].status);
     }
   }
 };
@@ -120,7 +124,7 @@ export default {
   overflow-x: hidden;
   overflow-y: auto;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;

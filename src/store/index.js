@@ -12,7 +12,6 @@ export default new Vuex.Store({
     user: new User(""),
     gender: new Gender(""),
     point: 0,
-    isAdmin: false
   },
   mutations: {},
   actions: {},

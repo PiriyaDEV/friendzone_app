@@ -13,6 +13,7 @@
             :detailPage="detailReturn"
             :eventPage="eventReturn"
             :showEnd="endShow"
+            :adminPage="false"
           />
         </div>
       </div>

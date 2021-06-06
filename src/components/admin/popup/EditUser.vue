@@ -20,8 +20,8 @@
                 />
                 <span @click="searchInput()">Search</span>
               </div>
-              <h1 v-if="not_found" class="input_title">
-                <span class="orange-color">* this username not found</span>
+              <h1 v-if="invalidUsername" class="input_title">
+                <span class="orange-color">* {{ alertUsername }}</span>
               </h1>
             </div>
             <!-- Input -->
@@ -91,8 +91,16 @@
                 <div v-if="editUser == false" class="info-column-roles">
                   <h1 class="info_title">Status</h1>
                   <div>
-                    <h1 v-if="userData.status == 'Normal'" class="info_data"><span class="green-color status-bold">{{ userData.status }}</span></h1>
-                    <h1 v-if="userData.status == 'Banned'" class="info_data"><span class="red-color status-bold">{{ userData.status }}</span></h1>
+                    <h1 v-if="userData.status == 'Normal'" class="info_data">
+                      <span class="green-color status-bold">{{
+                        userData.status
+                      }}</span>
+                    </h1>
+                    <h1 v-if="userData.status == 'Banned'" class="info_data">
+                      <span class="red-color status-bold">{{
+                        userData.status
+                      }}</span>
+                    </h1>
                   </div>
                 </div>
               </div>
@@ -111,7 +119,7 @@
 
                   <i v-if="user" class="fa fa-check"></i>
                 </div>
-            
+
                 <div @click="approverClick()" :class="cssApprover">
                   <img
                     class="icon"
@@ -157,7 +165,6 @@
               </div>
             </div>
 
-
             <div v-if="editUser == false" id="verticle-button">
               <div>
                 <button class="back_button" @click="editReturn()">
@@ -172,8 +179,16 @@
 
             <div v-if="editUser == true" id="double_button">
               <button class="back_button" @click="clickBack()">Back</button>
-              <button v-if="!isBanned" class="create_button" @click="clickDone()">Done</button>
-              <button v-else class="create_button" @click="clickUnban()">Unban</button>
+              <button
+                v-if="!isBanned"
+                class="create_button"
+                @click="clickDone()"
+              >
+                Done
+              </button>
+              <button v-else class="create_button" @click="clickUnban()">
+                Unban
+              </button>
             </div>
           </div>
           <img
@@ -219,9 +234,7 @@
             >
           </h1>
           <h1 v-if="isBanned" class="input_title" id="delete-text">
-            <span class="orange-color">
-              This account was banned.</span
-            >
+            <span class="orange-color"> This account was banned.</span>
           </h1>
         </div>
       </div>
@@ -247,7 +260,7 @@ export default {
       analyst: false,
       admin: false,
       role: "",
-      not_found: false,
+      invalidUsername: false,
       confirmBan: false,
       isBanned: false
     };
@@ -255,14 +268,14 @@ export default {
   watch: {
     search: function() {
       this.isBanned = false;
-      this.not_found = false;
+      this.invalidUsername = false;
       this.foundUser = false;
     }
   },
   methods: {
     searchInput() {
       this.foundUser = false;
-      this.not_found = false;
+      this.invalidUsername = false;
       this.role = "";
 
       this.user = false;
@@ -280,13 +293,19 @@ export default {
               this.foundUser = true;
             } else {
               this.foundUser = false;
-              this.not_found = true;
+              this.invalidUsername = true;
+              this.alertUsername = "this username not found";
             }
           })
           .catch(() => {
             this.foundUser = false;
-            this.not_found = true;
+            this.invalidUsername = true;
+            this.alertUsername = "this username not found";
           });
+      } else {
+        this.foundUser = false;
+        this.invalidUsername = true;
+        this.alertUsername = "required username";
       }
     },
     editReturn() {
@@ -302,20 +321,16 @@ export default {
           status_id: "ST04"
         },
         true
-      )
-        .then((res) => {
-          if (res.user_id) {
-            let userLocal = decode(localStorage.getItem("user"));
-            if (userLocal.user_id == res.user_id) {
-              AuthService.logout();
-            } else {
-              this.isBanned = true;
-            }
+      ).then((res) => {
+        if (res.user_id) {
+          let userLocal = decode(localStorage.getItem("user"));
+          if (userLocal.user_id == res.user_id) {
+            AuthService.logout();
+          } else {
+            this.isBanned = true;
           }
-        })
-        .catch(() => {
-          console.log("Error when ban user");
-        });
+        }
+      });
     },
     clickUnban() {
       UserService.editUser(
@@ -324,19 +339,20 @@ export default {
           status_id: "ST02"
         },
         true
-      )
-        .then((res) => {
-          if (res.user_id) {
-            this.isBanned = false;
-          }
-        })
-        .catch(() => {
-          console.log("Error when unban user ");
-        });
+      ).then((res) => {
+        if (res.user_id) {
+          this.confirmBan = false;
+          this.isBanned = false;
+        }
+      });
     },
     clickNext() {
       if (this.foundUser == true) {
         this.editUser = true;
+      } else {
+        this.foundUser = false;
+        this.invalidUsername = true;
+        this.alertUsername = "require user to edit";
       }
       if (this.userData.status == "Banned") {
         this.isBanned = true;
@@ -353,22 +369,17 @@ export default {
             role_id: this.selected
           },
           true
-        )
-          .then((res) => {
-            if (res.user_id) {
-              let userLocal = decode(localStorage.getItem("user"));
-              if (userLocal.role_id == "RO01") {
-                window.location.href = "/admin";
-              } else {
-                window.location.href = "/mainpage";
-              }
+        ).then((res) => {
+          if (res.user_id) {
+            let userLocal = decode(localStorage.getItem("user"));
+            if (userLocal.role_id != "RO01") {
+              this.$router.push("/mainpage");
+            } else {
+              window.location.href = "/admin";
             }
-          })
-          .catch(() => {
-            console.log("Error when update user role");
-          });
-      }
-      else {
+          }
+        });
+      } else {
         this.$emit("clickEdit", false);
       }
     },
@@ -495,8 +506,8 @@ export default {
   cursor: pointer;
 }
 
-.status-bold{
-  font-weight:500 !important;
+.status-bold {
+  font-weight: 500 !important;
 }
 
 #user_info {

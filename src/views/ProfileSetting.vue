@@ -70,7 +70,6 @@
                     maxlength="10"
                     size="10"
                     placeholder="enter your phone number"
-                    @blur="checkUniquePhone()"
                   />
                   <h3 v-if="invalidPhone === true" class="invalid">
                     * {{ alertPhone }}
@@ -228,14 +227,17 @@ export default {
     phone: function() {
       this.invalidPhone = false;
       var reg = /^\d*\.?\d+$/;
-      if (!reg.test(this.phone)) {
-        this.invalidPhone = true;
-        this.alertPhone = "phone number must be only numbers";
-      } else if (this.phone.length != 10) {
-        this.invalidPhone = true;
-        this.alertPhone = "phone number is invalid";
+      if (this.phone) {
+        if (!reg.test(this.phone)) {
+          this.invalidPhone = true;
+          this.alertPhone = "phone number must be only numbers";
+        } else if (this.phone.length != 10) {
+          this.invalidPhone = true;
+          this.alertPhone = "phone number is invalid";
+        } else {
+          this.checkUniquePhone();
+        }
       }
-      if (!this.phone) this.invalidPhone = false;
     },
     selected: function() {
       this.invalidGender = false;
@@ -260,7 +262,7 @@ export default {
     }
     var user = this.$store.state.user;
     if (!user.username || !user.email || !user.password) {
-      window.location.href = "/register";
+      this.$router.push("/register");
     } else {
       if (!user.gender_id) {
         this.selected = "";
@@ -308,10 +310,10 @@ export default {
       }
       if (!letters.test(this.firstname)) {
         this.invalidFirstname = true;
-        this.alertFirstname = "Invalid firstname";
+        this.alertFirstname = "invalid firstname";
       } else if (!letters.test(this.lastname)) {
         this.invalidLastname = true;
-        this.alertLastname = "Invalid lastname";
+        this.alertLastname = "invalid lastname";
       }
       if (
         !this.invalidFirstname &&
@@ -333,9 +335,9 @@ export default {
         this.$store.state.user.bio = this.bio;
 
         this.$store.dispatch("auth/register", this.$store.state.user).then(
-          (res) => {
+          async (res) => {
             if (res.user_id) {
-              UserService.uploadProfile(this.profile_pic.formData).then(
+              await UserService.uploadProfile(this.profile_pic.formData, res.user_id).then(
                 (res) => {
                   if (res) {
                     console.log(res);

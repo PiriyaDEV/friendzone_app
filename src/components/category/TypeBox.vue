@@ -47,6 +47,9 @@ export default {
 
 .category-icon {
   width: 27px;
+  height:27px;
+  object-fit: cover;
+  -o-object-fit:cover;
   padding: 5px 7px;
 }
 
@@ -143,6 +146,7 @@ export default {
 
   .category-icon {
     width: 20px;
+    height:20px;
   }
 }
 

@@ -5,7 +5,7 @@
         <h1 id="header_title">PICK YOUR INTEREST</h1>
         <div id="term">
           <p>
-            We <span style="color: #ff8864">recommend</span> you to choose
+            You <span style="color: #ff8864">must</span> choose
             <span style="color: #ff8864">at least 1</span> <br />so we can
             suggest an event you might interested in.
           </p>

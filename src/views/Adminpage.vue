@@ -170,12 +170,13 @@ export default {
     this.$store.state.isAdmin = true;
   },
   created() {
-    this.getRole();
     if (!this.loggedIn) {
       this.$router.push("/");
-    }
-    if (this.roleAccount != "RO01") {
-      this.$router.push("/");
+    } else {
+      this.getRole();
+      if (this.roleAccount != "RO01") {
+        this.$router.push("/");
+      }
     }
   },
   methods: {
@@ -256,6 +257,7 @@ export default {
 
 #mainpage-admin {
   background-color: #444444;
+  position:fixed;
 }
 
 #timeline {

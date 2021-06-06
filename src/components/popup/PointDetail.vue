@@ -34,20 +34,29 @@
             </div>
             <hr id="bar" />
 
-            <div id="transaction-box">
+            <div v-if="pointLogList.length" id="transaction-box">
               <div v-for="(pointLog, i) in pointLogList" :key="i">
                 <div id="transaction">
                   <div class="transaction-flex">
                     <h1 class="transaction-text transaction-title black-color">
                       {{ pointLog.title }}
                     </h1>
-                    <h1 v-if="pointLog.point == 0" class="transaction-text gray-color">
+                    <h1
+                      v-if="pointLog.point == 0"
+                      class="transaction-text gray-color"
+                    >
                       {{ pointLog.point }} P
                     </h1>
-                    <h1 v-if="pointLog.point > 0" class="transaction-text green-color">
+                    <h1
+                      v-if="pointLog.point > 0"
+                      class="transaction-text green-color"
+                    >
                       +{{ pointLog.point }} P
                     </h1>
-                    <h1 v-if="pointLog.point < 0" class="transaction-text red-color">
+                    <h1
+                      v-if="pointLog.point < 0"
+                      class="transaction-text red-color"
+                    >
                       {{ pointLog.point }} P
                     </h1>
                   </div>
@@ -58,6 +67,7 @@
                 </div>
               </div>
             </div>
+            <div v-else><NoInformation /></div>
           </div>
         </div>
       </div>
@@ -67,6 +77,7 @@
 
 <script>
 import PointTransactionService from "../../services/pointTransaction.service";
+import NoInformation from "@/components/NoInformation.vue";
 
 export default {
   data() {
@@ -74,6 +85,9 @@ export default {
       point: "",
       pointLogList: []
     };
+  },
+  components: {
+    NoInformation
   },
   created() {
     PointTransactionService.getPoint().then((res) => {
@@ -165,11 +179,11 @@ div::-webkit-scrollbar {
   font-weight: 500;
 }
 
-.transaction-title{
-white-space: nowrap;
+.transaction-title {
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width:240px;
+  width: 240px;
 }
 
 .transaction-info {
@@ -212,8 +226,8 @@ white-space: nowrap;
     padding: 30px 100px;
   }
 
-  .transaction-title{
-  width:180px;
+  .transaction-title {
+    width: 180px;
   }
 
   #point {
@@ -244,8 +258,8 @@ white-space: nowrap;
     font-size: 1.3em;
   }
 
-  .transaction-title{
-  width:150px;
+  .transaction-title {
+    width: 150px;
   }
 
   #yellow-box {

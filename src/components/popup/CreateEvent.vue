@@ -9,7 +9,11 @@
               <!-- Input -->
               <div>
                 <h2 class="input_title">
-                  Event Picture<span class="orange-color"> *</span>
+                  Event Picture
+                  <span class="orange-color"> *</span>
+                  <span class="orange-color" v-if="invalidEvent_pic">
+                    {{ alertEvent_pic }}</span
+                  >
                 </h2>
                 <div id="select-photo-section" class="section">
                   <Upload v-model="event_pic">
@@ -41,7 +45,11 @@
               <!-- Input -->
               <div>
                 <h2 class="input_title">
-                  Title<span class="orange-color"> *</span>
+                  Title
+                  <span class="orange-color"> *</span>
+                  <span class="orange-color" v-if="invalidTitle">
+                    {{ alertTitle }}</span
+                  >
                 </h2>
                 <input
                   v-model="event.title"
@@ -57,7 +65,11 @@
               <!-- Input -->
               <div>
                 <h2 class="input_title">
-                  Description<span class="orange-color"> *</span>
+                  Description
+                  <span class="orange-color"> *</span>
+                  <span class="orange-color" v-if="invalidDescription">
+                    {{ alertDescription }}</span
+                  >
                 </h2>
                 <textarea
                   class="input_textarea_box bio"
@@ -74,14 +86,18 @@
               <!-- Input -->
               <div>
                 <h2 class="input_title">
-                  Location<span class="orange-color"> *</span>
+                  Location
+                  <span class="orange-color"> *</span>
+                  <span class="orange-color" v-if="invalidLocation">
+                    {{ alertLocation }}</span
+                  >
                 </h2>
                 <input
                   v-model="event.location"
                   class="input_box"
                   type="text"
-                  maxlength="30"
-                  size="30"
+                  maxlength="128"
+                  size="128"
                   placeholder="enter your location"
                 />
               </div>
@@ -91,8 +107,13 @@
               <!-- Input -->
               <div>
                 <h2 class="input_title">
-                  Start On<span class="orange-color"> *</span>
+                  Start On
+                  <span class="orange-color"> *</span>
+                  <span class="orange-color" v-if="invalidStartDate">
+                    {{ alertStartDate }}</span
+                  >
                 </h2>
+                <h1>Now : {{ new Date() }}</h1>
                 <div class="date-section">
                   <input
                     id="day"
@@ -190,7 +211,11 @@
               <!-- Input -->
               <div>
                 <h2 class="input_title">
-                  End On<span class="orange-color"> *</span>
+                  End On
+                  <span class="orange-color"> *</span>
+                  <span class="orange-color" v-if="invalidEndDate">
+                    {{ alertEndDate }}</span
+                  >
                 </h2>
                 <div class="date-section">
                   <input
@@ -289,8 +314,10 @@
               <!-- Input -->
               <div>
                 <h2 class="input_title">
-                  Preferred Participant Gender<span class="orange-color">
-                    *</span
+                  Preferred Participant Gender
+                  <span class="orange-color"> *</span>
+                  <span class="orange-color" v-if="invalidGender">
+                    {{ alertGender }}</span
                   >
                 </h2>
                 <multiselect
@@ -307,7 +334,11 @@
               <!-- Input -->
               <div>
                 <h2 class="input_title">
-                  Event Category<span class="orange-color"> *</span>
+                  Event Category
+                  <span class="orange-color"> *</span>
+                  <span class="orange-color" v-if="invalidCategory">
+                    {{ alertCategory }}</span
+                  >
                 </h2>
                 <multiselect
                   v-model="category_value"
@@ -326,14 +357,18 @@
                   <!-- Input -->
                   <div>
                     <h2 class="input_title">
-                      Max Participants<span class="orange-color"> *</span>
+                      Max Participants
+                      <span class="orange-color"> *</span>
+                    </h2>
+                    <h2 v-if="invalidParticipants" class="orange-color">
+                      {{ alertParticipants }}
                     </h2>
                     <input
                       v-model="event.max_participant"
                       class="input_participant"
                       type="text"
-                      maxlength="2"
-                      size="2"
+                      maxlength="5"
+                      size="5"
                       placeholder="Max amount"
                     />
                   </div>
@@ -342,7 +377,11 @@
                   <!-- Input -->
                   <div>
                     <h2 class="input_title">
-                      Age Limits<span class="orange-color"> *</span>
+                      Age Limits
+                      <span class="orange-color"> *</span>
+                    </h2>
+                    <h2 v-if="invalidAge" class="orange-color">
+                      {{ alertAge }}
                     </h2>
                     <div class="section">
                       <input
@@ -455,12 +494,103 @@ export default {
       gender_options: [],
       category_value: [],
       category_options: [],
-      role: ""
+      role: "",
+      invalidEvent_pic: false,
+      invalidTitle: false,
+      invalidDescription: false,
+      invalidLocation: false,
+      invalidStartDate: false,
+      invalidEndDate: false,
+      invalidGender: false,
+      invalidCategory: false,
+      invalidParticipants: false,
+      invalidAge: false,
+      alertEvent_pic: "",
+      alertTitle: "",
+      alertDescription: "",
+      alertLocation: "",
+      alertStartDate: "",
+      alertEndDate: "",
+      alertGender: "",
+      alertCategory: "",
+      alertParticipants: "",
+      alertAge: ""
     };
   },
   components: {
     Multiselect,
     Upload
+  },
+  watch: {
+    event_pic: function() {
+      this.invalidEvent_pic = false;
+    },
+    "event.title": function() {
+      this.invalidTitle = false;
+    },
+    "event.description": function() {
+      this.invalidDescription = false;
+    },
+    "event.location": function() {
+      this.invalidLocation = false;
+    },
+    "date_start.day": function() {
+      this.invalidStartDate = false;
+    },
+    "date_start.month": function() {
+      this.invalidStartDate = false;
+    },
+    "date_start.year": function() {
+      this.invalidStartDate = false;
+    },
+    "date_end.day": function() {
+      this.invalidEndDate = false;
+    },
+    "date_end.month": function() {
+      this.invalidEndDate = false;
+    },
+    "date_end.year": function() {
+      this.invalidStartDate = false;
+    },
+    "date_start.h1": function() {
+      this.invalidStartDate = false;
+    },
+    "date_start.h2": function() {
+      this.invalidStartDate = false;
+    },
+    "date_start.m1": function() {
+      this.invalidStartDate = false;
+    },
+    "date_start.m2": function() {
+      this.invalidStartDate = false;
+    },
+    "date_end.h1": function() {
+      this.invalidEndDate = false;
+    },
+    "date_end.h2": function() {
+      this.invalidEndDate = false;
+    },
+    "date_end.m1": function() {
+      this.invalidEndDate = false;
+    },
+    "date_end.m2": function() {
+      this.invalidEndDate = false;
+    },
+    gender_value: function() {
+      this.invalidGender = false;
+    },
+    category_value: function() {
+      this.invalidCategory = false;
+    },
+    "event.min_age": function() {
+      this.invalidAge = false;
+    },
+    "event.max_age": function() {
+      this.invalidAge = false;
+    },
+    "event.max_participant": function() {
+      this.invalidParticipants = false;
+    }
   },
   methods: {
     addTag(newTag) {
@@ -479,38 +609,92 @@ export default {
       this.role = userData.role_id;
     },
     ClickCreate() {
+      var reg = /^\d*\.?\d+$/;
+
+      if (!this.event_pic) {
+        this.invalidEvent_pic = true;
+        this.alertEvent_pic = "required event picture";
+      }
       if (!this.event.title) {
-        alert("Invalid title");
-      } else if (!this.event.description) {
-        alert("Invalid description");
-      } else if (!this.event_pic) {
-        alert("Invalid event_pic");
-      } else if (!this.event.location) {
-        alert("Invalid location");
-      } else if (!this.date_start.h1) {
-        alert("Invalid location");
-      } else if (!this.date_start.h2) {
-        alert("Invalid location");
-      } else if (!this.date_start.m1) {
-        alert("Invalid location");
-      } else if (!this.date_start.m2) {
-        alert("Invalid location");
-      } else if (!this.date_end.h1) {
-        alert("Invalid location");
-      } else if (!this.date_end.h2) {
-        alert("Invalid location");
-      } else if (!this.date_end.m1) {
-        alert("Invalid location");
-      } else if (!this.date_end.m2) {
-        alert("Invalid location");
-      } else if (!this.gender_value) {
-        alert("Invalid gender");
-      } else if (!this.category_value) {
-        alert("Invalid category");
+        this.invalidTitle = true;
+        this.alertTitle = "required title";
+      }
+      if (!this.event.description) {
+        this.invalidDescription = true;
+        this.alertDescription = "required description";
+      }
+      if (!this.event.location) {
+        this.invalidLocation = true;
+        this.alertLocation = "required location";
+      }
+      if (
+        !this.date_start.day ||
+        !this.date_start.month ||
+        !this.date_start.year
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "required start date";
+      } else if (
+        !this.date_start.h1 ||
+        !this.date_start.h2 ||
+        !this.date_start.m1 ||
+        !this.date_start.m2
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "required start time";
+      } else {
+        this.validateStartDate();
+      }
+      if (!this.date_end.day || !this.date_end.month || !this.date_end.year) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "required end date";
+      } else if (
+        !this.date_end.h1 ||
+        !this.date_end.h2 ||
+        !this.date_end.m1 ||
+        !this.date_end.m2
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "required end time";
+      } else {
+        this.validateEndDate();
+      }
+      if (!this.gender_value.length) {
+        this.invalidGender = true;
+        this.alertGender = "required gender";
+      }
+      if (!this.category_value.length) {
+        this.invalidCategory = true;
+        this.alertCategory = "required category";
+      }
+      if (!this.event.min_age) {
+        this.invalidAge = true;
+        this.alertAge = "required min age";
+      } else if (!this.event.max_age) {
+        this.invalidAge = true;
+        this.alertAge = "required max age";
+      } else if (
+        !reg.test(this.event.min_age) ||
+        !reg.test(this.event.max_age)
+      ) {
+        this.invalidAge = true;
+        this.alertAge = "must be only numbers";
       } else if (this.event.min_age < 13) {
-        alert("Invalid age");
-      } else if (this.event.max_participant < 1) {
-        alert("Invalid participant");
+        this.invalidAge = true;
+        this.alertAge = "valid minimum age : 13";
+      } else if (this.event.min_age >= this.event.max_age) {
+        this.invalidAge = true;
+        this.alertAge = "min must lower than max age";
+      }
+      if (!this.event.max_participant) {
+        this.invalidParticipants = true;
+        this.alertParticipants = "required max participants";
+      } else if (!reg.test(this.event.max_participant)) {
+        this.invalidParticipants = true;
+        this.alertParticipants = "must be only numbers";
+      } else if (this.event.max_participant < 2) {
+        this.invalidParticipants = true;
+        this.alertParticipants = "required at least 2 participants";
       } else {
         this.hs = this.date_start.h1 + this.date_start.h2;
         this.ms = this.date_start.m1 + this.date_start.m1;
@@ -543,41 +727,191 @@ export default {
             ":00 GMT+0700"
         ).getTime();
 
-        console.log(this.event);
+        if (this.event.start_at <= new Date().getTime()) {
+          this.invalidStartDate = true;
+          this.alertStartDate = "must start after the current time";
+        }
+        if (this.event.end_at <= this.event.start_at) {
+          this.invalidEndDate = true;
+          this.alertEndDate = "end date must be after start date";
+        }
 
-        this.gender_value.forEach((gender) => {
-          this.genderList.push(gender.code);
-        });
+        if (
+          !this.invalidEvent_pic &&
+          !this.invalidTitle &&
+          !this.invalidDescription &&
+          !this.invalidLocation &&
+          !this.invalidStartDate &&
+          !this.invalidEndDate &&
+          !this.invalidGender &&
+          !this.invalidCategory &&
+          !this.invalidParticipants &&
+          !this.invalidAge
+        ) {
+          this.gender_value.forEach((gender) => {
+            this.genderList.push(gender.code);
+          });
 
-        this.category_value.forEach((category) => {
-          this.categoryList.push(category.code);
-        });
-        EventService.create({
-          event: this.event,
-          gender_id: this.genderList,
-          category_id: this.categoryList
-        }).then(
-          (res) => {
-            if (res.event_id) {
-              EventService.uploadEventPic(
-                this.event_pic.formData,
-                res.event_id
-              ).then((res) => {
-                if (res) {
-                  console.log(res);
-                  if (this.role == "RO01") {
-                    this.$router.push("/");
-                  } else {
-                    this.$emit("informationShow", true);
+          this.category_value.forEach((category) => {
+            this.categoryList.push(category.code);
+          });
+          EventService.create({
+            event: this.event,
+            gender_id: this.genderList,
+            category_id: this.categoryList
+          }).then(
+            (res) => {
+              if (res.event_id) {
+                EventService.uploadEventPic(
+                  this.event_pic.formData,
+                  res.event_id
+                ).then((res) => {
+                  if (res) {
+                    console.log(res);
+                    if (this.role == "RO01") {
+                      this.$router.push("/");
+                    } else {
+                      this.$emit("informationShow", true);
+                    }
                   }
-                }
-              });
+                });
+              }
+            },
+            (error) => {
+              console.log(error.message);
             }
-          },
-          (error) => {
-            console.log(error.message);
-          }
-        );
+          );
+        }
+      }
+    },
+    validateStartDate() {
+      this.invalidStartDate = false;
+      var reg = /^\d*\.?\d+$/;
+
+      if (!reg.test(this.date_start.day)) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "date must be only numbers";
+      } else if (this.date_start.day < 1 || this.date_start.day > 31) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "day must be only 1-31";
+      } else if (
+        (this.date_start.month == 4 && this.date_start.day > 30) ||
+        (this.date_start.month == 6 && this.date_start.day > 30) ||
+        (this.date_start.month == 9 && this.date_start.day > 30) ||
+        (this.date_start.month == 11 && this.date_start.day > 30)
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "day or month is invalid";
+      } else if (this.date_start.month == 2 && this.date_start.day > 29) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "day or month is invalid";
+      } else if (
+        this.date_start.month == 2 &&
+        this.date_start.day == 29 &&
+        !(
+          (0 == this.date_start.year % 4 && 0 != this.date_start.year % 100) ||
+          0 == this.date_start.year % 400
+        )
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "not a leap year";
+      } else if (!reg.test(this.date_start.month)) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "date must be only numbers";
+      } else if (this.date_start.month < 1 || this.date_start.month > 12) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "month must be only 1-12";
+      } else if (!reg.test(this.date_start.year)) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "date must be only numbers";
+      } else if (this.date_start.year < 2021) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "year must start at 2021";
+      } else if (
+        !reg.test(this.date_start.h1) ||
+        !reg.test(this.date_start.h2) ||
+        !reg.test(this.date_start.m1) ||
+        !reg.test(this.date_start.m2)
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "time must be only numbers";
+      } else if (
+        (this.date_start.h1 == 2 && this.date_start.h2 > 3) ||
+        this.date_start.h1 > 2
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "hour must be in 00-23";
+      } else if (
+        (this.date_start.m1 == 5 && this.date_start.m2 > 9) ||
+        this.date_start.m1 > 5
+      ) {
+        this.invalidStartDate = true;
+        this.alertStartDate = "minute must be in 00-59";
+      }
+    },
+    validateEndDate() {
+      this.invalidEndDate = false;
+      var reg = /^\d*\.?\d+$/;
+
+      if (!reg.test(this.date_end.day)) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "date must be only numbers";
+      } else if (this.date_end.day < 1 || this.date_end.day > 31) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "day must be only 1-31";
+      } else if (
+        (this.date_end.month == 4 && this.date_end.day > 30) ||
+        (this.date_end.month == 6 && this.date_end.day > 30) ||
+        (this.date_end.month == 9 && this.date_end.day > 30) ||
+        (this.date_end.month == 11 && this.date_end.day > 30)
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "day or month is invalid";
+      } else if (this.date_end.month == 2 && this.date_end.day > 29) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "day or month is invalid";
+      } else if (
+        this.date_end.month == 2 &&
+        this.date_end.day == 29 &&
+        !(
+          (0 == this.date_end.year % 4 && 0 != this.date_end.year % 100) ||
+          0 == this.date_end.year % 400
+        )
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "not a leap year";
+      } else if (!reg.test(this.date_end.month)) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "date must be only numbers";
+      } else if (this.date_end.month < 1 || this.date_end.month > 12) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "month must be only 1-12";
+      } else if (!reg.test(this.date_end.year)) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "date must be only numbers";
+      } else if (this.date_end.year < 2021) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "year must start at 2021";
+      } else if (
+        !reg.test(this.date_end.h1) ||
+        !reg.test(this.date_end.h2) ||
+        !reg.test(this.date_end.m1) ||
+        !reg.test(this.date_end.m2)
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "time must be only numbers";
+      } else if (
+        (this.date_end.h1 == 2 && this.date_end.h2 > 3) ||
+        this.date_end.h1 > 2
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "hour must be in 00-23";
+      } else if (
+        (this.date_end.m1 == 5 && this.date_end.m2 > 9) ||
+        this.date_end.m1 > 5
+      ) {
+        this.invalidEndDate = true;
+        this.alertEndDate = "minute must be in 00-59";
       }
     }
   },
