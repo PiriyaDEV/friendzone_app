@@ -1,5 +1,5 @@
 <template>
-  <div v-show="chatList.length" id="grouplist">
+  <div v-if="chatList.length" id="grouplist">
     <div id="list-box">
       <div
         v-for="(event, i) in chatList"
