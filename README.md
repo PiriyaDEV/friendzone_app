@@ -37,6 +37,50 @@ Backend Configuration
 For the queries on this project were all file in ./app/models
 that end by .model.js
 
+## Demo Database
+
+```
+- import "Friendzone_demo.sql" to create a demo data in to the application.
+```
+
+## Test Account
+
+Administrator 
+
+```
+Username : testadmin
+Email : admin@friendzone.me
+Password : Fr!endz0ne1
+```
+
+Analyst
+
+```
+Username : testanalyst
+Email : analyst@friendzone.me
+Password : Fr!endz0ne2
+```
+
+Approver
+
+```
+Username : testapprover
+Email : approver@friendzone.me
+Password : Fr!endz0ne3
+```
+
+Customer 
+
+```
+Username : testcustomer
+Email : customer@friendzone.me
+Password : Fr!endz0ne4
+
+Username : testcustomer2
+Email : customer2@friendzone.me
+Password : Fr!endz0ne5
+```
+
 ## Created by Friendzone Group Member (CPE33 International)
 - Chayanont         Piyawatcharavijit        62070503410
 - Piriya            Chaigul                  62070503438
