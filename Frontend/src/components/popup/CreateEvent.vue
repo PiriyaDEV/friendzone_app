@@ -769,7 +769,7 @@ export default {
                 ).then((res) => {
                   if (res) {
                     console.log(res);
-                    if (this.role == "RO01") {
+                    if (this.role == "RO01" || this.role == "RO03") {
                       this.$router.push("/");
                     } else {
                       this.$emit("informationShow", true);
