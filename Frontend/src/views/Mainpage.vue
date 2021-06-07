@@ -408,6 +408,8 @@ export default {
       this.information = true;
     },
     closeAlert(value) {
+      this.waitboxError = null;
+      this.waitShow = null;
       this.information = value;
     },
     callWaitBox(value) {

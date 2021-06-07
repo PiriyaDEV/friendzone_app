@@ -696,10 +696,12 @@ export default {
         this.alertParticipants = "required at least 2 participants";
       } else {
         this.hs = this.date_start.h1 + this.date_start.h2;
-        this.ms = this.date_start.m1 + this.date_start.m1;
+        this.ms = this.date_start.m1 + this.date_start.m2;
         this.he = this.date_end.h1 + this.date_end.h2;
         this.me = this.date_end.m1 + this.date_end.m2;
 
+        let currentTime = new Date().getTime();
+        
         this.event.start_at = new Date(
           this.date_start.year +
             "-" +
@@ -726,9 +728,9 @@ export default {
             ":00 GMT+0700"
         ).getTime();
 
-        if (this.event.start_at <= new Date().getTime()) {
+        if (this.event.start_at <= currentTime) {
           this.invalidStartDate = true;
-          this.alertStartDate = "must start after the current time";
+          this.alertStartDate = "start date must be after the current time";
         }
         if (this.event.end_at <= this.event.start_at) {
           this.invalidEndDate = true;
@@ -1188,7 +1190,7 @@ option {
   }
 
   .popup-form {
-    padding: 0px 40px !important;
+    padding: 0px 30px !important;
   }
 }
 </style>

@@ -117,10 +117,18 @@
 
         <!-- <button v-if="select == 1" class="button delete">Delete</button> -->
         <div v-if="select == 2">
-          <button @click="declineRequest()" class="button decline">
+          <button
+            v-if="!isFull"
+            @click="declineRequest()"
+            class="button decline"
+          >
             Decline
           </button>
-          <button @click="approveRequest()" class="button approve">
+          <button
+            v-if="!isFull"
+            @click="approveRequest()"
+            class="button approve"
+          >
             Approve
           </button>
         </div>
@@ -129,10 +137,10 @@
       </div>
 
       <div v-if="isMod">
-        <button @click="declineRequest()" class="button decline">
+        <button v-if="!isFull" @click="declineRequest()" class="button decline">
           Decline
         </button>
-        <button @click="approveRequest()" class="button approve">
+        <button v-if="!isFull" @click="approveRequest()" class="button approve">
           Approve
         </button>
       </div>
@@ -172,7 +180,8 @@ export default {
     "managePage",
     "adminPage",
     "showEnd",
-    "participant_id"
+    "participant_id",
+    "isFull"
   ],
   created() {
     if (this.user.rating > 0) {

@@ -1630,7 +1630,7 @@ option {
   }
 
   .popup-form {
-    padding: 0px 40px !important;
+    padding: 0px 30px !important;
   }
 }
 </style>

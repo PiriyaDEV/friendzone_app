@@ -383,7 +383,7 @@
                       findUser == false
                   "
                 >
-                  <button @click="clickEdit()">EDIT PROFILE</button>
+                  <button :class="cssBlockEdit" @click="clickEdit()">EDIT PROFILE</button>
                 </div>
                 <div
                   v-if="
@@ -391,7 +391,7 @@
                       findUser == false
                   "
                 >
-                  <button @click="clickInterest()">INTERESTED</button>
+                  <button :class="cssBlockInterest" @click="clickInterest()">INTERESTED</button>
                 </div>
                 <div
                   v-if="
@@ -399,7 +399,7 @@
                       findUser == false
                   "
                 >
-                  <button @click="clickPassword()">CHANGE PASSWORD</button>
+                  <button :class="cssBlockChange" @click="clickPassword()">CHANGE PASSWORD</button>
                 </div>
                 <div
                   id="follow_button_section"
@@ -424,10 +424,10 @@
               <div id="profile-button">
                 <div></div>
                 <div>
-                  <button @click="clickEdit()">EDIT PROFILE</button>
+                  <button :class="cssBlockEdit" @click="clickEdit()">EDIT PROFILE</button>
                 </div>
                 <div>
-                  <button @click="clickInterest()">INTERESTED</button>
+                  <button :class="cssBlockInterest" @click="clickInterest()">INTERESTED</button>
                 </div>
                 <div></div>
               </div>
@@ -636,6 +636,32 @@ export default {
       });
     }
   },
+  computed: {
+    cssBlockChange() {
+      let block = "edit-block"
+      let unblock = ""
+        if(this.edit || this.interestShow) {
+          return block
+        }
+        return unblock
+    },
+    cssBlockInterest() {
+      let block = "edit-block"
+      let unblock = ""
+        if(this.edit || this.changePassword) {
+          return block
+        }
+        return unblock
+    },
+    cssBlockEdit() {
+      let block = "edit-block"
+      let unblock = ""
+        if(this.changePassword || this.interestShow) {
+          return block
+        }
+        return unblock
+    }
+  },
   methods: {
     detailReturn() {
       this.$emit("clickDetail", false);
@@ -649,11 +675,13 @@ export default {
       }
     },
     clickEdit() {
-      this.edit = true;
-      this.cancel = false;
-      this.invalidUsername = false;
-      this.interestShow = false;
-      this.changePassword = false;
+      if(!this.edit && !this.interestShow && !this.changePassword) {
+        this.edit = true;
+        this.cancel = false;
+        this.invalidUsername = false;
+        this.interestShow = false;
+        this.changePassword = false;
+      }
     },
     editReturn(value) {
       this.edit = value;
@@ -669,16 +697,21 @@ export default {
       }
     },
     clickInterest() {
+      if(!this.edit && !this.interestShow && !this.changePassword) {
       this.interestShow = true;
       this.changePassword = false;
       this.edit = false;
+      }
     },
     clickPassword() {
+      if(!this.edit && !this.interestShow && !this.changePassword) {
       this.changePassword = true;
       this.interestShow = false;
       this.edit = false;
+      }
     },
     showBack(value) {
+      this.edit = false;
       this.interestShow = value;
       this.changePassword = value;
     },
@@ -845,6 +878,12 @@ export default {
   display: flex;
   width: 100%;
   justify-content: flex-end;
+}
+.edit-block{
+  background-color:#a0a0a0 !important;
+  color:white !important;
+  border:2px solid #a0a0a0 !important;
+  cursor:default !important;
 }
 #follow_button_section > button {
   width: 150px !important;

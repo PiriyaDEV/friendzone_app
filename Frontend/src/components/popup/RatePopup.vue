@@ -357,7 +357,7 @@ export default {
             if (res) {
               let index = this.participantList.findIndex(
                 (participant) =>
-                  (participant.event_participant_id = this.selected)
+                  (participant.event_participant_id = res.participant_id)
               );
               if (index > -1) {
                 this.participantList.splice(index, 1);
@@ -593,13 +593,15 @@ option {
     font-size: 1.6em;
   }
 
-  .bio, #event-detail  {
+  .bio,
+  #event-detail {
     width: 250px;
   }
 }
 
 @media screen and (max-width: 490px) {
-  .bio, #event-detail  {
+  .bio,
+  #event-detail {
     width: 210px;
   }
 

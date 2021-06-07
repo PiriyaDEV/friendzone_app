@@ -18,10 +18,16 @@ Search.getSearchUserToInvite = (keyword, user_id, event_id, result) => {
                         AND  inviter_id = ANY(SELECT event_participant_id 
                                      FROM EventParticipant 
                                      WHERE event_id = '${event_id}' AND 	
-                                         participant_id = '${user_id}')),1,0) AS invited
+                                         participant_id = '${user_id}' AND NOT
+                                         status_id = 'ST12')),1,0) AS invited
   FROM User US 
-  WHERE US.user_id NOT IN (SELECT participant_id FROM EventParticipant WHERE event_id = '${event_id}') 
-      AND US.username LIKE '%${keyword}%' AND NOT US.status_id = 'ST04'`,
+  WHERE US.user_id NOT IN (SELECT participant_id FROM EventParticipant WHERE event_id = '${event_id}') AND 
+       US.gender_id IN (SELECT EG.gender_id FROM EventGender EG WHERE EG.event_id =  '${event_id}') AND
+       US.username LIKE '%${keyword}%' AND NOT US.status_id = 'ST04' AND 
+      TIMESTAMPDIFF(YEAR,FROM_UNIXTIME(US.birthdate/1000),CURDATE()) BETWEEN 
+      																	(SELECT min_age FROM Event WHERE event_id = '${event_id}') 
+      																 AND 
+																		(SELECT max_age FROM Event WHERE event_id = '${event_id}') `,
     (err, res) => {
       if (err) {
         console.log("error : ", err);
@@ -104,7 +110,8 @@ Search.getSearchEvent = (keyword, user_id, result) => {
     
     
     SET @sql = CONCAT('SELECT EV.*, ', @sql, '
-      ,US.username, US.user_id, (SELECT Count(*) FROM EventParticipant WHERE event_id = EV.event_id AND status_id = "ST11") AS joined, 
+      ,US.username, US.user_id, (SELECT Count(*) FROM EventParticipant WHERE event_id = EV.event_id AND status_id = "ST11") AS joined,  
+      (SELECT EP.status_id FROM EventParticipant EP WHERE EP.participant_id = "${user_id}" AND EV.event_id = EP.event_id) AS participant_status,
       COALESCE((SELECT interest FROM UserInterest WHERE user_id = "${user_id}" AND event_id = EP.event_id ),0) AS interest,
         COALESCE((SELECT EP.event_participant_id
           FROM EventParticipant EP

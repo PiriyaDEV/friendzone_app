@@ -94,8 +94,7 @@ EventInvited.getNotification = (user_id, result) => {
     (SELECT "eventRequest" AS type, null AS inviter_id, US.user_id,
          US.username, EV.event_id, EV.title, 
          DATE_FORMAT(FROM_UNIXTIME(EP.updated_at/1000),'%d %b %Y %H:%i') AS date,
-         IF(EV.start_at >= UNIX_TIMESTAMP(NOW()) *1000, 1, 0) AS status,
-         EP.updated_at AS TIMESTAMP
+         IF(EV.start_at >= UNIX_TIMESTAMP(NOW()) *1000, IF((SELECT COUNT(participant_id) FROM EventParticipant EP WHERE EV.event_id = EP.event_id) < max_participant, 1, 0), 0) AS status,         EP.updated_at AS TIMESTAMP
     FROM User US 
     INNER JOIN EventParticipant EP 
         ON EP.participant_id = US.user_id

@@ -55,6 +55,7 @@
 import CategoryBox from "@/components/CategoryBox.vue";
 import UserService from "@/services/user.service";
 import CategoryService from "@/services/category.service";
+import decode from "jwt-decode";
 
 export default {
   name: "interest",
@@ -89,6 +90,7 @@ export default {
   },
   methods: {
     clickStart() {
+      let user = decode(localStorage.getItem("user"));
       var categoryInterest = [];
 
       this.categoryList.forEach((category) => {
@@ -101,9 +103,11 @@ export default {
       });
 
       if (categoryInterest.length > 0) {
-        UserService.updateUserCategory(categoryInterest).then((res) => {
-          if (res) window.location.href = "/mainpage";
-        });
+        UserService.updateUserCategory(categoryInterest, user.user_id).then(
+          (res) => {
+            if (res) window.location.href = "/mainpage";
+          }
+        );
       } else {
         this.invalidSelect = true;
         this.alertSelect = "Require at least one interested category";

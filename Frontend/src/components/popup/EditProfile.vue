@@ -226,7 +226,7 @@ export default {
       alertPhone: "",
       day: "",
       month: "",
-      year: "",
+      year: ""
     };
   },
   props: [
@@ -250,7 +250,7 @@ export default {
       if (!this.firstname) this.invalidName = false;
     },
     lastname: function() {
-      var letters = /^[A-Za-z]+$/;
+      var letters = /^[A-Z a-z]+$/;
       if (!letters.test(this.lastname)) {
         this.invalidName = true;
         this.alertName = "invalid lastname";
@@ -356,8 +356,8 @@ export default {
         !this.invalidEmail &&
         !this.invalidPhone
       ) {
-        this.user.firstname = this.firstname;
-        this.user.lastname = this.lastname;
+        this.user.firstname = this.firstname.trim();
+        this.user.lastname = this.lastname.trim();
         this.user.email = this.email;
         this.user.phone = this.phone;
         this.user.gender_id = this.selected;

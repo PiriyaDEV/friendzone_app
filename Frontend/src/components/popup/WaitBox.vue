@@ -2,7 +2,7 @@
   <div id="wait-box" class="popup">
     <div class="popup-section section">
       <div class="popup-form">
-        <div v-if="!error">
+        <div v-if="error == null || !error">
           <h1 v-if="waitShow == `create`" class="header_title">
             WAIT FOR APPROVAL
           </h1>
@@ -22,10 +22,10 @@
           </h1>
         </div>
         <h1 v-else class="header_title">
-          YOU ARE NOT MET <br />
+          YOU DID NOT MEET <br />
           THE REQUIREMENT
         </h1>
-        <div class="section">
+        <div v-if="error == null || !error" class="section">
           <h1 v-if="waitShow == `create`" class="info">
             Your event is now wait in the lists for approval and the event will
             be post after get approved by approver
@@ -38,6 +38,8 @@
             Your report is now wait in the lists to our admin, We will rapidly
             check your report. Thank you!
           </h1>
+        </div>
+        <div v-else class="section">
           <h1 v-if="error.type == `full`" class="info">This event is full</h1>
           <h1 v-if="error.type == `gender` || error.type == `age`" class="info">
             This event allow only: <br />
@@ -117,11 +119,6 @@ export default {
   props: ["waitShow", "confirmDeleteData", "error"],
   data() {
     return {};
-  },
-  created() {
-    if (this.waitShow) {
-      this.error = "";
-    }
   },
   methods: {
     exit() {

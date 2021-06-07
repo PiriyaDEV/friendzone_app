@@ -34,6 +34,7 @@
                     :eventPage="true"
                     @detailReturn="detailReturn"
                     @userProfile="userProfile"
+                    @titleError="titleError"
                   />
                 </div>
               </div>
@@ -63,6 +64,7 @@
                         :eventPage="true"
                         @detailReturn="detailReturn"
                         @userProfile="userProfile"
+                        @titleError="titleError"
                       />
                     </div>
                   </div>
@@ -97,6 +99,7 @@
                 :eventPage="true"
                 @detailReturn="detailReturn"
                 @userProfile="userProfile"
+                @titleError="titleError"
               />
             </div>
           </div>
@@ -174,6 +177,9 @@ export default {
     },
     detailReturn(value) {
       this.$emit("detailReturn", value);
+    },
+    titleError(value) {
+      this.$emit("titleError", value);
     }
   },
   components: {

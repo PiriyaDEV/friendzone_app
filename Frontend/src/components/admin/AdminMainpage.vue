@@ -485,9 +485,9 @@ div::-webkit-scrollbar {
   }
 
   #userbox {
-  max-height: 220px;
-  height:100%;
-}
+    max-height: 220px;
+    height: 100%;
+  }
 
   #black-menu {
     justify-content: space-between;

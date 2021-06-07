@@ -240,7 +240,7 @@ Event.getHostedEvent = (user_id, result) => {
 
 Event.getJoinedEvent = (user_id, result) => {
   sql.query(
-    `SELECT EV.* , US.username, US.user_id, EP.status_id AS participant_status, (SELECT Count(*) FROM EventParticipant WHERE event_id = EV.event_id AND status_id = 'ST11') AS joined, COALESCE(UI.interest, 0) AS interest,\ 
+    `SELECT EV.* , US.username, US.user_id, EP.status_id AS participant_status, (SELECT Count(*) FROM EventParticipant WHERE event_id = EV.event_id AND status_id = 'ST11') AS joined, COALESCE(UI.interest, 0) AS interest,
     COALESCE((SELECT AVG(rating) FROM EventReview
     WHERE reviewer_id IN (SELECT event_participant_id FROM EventParticipant WHERE event_id = EV.event_id)), 0) AS rating,
     COALESCE(EP.event_participant_id,0) AS event_participant_id,
@@ -257,22 +257,19 @@ Event.getJoinedEvent = (user_id, result) => {
           WHERE
               EP.event_id = EV.event_id
               AND EP.participant_id = '${user_id}'
-      )), 0) AS isMod,
-    (SELECT
-      IF(SUM(IF(
-          COALESCE(PR.participant_id, 0) = PR.participant_id,
-          0,
-          1
-      )) = 0 OR COUNT(*) = 0, 1, 0)
-      FROM
-          EventParticipant EP
-          LEFT JOIN EventParticipant REVIEW ON REVIEW.event_id = EP.event_id
-          LEFT JOIN ParticipantReview PR ON PR.participant_id = REVIEW.event_participant_id
-      WHERE
-          EP.event_id = EV.event_id
-          AND EP.participant_id = '${user_id}'
-          AND REVIEW.status_id = 'ST11'
-          AND NOT REVIEW.participant_id = '${user_id}') AS isParticipantRated,
+      )), 0) AS isMod ,
+      (SELECT IF(SUM(IF(COALESCE(PR.participant_id, 0) = PR.participant_id, 1, 0)) = joined-1,1, 0)		
+      FROM EventParticipant REVIEWER
+        LEFT JOIN EventParticipant REVIEWEE ON  EV.event_id = REVIEWEE.event_id AND 
+        										REVIEWEE.event_id = REVIEWER.event_id  
+        LEFT JOIN ParticipantReview PR ON PR.participant_id = REVIEWEE.event_participant_id AND 
+        								  PR.reviewer_id = REVIEWER.event_participant_id
+        LEFT JOIN User US ON REVIEWEE.participant_id = US.user_id
+    WHERE
+        REVIEWER.participant_id = '${user_id}'
+        AND REVIEWEE.status_id = 'ST11'
+        AND NOT REVIEWEE.participant_id = '${user_id}')  
+          AS isParticipantRated,
     COALESCE((SELECT
       IF(status_id = 'ST02', 1, 0)
     FROM

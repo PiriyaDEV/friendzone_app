@@ -291,14 +291,13 @@ export default {
           this.$emit("titleError", { type: "full" });
         } else {
           EventService.getEventGenderList(this.event.event_id).then((res) => {
-            console.log(res);
             if (res.length) {
               let found = res.find(
                 (gender) => user.gender_id == gender.gender_id
               );
               if (found) {
                 let age = this.calculate_age(new Date(user.birthdate));
-                console.log("my age : " + age);
+
                 if (age >= this.event.min_age && age <= this.event.max_age) {
                   EventService.joinEvent(this.event.event_id)
                     .then((result) => {
@@ -389,6 +388,9 @@ export default {
         this.showPending = true;
       } else if (this.event.participant_status == "ST15") {
         this.showRejected = true;
+      }
+      if (this.event.rating == 0) {
+        this.event.rating = 5;
       }
     }
   }

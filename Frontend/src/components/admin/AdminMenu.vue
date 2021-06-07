@@ -5,7 +5,12 @@
       <!-- Top -->
       <div id="top-half" class="section">
         <div>
-          <img style="cursor: pointer;" @click="mainpageClick()" id="logo" src="@/assets/longlogo.png" />
+          <img
+            style="cursor: pointer;"
+            @click="mainpageClick()"
+            id="logo"
+            src="@/assets/longlogo.png"
+          />
           <img
             @click="mainpageClick()"
             id="mobile-logo"
@@ -134,7 +139,7 @@ import AuthService from "./../../services/auth.service";
 
 export default {
   name: "Mainpage",
-  props: ["goReport","selectMenu"],
+  props: ["goReport", "selectMenu"],
   data() {
     return {
       mainpageselect: true,
@@ -151,21 +156,21 @@ export default {
       }
     },
     selectMenu: function() {
-      if(this.selectMenu == 3) {
+      if (this.selectMenu == 3) {
         this.mainpageselect = false;
         this.userselect = false;
         this.reportselect = false;
         this.discountselect = true;
-      } else if(this.selectMenu == 4) {
+      } else if (this.selectMenu == 4) {
         this.mainpageselect = false;
         this.userselect = true;
         this.reportselect = false;
         this.discountselect = false;
-      } else if(this.selectMenu == 5) {
+      } else if (this.selectMenu == 5) {
         this.mainpageselect = false;
         this.userselect = false;
         this.reportselect = true;
-        this.discountselect = false;;
+        this.discountselect = false;
       }
     }
   },

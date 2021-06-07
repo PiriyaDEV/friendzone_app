@@ -26,6 +26,7 @@
           <Userbox
             :select="status"
             :event_id="event.event_id"
+            :isFull="isFull"
             :isMod="event.isMod"
             :user="item"
             :managePage="manageReturn"
@@ -101,7 +102,8 @@ export default {
       requestedList: [],
       followerUserList: [],
       otherUserList: [],
-      search: ""
+      search: "",
+      isFull: false
     };
   },
   props: ["status", "event", "manageReturn", "detailReturn", "endShow"],
@@ -111,6 +113,9 @@ export default {
   },
   created() {
     this.getEventParticipant();
+    if (this.event.joined == this.event.max_participant) {
+      this.isFull = true;
+    }
   },
   watch: {
     status: function() {

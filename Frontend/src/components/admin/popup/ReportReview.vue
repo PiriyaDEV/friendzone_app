@@ -139,7 +139,9 @@
 </template>
 
 <script>
+import AuthService from "@/services/auth.service";
 import ReportService from "@/services/report.service";
+import decode from "jwt-decode";
 
 export default {
   props: ["reportList"],
@@ -153,9 +155,14 @@ export default {
         takeAction: value
       }).then((res) => {
         if (res) {
-          this.reportList.admin_id = res.admin_id;
-          this.reportList.status = res.status;
-          this.reportList.updateDate = res.updateDate;
+          let userLocal = decode(localStorage.getItem("user"));
+          if (res.suspect == userLocal.user_id) {
+            AuthService.logout();
+          } else {
+            this.reportList.admin_id = res.admin_id;
+            this.reportList.status = res.status;
+            this.reportList.updateDate = res.updateDate;
+          }
         }
       });
     }

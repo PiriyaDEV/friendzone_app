@@ -288,6 +288,7 @@ export default {
     },
     ClickCreate() {
       var letters = /^[A-Za-z]+$/;
+      var lettersSpace = /^[A-Z a-z]+$/;
       if (!this.firstname) {
         this.invalidFirstname = true;
         this.alertFirstname = "firstname required";
@@ -311,7 +312,7 @@ export default {
       if (!letters.test(this.firstname)) {
         this.invalidFirstname = true;
         this.alertFirstname = "invalid firstname";
-      } else if (!letters.test(this.lastname)) {
+      } else if (!lettersSpace.test(this.lastname)) {
         this.invalidLastname = true;
         this.alertLastname = "invalid lastname";
       }
@@ -328,8 +329,8 @@ export default {
           birthdate.month - 1,
           birthdate.day
         ).getTime();
-        this.$store.state.user.firstname = this.firstname;
-        this.$store.state.user.lastname = this.lastname;
+        this.$store.state.user.firstname = this.firstname.trim();
+        this.$store.state.user.lastname = this.lastname.trim();
         this.$store.state.user.phone = this.phone;
         this.$store.state.user.gender_id = this.selected;
         this.$store.state.user.bio = this.bio;
