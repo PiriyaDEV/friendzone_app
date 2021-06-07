@@ -45,7 +45,7 @@ that end by .model.js
 
 ## Test Account
 
-Administrator 
+- Administrator 
 
 ```
 Username : testadmin
@@ -53,7 +53,7 @@ Email : admin@friendzone.me
 Password : Fr!endz0ne1
 ```
 
-Analyst
+- Analyst
 
 ```
 Username : testanalyst
@@ -61,7 +61,7 @@ Email : analyst@friendzone.me
 Password : Fr!endz0ne2
 ```
 
-Approver
+- Approver
 
 ```
 Username : testapprover
@@ -69,7 +69,7 @@ Email : approver@friendzone.me
 Password : Fr!endz0ne3
 ```
 
-Customer 
+- Customer 
 
 ```
 Username : testcustomer
