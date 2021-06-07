@@ -1,13 +1,3 @@
--- -------------------------------------------------------------
--- TablePlus 3.12.8(368)
---
--- https://tableplus.com/
---
--- Database: Friendzone
--- Generation Time: 2564-06-07 17:42:23.7680
--- -------------------------------------------------------------
-
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -16,7 +6,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
 
 CREATE TABLE `Category` (
   `category_id` varchar(4) NOT NULL,
@@ -360,9 +349,12 @@ CREATE TABLE `UserInterest` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `Category` (`category_id`, `category_name`, `icon_white`, `icon_black`, `color_code`, `created_at`, `updated_at`) VALUES
-('CA01', 'Food', 'white/CA01-white-icon8-food-64.png', 'black/CA01-black-icon8-food-64.png', '#FE6464', 1618500397, 1618500397),
-('CA02', 'Entertainment', 'white/CA02-white-icons8-micro-64@2x.png', 'black/CA02-black-icons8-micro-64@2x.png', '#FFA143', 1618500397, 1618500397),
-('CA03', 'Travel', 'white/CA03-white-icons8-airport-64@2x.png', 'black/CA03-black-icons8-airport-64@2x.png', '#8FD81C', 1618500397, 1618500397),
+('CA01', 'Food', 'white/CA01-white-icon8-food-64.png', 'black/CA01-black-icon8-food-64.png', '#FE6464', 1618500397, 1618500397);
+INSERT INTO `Category` (`category_id`, `category_name`, `icon_white`, `icon_black`, `color_code`, `created_at`, `updated_at`) VALUES
+('CA02', 'Entertainment', 'white/CA02-white-icons8-micro-64@2x.png', 'black/CA02-black-icons8-micro-64@2x.png', '#FFA143', 1618500397, 1618500397);
+INSERT INTO `Category` (`category_id`, `category_name`, `icon_white`, `icon_black`, `color_code`, `created_at`, `updated_at`) VALUES
+('CA03', 'Travel', 'white/CA03-white-icons8-airport-64@2x.png', 'black/CA03-black-icons8-airport-64@2x.png', '#8FD81C', 1618500397, 1618500397);
+INSERT INTO `Category` (`category_id`, `category_name`, `icon_white`, `icon_black`, `color_code`, `created_at`, `updated_at`) VALUES
 ('CA04', 'Festival/Concert', 'white/CA04-white-icons8-merry-go-round-80@2x.png', 'black/CA04-black-icons8-merry-go-round-100@2x.png', '#FE64C3', 1618500397, 1618500397),
 ('CA05', 'Education', 'white/CA05-white-icons8-book-and-pencil-64@2x.png', 'black/CA05-black-icons8-book-and-pencil-64@2x.png', '#FFC645', 1618500397, 1618500397),
 ('CA06', 'Sport', 'white/CA06-white-icons8-soccer-ball-64@2x.png', 'black/CA06-black-icons8-soccer-ball-64@2x.png', '#43C4A1', 1618500397, 1618500397),
@@ -370,9 +362,12 @@ INSERT INTO `Category` (`category_id`, `category_name`, `icon_white`, `icon_blac
 ('CA08', 'Music', 'white/CA08-white-icons8-musical-notes-64.png', 'black/CA08-black-icons8-musical-notes-dark-64.png', '#1B55A3', 1622984563999, 1622984564653);
 
 INSERT INTO `Chat` (`chat_id`, `sender_id`, `message`, `created_at`, `updated_at`) VALUES
-('CH000001', 'EP000006', 'เราต้องเตรียมอะไรไปบ้างเหรอครับทริปนี้', 1622981547857, 1622981547857),
-('CH000002', 'EP000003', 'เดี๋ยวพอคนเข้าเยอะจำนวนนึงจะโพสรายละเอียดอีกทีนะครับ', 1622981604592, 1622981604592),
-('CH000003', 'EP000006', 'ได้เลยครับผม', 1622981622684, 1622981622684),
+('CH000001', 'EP000006', 'เราต้องเตรียมอะไรไปบ้างเหรอครับทริปนี้', 1622981547857, 1622981547857);
+INSERT INTO `Chat` (`chat_id`, `sender_id`, `message`, `created_at`, `updated_at`) VALUES
+('CH000002', 'EP000003', 'เดี๋ยวพอคนเข้าเยอะจำนวนนึงจะโพสรายละเอียดอีกทีนะครับ', 1622981604592, 1622981604592);
+INSERT INTO `Chat` (`chat_id`, `sender_id`, `message`, `created_at`, `updated_at`) VALUES
+('CH000003', 'EP000006', 'ได้เลยครับผม', 1622981622684, 1622981622684);
+INSERT INTO `Chat` (`chat_id`, `sender_id`, `message`, `created_at`, `updated_at`) VALUES
 ('CH000004', 'EP000006', 'ขอบคุณมากครับ', 1622981627823, 1622981627823),
 ('CH000005', 'EP000004', 'Hello!', 1622981981422, 1622981981422),
 ('CH000006', 'EP000004', 'Welcome Pound!', 1622982098816, 1622982098816),
@@ -423,9 +418,12 @@ INSERT INTO `Chat` (`chat_id`, `sender_id`, `message`, `created_at`, `updated_at
 ('CH000051', 'EP000116', 'Oh, yeah. You are right, sry. ', 1623061836290, 1623061836290);
 
 INSERT INTO `Discount` (`discount_id`, `name`, `description`, `discount_pic`, `redeem_point`, `limits`, `period_start`, `period_end`, `expired`, `status_id`, `created_at`, `updated_at`) VALUES
-('DC000001', 'Auntie Anne\'s - Free Mini Pretzel-Dog', 'ฟรี มินิ เพรทเซลด็อกส์ ปาร์ตี้ นีกเก็ต (15 ชิ้น) แลกได้ทุกสาขา', 'DC000001/DC000001-260920190936451shop_gallery.jpeg', 3000, 0, 1622983200000, 1641474000000, 1649250000000, 'ST02', 1622982917777, 1622982918061),
-('DC000002', 'Lazada - THB10 off', 'แจกฟรีไปเลย ลดราคาสินค้าจำนวน 5 บาทสำหรับลูกค้า Friendzone Application จำนวน 2 ใบ', 'DC000002/DC000002-563000005475701.jpeg', 0, 2, 1622983200000, 1649127600000, 1654484400000, 'ST02', 1622983079138, 1622983079545),
-('DC000003', 'Major Cineplex - Buy 1 Free 1 Ticket', 'สิทธิพิเศษสำหรับผู้ใช้ Friendzone สามาถใช้ได้ทุกสาขา โปรดแสดงให้เจ้าหน้าที่ก่อนซื้อตั๋ว', 'DC000003/DC000003-major-cineplex.jpeg', 2000, 2, 1622983500000, 1625662800000, 1654520400000, 'ST02', 1622983265525, 1622983266019),
+('DC000001', 'Auntie Anne\'s - Free Mini Pretzel-Dog', 'ฟรี มินิ เพรทเซลด็อกส์ ปาร์ตี้ นีกเก็ต (15 ชิ้น) แลกได้ทุกสาขา', 'DC000001/DC000001-260920190936451shop_gallery.jpeg', 3000, 0, 1622983200000, 1641474000000, 1649250000000, 'ST02', 1622982917777, 1622982918061);
+INSERT INTO `Discount` (`discount_id`, `name`, `description`, `discount_pic`, `redeem_point`, `limits`, `period_start`, `period_end`, `expired`, `status_id`, `created_at`, `updated_at`) VALUES
+('DC000002', 'Lazada - THB10 off', 'แจกฟรีไปเลย ลดราคาสินค้าจำนวน 5 บาทสำหรับลูกค้า Friendzone Application จำนวน 2 ใบ', 'DC000002/DC000002-563000005475701.jpeg', 0, 2, 1622983200000, 1649127600000, 1654484400000, 'ST02', 1622983079138, 1622983079545);
+INSERT INTO `Discount` (`discount_id`, `name`, `description`, `discount_pic`, `redeem_point`, `limits`, `period_start`, `period_end`, `expired`, `status_id`, `created_at`, `updated_at`) VALUES
+('DC000003', 'Major Cineplex - Buy 1 Free 1 Ticket', 'สิทธิพิเศษสำหรับผู้ใช้ Friendzone สามาถใช้ได้ทุกสาขา โปรดแสดงให้เจ้าหน้าที่ก่อนซื้อตั๋ว', 'DC000003/DC000003-major-cineplex.jpeg', 2000, 2, 1622983500000, 1625662800000, 1654520400000, 'ST02', 1622983265525, 1622983266019);
+INSERT INTO `Discount` (`discount_id`, `name`, `description`, `discount_pic`, `redeem_point`, `limits`, `period_start`, `period_end`, `expired`, `status_id`, `created_at`, `updated_at`) VALUES
 ('DC000004', 'บัน\'s TOWN - ส่วนลด 20 บาทเมื่อยอดครบ 400 บาท', 'ลดทันที 20 บาทเมื่อยอดครบ 400 บาทต่อ 1 บิล สำหรับนักศึกษาแถวม. หรือ ผู้ใช้ Application Friendzone!', 'DC000004/DC000004-เพิ่มหัวเรื่องย่อย.png', 400, 0, 1622983800000, 1628218800000, 1638882000000, 'ST02', 1622983482652, 1622983482858),
 ('DC000005', 'Santorini Park - ส่วนลดบัตรสวนสนุกซานโตรินี 20%', 'ต้องนำ E-Voucher ไปแลกเป็นบัตรจริงก่อนเข้าใช้บริการ ณ จุดจำหน่ายตั๋วของสวนสนุกซานโตรินี พาร์ค ชะอำ', 'DC000005/DC000005-giphy.gif', 1000, 2, 1623007860000, 1625626800000, 1628305200000, 'ST02', 1623007742390, 1623007742626),
 ('DC000006', 'KFC - คูปองเงินสด 100.-', 'คูปองเงินสด 100.-\nสามารถใช้ได้กับสินค้าทุกรายการในร้าน\n**ใช้ได้ทุกสาขา ยกเว้นสาขาสนามบิน', 'DC000006/DC000006-2981c21fc780b6df357e0f82d31dbd81.jpg', 2200, 2, 1623009000000, 1623646800000, 1624986000000, 'ST10', 1623008283159, 1623011407540),
@@ -438,9 +436,12 @@ INSERT INTO `Discount` (`discount_id`, `name`, `description`, `discount_pic`, `r
 ('DC000013', 'Animate BKK Online Shop 20% Discount', 'Use this discount for 20% promotion in animate Bangkok website', 'DC000013/DC000013-AnimateBKK.jpeg', 1500, 1, 1623036600000, 1623517140000, 1625072340000, 'ST02', 1623036440357, 1623036440379);
 
 INSERT INTO `Event` (`event_id`, `host_id`, `approver_id`, `title`, `description`, `location`, `event_pic`, `start_at`, `end_at`, `max_participant`, `min_age`, `max_age`, `status_id`, `created_at`, `updated_at`) VALUES
-('EV000001', 'EP000001', 'US000001', 'ไปเที่ยวกาญจนบุรีกันน !!', 'แพพักที่ได้รับฉายาว่า มัลดีฟส์น้ำจืดแห่งแรกในเมืองไทย รายล้อมไปด้วยบรรยากาศของทิวเขาและสายน้ำที่ใสราวกับแผ่นกระจกของเขื่อนศรีนครินทร์ เรียกว่าเป็นสวรรค์บนผืนน้ำจืด', 'Lake Heaven Resort', 'EV000001/EV000001-The-FloatHouse-River-Kwai-1.jpg2_-1-e1595646005420.jpg', 1628384400000, 1628593200000, 10, 18, 30, 'ST03', 1622980781147, 1622980783138),
-('EV000002', 'EP000002', 'US000005', 'CPE223 Final Project After Party   ', 'Celebrate finishing the last project of Year 2 CPE33', 'KMUTT, Bangkok, Thailand', 'EV000002/EV000002-Event_1.jpeg', 1623084900000, 1623171540000, 300, 16, 24, 'ST07', 1622980890863, 1622983460546),
-('EV000003', 'EP000003', 'US000002', 'เที่ยวฟินแลนด์กับสุดยอด 5 สถานที่ท่องเที่ยวน่าโดน', 'ทุกๆ สิ้นปีเป็นช่วงเวลาของเทศกาลแห่งความสุขทั้งคริสต์มาสต์และปีใหม่ สิ้นปีนี้กระผมจึงขอพาเพื่อนๆ ไปเที่ยวดินแดนแห่งซานตาคลอสอย่างฟินแลนด์กันสักหน่อย', 'Finland', 'EV000003/EV000003-Cover-Finland.jpeg', 1633834800000, 1639566000000, 20, 18, 60, 'ST03', 1622980989356, 1622980990356),
+('EV000001', 'EP000001', 'US000001', 'ไปเที่ยวกาญจนบุรีกันน !!', 'แพพักที่ได้รับฉายาว่า มัลดีฟส์น้ำจืดแห่งแรกในเมืองไทย รายล้อมไปด้วยบรรยากาศของทิวเขาและสายน้ำที่ใสราวกับแผ่นกระจกของเขื่อนศรีนครินทร์ เรียกว่าเป็นสวรรค์บนผืนน้ำจืด', 'Lake Heaven Resort', 'EV000001/EV000001-The-FloatHouse-River-Kwai-1.jpg2_-1-e1595646005420.jpg', 1628384400000, 1628593200000, 10, 18, 30, 'ST03', 1622980781147, 1622980783138);
+INSERT INTO `Event` (`event_id`, `host_id`, `approver_id`, `title`, `description`, `location`, `event_pic`, `start_at`, `end_at`, `max_participant`, `min_age`, `max_age`, `status_id`, `created_at`, `updated_at`) VALUES
+('EV000002', 'EP000002', 'US000005', 'CPE223 Final Project After Party   ', 'Celebrate finishing the last project of Year 2 CPE33', 'KMUTT, Bangkok, Thailand', 'EV000002/EV000002-Event_1.jpeg', 1623084900000, 1623171540000, 300, 16, 24, 'ST07', 1622980890863, 1622983460546);
+INSERT INTO `Event` (`event_id`, `host_id`, `approver_id`, `title`, `description`, `location`, `event_pic`, `start_at`, `end_at`, `max_participant`, `min_age`, `max_age`, `status_id`, `created_at`, `updated_at`) VALUES
+('EV000003', 'EP000003', 'US000002', 'เที่ยวฟินแลนด์กับสุดยอด 5 สถานที่ท่องเที่ยวน่าโดน', 'ทุกๆ สิ้นปีเป็นช่วงเวลาของเทศกาลแห่งความสุขทั้งคริสต์มาสต์และปีใหม่ สิ้นปีนี้กระผมจึงขอพาเพื่อนๆ ไปเที่ยวดินแดนแห่งซานตาคลอสอย่างฟินแลนด์กันสักหน่อย', 'Finland', 'EV000003/EV000003-Cover-Finland.jpeg', 1633834800000, 1639566000000, 20, 18, 60, 'ST03', 1622980989356, 1622980990356);
+INSERT INTO `Event` (`event_id`, `host_id`, `approver_id`, `title`, `description`, `location`, `event_pic`, `start_at`, `end_at`, `max_participant`, `min_age`, `max_age`, `status_id`, `created_at`, `updated_at`) VALUES
 ('EV000004', 'EP000004', 'US000005', 'Sushiro at Central World!!', 'Let\'s go eat sushi at Sushiro. It will be a great time for us after a long night of project.', 'Sushiro, Central World', 'EV000004/EV000004-Sushiro.jpeg', 1623909600000, 1623915000000, 12, 15, 30, 'ST03', 1622981119318, 1622981120989),
 ('EV000005', 'EP000005', 'US000001', 'หาเพื่อนสาวไปคาเฟ่แมวว', 'หาเพื่อนไปค่ะ แต่ละตัวก็ทั้งน่ารัก น่ากอด ทาสแมวสามารถเล่นกับแมวได้ทุกตัว แต่จะอุ้มไหวมั้ยนั้นต้องถามใจดู เพราะน้องแมวที่นี่ตัวใหญ่กันมาก', 'CatNip Café', 'EV000005/EV000005-RequiredInformalGreathornedowl-size_restricted.gif', 1625454000000, 1625486400000, 5, 18, 23, 'ST03', 1622981269654, 1622981269813),
 ('EV000006', 'EP000008', 'US000001', 'Movie Night!! Lord of The Rings: The fellowship of The Ring', 'Movie night at my house! Don\'t forget to bring snacks with you. It\'s gonna be fun.', 'Note Home, Bangkok', 'EV000006/EV000006-facts-one-ring-lord-of-the-rings.jpeg', 1624107600000, 1624121940000, 10, 18, 28, 'ST15', 1622981454754, 1622981455111),
@@ -472,9 +473,12 @@ INSERT INTO `Event` (`event_id`, `host_id`, `approver_id`, `title`, `description
 ('EV000032', 'EP000131', 'US000027', 'Afternoon Tea at my mansion', 'Anyone is available to join. I will accept everyone. The location will be sent is chatroom after you joined the event. Hope to see you this after noon.', 'Private Mansion', 'EV000032/EV000032-festive-tea-banner.jpeg', 1623042000000, 1623045600000, 500, 13, 80, 'ST03', 1623035321701, 1623035321740);
 
 INSERT INTO `EventCategory` (`event_id`, `category_id`, `status`, `created_at`, `updated_at`) VALUES
-('EV000001', 'CA01', 1, 1622980781337, 1622980781337),
-('EV000001', 'CA02', 1, 1622980781337, 1622980781337),
-('EV000001', 'CA03', 1, 1622980781337, 1622980781337),
+('EV000001', 'CA01', 1, 1622980781337, 1622980781337);
+INSERT INTO `EventCategory` (`event_id`, `category_id`, `status`, `created_at`, `updated_at`) VALUES
+('EV000001', 'CA02', 1, 1622980781337, 1622980781337);
+INSERT INTO `EventCategory` (`event_id`, `category_id`, `status`, `created_at`, `updated_at`) VALUES
+('EV000001', 'CA03', 1, 1622980781337, 1622980781337);
+INSERT INTO `EventCategory` (`event_id`, `category_id`, `status`, `created_at`, `updated_at`) VALUES
 ('EV000002', 'CA02', 1, 1622980890952, 1622980890952),
 ('EV000002', 'CA05', 1, 1622980890952, 1622980890952),
 ('EV000002', 'CA07', 1, 1622980890952, 1622980890952),
@@ -529,9 +533,12 @@ INSERT INTO `EventCategory` (`event_id`, `category_id`, `status`, `created_at`, 
 ('EV000032', 'CA01', 1, 1623035321728, 1623035321728);
 
 INSERT INTO `EventGender` (`event_id`, `gender_id`, `status`, `created_at`, `updated_at`) VALUES
-('EV000001', 'GE01', 1, 1622980781339, 1622980781339),
-('EV000001', 'GE02', 1, 1622980781339, 1622980781339),
-('EV000001', 'GE03', 1, 1622980781339, 1622980781339),
+('EV000001', 'GE01', 1, 1622980781339, 1622980781339);
+INSERT INTO `EventGender` (`event_id`, `gender_id`, `status`, `created_at`, `updated_at`) VALUES
+('EV000001', 'GE02', 1, 1622980781339, 1622980781339);
+INSERT INTO `EventGender` (`event_id`, `gender_id`, `status`, `created_at`, `updated_at`) VALUES
+('EV000001', 'GE03', 1, 1622980781339, 1622980781339);
+INSERT INTO `EventGender` (`event_id`, `gender_id`, `status`, `created_at`, `updated_at`) VALUES
 ('EV000002', 'GE01', 1, 1622980890953, 1622980890953),
 ('EV000002', 'GE02', 1, 1622980890953, 1622980890953),
 ('EV000002', 'GE03', 1, 1622980890953, 1622980890953),
@@ -615,9 +622,12 @@ INSERT INTO `EventGender` (`event_id`, `gender_id`, `status`, `created_at`, `upd
 ('EV000032', 'GE03', 1, 1623035321729, 1623035321729);
 
 INSERT INTO `EventInvited` (`event_invited_id`, `inviter_id`, `invitee_id`, `status_id`, `created_at`, `updated_at`) VALUES
-('EI000001', 'EP000003', 'US000004', 'ST18', 1623000745655, 1623000745655),
-('EI000002', 'EP000027', 'US000005', 'ST01', 1623002305185, 1623002628886),
-('EI000003', 'EP000027', 'US000002', 'ST01', 1623002355824, 1623003257361),
+('EI000001', 'EP000003', 'US000004', 'ST18', 1623000745655, 1623000745655);
+INSERT INTO `EventInvited` (`event_invited_id`, `inviter_id`, `invitee_id`, `status_id`, `created_at`, `updated_at`) VALUES
+('EI000002', 'EP000027', 'US000005', 'ST01', 1623002305185, 1623002628886);
+INSERT INTO `EventInvited` (`event_invited_id`, `inviter_id`, `invitee_id`, `status_id`, `created_at`, `updated_at`) VALUES
+('EI000003', 'EP000027', 'US000002', 'ST01', 1623002355824, 1623003257361);
+INSERT INTO `EventInvited` (`event_invited_id`, `inviter_id`, `invitee_id`, `status_id`, `created_at`, `updated_at`) VALUES
 ('EI000004', 'EP000030', 'US000004', 'ST01', 1623003301177, 1623003377612),
 ('EI000005', 'EP000011', 'US000004', 'ST01', 1623003563002, 1623008703353),
 ('EI000006', 'EP000011', 'US000003', 'ST18', 1623003576556, 1623003576556),
@@ -662,9 +672,12 @@ INSERT INTO `EventInvited` (`event_invited_id`, `inviter_id`, `invitee_id`, `sta
 ('EI000045', 'EP000131', 'US000009', 'ST18', 1623039613362, 1623039613362);
 
 INSERT INTO `EventModerator` (`event_moderator_id`, `moderator_id`, `status_id`, `created_at`, `updated_at`) VALUES
-('EM000001', 'EP000006', 'ST03', 1622981351853, 1622981351853),
-('EM000002', 'EP000019', 'ST03', 1622986000966, 1622986000966),
-('EM000003', 'EP000028', 'ST03', 1623002361931, 1623002361932),
+('EM000001', 'EP000006', 'ST03', 1622981351853, 1622981351853);
+INSERT INTO `EventModerator` (`event_moderator_id`, `moderator_id`, `status_id`, `created_at`, `updated_at`) VALUES
+('EM000002', 'EP000019', 'ST03', 1622986000966, 1622986000966);
+INSERT INTO `EventModerator` (`event_moderator_id`, `moderator_id`, `status_id`, `created_at`, `updated_at`) VALUES
+('EM000003', 'EP000028', 'ST03', 1623002361931, 1623002361932);
+INSERT INTO `EventModerator` (`event_moderator_id`, `moderator_id`, `status_id`, `created_at`, `updated_at`) VALUES
 ('EM000004', 'EP000013', 'ST03', 1623003479476, 1623003479476),
 ('EM000005', 'EP000050', 'ST03', 1623010034115, 1623010034115),
 ('EM000006', 'EP000063', 'ST03', 1623010385019, 1623010385019),
@@ -676,9 +689,12 @@ INSERT INTO `EventModerator` (`event_moderator_id`, `moderator_id`, `status_id`,
 ('EM000012', 'EP000132', 'ST03', 1623039591539, 1623039591539);
 
 INSERT INTO `EventParticipant` (`event_participant_id`, `event_id`, `participant_id`, `status_id`, `created_at`, `updated_at`) VALUES
-('EP000001', 'EV000001', 'US000001', 'ST11', 1622980781337, 1622980781337),
-('EP000002', 'EV000002', 'US000005', 'ST11', 1622980890952, 1622980890952),
-('EP000003', 'EV000003', 'US000002', 'ST11', 1622980989429, 1622980989429),
+('EP000001', 'EV000001', 'US000001', 'ST11', 1622980781337, 1622980781337);
+INSERT INTO `EventParticipant` (`event_participant_id`, `event_id`, `participant_id`, `status_id`, `created_at`, `updated_at`) VALUES
+('EP000002', 'EV000002', 'US000005', 'ST11', 1622980890952, 1622980890952);
+INSERT INTO `EventParticipant` (`event_participant_id`, `event_id`, `participant_id`, `status_id`, `created_at`, `updated_at`) VALUES
+('EP000003', 'EV000003', 'US000002', 'ST11', 1622980989429, 1622980989429);
+INSERT INTO `EventParticipant` (`event_participant_id`, `event_id`, `participant_id`, `status_id`, `created_at`, `updated_at`) VALUES
 ('EP000004', 'EV000004', 'US000005', 'ST11', 1622981119509, 1622981119509),
 ('EP000005', 'EV000005', 'US000008', 'ST11', 1622981269739, 1622981269739),
 ('EP000006', 'EV000003', 'US000001', 'ST11', 1622981333313, 1622981348137),
@@ -817,14 +833,19 @@ INSERT INTO `EventParticipant` (`event_participant_id`, `event_id`, `participant
 ('EP000139', 'EV000032', 'US000017', 'ST13', 1623040297044, 1623040297044);
 
 INSERT INTO `EventReview` (`event_review_id`, `reviewer_id`, `rating`, `comment`, `status_id`, `created_at`, `updated_at`) VALUES
-('ER000001', 'EP000118', 5, 'Thank you this really bright up my mood', 'ST02', 1623034167059, 1623034167059),
-('ER000002', 'EP000119', 5, 'This event is good. I like it, especially the host. She took care of participants well.', 'ST02', 1623034653425, 1623034653425),
+('ER000001', 'EP000118', 5, 'Thank you this really bright up my mood', 'ST02', 1623034167059, 1623034167059);
+INSERT INTO `EventReview` (`event_review_id`, `reviewer_id`, `rating`, `comment`, `status_id`, `created_at`, `updated_at`) VALUES
+('ER000002', 'EP000119', 5, 'This event is good. I like it, especially the host. She took care of participants well.', 'ST02', 1623034653425, 1623034653425);
+INSERT INTO `EventReview` (`event_review_id`, `reviewer_id`, `rating`, `comment`, `status_id`, `created_at`, `updated_at`) VALUES
 ('ER000003', 'EP000138', 3, 'I do not like that he tell the location after joined. And the location is go hard to find!', 'ST02', 1623046347801, 1623046347801);
 
 INSERT INTO `Follower` (`follower_id`, `following_id`, `status_id`, `created_at`, `updated_at`) VALUES
-('US000001', 'US000002', 'ST09', 1622980232618, 1622980232618),
-('US000001', 'US000003', 'ST09', 1622980237493, 1622980237493),
-('US000001', 'US000004', 'ST09', 1622980233570, 1622980233570),
+('US000001', 'US000002', 'ST09', 1622980232618, 1622980232618);
+INSERT INTO `Follower` (`follower_id`, `following_id`, `status_id`, `created_at`, `updated_at`) VALUES
+('US000001', 'US000003', 'ST09', 1622980237493, 1622980237493);
+INSERT INTO `Follower` (`follower_id`, `following_id`, `status_id`, `created_at`, `updated_at`) VALUES
+('US000001', 'US000004', 'ST09', 1622980233570, 1622980233570);
+INSERT INTO `Follower` (`follower_id`, `following_id`, `status_id`, `created_at`, `updated_at`) VALUES
 ('US000001', 'US000005', 'ST09', 1622980239815, 1622980239815),
 ('US000001', 'US000015', 'ST09', 1622984266289, 1622984266289),
 ('US000001', 'US000016', 'ST09', 1623000208209, 1623000208209),
@@ -984,22 +1005,30 @@ INSERT INTO `Follower` (`follower_id`, `following_id`, `status_id`, `created_at`
 ('US000038', 'US000030', 'ST09', 1623033732882, 1623033732882);
 
 INSERT INTO `Gender` (`gender_id`, `gender_name`, `created_at`, `updated_at`) VALUES
-('GE01', 'Male', 1618500397, 1618500397),
-('GE02', 'Female', 1618500397, 1618500397),
+('GE01', 'Male', 1618500397, 1618500397);
+INSERT INTO `Gender` (`gender_id`, `gender_name`, `created_at`, `updated_at`) VALUES
+('GE02', 'Female', 1618500397, 1618500397);
+INSERT INTO `Gender` (`gender_id`, `gender_name`, `created_at`, `updated_at`) VALUES
 ('GE03', 'LGBTQ', 1618500397, 1618500397);
 
 INSERT INTO `ParticipantReview` (`participant_review_id`, `reviewer_id`, `participant_id`, `rating`, `comment`, `status_id`, `created_at`, `updated_at`) VALUES
-('PR000001', 'EP000063', 'EP000062', 3, 'He did not take care of participant good enough!!!!', 'ST02', 1623011861176, 1623011861176),
-('PR000002', 'EP000118', 'EP000117', 5, 'She is a great host! Love her. Definitely gonna join her event new time.', 'ST02', 1623034201463, 1623034201463),
-('PR000003', 'EP000118', 'EP000119', 4, 'He is too quiet. Idk why he even join this event.', 'ST02', 1623034232751, 1623034232751),
+('PR000001', 'EP000063', 'EP000062', 3, 'He did not take care of participant good enough!!!!', 'ST02', 1623011861176, 1623011861176);
+INSERT INTO `ParticipantReview` (`participant_review_id`, `reviewer_id`, `participant_id`, `rating`, `comment`, `status_id`, `created_at`, `updated_at`) VALUES
+('PR000002', 'EP000118', 'EP000117', 5, 'She is a great host! Love her. Definitely gonna join her event new time.', 'ST02', 1623034201463, 1623034201463);
+INSERT INTO `ParticipantReview` (`participant_review_id`, `reviewer_id`, `participant_id`, `rating`, `comment`, `status_id`, `created_at`, `updated_at`) VALUES
+('PR000003', 'EP000118', 'EP000119', 4, 'He is too quiet. Idk why he even join this event.', 'ST02', 1623034232751, 1623034232751);
+INSERT INTO `ParticipantReview` (`participant_review_id`, `reviewer_id`, `participant_id`, `rating`, `comment`, `status_id`, `created_at`, `updated_at`) VALUES
 ('PR000004', 'EP000119', 'EP000118', 4, 'She talked too much, and a bit annoying.', 'ST02', 1623034685759, 1623034685759),
 ('PR000005', 'EP000138', 'EP000131', 4, 'He is the host. He took care of me really good, still the overall satisfying is low. sry ', 'ST02', 1623046446795, 1623046446795),
 ('PR000006', 'EP000138', 'EP000132', 5, 'She is cute and I would like to join an event with her again ><', 'ST02', 1623046478791, 1623046478791);
 
 INSERT INTO `PointTransaction` (`point_transaction_id`, `participant_id`, `user_discount_id`, `description`, `amount`, `created_at`, `updated_at`) VALUES
-('PT000001', 'EP000001', NULL, 'Host event', 300, 1622980782129, 1622980782129),
-('PT000002', 'EP000002', NULL, 'Host event', 300, 1622980891435, 1622980891435),
-('PT000003', 'EP000003', NULL, 'Host event', 300, 1622980990024, 1622980990024),
+('PT000001', 'EP000001', NULL, 'Host event', 300, 1622980782129, 1622980782129);
+INSERT INTO `PointTransaction` (`point_transaction_id`, `participant_id`, `user_discount_id`, `description`, `amount`, `created_at`, `updated_at`) VALUES
+('PT000002', 'EP000002', NULL, 'Host event', 300, 1622980891435, 1622980891435);
+INSERT INTO `PointTransaction` (`point_transaction_id`, `participant_id`, `user_discount_id`, `description`, `amount`, `created_at`, `updated_at`) VALUES
+('PT000003', 'EP000003', NULL, 'Host event', 300, 1622980990024, 1622980990024);
+INSERT INTO `PointTransaction` (`point_transaction_id`, `participant_id`, `user_discount_id`, `description`, `amount`, `created_at`, `updated_at`) VALUES
 ('PT000004', 'EP000004', NULL, 'Host event', 300, 1622981119986, 1622981119986),
 ('PT000005', 'EP000005', NULL, 'Host event', 300, 1622981286739, 1622981286739),
 ('PT000006', 'EP000006', NULL, 'Join event', 200, 1622981348269, 1622981348269),
@@ -1108,18 +1137,24 @@ INSERT INTO `PointTransaction` (`point_transaction_id`, `participant_id`, `user_
 ('PT000109', 'EP000132', NULL, 'Join event', 200, 1623039581796, 1623039581796);
 
 INSERT INTO `Report` (`report_id`, `reporter_id`, `report_type_id`, `title`, `description`, `event_id`, `suspect_id`, `admin_id`, `status_id`, `created_at`, `updated_at`) VALUES
-('RP000001', 'US000007', 'RT18', 'Calender for Date selection ', 'Typing date by myself is very inconvenience. I hope you can change it to be calendar selection instead.', NULL, NULL, 'US000001', 'ST14', 1622981588697, 1622981739000),
-('RP000002', 'US000008', 'RT02', 'This account is faked.', 'It faked user and dangerous to belong in this application', NULL, 'US000022', 'US000001', 'ST04', 1623001676692, 1623001697000),
-('RP000003', 'US000028', 'RT07', 'This account seems to be suspicious', 'I don\'t know is this account fake or spam. But he is weird, idk.', NULL, 'US000022', 'US000001', 'ST14', 1623007953224, 1623012864000),
+('RP000001', 'US000007', 'RT18', 'Calender for Date selection ', 'Typing date by myself is very inconvenience. I hope you can change it to be calendar selection instead.', NULL, NULL, 'US000001', 'ST14', 1622981588697, 1622981739000);
+INSERT INTO `Report` (`report_id`, `reporter_id`, `report_type_id`, `title`, `description`, `event_id`, `suspect_id`, `admin_id`, `status_id`, `created_at`, `updated_at`) VALUES
+('RP000002', 'US000008', 'RT02', 'This account is faked.', 'It faked user and dangerous to belong in this application', NULL, 'US000022', 'US000001', 'ST04', 1623001676692, 1623001697000);
+INSERT INTO `Report` (`report_id`, `reporter_id`, `report_type_id`, `title`, `description`, `event_id`, `suspect_id`, `admin_id`, `status_id`, `created_at`, `updated_at`) VALUES
+('RP000003', 'US000028', 'RT07', 'This account seems to be suspicious', 'I don\'t know is this account fake or spam. But he is weird, idk.', NULL, 'US000022', 'US000001', 'ST14', 1623007953224, 1623012864000);
+INSERT INTO `Report` (`report_id`, `reporter_id`, `report_type_id`, `title`, `description`, `event_id`, `suspect_id`, `admin_id`, `status_id`, `created_at`, `updated_at`) VALUES
 ('RP000004', 'US000018', 'RT18', 'Ended Event Detail', 'I wish I can see the detail and participants of the ended event. If I know who previously joined my event that would be great, so that I can determine who should I accept to join.', NULL, NULL, 'US000001', 'ST14', 1623012798169, 1623012869000),
 ('RP000005', 'US000018', 'RT02', 'Might be fake, not active', 'This account is not very active. Maybe, this is a fake account! He use this account to spy on me!!!!!', NULL, 'US000012', 'US000025', 'ST14', 1623012893556, 1623034046000),
 ('RP000006', 'US000034', 'RT16', 'Picture from mobile do not show', 'I tried uploading the pic from my iPhone, but when I logged in, the profile pic do not show. Is there a problem with the web? Or only me who encountered this problem.', NULL, NULL, NULL, 'ST18', 1623022083638, 1623022083638),
 ('RP000007', 'US000038', 'RT12', 'Why?! 42 is too OLD', 'Just why the hack 42 is too old for a trip aboard. Many other trip as well. I wish people more open to 40+ years old man', 'EV000015', NULL, 'US000025', 'ST14', 1623033888138, 1623036528000);
 
 INSERT INTO `ReportType` (`report_type_id`, `type_name`, `require_event`, `require_suspect`, `status_id`, `created_at`, `updated_at`) VALUES
-('RT01', 'Pretending to be someone else', 0, 1, 'ST02', 1618500397, 1618500397),
-('RT02', 'Fake user', 0, 1, 'ST02', 1618500397, 1618500397),
-('RT03', 'Sexual / Abusive / Hateful content', 0, 1, 'ST02', 1618500397, 1618500397),
+('RT01', 'Pretending to be someone else', 0, 1, 'ST02', 1618500397, 1618500397);
+INSERT INTO `ReportType` (`report_type_id`, `type_name`, `require_event`, `require_suspect`, `status_id`, `created_at`, `updated_at`) VALUES
+('RT02', 'Fake user', 0, 1, 'ST02', 1618500397, 1618500397);
+INSERT INTO `ReportType` (`report_type_id`, `type_name`, `require_event`, `require_suspect`, `status_id`, `created_at`, `updated_at`) VALUES
+('RT03', 'Sexual / Abusive / Hateful content', 0, 1, 'ST02', 1618500397, 1618500397);
+INSERT INTO `ReportType` (`report_type_id`, `type_name`, `require_event`, `require_suspect`, `status_id`, `created_at`, `updated_at`) VALUES
 ('RT04', 'Harmful dangerous acts', 0, 1, 'ST02', 1618500397, 1618500397),
 ('RT05', 'It appears their account is hacked', 0, 1, 'ST02', 1618500397, 1618500397),
 ('RT06', 'Terrorism', 0, 1, 'ST02', 1618500397, 1618500397),
@@ -1139,15 +1174,21 @@ INSERT INTO `ReportType` (`report_type_id`, `type_name`, `require_event`, `requi
 ('RT20', 'Security issues and certification problems', 0, 0, 'ST02', 1618500397, 1618500397);
 
 INSERT INTO `Role` (`role_id`, `role`, `description`, `created_at`, `updated_at`) VALUES
-('RO01', 'Administrator', '-- Administrator Description --', 1618500397, 1618500397),
-('RO02', 'Analyst', '-- Analyst Description --', 1618500397, 1618500397),
-('RO03', 'Approver', '-- Approver Description --', 1618500397, 1618500397),
+('RO01', 'Administrator', '-- Administrator Description --', 1618500397, 1618500397);
+INSERT INTO `Role` (`role_id`, `role`, `description`, `created_at`, `updated_at`) VALUES
+('RO02', 'Analyst', '-- Analyst Description --', 1618500397, 1618500397);
+INSERT INTO `Role` (`role_id`, `role`, `description`, `created_at`, `updated_at`) VALUES
+('RO03', 'Approver', '-- Approver Description --', 1618500397, 1618500397);
+INSERT INTO `Role` (`role_id`, `role`, `description`, `created_at`, `updated_at`) VALUES
 ('RO04', 'User', '-- User Description --', 1618500397, 1618500397);
 
 INSERT INTO `Status` (`status_id`, `status_name`, `created_at`, `updated_at`) VALUES
-('ST01', 'ACCEPTED', 1618500397, 1618500397),
-('ST02', 'ACTIVE', 1618500397, 1618500397),
-('ST03', 'APPROVED', 1618500397, 1618500397),
+('ST01', 'ACCEPTED', 1618500397, 1618500397);
+INSERT INTO `Status` (`status_id`, `status_name`, `created_at`, `updated_at`) VALUES
+('ST02', 'ACTIVE', 1618500397, 1618500397);
+INSERT INTO `Status` (`status_id`, `status_name`, `created_at`, `updated_at`) VALUES
+('ST03', 'APPROVED', 1618500397, 1618500397);
+INSERT INTO `Status` (`status_id`, `status_name`, `created_at`, `updated_at`) VALUES
 ('ST04', 'BANNED', 1618500397, 1618500397),
 ('ST05', 'BLOCKED', 1618500397, 1618500397),
 ('ST06', 'DEFAULT', 1618500397, 1618500397),
@@ -1165,11 +1206,14 @@ INSERT INTO `Status` (`status_id`, `status_name`, `created_at`, `updated_at`) VA
 ('ST18', 'WAITING', 1618500397, 1618500397);
 
 INSERT INTO `User` (`user_id`, `username`, `password`, `email`, `firstname`, `lastname`, `birthdate`, `gender_id`, `phone`, `profile_pic`, `bio`, `role_id`, `status_id`, `created_at`, `updated_at`) VALUES
-('US000001', 'pd.piriya', '$2a$08$wG2sJ3SomMaWgePcctgCSORXsdCl0n6bdZYEyWimv5tMR1eE3UBpq', 'piriya.cg@mail.kmutt.ac.th', 'Piriya', 'Chaigul', 986662800000, 'GE01', '0896832465', 'US000001/US000001-000035.jpg', 'This is my bio, CPE 33 KMUTT', 'RO01', 'ST02', 1621931686359, 1622980222297),
-('US000002', 'pmpharryx', '$2a$08$y4QcJXQB/mgBaeslsDYQUuArh1SqnMpNitAeE11BQpAfjUJqOzHPm', 'harryphat42@gmail.com', 'Phumiphat', 'Tatiyawonsoonthorn', 970333200000, 'GE01', '0813550992', 'US000002/US000002-52390059_1477312162403180_1754938575041855488_n.jpeg', 'ใครอยากเป็น เศรษฐี ฉันนะสิ ฉันนะสิ', 'RO01', 'ST02', 1621942486359, 1623012665389),
-('US000003', 'bmskx', '$2a$08$NtL/yIz4pCgUZ8xuF/0j7OT.CnEPHPLdgoNmzgGeoc73Df1daYXkm', 'bmskx@gmail.com', 'Worachot', 'Yuwamirt', 966013200000, 'GE01', '0819675607', 'US000003/US000003-bm.jpg', 'วันเหงาๆ', 'RO01', 'ST02', 1621949680670, 1622978721113),
-('US000004', 'chayapi', '$2a$08$08q6F/HpT9e/OAaIY59k..0NVrtUJWE1KgklM4v1U1k6Q49litGni', 'big.chayanont@gmail.com', 'Chayanont', 'Piyawatcharavijit', 970592400000, 'GE01', '0830052942', 'US000004/US000004-87389694_10215804716582936_2734931068380512256_n - CHAYANONT PIYAWATCHARAVIJIT.jpg', NULL, 'RO01', 'ST02', 1621992885162, 1622978732813),
-('US000005', 'fkaoriz', '$2a$08$gUYE7SjZPYNmLI7q7C./sOnV10XZcAxUjWXNvj8GViaB044KxGRkW', 'narapathra.m@mail.kmutt.ac.th', 'Narapathra', 'Morakrant', 1034960400000, 'GE02', '0809093730', 'US000005/US000005-FullSizeRender - NARAPATHRA MORAKRANT.jpg', 'I\'m your creator!! The friendzone app designer <3', 'RO01', 'ST02', 1622000084046, 1622978708677),
+('US000001', 'pd.piriya', '$2a$08$wG2sJ3SomMaWgePcctgCSORXsdCl0n6bdZYEyWimv5tMR1eE3UBpq', 'piriya.cg@mail.kmutt.ac.th', 'Piriya', 'Chaigul', 986662800000, 'GE01', '0896832465', 'US000001/US000001-fz-pf.jpg', 'This is my bio, CPE 33 KMUTT', 'RO01', 'ST02', 1621931686359, 1623066943032);
+INSERT INTO `User` (`user_id`, `username`, `password`, `email`, `firstname`, `lastname`, `birthdate`, `gender_id`, `phone`, `profile_pic`, `bio`, `role_id`, `status_id`, `created_at`, `updated_at`) VALUES
+('US000002', 'pmpharryx', '$2a$08$y4QcJXQB/mgBaeslsDYQUuArh1SqnMpNitAeE11BQpAfjUJqOzHPm', 'harryphat42@gmail.com', 'Phumiphat', 'Tatiyawonsoonthorn', 970333200000, 'GE01', '0813550992', 'US000002/US000002-fz-harry.jpg', 'ใครอยากเป็น เศรษฐี ฉันนะสิ ฉันนะสิ', 'RO01', 'ST02', 1621942486359, 1623066954828);
+INSERT INTO `User` (`user_id`, `username`, `password`, `email`, `firstname`, `lastname`, `birthdate`, `gender_id`, `phone`, `profile_pic`, `bio`, `role_id`, `status_id`, `created_at`, `updated_at`) VALUES
+('US000003', 'bmskx', '$2a$08$NtL/yIz4pCgUZ8xuF/0j7OT.CnEPHPLdgoNmzgGeoc73Df1daYXkm', 'bmskx@gmail.com', 'Worachot', 'Yuwamirt', 966013200000, 'GE01', '0819675607', 'US000003/US000003-fz-bm2.jpg', 'วันเหงาๆ', 'RO01', 'ST02', 1621949680670, 1623066966642);
+INSERT INTO `User` (`user_id`, `username`, `password`, `email`, `firstname`, `lastname`, `birthdate`, `gender_id`, `phone`, `profile_pic`, `bio`, `role_id`, `status_id`, `created_at`, `updated_at`) VALUES
+('US000004', 'chayapi', '$2a$08$08q6F/HpT9e/OAaIY59k..0NVrtUJWE1KgklM4v1U1k6Q49litGni', 'big.chayanont@gmail.com', 'Chayanont', 'Piyawatcharavijit', 970592400000, 'GE01', '0830052942', 'US000004/US000004-fz-big2.jpg', NULL, 'RO01', 'ST02', 1621992885162, 1623066978964),
+('US000005', 'fkaoriz', '$2a$08$gUYE7SjZPYNmLI7q7C./sOnV10XZcAxUjWXNvj8GViaB044KxGRkW', 'narapathra.m@mail.kmutt.ac.th', 'Narapathra', 'Morakrant', 1034960400000, 'GE02', '0809093730', 'US000005/US000005-fz-fm2.jpg', 'I\'m your creator!! The friendzone app designer <3', 'RO01', 'ST02', 1622000084046, 1623066994400),
 ('US000006', 'ptmeow', '$2a$08$zb7NopkyBpNp/v2UqczCTeDpB7gCkeiOvrfDmNYvLUx10YskZh2LK', 'pintu99@icloud.com', 'Thipphawan', 'Naphom', 965754000000, 'GE02', '0981549563', 'US000006/US000006-621A02D9-99F1-4BC4-8242-EC05B6B99CC7 - THIPPHAWAN NAPHOM.jpeg', 'Love me Love my cats', 'RO04', 'ST02', 1622094900011, 1622979101281),
 ('US000007', 'nnnote_noteee', '$2a$08$I0NbBvigkFPZqhcrrvFGaO0ZUN9QC0atpJg5ebOHX70A7CgpJviEm', 'thaweesak.sai@mail.kmutt.ac.th', 'Thaweesak', 'Saiwongse', 921171600000, 'GE01', '0849444142', 'US000007/US000007-69770232_2325975270773727_4557561454743519232_n - NARAPATHRA MORAKRANT.jpg', 'Assumption \' Codian 131 | CPE 31 | KMUTT Gear58', 'RO04', 'ST02', 1622181302888, 1622981621841),
 ('US000008', 'sjnoolek', '$2a$08$/UJ6WO4nHpCnxT5.WhxwOOovA.1n9CNaZ18E9V0sr7X1eLHg/42WS', 'sjnoolek@gmail.com', 'Siriphorn', 'Jarisu', 983725200000, 'GE02', '0830227994', 'US000008/US000008-138613802_2922640504626356_6532859604840639429_n.jpeg', NULL, 'RO04', 'ST02', 1622182302888, 1622979629280),
@@ -1205,9 +1249,12 @@ INSERT INTO `User` (`user_id`, `username`, `password`, `email`, `firstname`, `la
 ('US000038', 'danny.j', '$2a$08$NRs3I2jYV4Rdp1xVoR6jHeBG6UR1RZxkPfA.wLVGcbNg8iyupRU9G', 'john.dan@hotmail.com', 'John', 'Danny', 293475600000, 'GE01', '0834173289', 'US000038/US000038-uncle_1.png', '42 is not old for social media ... stop calling me uncle!!', 'RO04', 'ST02', 1623033716400, 1623033716414);
 
 INSERT INTO `UserCategory` (`user_id`, `category_id`, `interest`, `created_at`, `updated_at`) VALUES
-('US000001', 'CA01', 1, 1622974289796, 1622974289796),
-('US000001', 'CA02', 1, 1622974289796, 1622974289796),
-('US000001', 'CA03', 1, 1622974289796, 1622974289796),
+('US000001', 'CA01', 1, 1622974289796, 1622974289796);
+INSERT INTO `UserCategory` (`user_id`, `category_id`, `interest`, `created_at`, `updated_at`) VALUES
+('US000001', 'CA02', 1, 1622974289796, 1622974289796);
+INSERT INTO `UserCategory` (`user_id`, `category_id`, `interest`, `created_at`, `updated_at`) VALUES
+('US000001', 'CA03', 1, 1622974289796, 1622974289796);
+INSERT INTO `UserCategory` (`user_id`, `category_id`, `interest`, `created_at`, `updated_at`) VALUES
 ('US000001', 'CA04', 1, 1622974289796, 1622974289796),
 ('US000001', 'CA05', 1, 1622974289796, 1622974289796),
 ('US000001', 'CA06', 1, 1622974289796, 1622974289796),
@@ -1421,9 +1468,12 @@ INSERT INTO `UserCategory` (`user_id`, `category_id`, `interest`, `created_at`, 
 ('US000038', 'CA08', 1, 1623033720633, 1623033720633);
 
 INSERT INTO `UserDiscount` (`user_discount_id`, `user_id`, `discount_id`, `status_id`, `created_at`, `updated_at`) VALUES
-('UD000001', 'US000002', 'DC000002', 'ST16', 1622983693323, 1622983693323),
-('UD000002', 'US000001', 'DC000004', 'ST16', 1622984280835, 1622984280835),
-('UD000003', 'US000001', 'DC000002', 'ST17', 1622984344339, 1623003237591),
+('UD000001', 'US000002', 'DC000002', 'ST16', 1622983693323, 1622983693323);
+INSERT INTO `UserDiscount` (`user_discount_id`, `user_id`, `discount_id`, `status_id`, `created_at`, `updated_at`) VALUES
+('UD000002', 'US000001', 'DC000004', 'ST16', 1622984280835, 1622984280835);
+INSERT INTO `UserDiscount` (`user_discount_id`, `user_id`, `discount_id`, `status_id`, `created_at`, `updated_at`) VALUES
+('UD000003', 'US000001', 'DC000002', 'ST17', 1622984344339, 1623003237591);
+INSERT INTO `UserDiscount` (`user_discount_id`, `user_id`, `discount_id`, `status_id`, `created_at`, `updated_at`) VALUES
 ('UD000004', 'US000016', 'DC000002', 'ST17', 1622984809949, 1622984975962),
 ('UD000005', 'US000005', 'DC000002', 'ST16', 1622985538472, 1622985538472),
 ('UD000006', 'US000018', 'DC000002', 'ST16', 1622986043148, 1622986043148),
@@ -1448,9 +1498,12 @@ INSERT INTO `UserDiscount` (`user_discount_id`, `user_id`, `discount_id`, `statu
 ('UD000025', 'US000025', 'DC000004', 'ST16', 1623036810579, 1623036810579);
 
 INSERT INTO `UserInterest` (`user_id`, `event_id`, `interest`, `created_at`, `updated_at`) VALUES
-('US000001', 'EV000004', 1, 1623002279791, 1623002279791),
-('US000001', 'EV000012', 1, 1623002275276, 1623002275276),
-('US000001', 'EV000019', 1, 1623012796719, 1623012796719),
+('US000001', 'EV000004', 1, 1623002279791, 1623002279791);
+INSERT INTO `UserInterest` (`user_id`, `event_id`, `interest`, `created_at`, `updated_at`) VALUES
+('US000001', 'EV000012', 1, 1623002275276, 1623002275276);
+INSERT INTO `UserInterest` (`user_id`, `event_id`, `interest`, `created_at`, `updated_at`) VALUES
+('US000001', 'EV000019', 1, 1623012796719, 1623012796719);
+INSERT INTO `UserInterest` (`user_id`, `event_id`, `interest`, `created_at`, `updated_at`) VALUES
 ('US000001', 'EV000022', 1, 1623012094244, 1623012094244),
 ('US000002', 'EV000003', 1, 1623012635383, 1623012635383),
 ('US000002', 'EV000005', 1, 1623015665858, 1623015665858),
@@ -1467,7 +1520,6 @@ INSERT INTO `UserInterest` (`user_id`, `event_id`, `interest`, `created_at`, `up
 ('US000037', 'EV000008', 0, 1623026840370, 1623026943514),
 ('US000037', 'EV000022', 1, 1623027646617, 1623027646617),
 ('US000037', 'EV000025', 0, 1623026997057, 1623027079536);
-
 
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
