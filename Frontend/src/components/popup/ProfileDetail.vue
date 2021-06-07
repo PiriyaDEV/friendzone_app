@@ -726,7 +726,7 @@ export default {
         user.role_id = this.role;
         user.username = this.username;
         user.bio = this.bio;
-        if (this.adminEdit) {
+        if (this.adminEdit || this.demoRole != 1) {
           UserService.editUser(user, true).then((res) => {
             if (res) {
               UserService.uploadProfile(
