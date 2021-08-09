@@ -1,6 +1,6 @@
 # Friendzone Website Application
 
-<p align="center">
+<p align="center" style="background-color:#FFFFFF;">
   <img src="Frontend/src/assets/longlogo.png"/>
 </p>
 
